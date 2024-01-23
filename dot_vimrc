@@ -146,10 +146,10 @@ function! SetPluginOptions()
     set statusline=
     set statusline+=%1*         "colors User1
     set statusline+=%F          "filename with path
-    if exists(':SyntasticCheck') "syntastic 
-        set statusline+=\ %#warningmsg#
-        set statusline+=%{SyntasticStatuslineFlag()}
-    endif
+    "if exists(':SyntasticCheck') "syntastic 
+    "    set statusline+=\ %#warningmsg#
+    "    set statusline+=%{SyntasticStatuslineFlag()}
+    "endif
     set statusline+=%=          "left/right separator
     set statusline+=%4*
     set statusline+=%-6.6m      "modified flag
@@ -162,16 +162,16 @@ function! SetPluginOptions()
     set laststatus=2            " показывать всегда
     
     " -- syntastic plugin
-    if exists(':SyntasticCheck')
-        let g:syntastic_always_populate_loc_list = 1
-        let g:syntastic_auto_loc_list = 1
-        let g:syntastic_loc_list_height = 5
-        let g:syntastic_check_on_open = 1
-        let g:syntastic_check_on_wq = 1
-        let g:syntastic_c_checkers = [ 'gcc', 'make' ]
-        let b:shell = 'sh'
-        let g:syntastic_sh_checkers = [ 'shellcheck', 'sh' ]
-    endif
+    "if exists(':SyntasticCheck')
+    "    let g:syntastic_always_populate_loc_list = 1
+    "    let g:syntastic_auto_loc_list = 1
+    "    let g:syntastic_loc_list_height = 5
+    "    let g:syntastic_check_on_open = 1
+    "    let g:syntastic_check_on_wq = 1
+    "    let g:syntastic_c_checkers = [ 'gcc', 'make' ]
+    "    let b:shell = 'sh'
+    "    let g:syntastic_sh_checkers = [ 'shellcheck', 'sh' ]
+    "endif
 
 endfunction
 " apply plugin options on vim enter
