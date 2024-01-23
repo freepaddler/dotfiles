@@ -1,0 +1,37 @@
+# Ignore case for comand-line-completion
+set completion-ignore-case  On
+# remove bell and show completions on first tab
+set show-all-if-ambiguous   On
+# set show-all-if-unmodified  On
+
+# show file type on completion
+set visible-stats   On
+
+# show nothing in the first line
+set horizontal-scroll-mode  Off
+
+# allow 8-bit input/output
+set meta-flag       On 
+set input-meta      On
+set output-meta     On
+set convert-meta    Off
+
+# allow the use of the Home/End keys
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+# mappings for Alt-left-arrow and Alt-right-arrow for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+# mappings for "page up" and "page down" to search the history
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+
+# mappings for "delete" and "insert" keys
+"\e[3~": delete-char
+"\e[2~": quoted-insert
