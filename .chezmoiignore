@@ -9,4 +9,5 @@ Downloads/
 Library/
 .npmrc
 .config
+.sqldeveloper
 {{- end }}
