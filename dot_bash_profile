@@ -1,0 +1,9 @@
+if [ -f ~/.bashrc ]; then
+  source ~/.bashrc
+fi
+
+return 0
+
+# MacPorts Installer : adding an appropriate PATH variable for use with MacPorts.
+export PATH="$PATH:/opt/local/bin:/opt/local/sbin"
+# Finished adapting your PATH environment variable for use with MacPorts.

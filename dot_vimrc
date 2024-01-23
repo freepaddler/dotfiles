@@ -1,0 +1,179 @@
+" Configuration file for vima
+set modelines=0             " CVE-2007-2438
+
+" Normally we use vim-extensions. If you want true vi-compatibility
+" remove change the following statements
+set nocompatible            " Use Vim defaults instead of 100% vi compatibility
+set backspace=2             " more powerful backspacing
+
+" Don't write backup file if vim is being called by "crontab -e"
+au BufWrite /private/tmp/crontab.* set nowritebackup nobackup
+au BufWrite /tmp/crontab.* set nowritebackup nobackup
+" Don't write backup file if vim is being called by "chpass" or "vipw"
+au BufWrite /private/etc/pw.* set nowritebackup nobackup
+au BufWrite /etc/pw.* set nowritebackup nobackup
+
+
+"--- personal setup ---
+set modelines=0             " otherwise unsecure
+set nocompatible            " выключить настройки Vi
+
+"--- настройка интерфейса
+set wildmenu                " visual autocomplete for command menu
+set showcmd                 " display incomplete commands
+"set cmdheight=2             " cmd line height
+" настройка цветности
+syntax on                   " включить подсветку синтаксиса
+colorscheme desert          " цветовая схема
+hi MatchParen cterm=bold ctermbg=black ctermfg=green  " цвет совпадающей скобки
+"set colorcolumn=96         " подсвечиваем стобец
+highlight ColorColumn ctermbg=darkgray
+set cursorline              " подстветка текущей строки
+" определяем пользовательские цвета
+hi User1 ctermbg=black ctermfg=green
+hi User2 ctermbg=black ctermfg=white
+hi User3 ctermbg=black ctermfg=cyan
+hi User4 ctermbg=black ctermfg=red
+" строка статуса
+set statusline=
+set statusline+=%1*         "colors User1
+set statusline+=%F          "filename with path
+set statusline+=%=          "left/right separator
+set statusline+=%4*
+set statusline+=%-6.6m      "modified flag
+set statusline+=%3*
+set statusline+=%-8.8r      "read only flag
+set statusline+=%2*
+set statusline+=%c,         "cursor column
+set statusline+=%l/%L       "cursor line/total lines
+set statusline+=\ %P        "percent through file
+set laststatus=2            " показывать всегда
+"set ruler                   " показывать % документа права внизу
+
+"--- настройка файлов
+" viminfo, backup, swap and undo settings (NOTE: dirs should be created manually)
+
+silent !mkdir -m 4700 -p ~/.vim/{swap,backup,undo} > /dev/null 2>&1
+
+set directory=~/.vim/swap
+set viminfo+=n~/.vim/viminfo
+" set backup
+" set backupdir=~/.vim/backup
+set undofile
+set undodir=~/.vim/undo
+" читаем .vimrc в том числе из локальных папок
+set exrc
+set secure
+
+"--- поддержка мыши
+"if has('mouse')
+"    set mouse=a
+"endif
+
+"--- настройка отступов и выравнивания
+set tabstop=4               " длина таба
+set softtabstop=4           " пробелы при табе если softtabstop<tabstops
+set shiftwidth=4            " ширина отступа
+set smarttab                " отступ в начале строки=shiftwidth
+set expandtab               " замена таба пробелами
+autocmd Filetype yaml setlocal ts=4 sts=2 sw=2
+autocmd Filetype make setlocal noexpandtab
+" отступы мешают при вставке текста с отступами
+set autoindent              " автоотступы для новых строк
+"set cin                    " отступы в стиле Си
+"set smartindent            " умные отступы
+set pastetoggle=<F10>       " переключение режима вставки отключает автоотступы 
+" Показываем табы в начале строки точками
+"set listchars=tab:··
+"set list
+
+"--- настройка навигации
+set backspace=indent,eol,start      " бэкспейс работает везде где возможно
+set nostartofline           " переход по строкам c сохранением позиции
+set scrolloff=4             " оставлять строк над/под курсором
+set wrap                    " перенос строк
+" навигация по перенесенным строкам
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up> gk
+vnoremap <Down> gj
+vnoremap <Up> gk
+inoremap <Down> <C-o>gj
+inoremap <Up> <C-o>gk
+" нумерация строк отключение/включение по Ctrl-n и Ctrl-j
+set number                  
+hi LineNr ctermbg=black ctermfg=grey
+nmap <C-n> :set norelativenumber<CR>:set number!<CR>
+nmap <C-j> :set number<CR>:set relativenumber!<CR>
+
+"--- настройка поиска
+set showmatch               " подсветка парных скобок
+set hlsearch                " подсветка последнего результата поиска
+set incsearch               " поиск по мере печати
+set ignorecase              " поиск регистронезависимый
+set smartcase               " если ищем большими - то регистрозависимый
+" Map <C-L> (redraw screen) to also turn off search highlighting until the next search
+nmap <C-L> :nohl<CR>
+
+"--- системные настройки
+set lz                      " ленивая перерисовка экрана при выполнении скриптов
+set autoread                " autoreaload when file changed outside, and no loacl changes are made
+au CursorHold,CursorHoldI * checktime " autoreload on cursorhold/invoke default 4s may be changed by updatetime
+" Порядок применения кодировок и формата файлов
+set ffs=unix,mac,dos
+set fencs=utf-8,cp1251,koi8-r,cp866
+" Quickly time out on keycodes, but never time out on mappings
+set notimeout ttimeout ttimeoutlen=200
+
+
+nmap f :lnext<CR>
+nmap F :lprevious<CR>
+
+" save file with sudo instead of reopening
+cmap w!! WForce                                                                                                                                                                    
+cmap WQ! WForceQuit
+command WForce :execute ':silent w !$(which doas || which sudo) tee % > /dev/null' | exec "wundo ".escape(undofile(expand('%')),'% ') | :edit!
+command WForceQuit :execute 'WForce' | :quit!
+"cmap W w
+"cmap w!! exec 'silent w !$(which sudo <Bar><Bar> which doas) tee > /dev/null ' . shellescape(expand('%'))
+
+" set plugin options on vim rum
+function! SetPluginOptions()
+
+    " строка статуса
+    set statusline=
+    set statusline+=%1*         "colors User1
+    set statusline+=%F          "filename with path
+    if exists(':SyntasticCheck') "syntastic 
+        set statusline+=\ %#warningmsg#
+        set statusline+=%{SyntasticStatuslineFlag()}
+    endif
+    set statusline+=%=          "left/right separator
+    set statusline+=%4*
+    set statusline+=%-6.6m      "modified flag
+    set statusline+=%3*
+    set statusline+=%-8.8r      "read only flag
+    set statusline+=%2*
+    set statusline+=%c,         "cursor column
+    set statusline+=%l/%L       "cursor line/total lines
+    set statusline+=\ %P        "percent through file
+    set laststatus=2            " показывать всегда
+    
+    " -- syntastic plugin
+    if exists(':SyntasticCheck')
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
+        let g:syntastic_loc_list_height = 5
+        let g:syntastic_check_on_open = 1
+        let g:syntastic_check_on_wq = 1
+        let g:syntastic_c_checkers = [ 'gcc', 'make' ]
+        let b:shell = 'sh'
+        let g:syntastic_sh_checkers = [ 'shellcheck', 'sh' ]
+    endif
+
+endfunction
+" apply plugin options on vim enter
+au VimEnter * call SetPluginOptions()
