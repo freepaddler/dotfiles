@@ -1,4 +1,12 @@
 README.md
+.idea/
 {{- if ne .chezmoi.os "darwin" }}
+local
 iCloud 
+.ssh/config
+.ssh/id*
+Downloads/iCloud
+Library/*
+.npmrc
+.config
 {{- end }}
