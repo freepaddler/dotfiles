@@ -52,8 +52,7 @@ set laststatus=2            " показывать всегда
 
 "--- настройка файлов
 " viminfo, backup, swap and undo settings (NOTE: dirs should be created manually)
-
-silent !mkdir -m 4700 -p ~/.vim/{swap,backup,undo} > /dev/null 2>&1
+"silent !mkdir -m 4700 -p ~/.vim/{swap,backup,undo} > /dev/null 2>&1
 
 set directory=~/.vim/swap
 set viminfo+=n~/.vim/viminfo
