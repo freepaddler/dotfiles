@@ -5,8 +5,8 @@ local
 iCloud 
 .ssh/config
 .ssh/id*
-Downloads/iCloud
-Library/*
+Downloads/
+Library/
 .npmrc
 .config
 {{- end }}
