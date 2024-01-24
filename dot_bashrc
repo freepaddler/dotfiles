@@ -84,7 +84,7 @@ else
 fi
 
 ## HOMEBREW
-if [ -x /opt/homebrew/bin/brew ]; then
+if is_mac && [ -x /opt/homebrew/bin/brew ]; then
     path_append "/opt/homebrew/bin:/opt/homebrew/sbin"
     export HOMEBREW_PREFIX="/opt/homebrew"
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
@@ -102,28 +102,16 @@ fi
 ### AUTOCOMPLETION
 # try load completion script if not loaded yet
 completion_script_lookup="
-    "$HOMEBREW_PREFIX/etc/profile.d"
-    /etc/profile.d
+    /usr/share/bash-completion
     /usr/local/share/bash-completion
+    ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/etc/profile.d/}
     /opt/local/etc/profile.d
 "
 for bcsh in $completion_script_lookup; do
     [ "$(type -t _completion_loader)" = "function" ] && break
     [ -r "$bcsh/bash_completion.sh" ] && source "$bcsh/bash_completion.sh"
 done
-# try load custom completions
-completions_lookup="
-    /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-    /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
-    /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
-    /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
-    $HOME/.bash_completion.d/*
-"
-for f in $completions_lookup; do
-    [ -r "$f" ] && source "$f"
-done
 unset completion_script_lookup
-unset completions_lookup
 # check if command has completion
 has_completion() {
     # completion exists
@@ -150,10 +138,7 @@ if has_completion ssh; then
     complete -F _ssh sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
 else
     complete -fW \
-        "$({
-            grep -iE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2
-                                                                    cut -d' ' -f1 ~/.ssh/known_hosts1 2> /dev/null
-        }                                                                                                            | grep -v '\*' | sort | uniq)" \
+        "$({ grep -iE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts1 2> /dev/null; } | grep -v '\*' | sort | uniq)" \
         ssh scp sftp sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
 fi
 alias sshconfig="vi ~/.ssh/config && resrc"

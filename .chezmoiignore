@@ -12,4 +12,7 @@ Library/
 .sqldeveloper
 dev
 work
+.bash_completion.d/docker*
+.bash_completion.d/git*
+.bash_completion.d/vagrant*
 {{- end }}
