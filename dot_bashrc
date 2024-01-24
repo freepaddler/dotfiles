@@ -4,13 +4,24 @@ if [[ $- != *i* ]]; then
     return
 fi
 
-echo bash $BASH_VERSION
+echo bash "$BASH_VERSION"
+KERNEL=$(uname -s)
+is_mac() {
+    [ "$KERNEL" = "Darwin" ]
+}
+is_linux() {
+    [ "$KERNEL" = "Linux" ]
+}
+is_freebsd() {
+    [ "$KERNEL" = "FreeBSD" ]
+}
 
 ### COMMON ENV VARS
 export BLOCKSIZE="K"
 export EDITOR="vi"
 export VISUAL="vi"
 export LSCOLORS="gxfxcxdxbxegedabagacad"
+export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 # to disable alternate screen -XF
 export LESS="-iRJ -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
 export PAGER="less"
@@ -37,9 +48,9 @@ set -o noclobber
 export LANG=ru_RU.UTF-8
 export LC_TYPE=ru_RU.UTF-8
 export LC_COLLATE=ru_RU.UTF-8
-export LC_MESSAGES=C
-export LC_NUMERIC=C
-export LC_TIME=C
+export LC_MESSAGES=POSIX
+export LC_NUMERIC=POSIX
+export LC_TIME=POSIX
 export LC_ALL=
 
 ### PATH
@@ -47,19 +58,13 @@ umask 0002
 path_append() {
     case ":$PATH:" in
         *:"$1":*) ;;
-
-        *)
-            PATH=${PATH:+$PATH:}$1
-            ;;
+        *) PATH=${PATH:+$PATH:}$1 ;;
     esac
 }
 path_prepend() {
     case ":$PATH:" in
         *:"$1":*) ;;
-
-        *)
-            PATH=$1:${PATH:+$PATH}
-            ;;
+        *) PATH=$1:${PATH:+$PATH} ;;
     esac
 }
 
@@ -87,20 +92,20 @@ if [ -x /opt/homebrew/bin/brew ]; then
     export INFOPATH=$INFOPATH:/opt/homebrew/share/info
     export MANPATH=$MANPATH:/opt/homebrew/share/man
     alias brew-requested="brew leaves -r && echo && brew list --cask -1"
-    brew-usage (){
+    brew-usage() {
         brew list --formula | xargs -n1 -P8 -I {} \
-        sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
-        sort -h -r -k2 - | column -t
+            sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" |
+            sort -h -r -k2 - | column -t
     }
 fi
 
 ### AUTOCOMPLETION
 # try load completion script if not loaded yet
 completion_script_lookup="
+    "$HOMEBREW_PREFIX/etc/profile.d"
     /etc/profile.d
     /usr/local/share/bash-completion
     /opt/local/etc/profile.d
-    "$HOMEBREW_PREFIX/etc/profile.d"
 "
 for bcsh in $completion_script_lookup; do
     [ "$(type -t _completion_loader)" = "function" ] && break
@@ -142,9 +147,14 @@ has_completion su || complete -c -o bashdefault -o default su
 ### PROGRAMS SETUP
 # ssh
 if has_completion ssh; then
-    complete -F _ssh ssh-cp-env.sh ssh-run.sh ssh-del-knownhost.sh sshexit sshm
+    complete -F _ssh sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
 else
-    [ -f ~/.ssh/config ] && complete -fW "$(grep -iE '^(host|hostname) ' ~/.ssh/config | awk '{print $2}')" ssh ssh-copy-id sftp scp ssh-cp-env.sh ssh-run.sh ssh-del-knownhost.sh sshexit sshm
+    complete -fW \
+        "$({
+            grep -iE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2
+                                                                    cut -d' ' -f1 ~/.ssh/known_hosts1 2> /dev/null
+        }                                                                                                            | grep -v '\*' | sort | uniq)" \
+        ssh scp sftp sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
 fi
 alias sshconfig="vi ~/.ssh/config && resrc"
 alias sshexit="ssh -O exit"
@@ -185,126 +195,97 @@ if which docker &> /dev/null; then
     has_completion docker || complete -W "$(docker ps -a --format '{{.Names}}')" docker
 fi
 
-
 ### ALIASES
 alias root="su -m root"
-alias l="ls -FG"
-alias la="ls -laFGh"
-alias ll="ls -lFGh"
-alias li="ls -laFoGhi"
+
+is_linux && alias ls="ls --color=auto" || alias ls="ls -G"
+alias l="ls -F"
+alias ll="ls -lFh"
+alias la="ls -laFh"
+alias li="ls -laFhi"
+is_freebsd && alias le="ls -laFohi"
+is_mac && alias le="ls -laFOhie@";
+
 alias rm="rm -iv"
 alias rmrf="rm -frv"
 alias cp="cp -iv"
 alias cpr="cp -iRv"
 alias mv="mv -iv"
+
 alias du="du -h"
 alias df="df -h"
+
 alias j="jobs -l"
 alias h="history 25"
+alias p="ps uw"
+is_linux && alias p="ps fuw"
 
 alias grep="grep --color"
 which igrep &> /dev/null || alias igrep="grep -i"
 alias fgrep="fgrep --color"
+alias egrep="egrep --color"
 
 alias resrc="source ~/.bashrc"
 alias bashrc="vi ~/.bashrc && resrc"
-alias vihosts="vi /etc/hosts"
+alias hosts="vi /etc/hosts"
 
 which sreen &> /dev/null && alias sc="screen -U"
 which vim &> /dev/null && alias vi="vim -X"
 alias vimrc="vi ~/.vimrc"
 
 which glow &> /dev/null && alias mdless="glow -p"
-which ansible &> /dev/null && alias ansible-roledir="mkdir -p {defaults,files,templates,handlers,tasks} && touch {defaults,handlers,tasks}/main.yml"
+
+if which sreen &> /dev/null; then
+    alias ansible-roledir="mkdir -p {defaults,files,templates,handlers,tasks} && touch {defaults,handlers,tasks}/main.yml"
+    alias ansible-hostvars='ansible -m debug -a "var=hostvars[inventory_hostname]"'
+fi
 
 if which iptables &> /dev/null; then
     alias iptl="iptables --line-numbers -vnL "
     alias ipt="iptables "
 fi
 
+# git
+alias gs="git status"
+alias ga="git add ."
+alias gp="git push"
+alias gca="git commit -a -m"
+alias gcm="git commit -m"
+alias gi="git info"
+alias gl="git logall"
+alias gb="git branches"
+alias glb="git logbr"
+alias gu="gut pull"
+
 ### +BY OS
-KERNEL=$(uname -s)
-case "$KERNEL" in
-    Linux) # GNU/Linux
-        alias ls="ls --color=auto"
-        alias l="ls -F"
-        alias la="ls -laFh"
-        alias ll="ls -lFh"
-        alias li="ls -laFhi"
-        export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
-        ;;
-    Darwin) # MacOs
-        alias li="ls -laFOGhi"
-        alias le="ls -laFGhe"
-        export COPYFILE_DISABLE=true
-        # remove macOS zsh warning
-        export BASH_SILENCE_DEPRECATION_WARNING=1
-        # python path
-        for ver in $(ls -r ~/Library/Python/); do
-            path_append ~/Library/Python/"$ver"/bin
-        done
-        # ssh-keygen override
-        complete -f ssh-keygen
-        # logout other macos user
-        macos_logout() {
-            sudo launchctl bootout "user/$(id -u "$1")"
-        }
-        [ -d "$HOME/Documents/Dev/shell/" ] && path_append ~/Documents/Dev/shell
-        ;;
-esac
+if is_mac; then
+    export COPYFILE_DISABLE=true
+    # remove macOS zsh warning
+    export BASH_SILENCE_DEPRECATION_WARNING=1
+    # python path
+    for ver in $(ls -r ~/Library/Python/); do
+        path_append ~/Library/Python/"$ver"/bin
+    done
+    # ssh-keygen override
+    complete -f ssh-keygen
+    # logout other macos user
+    macos_logout() {
+        sudo launchctl bootout "user/$(id -u "$1")"
+    }
+    [ -d "$HOME/Documents/Dev/shell/" ] && path_append ~/dev/shell
+fi
 
 ### PATH EXPORT
+path_append ~/.local/bin
 export PATH
 
 ### UNSET global func
+unset is_mac
+unset is_linux
+unset is_freebsd
 unset path_append
 unset path_prepend
 unset has_completion
 
-apg() {
-    # generate passwords
-    echo
-    i=0
-    while [ $i -lt 20 ]; do
-        openssl rand -base64 $((((i / 5) + 2) * 3))
-        i=$((i + 1))
-    done
-}
-
-hlp() {
-    # short emacs-style help
-    local b="\033[1m"
-    local r="\033[0m"
-    echo -ne "${b} SHELL Quick Help${r}
-\t\t\t${b}MOVING${r}
-${b}C-a / C-e${r} — start/end of line\t\t${b}C-f / C-b${r} — one char fwd/bwd
-${b}M-f / M-b${r} — one word fwd/bwd\t\t${b}C-l${r} - cls & leave current line
-${b}C-x C-x${r} - move to the start of line and back to current position
-${b}M-<space>${r} - mark position to jump instead of start of the line
-\t\t\t${b}CHANGE TEXT
-${b}C-d / C-h${r} - delete/backspace\t\t${b}C-x C-u${r} - undo
-${b}C-t / M-t${r} - change current character/word with previous one
-${b}M-u / M-l /M-c${r} - upcase/downcase/capitalize word from current position
-\t\t\t${b}KILL & YANK
-${b}C-k / C-u${r} - kill to line end/start\t${b}C-y${r} - yank last killed text
-${b}M-d / C-w${r} - delete from position to the end/start of word
-\t\t\t${b}HISTORY
-${b}M-.${r} - paste last arg\t\t\t${b}M-C-y${r} 1st arg of prev command
-${b}PgUp / PgDn${r} - hist rev/fwd search\t${b}C-p / C-n${r} - prev/next command
-${b}C-r${r} - incremental reverse search\t${b}C-j${r} - stop search and edit
-\t\t\t${b}COMPLETIONS
-${b}M-/ / M-\$ / M-!${r} - complete filename/variable/command
-${b}M-TAB${r} - attempt complete with previous matches
-\t\t\t${b}MISC
-${b}M-#${r} - comment line\t\t\t${b}C-t${r} - send SIGINFO
-${b}C-c / C-z / C-d${r} - SIGINT / SIGTSTP (suspend) / EOF - soft exit
-${b}C-x C-e${r} - open $EDITOR to modify command, execute upon exit
-\t\t\t${b}SPECIAL VARS
-${b}\$?${r} - exit status of last command\t${b}%% / %n${r} - last/n job pid
-${b}\$!${r} - last backgroud command pid\t\t${b}\$\$${r} - current shell pid
-${b}!!${r} - previous command line\t\t${b}!:0${r} - name of prev command
-${b}!:1 / !:-1 / !:*${r} - 1st(2nd..)/last/all params of prev command
-"
-    #${b}M-< / M->${r} - move to hist first/last line
-    #${b}C-r / C-s${r} - incremental rev/fwd search
-}
+### import functions
+ [ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"

@@ -52,7 +52,7 @@ set laststatus=2            " показывать всегда
 
 "--- настройка файлов
 " viminfo, backup, swap and undo settings (NOTE: dirs should be created manually)
-"silent !mkdir -m 4700 -p ~/.vim/{swap,backup,undo} > /dev/null 2>&1
+silent !mkdir -m 4700 -p ~/.vim/swap ~/.vim/backup ~/.vim/undo > /dev/null 2>&1
 
 set directory=~/.vim/swap
 set viminfo+=n~/.vim/viminfo
@@ -60,6 +60,10 @@ set viminfo+=n~/.vim/viminfo
 " set backupdir=~/.vim/backup
 set undofile
 set undodir=~/.vim/undo
+" delete undo history after 365 days
+let s:undos = split(globpath(&undodir, '*'), "\n")
+call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 365)')
+call map(s:undos, 'delete(v:val)')
 " читаем .vimrc в том числе из локальных папок
 set exrc
 set secure

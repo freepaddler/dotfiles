@@ -10,4 +10,6 @@ Library/
 .npmrc
 .config
 .sqldeveloper
+dev
+work
 {{- end }}
