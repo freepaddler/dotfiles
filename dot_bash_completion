@@ -1,3 +1,0 @@
-for bc in ~/.bash_completion.d/* ; do
-  [ -f "$bcfile" ] && . $bc
-done

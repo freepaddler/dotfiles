@@ -7,13 +7,11 @@ apg() {
         i=$((i + 1))
     done
 }
-export -f apg
 
 # random hex string
 rand_x() {
     cat /dev/urandom | LC_CTYPE=POSIX tr -dc 'a-f0-9' | fold -w $1 | head -n 1
 }
-export -f rand_x
 
 # remote local install chezmoi
 ssh-chezmoi() {
@@ -84,7 +82,6 @@ ssh-run() {
 
     echo "=== === finished"
 }
-export -f ssh-run
 
 # short emacs-style help
 hlp() {

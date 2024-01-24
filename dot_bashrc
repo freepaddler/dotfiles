@@ -104,6 +104,8 @@ fi
 completion_script_lookup="
     /usr/share/bash-completion
     /usr/local/share/bash-completion
+"
+is_mac && completion_script_lookup+="
     ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/etc/profile.d/}
     /opt/local/etc/profile.d
 "
@@ -111,7 +113,21 @@ for bcsh in $completion_script_lookup; do
     [ "$(type -t _completion_loader)" = "function" ] && break
     [ -r "$bcsh/bash_completion.sh" ] && source "$bcsh/bash_completion.sh"
 done
+# try load custom completions
+completions_lookup="
+    $HOME/.bash_completion.d/*
+"
+is_mac && completions_lookup+="
+    /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+    /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
+    /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
+    /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
+"
+for f in $completions_lookup; do
+    [ -r "$f" ] && source "$f"
+done
 unset completion_script_lookup
+unset completions_lookup
 # check if command has completion
 has_completion() {
     # completion exists
