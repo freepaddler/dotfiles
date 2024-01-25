@@ -80,8 +80,8 @@ set_window_title() {
 if [ "$TERM_PROGRAM" == "Apple_Terminal" ]; then
     PROMPT_COMMAND="set_window_title${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 else
-    TILDA="~"
-    PROMPT_COMMAND='printf "\033]0;%s@%s %s\007" "$USER" "$HOSTNAME" "${PWD/$HOME/$TILDA}"'
+    #TILDA="~"
+    PROMPT_COMMAND='printf "\033]0;%s@%s %s\007" "$USER" "$HOSTNAME" "${PWD/$HOME/"~"}"'
 fi
 
 ## HOMEBREW
@@ -117,6 +117,7 @@ if ! os_is linux; then
 fi
 # try load custom completions
 if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
+
     custom_completions="$HOME/.bash_completion.d/*"
     os_is darwin && custom_completions+="
        /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash

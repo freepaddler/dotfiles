@@ -1,0 +1,35 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+    name = {{ .name }}
+    email = {{ .email }}
+[core]
+    editor = vim
+    autocrlf = input
+[credential]
+    {{- if eq .chezmoi.os "darwin" }}
+    helper = osxkeychain
+    {{- end }}
+[diff]
+    {{- if eq .chezmoi.os "darwin" }}
+    tool = opendiff
+    {{- end }}
+    colorMoved = zebra
+[merge]
+    {{- if eq .chezmoi.os "darwin" }}
+    tool = opendiff
+    {{- end }}
+[difftool]
+    prompt = false
+[alias]
+    logall = log --all --decorate --oneline --graph --date-order
+    info = remote show origin
+    stat = status -uno
+    branches = branch -vv
+    tags = tag -ln --sort=-taggerdate
+    logbr = log --oneline --decorate --walk-reflogs
+    logbranch = log --decorate --walk-reflogs
+[fetch]
+    prune = true
+[pull]
+    rebase = true

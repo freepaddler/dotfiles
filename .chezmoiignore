@@ -1,15 +1,29 @@
 README.md
 .idea/
+
+{{- if .minimal }}
+!.bash*
+!.imputrc
+!.vimrc
+!.vim/
+!.ssh/
+!.screenrc
+{{- end }}
+
+{{- if eq .chezmoi.os "darwin" }}
+.config/gup/
+{{- end }}
+
 {{- if ne .chezmoi.os "darwin" }}
 local
-iCloud 
+iCloud
 .ssh/config
 .ssh/id*
-Downloads/
 Library/
-.npmrc
-.config
-.sqldeveloper
 dev
 work
+.sqldeveloper
 {{- end }}
+
+
+

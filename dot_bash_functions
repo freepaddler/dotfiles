@@ -15,7 +15,7 @@ rand_x() {
 
 # remote local install chezmoi
 ssh-chezmoi() {
-    ssh "$@" sh -c '"$(curl -fsLS get.chezmoi.io/lb)" -- init --apply freepaddler || "$(wget -qO- get.chezmoi.io/lb)" -- init --apply freepaddler'
+    ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --apply freepaddler'
 }
 
 # curl with time report
