@@ -159,7 +159,7 @@ if has_completion ssh; then
     complete -F _ssh sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
 else
     complete -fW \
-        "$({ grep -iE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
+        "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
         ssh scp sftp sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
 fi
 alias sshconfig="vi ~/.ssh/config && resrc"
