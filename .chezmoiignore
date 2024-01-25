@@ -4,6 +4,7 @@
 !.imputrc
 !.vimrc
 !.vim/**
+!.ssh/
 !.ssh/authorized_keys
 !.screenrc
 {{- else }}
