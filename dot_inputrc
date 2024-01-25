@@ -1,8 +1,11 @@
-# Ignore case for comand-line-completion
+# ignore case for comand-line-completion
 set completion-ignore-case  On
 # remove bell and show completions on first tab
 set show-all-if-ambiguous   On
 # set show-all-if-unmodified  On
+
+# complete symlink dirs with slash
+set mark-symlinked-directories on
 
 # show file type on completion
 set visible-stats   On

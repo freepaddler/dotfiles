@@ -54,8 +54,9 @@ export LC_NUMERIC=POSIX
 export LC_TIME=POSIX
 export LC_ALL=
 
-### PATH
 umask 0002
+### PATH
+export CDPATH=.:~
 path_append() {
     case ":$PATH:" in
         *:"$1":*) ;;
@@ -125,6 +126,7 @@ if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
        /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
     "
     for f in $custom_completions; do
+        # shellcheck disable=SC1090
         [ -f "$f" ] && source "$f"
     done
     unset f
@@ -273,6 +275,7 @@ if os_is darwin; then
     # remove macOS zsh warning
     export BASH_SILENCE_DEPRECATION_WARNING=1
     # python path
+    # shellcheck disable=SC2045
     for ver in $(ls -r ~/Library/Python/); do
         path_append ~/Library/Python/"$ver"/bin
     done
