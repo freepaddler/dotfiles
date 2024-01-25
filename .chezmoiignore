@@ -1,3 +1,4 @@
+# for public hosts/server
 {{- if .minimal }}
 !.bash*
 !.imputrc
@@ -5,7 +6,9 @@
 !.vim/**
 !.ssh/authorized_keys
 !.screenrc
-{{- end }}
+{{- else }}
+
+# private hosts
 
 {{- if eq .chezmoi.os "darwin" }}
 .config/gup/
@@ -20,4 +23,7 @@ Library/
 dev
 work
 .sqldeveloper
+{{- end }}
+
+# end of minimal
 {{- end }}
