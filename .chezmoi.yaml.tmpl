@@ -4,11 +4,11 @@
 {{- end -}}
 
 {{- $email := "" -}}
-{{- $name := "" -}}
+{{- $name := "Victor Chu" -}}
 
 {{- if $private -}}
 {{-   $email = promptString "email" -}}
-{{-   $name = promptString "name" -}}
+{{-   $name = promptString "name" "Victor Chu" -}}
 {{- end -}}
 
 data:
