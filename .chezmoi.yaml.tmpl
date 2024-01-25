@@ -1,8 +1,8 @@
-{{- $minimal := false -}}
+{{- $minimal := true -}}
 {{- if stdinIsATTY -}}
 {{-   $minimal = promptBool "is this a public host or server" -}}
 {{- else -}}
-{{-   $minimal = false -}}
+{{-   $minimal = true -}}
 {{- end -}}
 
 {{- $email := "" -}}
