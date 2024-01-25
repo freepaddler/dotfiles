@@ -1,12 +1,9 @@
-README.md
-.idea/
-
 {{- if .minimal }}
 !.bash*
 !.imputrc
 !.vimrc
-!.vim/
-!.ssh/
+!.vim/**
+!.ssh/authorized_keys
 !.screenrc
 {{- end }}
 
@@ -24,6 +21,3 @@ dev
 work
 .sqldeveloper
 {{- end }}
-
-
-
