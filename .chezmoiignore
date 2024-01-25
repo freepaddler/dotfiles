@@ -1,5 +1,5 @@
-# for public hosts/server
-{{- if .minimal }}
+# for public hosts/servers
+{{- if not .private }}
 !.bash*
 !.imputrc
 !.vimrc
@@ -26,5 +26,5 @@ work
 .sqldeveloper
 {{- end }}
 
-# end of minimal
+# close non private if
 {{- end }}

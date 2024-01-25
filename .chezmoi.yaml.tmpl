@@ -1,19 +1,17 @@
-{{- $minimal := true -}}
+{{- $private := false -}}
 {{- if stdinIsATTY -}}
-{{-   $minimal = promptBool "is this a public host or server" -}}
-{{- else -}}
-{{-   $minimal = true -}}
+{{-   $private = promptBool "is this a PRIVATE host or server" -}}
 {{- end -}}
 
 {{- $email := "" -}}
 {{- $name := "" -}}
 
-{{- if not $minimal -}}
+{{- if $private -}}
 {{-   $email = promptString "email" -}}
 {{-   $name = promptString "name" -}}
 {{- end -}}
 
 data:
-  minimal: {{ $minimal }}
+  private: {{ $private }}
   email: "{{ $email }}"
   name: "{{ $name }}"
