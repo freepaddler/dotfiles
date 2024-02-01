@@ -1,3 +1,11 @@
+# temporary history control
+hoff() {
+    set +o history
+}
+hon() {
+    set -o history
+}
+
 # generate passwords
 apg() {
     echo
