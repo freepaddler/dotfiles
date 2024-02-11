@@ -1,0 +1,6 @@
+# bash completion tmutil
+_tmutil(){
+  list=$( tmutil | /usr/bin/grep -v ^$ | /usr/bin/grep ^Usage | awk '{print $3}' )
+  COMPREPLY=( $(compgen -W "$list" ${COMP_WORDS[COMP_CWORD]}  ) ) 
+}
+complete -F _tmutil tmutil

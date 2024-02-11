@@ -198,8 +198,8 @@ fi
 
 # docker
 if which docker &> /dev/null; then
-    alias drm="docker run --rm"
     has_completion docker || complete -W "$(docker ps -a --format '{{.Names}}' 2>/dev/null; docker image ls --format '{{.Repository}}:{{.Tag}}' --filter "dangling=false" 2>/dev/null)" docker
+    alias drm="docker run --rm"
 fi
 
 ### ALIASES
@@ -269,6 +269,9 @@ if which git &> /dev/null; then
     alias gp="git push"
     alias gu="git pull"
 fi
+# add all aliases completions
+# https://github.com/cykerway/complete-alias
+[ -n "$BASH_COMPLETION_VERSINFO" ] && complete -F _complete_alias "${!BASH_ALIASES[@]}"
 
 ### +BY OS
 if os_is darwin; then
@@ -300,4 +303,4 @@ unset has_completion
 unset path_append path_prepend
 
 ### import functions
- [ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
+[ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
