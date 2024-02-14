@@ -1,6 +1,7 @@
 # for public hosts/servers
 {{- if not .private }}
 !.bash*
+!.bash_completion.d/*
 !.imputrc
 !.vimrc
 !.vim/**
