@@ -91,12 +91,12 @@ ssh-run() {
     echo "=== === finished"
 }
 
-if is_ish; then
+if os_is linux && is_ish; then
     ish-update() {
         PWD=$(pwd)
         cd $HOME
         git clone https://github.com/freepaddler/dotfiles
-        dotfiles/local/bin/ish-update.sh
+        dotfiles/ish-update.sh
         rm -rf $HOME/dotfiles
         cd "$PWD"
     }
