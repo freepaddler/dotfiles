@@ -302,12 +302,10 @@ fi
 path_append ~/.local/bin
 export PATH
 
+### import functions
+[ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
+
 ### UNSET global
 unset os_is kernel is_bb
 unset has_completion
 unset path_append path_prepend
-
-### import functions
-[ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
-
-unset os_is kernel is_bb is_ish
