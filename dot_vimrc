@@ -26,7 +26,7 @@ set showcmd                 " display incomplete commands
 syntax on                   " включить подсветку синтаксиса
 colorscheme desert          " цветовая схема
 hi MatchParen cterm=bold ctermbg=black ctermfg=green  " цвет совпадающей скобки
-"set colorcolumn=96         " подсвечиваем стобец
+set colorcolumn=100         " подсвечиваем стобец
 highlight ColorColumn ctermbg=darkgray
 set cursorline              " подстветка текущей строки
 " определяем пользовательские цвета

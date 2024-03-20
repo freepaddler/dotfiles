@@ -95,7 +95,7 @@ if os_is linux && is_ish; then
     ish-update() {
         PWD=$(pwd)
         cd $HOME
-        git clone https://github.com/freepaddler/dotfiles
+        git clone --depth 1 https://github.com/freepaddler/dotfiles
         dotfiles/ish-update.sh
         rm -rf $HOME/dotfiles > /dev/null
         cd "$PWD"
