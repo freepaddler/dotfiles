@@ -19,4 +19,3 @@ age -d -i $HOME/.config/chezmoi.age $HOME/dotfiles/private_dot_ssh/encrypted_pri
 
 rm -rf $HOME/dotfiles > /dev/null
 cd "$PWD"
-. $HOME/.bashrc
