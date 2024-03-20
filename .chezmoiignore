@@ -29,4 +29,5 @@ work
 # close non private if
 {{- end }}
 
-local/bin/ish-update.sh
+# for all
+.local/bin/ish-update.sh
