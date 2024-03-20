@@ -10,4 +10,4 @@ cp -f $HOME/dotfiles/dot_bashrc $HOME/.bashrc
 cp -f $HOME/dotfiles/dot_inputrc $HOME/.inputrc
 cp -f $HOME/dotfiles/dot_tmux.conf $HOME/.tmux.conf
 cp -f $HOME/dotfiles/dot_vimrc $HOME/.vimrc
-age -d -i $HOME/.config/cheamoi.age $HOME/dotfiles/private_dot_ssh/encrypted_private_config.tmpl.age | sed "/^{{/d" >| $HOME/.ssh/config && chmod 600 $HOME/.ssh/config
+age -d -i $HOME/.config/chezmoi.age $HOME/dotfiles/private_dot_ssh/encrypted_private_config.tmpl.age | sed "/^{{/d" >| $HOME/.ssh/config && chmod 600 $HOME/.ssh/config
