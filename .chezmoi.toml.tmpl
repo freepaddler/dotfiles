@@ -1,6 +1,6 @@
-{{- $private := true -}}
+{{- $private := false -}}
 {{- if stdinIsATTY -}}
-{{-   $private = promptBool "is this a PRIVATE host or server" true -}}
+{{-   $private = promptBool "is this a PRIVATE host or server" false -}}
 {{- end -}}
 
 {{- $email := "" -}}
