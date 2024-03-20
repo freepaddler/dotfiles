@@ -29,4 +29,4 @@ work
 # close non private if
 {{- end }}
 
-ish-update.sh
+local/bin/ish-update.sh

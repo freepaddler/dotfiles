@@ -1,5 +1,10 @@
 #!/bin/sh
 # to be run from iOS ish emulator
+PWD=$(pwd)
+
+cd $HOME
+rm -rf $HOME/dotfiles > /dev/null
+git clone --depth 1 https://github.com/freepaddler/dotfiles
 
 cp -rf $HOME/dotfiles/dot_bash_completion.d $HOME/.bash_completion.d
 cp -rf $HOME/dotfiles/dot_vim $HOME/.vim
@@ -11,3 +16,7 @@ cp -f $HOME/dotfiles/dot_inputrc $HOME/.inputrc
 cp -f $HOME/dotfiles/dot_tmux.conf $HOME/.tmux.conf
 cp -f $HOME/dotfiles/dot_vimrc $HOME/.vimrc
 age -d -i $HOME/.config/chezmoi.age $HOME/dotfiles/private_dot_ssh/encrypted_private_config.tmpl.age | sed "/^{{/d" >| $HOME/.ssh/config && chmod 600 $HOME/.ssh/config
+
+rm -rf $HOME/dotfiles > /dev/null
+cd "$PWD"
+resrc
