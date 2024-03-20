@@ -17,6 +17,11 @@ is_bb() {
     [[ "$(readlink "$(which "$1")")" = *"busybox" ]]
 }
 
+# check if it is ish emulator
+is_ish() {
+    os_is linux && uname | grep -q "\-ish$"
+}
+
 ### COMMON ENV VARS
 export BLOCKSIZE="K"
 export EDITOR="vi"
@@ -304,3 +309,5 @@ unset path_append path_prepend
 
 ### import functions
 [ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
+
+unset os_is kernel is_bb is_ish

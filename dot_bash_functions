@@ -42,7 +42,7 @@ EOF
 
 # copy local env to remote host
 ssh-cp-env() {
-    scp -r ~/.bashrc ~/.bash_profile ~/.bash_functions ~/.screenrc ~/.inputrc ~/.vimrc "$1":.
+    scp -r ~/.bashrc ~/.bash_profile ~/.bash_functions ~/.screenrc ~/.inputrc ~/.vimrc ~/.tmux.conf ~/.bash_completion.d "$1":.
     ssh "$1" mkdir -p .vim/colors/ .ssh/
     scp ~/.vim/colors/desert.vim "$1":.vim/colors/desert.vim
     scp ~/.ssh/authorized_keys "$1":.ssh/
@@ -90,6 +90,17 @@ ssh-run() {
 
     echo "=== === finished"
 }
+
+if is_ish; then
+    ish-update() {
+        PWD=$(pwd)
+        cd $HOME
+        git clone https://github.com/freepaddler/dotfiles
+        dotfiles/local/bin/ish-update.sh
+        rm -rf $HOME/dotfiles
+        cd "$PWD"
+    }
+fi
 
 # short emacs-style help
 hlp() {
