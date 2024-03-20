@@ -9,6 +9,7 @@
 {{- if $private -}}
 {{-   $email = promptString "email" -}}
 {{-   $name = promptString "name" "Victor Chu" -}}
+
 {{- end -}}
 
 data:

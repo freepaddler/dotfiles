@@ -1,0 +1,21 @@
+{{- $private := true -}}
+{{- if stdinIsATTY -}}
+{{-   $private = promptBool "is this a PRIVATE host or server" true -}}
+{{- end -}}
+
+{{- $email := "" -}}
+{{- $name := "Victor Chu" -}}
+
+{{- if $private -}}
+{{-   $email = promptString "email" -}}
+{{-   $name = promptString "name" "Victor Chu" }}
+encryption = "age"
+[age]
+  identity = "~/.config/chezmoi.age"
+  recipient = "age1myfxv62zvx85n04v755glrxyz5gckjxn0w9shd5m70s03wtcd43qf0mqcl"
+{{ end }}
+
+[data]
+  private = {{ $private }}
+  email = "{{ $email }}"
+  name = "{{ $name }}"
