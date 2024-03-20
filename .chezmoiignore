@@ -8,6 +8,7 @@
 !.ssh/
 !.ssh/authorized_keys
 !.screenrc
+!.tmux.conf
 {{- else }}
 
 # private hosts
@@ -19,12 +20,10 @@
 {{- if ne .chezmoi.os "darwin" }}
 local
 iCloud
-.ssh/config
 .ssh/id*
 Library/
 dev
 work
-.sqldeveloper
 {{- end }}
 
 # close non private if
