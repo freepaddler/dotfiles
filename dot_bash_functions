@@ -91,18 +91,6 @@ ssh-run() {
     echo "=== === finished"
 }
 
-#if os_is linux && is_ish; then
-#    ish-update() {
-#        PWD=$(pwd)
-#        cd $HOME
-#        git clone --depth 1 https://github.com/freepaddler/dotfiles
-#        dotfiles/ish-update.sh
-#        rm -rf $HOME/dotfiles > /dev/null
-#        cd "$PWD"
-#        resrc
-#    }
-#fi
-
 # short emacs-style help
 hlp() {
     local b="\033[1m"
