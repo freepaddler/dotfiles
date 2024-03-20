@@ -97,7 +97,7 @@ if os_is linux && is_ish; then
         cd $HOME
         git clone https://github.com/freepaddler/dotfiles
         dotfiles/ish-update.sh
-        rm -rf $HOME/dotfiles > /dev/null
+        rm -rf $HOME/dotfiles 2>/dev/null
         cd "$PWD"
     }
 fi
