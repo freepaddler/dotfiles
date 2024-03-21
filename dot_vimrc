@@ -1,3 +1,12 @@
+"--- vim-plug ---
+call plug#begin()
+" syntax check
+Plug 'dense-analysis/ale'
+nmap <silent> <C-Q> <Plug>(ale_previous_wrap)
+nmap <silent> <C-S> <Plug>(ale_next_wrap)
+
+call plug#end()
+
 " Configuration file for vima
 set modelines=0             " CVE-2007-2438
 
@@ -12,7 +21,6 @@ au BufWrite /tmp/crontab.* set nowritebackup nobackup
 " Don't write backup file if vim is being called by "chpass" or "vipw"
 au BufWrite /private/etc/pw.* set nowritebackup nobackup
 au BufWrite /etc/pw.* set nowritebackup nobackup
-
 
 "--- personal setup ---
 set modelines=0             " otherwise unsecure
@@ -51,7 +59,7 @@ set laststatus=2            " показывать всегда
 "set ruler                   " показывать % документа права внизу
 
 "--- настройка файлов
-" viminfo, backup, swap and undo settings (NOTE: dirs should be created manually)
+" viminfo, backup, swap and undo settings 
 silent !mkdir -m 4700 -p ~/.vim/swap ~/.vim/backup ~/.vim/undo > /dev/null 2>&1
 
 set directory=~/.vim/swap
@@ -109,8 +117,8 @@ inoremap <Up> <C-o>gk
 " нумерация строк отключение/включение по Ctrl-n и Ctrl-j
 set number                  
 hi LineNr ctermbg=black ctermfg=grey
-nmap <C-n> :set norelativenumber<CR>:set number!<CR>
-nmap <C-j> :set number<CR>:set relativenumber!<CR>
+nmap <C-N> :set norelativenumber<CR>:set number!<CR>
+nmap <C-J> :set number<CR>:set relativenumber!<CR>
 
 "--- настройка поиска
 set showmatch               " подсветка парных скобок
@@ -131,52 +139,17 @@ set fencs=utf-8,cp1251,koi8-r,cp866
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
 
-
-nmap f :lnext<CR>
-nmap F :lprevious<CR>
-
 " save file with sudo instead of reopening
-cmap w!! WForce                                                                                                                                                                    
+cmap w!! WForce
 cmap WQ! WForceQuit
 command WForce :execute ':silent w !$(which doas || which sudo) tee % > /dev/null' | exec "wundo ".escape(undofile(expand('%')),'% ') | :edit!
 command WForceQuit :execute 'WForce' | :quit!
-"cmap W w
-"cmap w!! exec 'silent w !$(which sudo <Bar><Bar> which doas) tee > /dev/null ' . shellescape(expand('%'))
 
 " set plugin options on vim rum
-function! SetPluginOptions()
-
-    " строка статуса
-    set statusline=
-    set statusline+=%1*         "colors User1
-    set statusline+=%F          "filename with path
-    "if exists(':SyntasticCheck') "syntastic 
-    "    set statusline+=\ %#warningmsg#
-    "    set statusline+=%{SyntasticStatuslineFlag()}
-    "endif
-    set statusline+=%=          "left/right separator
-    set statusline+=%4*
-    set statusline+=%-6.6m      "modified flag
-    set statusline+=%3*
-    set statusline+=%-8.8r      "read only flag
-    set statusline+=%2*
-    set statusline+=%c,         "cursor column
-    set statusline+=%l/%L       "cursor line/total lines
-    set statusline+=\ %P        "percent through file
-    set laststatus=2            " показывать всегда
-    
-    " -- syntastic plugin
-    "if exists(':SyntasticCheck')
-    "    let g:syntastic_always_populate_loc_list = 1
-    "    let g:syntastic_auto_loc_list = 1
-    "    let g:syntastic_loc_list_height = 5
-    "    let g:syntastic_check_on_open = 1
-    "    let g:syntastic_check_on_wq = 1
-    "    let g:syntastic_c_checkers = [ 'gcc', 'make' ]
-    "    let b:shell = 'sh'
-    "    let g:syntastic_sh_checkers = [ 'shellcheck', 'sh' ]
-    "endif
-
-endfunction
-" apply plugin options on vim enter
-au VimEnter * call SetPluginOptions()
+"function! SetPluginOptions()
+"
+" "place options on plugin load here
+"
+"endfunction
+"" apply plugin options on vim enter
+"au VimEnter * call SetPluginOptions()
