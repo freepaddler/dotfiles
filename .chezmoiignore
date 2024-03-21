@@ -13,6 +13,7 @@
 
 # private hosts
 
+# ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
 .config/gup/
 {{- end }}
