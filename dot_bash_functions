@@ -44,7 +44,7 @@ EOF
 ssh-cp-env() {
     scp -r ~/.bashrc ~/.bash_profile ~/.bash_functions ~/.screenrc ~/.inputrc ~/.vimrc ~/.tmux.conf ~/.bash_completion.d "$1":.
     ssh "$1" mkdir -p .vim/colors/ .ssh/
-    scp ~/.vim/colors/desert.vim "$1":.vim/colors/desert.vim
+    scp -r ~/.vim/colors ~/.vim/autoload "$1":.vim/
     scp ~/.ssh/authorized_keys "$1":.ssh/
 }
 
