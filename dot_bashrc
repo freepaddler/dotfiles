@@ -249,7 +249,7 @@ alias vimrc="vi ~/.vimrc"
 
 alias cz="chezmoi "
 alias tm="tmux new -A"
-alias tml="tmux list"
+alias tml="tmux list-sessions"
 
 which glow &> /dev/null && alias mdless="glow -p"
 
