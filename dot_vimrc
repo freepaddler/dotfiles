@@ -35,7 +35,7 @@ syntax on                   " включить подсветку синтакс
 colorscheme desert          " цветовая схема
 hi MatchParen cterm=bold ctermbg=black ctermfg=green  " цвет совпадающей скобки
 set colorcolumn=100         " подсвечиваем стобец
-highlight ColorColumn ctermbg=darkgray
+hi ColorColumn ctermbg=darkgray
 set cursorline              " подстветка текущей строки
 " определяем пользовательские цвета
 hi User1 ctermbg=black ctermfg=green
