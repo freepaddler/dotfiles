@@ -1,5 +1,5 @@
 "--- vim-plug ---
-call plug#begin()
+silent! call plug#begin()
 " syntax check
 Plug 'dense-analysis/ale'
 nmap <silent> <C-Q> <Plug>(ale_previous_wrap)
