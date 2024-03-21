@@ -19,13 +19,8 @@
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
-.local/bin/ish-update.sh
-local
-iCloud
-.ssh/id*
+.local/bin/brew-update.sh
 Library/
-dev
-work
 {{- end }}
 
 # close non private if

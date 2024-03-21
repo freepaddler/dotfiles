@@ -248,8 +248,8 @@ which vim &> /dev/null && alias vi="vim -X"
 alias vimrc="vi ~/.vimrc"
 
 alias cz="chezmoi "
-alias tm="tmux new -A"
-alias tml="tmux list-sessions"
+alias tmn="tmux new -DA"
+alias tml="tmux ls"
 
 which glow &> /dev/null && alias mdless="glow -p"
 
