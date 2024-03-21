@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Saving chezmoi state..."
+echo "Saving chezmoi changes to git..."
 echo
 
 chezmoi git -- diff --quiet 2>/dev/null || \
@@ -16,3 +16,6 @@ chezmoi git -- diff --cached --quiet 2>/dev/null || {
 }
 
 chezmoi git -- pull --rebase && chezmoi git push
+
+echo
+echo "Chezmoi saved to git"
