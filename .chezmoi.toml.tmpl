@@ -18,8 +18,9 @@ encryption = "age"
   watch = true
 
 [git]
-  autoCommit = true
-  autopush = true
+  commitMessageTemplate = '{{ .chezmoi.hostname }} {{ now | date "2006-01-02 15:04:05" }}'
+  autoCommit = false
+  autopush = false
 {{ end }}
 
 [data]
