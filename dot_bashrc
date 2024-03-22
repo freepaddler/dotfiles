@@ -239,20 +239,22 @@ which igrep &> /dev/null || alias igrep="grep -i"
 alias fgrep="fgrep --color"
 alias egrep="egrep --color"
 
-alias resrc="source ~/.bashrc"
-alias bashrc="vi ~/.bashrc && resrc"
-alias hosts="vi /etc/hosts"
-
 which screen &> /dev/null && alias sc="screen -U"
 which vim &> /dev/null && alias vi="vim -X"
-alias vimrc="vi ~/.vimrc"
 
-if  chezmoi status &> /dev/null; then
+if chezmoi status &> /dev/null; then
     alias cz="chezmoi "
     alias bashrc="chezmoi edit ~/.bashrc"
     alias bashf="chezmoi edit ~/.bash_functions"
     alias vimrc="chezmoi edit ~/.vimrc"
+else
+    alias resrc="source ~/.bashrc"
+    alias bashrc="vi ~/.bashrc && resrc"
+    unalias bashf &>/dev/null
+    alias vimrc="vi ~/.vimrc"
 fi
+alias hosts="vi /etc/hosts"
+
 alias tmn="tmux new -DA"
 alias tml="tmux ls"
 
@@ -284,6 +286,7 @@ if which git &> /dev/null; then
     alias gp="git push"
     alias gu="git pull"
 fi
+
 # add all aliases completions
 # https://github.com/cykerway/complete-alias
 [ -n "$BASH_COMPLETION_VERSINFO" ] && complete -F _complete_alias "${!BASH_ALIASES[@]}"
