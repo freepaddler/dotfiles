@@ -208,6 +208,7 @@ if which docker &> /dev/null; then
 fi
 
 ### ALIASES
+alias resrc="source ~/.bashrc"
 alias root="su -m root"
 
 alias ls="ls -G"
@@ -244,11 +245,10 @@ which vim &> /dev/null && alias vi="vim -X"
 
 if chezmoi status &> /dev/null; then
     alias cz="chezmoi "
-    alias bashrc="chezmoi edit ~/.bashrc"
-    alias bashf="chezmoi edit ~/.bash_functions"
+    alias bashrc="chezmoi edit ~/.bashrc && resrc"
+    alias bashf="chezmoi edit ~/.bash_functions && resrc"
     alias vimrc="chezmoi edit ~/.vimrc"
 else
-    alias resrc="source ~/.bashrc"
     alias bashrc="vi ~/.bashrc && resrc"
     unalias bashf &>/dev/null
     alias vimrc="vi ~/.vimrc"
