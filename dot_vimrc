@@ -77,9 +77,9 @@ set exrc
 set secure
 
 "--- поддержка мыши
-"if has('mouse')
-"    set mouse=a
-"endif
+if has('mouse')
+    set mouse=a
+endif
 
 "--- настройка отступов и выравнивания
 set tabstop=4               " длина таба

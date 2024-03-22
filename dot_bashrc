@@ -252,6 +252,7 @@ alias tmn="tmux new -DA"
 alias tml="tmux ls"
 
 which glow &> /dev/null && alias mdless="glow -p"
+os_is darwin && alias plu="plutil -p"
 
 if which ansible &> /dev/null; then
     alias ansible-roledir="mkdir -p {defaults,files,templates,handlers,tasks} && touch {defaults,handlers,tasks}/main.yml"

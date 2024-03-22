@@ -19,8 +19,12 @@
 .config/gup/
 {{- end }}
 
+# macOS specific
 {{- if ne .chezmoi.os "darwin" }}
 .local/bin/brew-update.sh
+.docker/
+.mackup.cfg
+.mackup/
 Library/
 {{- end }}
 

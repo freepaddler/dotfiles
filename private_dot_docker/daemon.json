@@ -1,0 +1,17 @@
+{
+  "bip": "172.17.0.1/16",
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "20GB",
+      "enabled": true
+    }
+  },
+  "default-address-pools": [
+    {
+      "base": "172.18.0.0/15",
+      "size": 24
+    }
+  ],
+  "experimental": true,
+  "userland-proxy": false
+}
