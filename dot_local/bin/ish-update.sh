@@ -6,7 +6,7 @@ cd $HOME
 rm -rf $HOME/dotfiles > /dev/null
 git clone --depth 1 https://github.com/freepaddler/dotfiles
 
-cp -f $HOME/dotfiles/dot_bash_completion.d $HOME/.bash_completion.d
+cp -rf $HOME/dotfiles/dot_bash_completion.d $HOME/.bash_completion.d
 cp -rf $HOME/dotfiles/dot_vim/* $HOME/.vim/
 mkdir -p $HOME/.ssh/mastersocket
 cp -f $HOME/dotfiles/dot_bash_functions $HOME/.bash_functions
