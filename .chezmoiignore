@@ -12,7 +12,7 @@
 {{- else }}
 
 # private hosts
-.local/bin/ish-update.sh
+ish-update.sh
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
