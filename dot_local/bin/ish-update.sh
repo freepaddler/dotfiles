@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 # to be run from iOS ish emulator
 PWD=$(pwd)
 
