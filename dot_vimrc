@@ -153,3 +153,4 @@ command WForceQuit :execute 'WForce' | :quit!
 "endfunction
 "" apply plugin options on vim enter
 "au VimEnter * call SetPluginOptions()
+
