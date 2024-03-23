@@ -245,12 +245,11 @@ which vim &> /dev/null && alias vi="vim -X"
 
 if chezmoi status &> /dev/null; then
     alias cz="chezmoi "
+    alias cze="chezmoi edit"
     alias bashrc="chezmoi edit ~/.bashrc && resrc"
-    alias bashf="chezmoi edit ~/.bash_functions && resrc"
     alias vimrc="chezmoi edit ~/.vimrc"
 else
     alias bashrc="vi ~/.bashrc && resrc"
-    unalias bashf &>/dev/null
     alias vimrc="vi ~/.vimrc"
 fi
 alias hosts="vi /etc/hosts"
