@@ -152,10 +152,9 @@ has_completion() {
     complete -r "$1"
     return 1
 }
-# return current completion
-get_completion() {
-    c=$(complete -p $1)
-    echo ${c%\ *}
+# clone current completion
+clone_completion() {
+    has_completion $1 && $(complete -p $1) "$2"
 }
 
 # if no bash-completion, let's make out life a little bit easier
@@ -211,7 +210,9 @@ fi
 
 ### ALIASES
 alias resrc="source ~/.bashrc"
+alias bashrc="vi ~/.bashrc && resrc"
 alias root="su -m root"
+alias hosts="vi /etc/hosts"
 
 alias ls="ls -G"
 os_is linux && alias ls="ls --color=auto"
@@ -244,18 +245,15 @@ alias egrep="egrep --color"
 
 which screen &> /dev/null && alias sc="screen -U"
 which vim &> /dev/null && alias vi="vim -X"
+alias vimrc="vi ~/.vimrc"
 
-if chezmoi status &> /dev/null; then
+if [ -n "$(chezmoi managed)" ]; then
     alias cz="chezmoi "
     alias cze="chezmoi edit"
     alias bashrc="chezmoi edit ~/.bashrc && resrc"
     alias vimrc="chezmoi edit ~/.vimrc"
     alias sshconfig="chezmoi edit ~/.ssh/config && resrc"
-else
-    alias bashrc="vi ~/.bashrc && resrc"
-    alias vimrc="vi ~/.vimrc"
 fi
-alias hosts="vi /etc/hosts"
 
 alias tmn="tmux new -DA"
 alias tml="tmux ls"
@@ -321,8 +319,7 @@ export PATH
 
 ### UNSET global
 unset os_is kernel is_bb is_ish
-unset has_completion
-unset get_completion
+unset has_completion clone
 unset path_append path_prepend
 
 

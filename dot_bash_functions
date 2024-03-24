@@ -25,7 +25,7 @@ rand_x() {
 ssh-chezmoi() {
     ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --purge --force --apply freepaddler'
 }
-has_completion ssh && $(get_completion ssh) ssh-chezmoi
+clone_completion ssh ssh-chezmoi
 
 # curl with time report
 curl-time() {
@@ -48,7 +48,7 @@ ssh-cp-env() {
     scp -r ~/.vim/colors ~/.vim/autoload "$1":.vim/
     scp ~/.ssh/authorized_keys "$1":.ssh/
 }
-has_completion ssh && $(get_completion ssh) ssh-cp-env
+clone_completion ssh ssh-cp-env
 
 # delete record from known_hosts
 ssh-del-knownhost() {
@@ -62,7 +62,7 @@ ssh-del-knownhost() {
         done
     fi
 }
-has_completion ssh && $(get_completion ssh) ssh-del-knownhosts
+clone_completion ssh ssh-del-knownhost
 
 # run shell script(s) over ssh
 ssh-run() {
@@ -93,7 +93,7 @@ ssh-run() {
 
     echo "=== === finished"
 }
-has_completion ssh && $(get_completion ssh) ssh-run
+clone_completion ssh ssh-run
 
 # short emacs-style help
 hlp() {
