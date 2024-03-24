@@ -62,7 +62,7 @@ ssh-del-knownhost() {
         done
     fi
 }
-has_completion ssh && $(get_completion ssh) ssh-del-known_hosts
+has_completion ssh && $(get_completion ssh) ssh-del-knownhosts
 
 # run shell script(s) over ssh
 ssh-run() {
