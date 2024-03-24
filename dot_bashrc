@@ -152,6 +152,11 @@ has_completion() {
     complete -r "$1"
     return 1
 }
+# return current completion
+get_completion() {
+    c=$(complete -p $1)
+    echo ${c%\ *}
+}
 
 # if no bash-completion, let's make out life a little bit easier
 has_completion man || complete -cf man
@@ -160,13 +165,10 @@ has_completion su || complete -c -o bashdefault -o default su
 
 ### PROGRAMS SETUP
 # ssh
-if has_completion ssh; then
-    complete -F _ssh sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
-else
-    complete -fW \
-        "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
-        ssh scp sftp sshexit sshm ssh-copy-id ssh-cp-env ssh-del-knownhost ssh-run ssh-chezmoi
-fi
+has_completion ssh || complete -fW \
+    "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
+        ssh ssh-copy-id scp sftp sshexit sshm
+
 alias sshconfig="vi ~/.ssh/config && resrc"
 alias sshexit="ssh -O exit"
 alias sshm="ssh -M"
@@ -248,6 +250,7 @@ if chezmoi status &> /dev/null; then
     alias cze="chezmoi edit"
     alias bashrc="chezmoi edit ~/.bashrc && resrc"
     alias vimrc="chezmoi edit ~/.vimrc"
+    alias sshconfig="chezmoi edit ~/.ssh/config && resrc"
 else
     alias bashrc="vi ~/.bashrc && resrc"
     alias vimrc="vi ~/.vimrc"
@@ -307,18 +310,19 @@ if os_is darwin; then
     logout_force() {
         sudo launchctl bootout "user/$(id -u "$1")"
     }
-    [ -d "$HOME/Documents/Dev/shell/" ] && path_append ~/dev/shell
 fi
 
 ### PATH EXPORT
 path_append ~/.local/bin
 export PATH
 
+### import functions
+[ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
+
 ### UNSET global
 unset os_is kernel is_bb is_ish
 unset has_completion
+unset get_completion
 unset path_append path_prepend
 
-### import functions
-[ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
 
