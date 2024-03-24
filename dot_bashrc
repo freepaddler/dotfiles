@@ -154,7 +154,10 @@ has_completion() {
 }
 # clone current completion
 clone_completion() {
-    has_completion $1 && $(complete -p $1) "$2"
+    if has_completion $1; then
+        complete -r $2 &>/dev/null
+        $(complete -p $1) "$2"
+    fi
 }
 
 # if no bash-completion, let's make out life a little bit easier
@@ -319,7 +322,7 @@ export PATH
 
 ### UNSET global
 unset os_is kernel is_bb is_ish
-unset has_completion clone
+unset has_completion clone_completion
 unset path_append path_prepend
 
 
