@@ -80,12 +80,20 @@ ssh-run() {
         shift
     done;
     echo "=== === ssh connection string: '$ssh_string'"
+    
+    case $1 in
+        sudo|doas)
+            sudo="$1"
+            echo "=== === using $1"
+            shift
+            ;;
+    esac
 
     [ $# -eq 0 ] && { echo "=== === ERROR: no scripts to run. Usage: ssh-run.sh <ssh connection options> -- <path/to/script(s)>"; return 1; }
     for script in "$@"; do
         if [ -f "$script" ] && [ -x "$script" ]; then
             echo "=== === running '$script' on remote"
-            $ssh_string '/bin/sh -s' < "$script" || { echo "=== === ERROR: script execution failed "; return 1; }
+            $ssh_string "$sudo /bin/sh -s" < "$script" || { echo "=== === ERROR: script execution failed "; return 1; }
         else
             echo "=== === can't find or not executable '$script'"
         fi
