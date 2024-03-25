@@ -54,7 +54,7 @@ clone_completion ssh ssh-cp-env
 ssh-del-knownhost() {
     if [ $# -eq 0 ]; then
         echo "nothing to delete from known_hosts"
-        exit 1
+        return 1
     else
         for h in "$@"; do
             echo "deleting '$h' from known_hosts"
@@ -81,11 +81,11 @@ ssh-run() {
     done;
     echo "=== === ssh connection string: '$ssh_string'"
 
-    [ $# -eq 0 ] && { echo "=== === ERROR: no scripts to run. Usage: ssh-run.sh <ssh connection options> -- <path/to/script(s)>"; exit 1; }
+    [ $# -eq 0 ] && { echo "=== === ERROR: no scripts to run. Usage: ssh-run.sh <ssh connection options> -- <path/to/script(s)>"; return 1; }
     for script in "$@"; do
         if [ -f "$script" ] && [ -x "$script" ]; then
             echo "=== === running '$script' on remote"
-            $ssh_string '/bin/sh -s' < "$script" || { echo "=== === ERROR: script execution failed "; exit 1; }
+            $ssh_string '/bin/sh -s' < "$script" || { echo "=== === ERROR: script execution failed "; return 1; }
         else
             echo "=== === can't find or not executable '$script'"
         fi
