@@ -94,7 +94,7 @@ ssh-run() {
             shift
             ;;
     esac
-    echo "m='$m'"
+
     local script
     [ $# -eq 0 ] && { echo "=== === ERROR: no scripts to run. Usage: ssh-run.sh <ssh connection options> -- <path/to/script(s)>"; return 1; }
     if [ ! "$m" ]; then
