@@ -1,14 +1,17 @@
-{{- $private := false -}}
-{{- if stdinIsATTY -}}
-{{-   $private = promptBool "is this a PRIVATE host or server" false -}}
+{{- $private := false  -}}
+{{- if stat (joinPath .chezmoi.homeDir ".config/chezmoi.age") -}}
+{{-   $private = true  -}}
 {{- end -}}
 
-{{- $email := "" -}}
+{{- $email := " " -}}
 {{- $name := "Victor Chu" -}}
 
 {{- if $private -}}
-{{-   $email = promptString "email" -}}
-{{-   $name = promptString "name" "Victor Chu" }}
+{{-   if stdinIsATTY -}}
+{{-     $email = promptString "email" -}}
+{{-     $name = promptString "name" "Victor Chu" -}}
+{{-   end -}}
+
 encryption = "age"
 [age]
   identity = "~/.config/chezmoi.age"
@@ -21,7 +24,7 @@ encryption = "age"
   autoadd = true
   autoCommit = false
   autopush = false
-{{ end }}
+{{- end }}
 
 [data]
   private = {{ $private }}
