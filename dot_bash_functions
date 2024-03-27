@@ -9,7 +9,7 @@ hon() {
 # generate passwords
 apg() {
     echo
-    i=0
+    local i=0
     while [ $i -lt 20 ]; do
         openssl rand -base64 $((((i / 5) + 2) * 3))
         i=$((i + 1))
@@ -56,6 +56,7 @@ ssh-del-knownhost() {
         echo "nothing to delete from known_hosts"
         return 1
     else
+        local h
         for h in "$@"; do
             echo "deleting '$h' from known_hosts"
             sed -ri '' "/^\[?$h(\ |\])/d" "$HOME/.ssh/known_hosts" 2>/dev/null || sed -i "/^\[?$h(\ |\])/d" "$HOME/.ssh/known_hosts" 2>/dev/null
@@ -66,9 +67,14 @@ clone_completion ssh ssh-del-knownhost
 
 # run shell script(s) over ssh
 ssh-run() {
-    ssh_string="ssh"
+    local ssh_string="ssh"
     while [ $# -gt 0 ]; do
         case $1 in
+            # multiple shell scripts without args
+            --m)
+                local m=yes
+                ;;
+            # one script with args
             --)
                 shift
                 break
@@ -83,21 +89,33 @@ ssh-run() {
     
     case $1 in
         sudo|doas)
-            sudo="$1"
+            local sudo="$1"
             echo "=== === using $1"
             shift
             ;;
     esac
-
+    echo "m='$m'"
+    local script
     [ $# -eq 0 ] && { echo "=== === ERROR: no scripts to run. Usage: ssh-run.sh <ssh connection options> -- <path/to/script(s)>"; return 1; }
-    for script in "$@"; do
+    if [ ! "$m" ]; then
+        echo "=== === running '$*' on remote"
+        script="$1"
+        shift
         if [ -f "$script" ] && [ -x "$script" ]; then
-            echo "=== === running '$script' on remote"
-            $ssh_string "$sudo /bin/sh -s" < "$script" || { echo "=== === ERROR: script execution failed "; return 1; }
+            $ssh_string "$sudo /bin/sh -s" < "$script" $* || { echo "=== === ERROR: script execution failed "; return 1; }
         else
             echo "=== === can't find or not executable '$script'"
         fi
-    done
+    else
+        for script in $@; do
+            if [ -f "$script" ] && [ -x "$script" ]; then
+                echo "=== === running '$script' on remote"
+                $ssh_string "$sudo /bin/sh -s" < "$script" || { echo "=== === ERROR: script execution failed "; return 1; }
+            else
+                echo "=== === can't find or not executable '$script'"
+            fi
+        done
+    fi
 
     echo "=== === finished"
 }
