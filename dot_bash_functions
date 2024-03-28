@@ -121,6 +121,12 @@ ssh-run() {
 }
 clone_completion ssh ssh-run
 
+os_is darwin && vnc-local() {
+    [ $# -lt 1 ] && exit 1
+    open "vnc://localhost:$1"
+}
+
+
 # short emacs-style help
 hlp() {
     local b="\033[1m"

@@ -290,6 +290,9 @@ if which git &> /dev/null; then
     alias gu="git pull"
 fi
 
+# vagrant
+which vagrant &>/dev/null && alias vagrant-gui="GUI=1 vagrant "
+
 # add all aliases completions
 # https://github.com/cykerway/complete-alias
 [ -n "$BASH_COMPLETION_VERSINFO" ] && complete -F _complete_alias "${!BASH_ALIASES[@]}"
