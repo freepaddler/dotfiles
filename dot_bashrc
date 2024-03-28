@@ -24,7 +24,7 @@ is_ish() {
 
 ### COMMON ENV VARS
 export BLOCKSIZE="K"
-export EDITOR="vi"
+export EDITOR="vi -e"
 export VISUAL="vi"
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
@@ -247,7 +247,10 @@ alias fgrep="fgrep --color"
 alias egrep="egrep --color"
 
 which screen &> /dev/null && alias sc="screen -U"
-which vim &> /dev/null && alias vi="vim -X"
+which vim &> /dev/null && {
+    alias vi="vim -X"
+    export VISUAL="vim -X"
+}
 alias vimrc="vi ~/.vimrc"
 
 if [ -n "$(chezmoi managed)" ]; then
