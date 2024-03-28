@@ -293,10 +293,6 @@ fi
 # vagrant
 which vagrant &>/dev/null && alias vagrant-gui="GUI=1 vagrant "
 
-# add all aliases completions
-# https://github.com/cykerway/complete-alias
-[ -n "$BASH_COMPLETION_VERSINFO" ] && complete -F _complete_alias "${!BASH_ALIASES[@]}"
-
 ### +BY OS
 if os_is darwin; then
     export COPYFILE_DISABLE=true
@@ -322,6 +318,10 @@ export PATH
 
 ### import functions
 [ -f "$HOME/.bash_functions" ] && source "$HOME/.bash_functions"
+
+# add all aliases completions
+# https://github.com/cykerway/complete-alias
+[ -n "$BASH_COMPLETION_VERSINFO" ] && complete -F _complete_alias "${!BASH_ALIASES[@]}"
 
 ### UNSET global
 unset os_is kernel is_bb is_ish
