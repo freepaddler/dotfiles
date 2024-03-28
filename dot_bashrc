@@ -253,7 +253,7 @@ which vim &> /dev/null && {
 }
 alias vimrc="vi ~/.vimrc"
 
-if [ -n "$(chezmoi managed)" ]; then
+if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/null)" = "true" ]; then
     alias cz="chezmoi "
     alias cze="chezmoi edit"
     alias bashrc="chezmoi edit ~/.bashrc && resrc"
