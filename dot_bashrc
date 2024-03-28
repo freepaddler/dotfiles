@@ -271,6 +271,7 @@ fi
 
 if which iptables &> /dev/null; then
     alias iptl="iptables --line-numbers -vnL "
+    alias ipts="iptables -S "
     alias ipt="iptables "
 fi
 
