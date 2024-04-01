@@ -33,15 +33,17 @@ set showcmd                 " display incomplete commands
 " настройка цветности
 syntax on                   " включить подсветку синтаксиса
 colorscheme desert          " цветовая схема
-hi MatchParen cterm=bold ctermbg=black ctermfg=green  " цвет совпадающей скобки
+hi MatchParen cterm=bold ctermfg=green  " цвет совпадающей скобки
 set colorcolumn=100         " подсвечиваем стобец
 hi ColorColumn ctermbg=darkgray
 set cursorline              " подстветка текущей строки
+hi CursorLine cterm=bold
+"hi CursorLine cterm=reverse
 " определяем пользовательские цвета
-hi User1 ctermbg=black ctermfg=green
-hi User2 ctermbg=black ctermfg=white
-hi User3 ctermbg=black ctermfg=cyan
-hi User4 ctermbg=black ctermfg=red
+hi User1 ctermfg=green
+hi User2 ctermfg=white
+hi User3 ctermfg=cyan
+hi User4 ctermfg=red
 " строка статуса
 set statusline=
 set statusline+=%1*         "colors User1
@@ -116,7 +118,7 @@ inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 " нумерация строк отключение/включение по Ctrl-n и Ctrl-j
 set number                  
-hi LineNr ctermbg=black ctermfg=grey
+hi LineNr ctermfg=grey
 nmap <C-N> :set norelativenumber<CR>:set number!<CR>
 nmap <C-J> :set number<CR>:set relativenumber!<CR>
 

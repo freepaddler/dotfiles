@@ -121,9 +121,14 @@ ssh-run() {
 }
 clone_completion ssh ssh-run
 
-os_is darwin && vnc-local() {
-    [ $# -lt 1 ] && exit 1
-    open "vnc://localhost:$1"
+os_is darwin && vnc() {
+    if [ $# -lt 1 ]; then
+        open vnc://localhost:5900
+    elif [[ $1 =~ ^[0-9]+$ ]]; then
+        open vnc://localhost:$1
+    else
+        open vnc://$1
+    fi
 }
 
 
