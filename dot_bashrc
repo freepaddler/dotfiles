@@ -315,6 +315,10 @@ if os_is darwin; then
     logout_force() {
         sudo launchctl bootout "user/$(id -u "$1")"
     }
+    iina_reset_cache() {
+        defaults delete com.colliderli.iina recentDocuments
+    }
+
 fi
 
 ### PATH EXPORT
