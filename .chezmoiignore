@@ -22,6 +22,7 @@ ish-update.sh
 # macOS specific
 {{- if ne .chezmoi.os "darwin" }}
 .local/bin/brew-update.sh
+.local/bin/pfmanage.sh
 .docker/
 .mackup.cfg
 .mackup/
