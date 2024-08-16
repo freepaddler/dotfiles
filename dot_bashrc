@@ -243,6 +243,9 @@ alias p="ps uw"
 os_is linux && alias p="ps fuw"
 is_bb ps && alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
 
+alias t="top"
+which htop &> /dev/null && alias t="htop"
+
 alias grep="grep --color"
 which igrep &> /dev/null || alias igrep="grep -i"
 alias fgrep="fgrep --color"
