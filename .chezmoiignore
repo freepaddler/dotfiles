@@ -9,9 +9,7 @@
 !.ssh/authorized_keys
 !.screenrc
 !.tmux.conf
-!.config/
-!.config/htop/
-!.config/htop/htoprc
+!.config/htop/**
 {{- else }}
 
 # private hosts
