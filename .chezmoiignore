@@ -10,7 +10,8 @@
 !.screenrc
 !.tmux.conf
 !.config/
-!.config/htop/*
+!.config/htop/
+!.config/htop/htoprc
 {{- else }}
 
 # private hosts
