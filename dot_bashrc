@@ -51,9 +51,11 @@ set -o noclobber
 #set -o pipefail
 
 # locales
-export LANG=ru_RU.UTF-8
-export LC_TYPE=ru_RU.UTF-8
-export LC_COLLATE=ru_RU.UTF-8
+if locale -a | grep -qwi ru_ru.utf8; then
+    export LANG=ru_RU.UTF-8
+    export LC_TYPE=ru_RU.UTF-8
+    export LC_COLLATE=ru_RU.UTF-8
+fi
 export LC_MESSAGES=POSIX
 export LC_NUMERIC=POSIX
 export LC_TIME=POSIX
