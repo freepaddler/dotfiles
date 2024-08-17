@@ -172,12 +172,13 @@ has_completion su || complete -c -o bashdefault -o default su
 # ssh
 has_completion ssh || complete -fW \
     "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
-        ssh ssh-copy-id scp sftp sshexit ssh-multi ssh-single
+        ssh ssh-copy-id scp sftp sshexit ssh-multi ssh-single ssh-x11
 
 alias sshconfig="vi ~/.ssh/config && resrc"
 alias sshexit="ssh -O exit"
 alias ssh-multi="ssh -M"
 alias ssh-single="ssh -o ControlMaster=no"
+alias ssh-x11="ssh -Y"
 
 # doas
 if which doas &> /dev/null; then
