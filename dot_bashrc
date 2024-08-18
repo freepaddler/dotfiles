@@ -51,7 +51,7 @@ set -o noclobber
 #set -o pipefail
 
 # locales
-if locale -a | grep -qwi ru_ru.utf8; then
+if locale -a | grep -qwi 'ru_ru\.utf-\?8'; then
     export LANG=ru_RU.UTF-8
     export LC_TYPE=ru_RU.UTF-8
     export LC_COLLATE=ru_RU.UTF-8
