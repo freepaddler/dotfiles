@@ -343,5 +343,3 @@ export PATH
 unset os_is kernel is_bb is_ish
 unset has_completion clone_completion
 unset path_append path_prepend
-
-
