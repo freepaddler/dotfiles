@@ -131,6 +131,40 @@ os_is darwin && vnc() {
     fi
 }
 
+# to show execution time
+_printdiff() {
+    local diff_ts=$1
+    ((diff_ts < 0)) && diff_ts=$(( -diff_ts ))
+    local hours=$(( diff_ts / 3600 ))
+    local minutes=$(( (diff_ts % 3600) / 60 ))
+    local seconds=$(( diff_ts % 60 ))
+    if ((hours > 0)); then
+        printf "%dh%dm%ds\n" "$hours" "$minutes" "$seconds"
+    elif ((minutes > 10)); then
+        printf "%dm%ds\n" "$minutes" "$seconds"
+    elif ((minutes > 0)); then
+        printf "%dm%ds\n" "$minutes" "$seconds"
+    else
+        printf "%ds\n" "$seconds"
+    fi
+}
+
+_getstarttime() {
+  [ -n $BASH_EXEC_TIME ] &&  date +%s >| "$BASH_EXEC_TIME"
+}
+
+_gettimediff() {
+  if [ -n "$BASH_EXEC_TIME" ] && [ -e "$BASH_EXEC_TIME" ]; then
+	 local end_ts=$(date +%s)
+	 local start_ts=$(cat "$BASH_EXEC_TIME")
+	 local diff_ts=$((end_ts - start_ts))
+	 _printdiff $diff_ts
+  fi	
+}
+
+
+
+
 
 # short emacs-style help
 hlp() {

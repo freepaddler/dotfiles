@@ -3,6 +3,8 @@ set completion-ignore-case  On
 # remove bell and show completions on first tab
 set show-all-if-ambiguous   On
 # set show-all-if-unmodified  On
+# second tab completes first match, then cycle
+TAB: menu-complete
 
 # complete symlink dirs with slash
 set mark-symlinked-directories on
