@@ -137,24 +137,24 @@ PC='[ "$EXPS0" = 0 ] && _delprompt || EXPS0=0'
 PROMPT_COMMAND="$PC; $PROMPT_COMMAND"
 
 # show last command exit code and execution time
+# functions are in .bash_functions
 BASH_EXEC_TIME="${TMPDIR:-/tmp}/$USER-$BASHPID.td"
 _exitcode() {
-    local ec=$?
-    local time="$(_gettimediff)"
-    local cols=$COLUMNS
-    local report
-    if [ $ec -ne 0 ]; then
-        report="$(_c red)failed($ec)$(_c)"
-        cols=$((COLUMNS+11))
+    local e="($?)"
+    local offset=11
+    if [ $e = "(0)" ]; then
+        e=
+        offset=0
     fi
-    local out
-    if [ -z "$time" ]; then
-        report=${report:-}
-    else
-        report="${report:-done} in $time"
-    fi
+    local t="$(_gettimediff)"
     tput sc
-    printf "%*s" $cols "$report"
+    if [ $COLUMNS -lt 80 ]; then
+        [ $offset -eq 0 ] && offset=4 
+        printf "%*s" $((COLUMNS+offset)) "${e:+$(_c red)}${e:-}${t:+ $t}$(_c)" 
+    else
+        e=${e:+$(_c red)failed$e$(_c)}
+        printf "%*s" $((COLUMNS+offset)) "${e:-done}${t:+ in $t}"
+    fi
     tput rc
 }
 PS0='$(_getstarttime)'$PS0
