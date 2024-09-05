@@ -62,6 +62,7 @@ export LC_TIME=POSIX
 export LC_ALL=
 
 umask 0002
+
 ### PATH
 export CDPATH=.:~
 path_append() {
@@ -213,6 +214,53 @@ has_completion man || complete -cf man
 has_completion nohup || complete -c -o bashdefault -o default nohup
 has_completion su || complete -c -o bashdefault -o default su
 
+### ALIASES
+alias resrc="source ~/.bashrc"
+alias bashrc="vi ~/.bashrc && resrc"
+alias root="su -m root"
+alias hosts="vi /etc/hosts"
+
+alias ls="ls -G"
+os_is linux && alias ls="ls --color=auto"
+alias l="ls -F"
+alias la="ls -aF"
+alias ll="ls -lhF"
+alias lla="ls -alhF"
+alias lll="ls -alhFi"
+os_is freebsd && alias llll="ls -alhFio"
+os_is darwin && alias llll="ls -alhFiOe@";
+
+alias rm="rm -iv"
+alias rmrf="rm -frv"
+alias cp="cp -iv"
+alias cpr="cp -iRv"
+alias mv="mv -iv"
+
+alias du="du -h"
+alias df="df -h"
+
+alias j="jobs -l"
+alias h="history 25"
+alias p="ps uw"
+os_is linux && alias p="ps fuw"
+is_bb ps && alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
+
+alias t="top"
+which htop &> /dev/null && alias t="htop"
+
+alias grep="grep --color"
+which igrep &> /dev/null || alias igrep="grep -i"
+alias fgrep="fgrep --color"
+alias egrep="egrep --color"
+
+which tmux &> /dev/null && alias tm="tmux"
+which screen &> /dev/null && alias sc="screen -U"
+which vim &> /dev/null && {
+    alias vi="vim -X"
+    export VISUAL="vim -X"
+}
+alias vimrc="vi ~/.vimrc"
+os_is darwin && alias plu="plutil -p"
 
 ### PROGRAMS SETUP
 # ssh
@@ -263,51 +311,7 @@ if which docker &> /dev/null; then
     alias dps='docker ps --format "table {{.Names}}\\t{{.RunningFor}}\\t{{.Status}}\\t{{.Image}}"'
 fi
 
-### ALIASES
-alias resrc="source ~/.bashrc"
-alias bashrc="vi ~/.bashrc && resrc"
-alias root="su -m root"
-alias hosts="vi /etc/hosts"
-
-alias ls="ls -G"
-os_is linux && alias ls="ls --color=auto"
-alias l="ls -F"
-alias ll="ls -lhF"
-alias la="ls -alhF"
-alias li="ls -alhFi"
-os_is freebsd && alias le="ls -alhFio"
-os_is darwin && alias le="ls -alhFiOe@";
-
-alias rm="rm -iv"
-alias rmrf="rm -frv"
-alias cp="cp -iv"
-alias cpr="cp -iRv"
-alias mv="mv -iv"
-
-alias du="du -h"
-alias df="df -h"
-
-alias j="jobs -l"
-alias h="history 25"
-alias p="ps uw"
-os_is linux && alias p="ps fuw"
-is_bb ps && alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
-
-alias t="top"
-which htop &> /dev/null && alias t="htop"
-
-alias grep="grep --color"
-which igrep &> /dev/null || alias igrep="grep -i"
-alias fgrep="fgrep --color"
-alias egrep="egrep --color"
-
-which screen &> /dev/null && alias sc="screen -U"
-which vim &> /dev/null && {
-    alias vi="vim -X"
-    export VISUAL="vim -X"
-}
-alias vimrc="vi ~/.vimrc"
-
+# chezmoi
 if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/null)" = "true" ]; then
     alias cz="chezmoi "
     alias cze="chezmoi edit"
@@ -316,14 +320,16 @@ if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/nul
     alias sshconfig="chezmoi edit ~/.ssh/config && resrc"
 fi
 
+# glow (markdown in terminal)
 which glow &> /dev/null && alias mdless="glow -p"
-os_is darwin && alias plu="plutil -p"
 
+# ansible
 if which ansible &> /dev/null; then
     alias ansible-roledir="mkdir -p {defaults,files,templates,handlers,tasks} && touch {defaults,handlers,tasks}/main.yml"
     alias ansible-hostvars='ansible -m debug -a "var=hostvars[inventory_hostname]"'
 fi
 
+# iptables
 if which iptables &> /dev/null; then
     alias iptl="iptables --line-numbers -vnL "
     alias ipt="iptables "
@@ -395,17 +401,27 @@ _onExit() {
 trap _onExit EXIT
 
 ### tmux
-if [ -z "$TMUX" ] && [[ ! "$TERM" =~ tmux ]] && which tmux &>/dev/null; then                       
+if  [ -z "$NO_TMUX_ON_SOURCE" ] &&  # don't try to attach default session on source
+    [ -z "$TMUX" ] &&               # no tmux in tmux
+    [[ ! "$TERM" =~ tmux ]] &&      # no tmux in tmux in ssh
+    which tmux &>/dev/null          # no tmux found
+then                       
     if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then # ssh                                       
         first_free="$(tmux ls | grep -vm1 attached | cut -d: -f1)"                                            
-        [ -n "first_free" ] && tmux a -t "$first_free" || tmux new-session                         
+        if [ -n "$first_free" ]; then
+            tmux a -t "$first_free" && exit 0 
+        else
+            tmux new-session && exit 0
+        fi
     else # local                                                                                   
         # no TMUX session or TMUX session is attached                                              
         if ! tmux has-session -t TMUX &>/dev/null ||                                               
                 tmux ls -F '#{session_name}:#{session_attached}' | grep -q ^TMUX:0; then           
             tmux new-session -A -s TMUX && exit 0                                                  
         else                                                                                       
-            echo default TMUX session is attached                                                  
+            echo TMUX session NOT is attached
         fi                                                                                         
     fi                                                                                             
+    export NO_TMUX_ON_SOURCE=1
 fi 
+
