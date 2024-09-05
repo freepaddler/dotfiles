@@ -416,7 +416,7 @@ unset path_append path_prepend
 
 ### exit routines
 _onExit() {
-    [ -n "$BASH_EXEC_TIME" ] && rm -f "$BASH_EXEC_TIME"
+    [ -n "$BASH_EXEC_TIME" ] && rm -f "$BASH_EXEC_TIME" &>/dev/null
 }
 
 trap _onExit EXIT
