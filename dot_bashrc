@@ -137,7 +137,7 @@ PC='[ "$EXPS0" = 0 ] && _delprompt || EXPS0=0'
 PROMPT_COMMAND="$PC; $PROMPT_COMMAND"
 
 # show last command exit code and execution time
-BASH_EXEC_TIME="$TMPDIR/$USER-$BASHPID.td"
+BASH_EXEC_TIME="${TMPDIR:-/tmp}/$USER-$BASHPID.td"
 _exitcode() {
     local ec=$?
     local time="$(_gettimediff)"
