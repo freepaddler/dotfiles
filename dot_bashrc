@@ -104,7 +104,7 @@ else
     host=""
 fi
 
-export PS1="\n\[$(_c user)\]\u$host $(_c cyan)\w\n\[$(_c user)\]\\$ \[$(_c)\]"
+export PS1="\n\[$(_c user)\]\u$host $(_c cyan)\w\n\[$(_c user)\]❯ \[$(_c)\]"
 export PS2="\[$(_c yellow_b)\]-> \[$(_c)\]"
 
 unset host
@@ -316,9 +316,6 @@ if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/nul
     alias sshconfig="chezmoi edit ~/.ssh/config && resrc"
 fi
 
-alias tmn="tmux new -DA"
-alias tml="tmux ls"
-
 which glow &> /dev/null && alias mdless="glow -p"
 os_is darwin && alias plu="plutil -p"
 
@@ -396,3 +393,19 @@ _onExit() {
 }
 
 trap _onExit EXIT
+
+### tmux
+if [ -z "$TMUX" ] && [[ ! "$TERM" =~ tmux ]] && which tmux &>/dev/null; then                       
+    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then # ssh                                       
+        first_free="$(tmux ls | grep -vm1 attached | cut -d: -f1)"                                            
+        [ -n "first_free" ] && tmux a -t "$first_free" || tmux new-session                         
+    else # local                                                                                   
+        # no TMUX session or TMUX session is attached                                              
+        if ! tmux has-session -t TMUX &>/dev/null ||                                               
+                tmux ls -F '#{session_name}:#{session_attached}' | grep -q ^TMUX:0; then           
+            tmux new-session -A -s TMUX && exit 0                                                  
+        else                                                                                       
+            echo default TMUX session is attached                                                  
+        fi                                                                                         
+    fi                                                                                             
+fi 
