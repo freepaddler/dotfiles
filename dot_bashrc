@@ -253,7 +253,11 @@ which igrep &> /dev/null || alias igrep="grep -i"
 alias fgrep="fgrep --color"
 alias egrep="egrep --color"
 
-which tmux &> /dev/null && alias tm="tmux"
+which tmux &> /dev/null && {
+    alias tm="tmux"
+    alias tml="tmux list-sessions"
+    alias tma="tmux attach-session"
+}
 which screen &> /dev/null && alias sc="screen -U"
 which vim &> /dev/null && {
     alias vi="vim -X"
