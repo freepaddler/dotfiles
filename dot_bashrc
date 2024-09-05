@@ -83,9 +83,11 @@ _c() {
     case "$1" in
         green_b) printf '\033[1;32m';;
         red_b) printf '\033[1;31m';;
+        red) printf '\033[0;31m';;
         cyan) printf '\033[0;36m';;
         yellow) printf '\033[0;33m';;
         yellow_b) printf '\033[1;33m';;
+        white_b) printf '\033[1;1m';;
         user) [ $(id -u) -eq 0 ] && _c red_b || _c green_b;;
         *) printf '\033[0m';; # reset color
     esac
@@ -96,14 +98,14 @@ if [ "$TERM_PROGRAM" = "tmux" ]; then
     host="" 
 elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     # show hostname in remote session
-    host="$(_c)@$(_c yellow)\H$(_c)"
+    host="\[$(_c)\]@\[$(_c yellow)\]\H\[$(_c)\]"
 else
     # don't show hostname in local session
     host=""
 fi
 
-export PS1="$(_c user)\u$host $(_c cyan)\w\n$(_c user)❯$(_c) "
-export PS2="$(_c yellow_b)-> $(_c)"
+export PS1="\[$(_c user)\]\u$host $(_c cyan)\w\n\[$(_c user)\]\\$ \[$(_c)\]"
+export PS2="\[$(_c yellow_b)\]-> \[$(_c)\]"
 
 unset host
 
@@ -118,7 +120,7 @@ else
     PROMPT_COMMAND='printf "\033]0;%s@%s %s\007" "$USER" "$HOSTNAME" "${PWD/$HOME/"~"}"'
 fi
 
-# delete promt upon execution
+# delete promt on execution
 _delprompt() {
     n=${PS1@P}
     n=${n//[^$'\n']}
@@ -133,6 +135,30 @@ _delprompt() {
 PS0='\[$(_delprompt)\]\[${PS1:0:$((EXPS0=1,0))}\]'
 PC='[ "$EXPS0" = 0 ] && _delprompt || EXPS0=0'
 PROMPT_COMMAND="$PC; $PROMPT_COMMAND"
+
+# show last command exit code and execution time
+BASH_EXEC_TIME="$TMPDIR/$USER-$BASHPID.td"
+_exitcode() {
+    local ec=$?
+    local time="$(_gettimediff)"
+    local cols=$COLUMNS
+    local report
+    if [ $ec -ne 0 ]; then
+        report="$(_c red)failed($ec)$(_c)"
+        cols=$((COLUMNS+11))
+    fi
+    local out
+    if [ -z "$time" ]; then
+        report=${report:-}
+    else
+        report="${report:-done} in $time"
+    fi
+    tput sc
+    printf "%*s" $cols "$report"
+    tput rc
+}
+PS0='$(_getstarttime)'$PS0
+PROMPT_COMMAND="_exitcode; $PROMPT_COMMAND"
 
 ## HOMEBREW
 if os_is darwin && [ -x /opt/homebrew/bin/brew ]; then
@@ -152,8 +178,6 @@ if os_is darwin && [ -x /opt/homebrew/bin/brew ]; then
 fi
 
 ### AUTOCOMPLETION
-bind 'set show-all-if-ambiguous on'
-bind 'TAB:menu-complete'
 # try load completion script if not loaded yet
 if ! os_is linux; then
     os_is freebsd && completion_script_lookup="/usr/local/share/bash-completion"
@@ -389,3 +413,10 @@ export PATH
 unset os_is kernel is_bb is_ish
 unset has_completion clone_completion
 unset path_append path_prepend
+
+### exit routines
+_onExit() {
+    [ -n "$BASH_EXEC_TIME" ] && rm -f "$BASH_EXEC_TIME"
+}
+
+trap _onExit EXIT
