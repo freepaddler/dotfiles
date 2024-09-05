@@ -102,7 +102,7 @@ else
     host=""
 fi
 
-export PS1="\n$(_c user)\u$host $(_c cyan)\w\n$(_c user)❯$(_c) "
+export PS1="$(_c user)\u$host $(_c cyan)\w\n$(_c user)❯$(_c) "
 export PS2="$(_c yellow_b)-> $(_c)"
 
 unset host
@@ -123,9 +123,12 @@ _delprompt() {
     n=${PS1@P}
     n=${n//[^$'\n']}
     n=${#n}
-    tput cuu $((n))
-    tput el
-    tput cud $((n))
+    tput cuu $((n+1))
+    for i in $(seq $((n))); do
+        tput el
+        tput cud 1
+    done
+    tput cud 1
 }
 PS0='\[$(_delprompt)\]\[${PS1:0:$((EXPS0=1,0))}\]'
 PC='[ "$EXPS0" = 0 ] && _delprompt || EXPS0=0'
