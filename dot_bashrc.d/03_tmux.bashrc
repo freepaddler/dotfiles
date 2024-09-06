@@ -2,8 +2,8 @@ if which tmux &>/dev/null; then
 
     # load tmux immediately
     if  [ -z "$NO_TMUX_ON_SOURCE" ] &&  # don't try to attach default session on reload bashrc
-        [ -z "$TMUX" ] &&               # no tmux in tmux
-        [[ ! "$TERM" =~ tmux ]]         # try no tmux in tmux in ssh
+        [ -z "$TMUX" ]                  # no tmux in tmux
+        #[[ ! "$TERM" =~ tmux ]]        # try no tmux in tmux in ssh
     then
         if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then # ssh
             first_free=$(tmux ls | grep -vm1 attached | cut -d: -f1)

@@ -12,4 +12,5 @@ if which git &> /dev/null; then
     alias gf="git fetch --tags --prune"
     alias gp="git push"
     alias gu="git pull"
+    gh() { alias | grep git; }
 fi
