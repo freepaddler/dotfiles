@@ -1,10 +1,10 @@
 if which chezmoi &>/dev/null; then
     alias cz="chezmoi "
     if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/null)" = "true" ]; then
-        alias cze="chezmoi edit"
-        #alias bashrc="chezmoi edit ~/.bashrc && resrc"
-        alias vimrc="chezmoi edit ~/.vimrc"
-        alias sshconfig="chezmoi edit ~/.ssh/config && resrc"
+        alias cze="chezmoi edit --apply"
+        #alias bashrc="che ~/.bashrc && resrc"
+        alias vimrc="che ~/.vimrc"
+        alias sshconfig="cze ~/.ssh/config && resrc"
     fi
 
     # remote local install chezmoi
