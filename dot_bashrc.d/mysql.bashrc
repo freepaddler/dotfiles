@@ -1,0 +1,2 @@
+# for mysql ldap auth
+export LIBMYSQL_ENABLE_CLEARTEXT_PLUGIN=1
