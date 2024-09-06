@@ -15,8 +15,8 @@ if which tmux &>/dev/null; then
                 first_free=$(tmux ls | grep -vm1 attached | cut -d: -f1)
                 if [ -n "$first_free" ]; then
                     tmux a -t "$first_free" && exit 0 || echo "failed to run TMUX"
-                else
-                    tmux new-session && exit 0 || echo "failed to run TMUX"
+               # else
+               #     tmux new-session && exit 0 || echo "failed to run TMUX"
                 fi
             fi
             echo TMUX session NOT is attached
