@@ -25,7 +25,7 @@ if which tmux &>/dev/null; then
     fi
 
     alias tm="tmux new-session -A -s TMUX"
-    alias tmn="tmux new-session"
     alias tml="tmux list-sessions"
     alias tma="tmux attach-session"
+
 fi
