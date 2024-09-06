@@ -117,9 +117,10 @@ vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 " нумерация строк отключение/включение по Ctrl-n и Ctrl-j
-set number                  
+set number
+set relativenumber                  
 hi LineNr ctermfg=grey
-nmap <C-N> :set norelativenumber<CR>:set number!<CR>
+nmap <C-N> :set relativenumber!<CR>:set number!<CR>
 nmap <C-J> :set number<CR>:set relativenumber!<CR>
 
 "--- настройка поиска
