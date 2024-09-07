@@ -23,22 +23,18 @@ au BufWrite /private/etc/pw.* set nowritebackup nobackup
 au BufWrite /etc/pw.* set nowritebackup nobackup
 
 "--- personal setup ---
-set modelines=0             " otherwise unsecure
-set nocompatible            " выключить настройки Vi
+set modelines=0             " read vim settings from file itself
 
-"--- настройка интерфейса
+"--- interface settings
 set wildmenu                " visual autocomplete for command menu
 set showcmd                 " display incomplete commands
-"set cmdheight=2             " cmd line height
-" настройка цветности
-syntax on                   " включить подсветку синтаксиса
-colorscheme desert          " цветовая схема
-hi MatchParen cterm=bold ctermfg=green  " цвет совпадающей скобки
-set colorcolumn=100         " подсвечиваем стобец
-hi ColorColumn ctermbg=darkgray
-set cursorline              " подстветка текущей строки
+syntax on                   
+colorscheme desert          
+"hi MatchParen cterm=bold ctermfg=green  " matching bracket
+"set colorcolumn=96          " mark column
+"hi ColorColumn ctermbg=darkgray
+set cursorline              " current line highlight
 hi CursorLine cterm=bold
-"hi CursorLine cterm=reverse
 
 " Capture the time the file was saved
 autocmd BufWritePost * let b:file_saved_time = localtime()
@@ -70,38 +66,33 @@ function! RelativeModifiedTime()
     return l:result
 endfunction
 
-" определяем пользовательские цвета
+" user colors
 hi User1 ctermfg=green
 hi User2 ctermfg=white
 hi User3 ctermfg=cyan
 hi User4 ctermfg=red
 hi User5 ctermfg=grey
-" строка статуса
+" statusline
 set statusline=
-set statusline+=%1*         "colors User1
-set statusline+=%F          "filename with path
-set statusline+=%=          "left/right separator
-set statusline+=%5*
-set statusline+=%{RelativeModifiedTime()}
-set statusline+=%4*
-set statusline+=%m       "modified flag 
-set statusline+=%3*
-set statusline+=%r      "read only flag
+set statusline+=%1*%F               "filename with path
 set statusline+=\  
+set statusline+=%5*%y               "file syntax
+set statusline+=\  
+set statusline+=%=                  "left/right separator
+set statusline+=%5*%{RelativeModifiedTime()}
+set statusline+=%4*%m               "modified
+set statusline+=%3*%r               "read only
 set statusline+=%2*
-set statusline+=%c,         "cursor column
-set statusline+=%l/%L       "cursor line/total lines
-set statusline+=\ %P        "percent through file
-set laststatus=2            " показывать всегда
-"set ruler                   " показывать % документа права внизу
+set statusline+=\ %11(%c,%l/%L%)    "current col,line/total
+set statusline+=\ %P                "percent through file
+set laststatus=2                    "show always
 
-"--- настройка файлов
+"--- files settings
 " viminfo, backup, swap and undo settings 
 silent !mkdir -m 4700 -p ~/.vim/swap ~/.vim/backup ~/.vim/undo > /dev/null 2>&1
 
 set directory=~/.vim/swap
 set viminfo+=n~/.vim/viminfo
-" set backup
 " set backupdir=~/.vim/backup
 set undofile
 set undodir=~/.vim/undo
@@ -109,38 +100,38 @@ set undodir=~/.vim/undo
 let s:undos = split(globpath(&undodir, '*'), "\n")
 call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 365)')
 call map(s:undos, 'delete(v:val)')
-" читаем .vimrc в том числе из локальных папок
+
+" read .vimrc also from local dirs
 set exrc
 set secure
 
-"--- поддержка мыши
+"--- mouse support
 if has('mouse')
     set mouse=a
 endif
 
-"--- настройка отступов и выравнивания
-set tabstop=4               " длина таба
-set softtabstop=4           " пробелы при табе если softtabstop<tabstops
-set shiftwidth=4            " ширина отступа
-set smarttab                " отступ в начале строки=shiftwidth
-set expandtab               " замена таба пробелами
-autocmd Filetype yaml setlocal ts=4 sts=2 sw=2
-autocmd Filetype make setlocal noexpandtab
-" отступы мешают при вставке текста с отступами
-set autoindent              " автоотступы для новых строк
-"set cin                    " отступы в стиле Си
-"set smartindent            " умные отступы
-set pastetoggle=<F10>       " переключение режима вставки отключает автоотступы 
-" Показываем табы в начале строки точками
-"set listchars=tab:··
-"set list
+"--- tabs and alignment
+set tabstop=4               " \t spaces (view mode)
+set softtabstop=4           " \t spaces (edit mode)
+set shiftwidth=4            " ident with << >>
+set smarttab                " adjusts ts to sts
+set expandtab               " spaces instead of \t
+autocmd Filetype yaml setlocal et ts=2 sts=2 sw=2
+autocmd Filetype json setlocal et ts=2 sts=2 sw=2
+autocmd Filetype make setlocal noet
+autocmd Filetype go   setlocal noet 
+" indents
+set autoindent              " save ident for new lines
+set cin                     " C-style ident 
+set smartindent             " indent for code blocks
+set pastetoggle=<F10>       " disable indent on paste
 
-"--- настройка навигации
-set backspace=indent,eol,start      " бэкспейс работает везде где возможно
-set nostartofline           " переход по строкам c сохранением позиции
-set scrolloff=4             " оставлять строк над/под курсором
-set wrap                    " перенос строк
-" навигация по перенесенным строкам
+"--- navigation
+set backspace=indent,eol,start      " backspace everywhere
+set nostartofline           " save col when change line
+set scrolloff=4             " leave lines on screen top/bottom
+set wrap                    " wrap strings
+" wrapped strings navigation
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -151,27 +142,29 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-" нумерация строк отключение/включение по Ctrl-n и Ctrl-j
+" line numbering
 set number
 set relativenumber                  
 hi LineNr ctermfg=grey
 nmap <C-N> :set relativenumber!<CR>:set number!<CR>
 nmap <C-J> :set number<CR>:set relativenumber!<CR>
+" jump to paired bracket
+nnoremap \| %
 
-"--- настройка поиска
-set showmatch               " подсветка парных скобок
-set hlsearch                " подсветка последнего результата поиска
-set incsearch               " поиск по мере печати
-set ignorecase              " поиск регистронезависимый
-set smartcase               " если ищем большими - то регистрозависимый
+"--- search
+set showmatch               " brackets
+set hlsearch                " last search
+set incsearch               " incremental
+set ignorecase              " case insensitive
+set smartcase               " case sensetive if uppercase input
 " Map <C-L> (redraw screen) to also turn off search highlighting until the next search
 nmap <C-L> :nohl<CR>
 
-"--- системные настройки
-set lz                      " ленивая перерисовка экрана при выполнении скриптов
-set autoread                " autoreaload when file changed outside, and no loacl changes are made
-au CursorHold,CursorHoldI * checktime " autoreload on cursorhold/invoke default 4s may be changed by updatetime
-" Порядок применения кодировок и формата файлов
+"--- system
+set lz                      " lazy redraw
+set autoread                " reaload if changed out of vim, and no local changes 
+au CursorHold,CursorHoldI * checktime " reload on cursor hold/invoke default 4s 
+" file formats and encoding order
 set ffs=unix,mac,dos
 set fencs=utf-8,cp1251,koi8-r,cp866
 " Quickly time out on keycodes, but never time out on mappings
