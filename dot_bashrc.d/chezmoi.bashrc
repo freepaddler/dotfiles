@@ -1,5 +1,6 @@
 if which chezmoi &>/dev/null; then
     alias cz="chezmoi "
+    alias czu="chezmoi update"
     alias czs="chezmoi status"
     if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/null)" = "true" ]; then
         alias czs="chezmoi status; cz git -- status -s"
