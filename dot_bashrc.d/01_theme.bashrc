@@ -52,6 +52,7 @@ _getstarttime() {
 _printexectime() {
 	if [ -n "$BASH_EXEC_TIME" ] && [ -e "$BASH_EXEC_TIME" ]; then
 		local diff_ts=$(($(cat "$BASH_EXEC_TIME") - $(date +%s)))
+        [ $diff_ts -eq 0 ] && return 0
 		((diff_ts < 0)) && diff_ts=$(( -diff_ts ))
 		local hours=$(( diff_ts / 3600 ))
 		local minutes=$(( (diff_ts % 3600) / 60 ))
