@@ -3,32 +3,34 @@
 # colors
 _c() {
     case "$1" in
-        green_b) printf '\033[1;32m';;
-        red_b) printf '\033[1;31m';;
-        red) printf '\033[0;31m';;
-        cyan) printf '\033[0;36m';;
-        yellow) printf '\033[0;33m';;
+        green_b) printf  '\033[1;32m';;
+        red_b) printf    '\033[1;31m';;
+        red) printf      '\033[0;31m';;
+        cyan) printf     '\033[0;36m';;
+        yellow) printf   '\033[0;33m';;
         yellow_b) printf '\033[1;33m';;
-        white_b) printf '\033[1;1m';;
+        white_b) printf  '\033[1;1m';;
         user) [ $(id -u) -eq 0 ] && _c red_b || _c green_b;;
         *) printf '\033[0m';; # reset color
     esac
 }
+_cw() { printf "\[$(_c $1)\]"; }
+
 
 if [ "$TERM_PROGRAM" = "tmux" ]; then
     # tmux shows hostname in status line
     host=""
 elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     # show hostname in remote session
-    host="\[$(_c)\]@\[$(_c yellow)\]\H\[$(_c)\]"
+    host="$(_cw)@$(_cw yellow)\H$(_cw)"
 else
     # don't show hostname in local session
     host=""
 fi
 
 export PS0=
-export PS1="\n\[$(_c user)\]\u$host $(_c cyan)\w\n\[$(_c user)\]❯ \[$(_c)\]"
-export PS2="\[$(_c yellow_b)\]-> \[$(_c)\]"
+export PS1="\n$(_cw user)\u$host $(_cw cyan)\w\n$(_cw user)❯ $(_cw)"
+export PS2="$(_cw yellow_b)-> $(_cw)"
 
 unset host
 

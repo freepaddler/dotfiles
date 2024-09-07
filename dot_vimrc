@@ -6,7 +6,7 @@ nmap <silent> <C-Q> <Plug>(ale_previous_wrap)
 nmap <silent> <C-S> <Plug>(ale_next_wrap)
 
 call plug#end()
-
+ 
 " Configuration file for vima
 set modelines=0             " CVE-2007-2438
 
@@ -39,20 +39,55 @@ hi ColorColumn ctermbg=darkgray
 set cursorline              " подстветка текущей строки
 hi CursorLine cterm=bold
 "hi CursorLine cterm=reverse
+
+" Capture the time the file was saved
+autocmd BufWritePost * let b:file_saved_time = localtime()
+
+function! RelativeModifiedTime()
+    " Get the current time in seconds
+    let l:now = localtime()
+    
+    if exists('b:file_saved_time')
+        let l:time = b:file_saved_time
+    else
+        return '' " If no times are available, return empty
+    endif
+
+    " Calculate the time difference
+    let l:diff = l:now - l:time
+
+    " Break the difference into hours, minutes, and seconds
+    let l:h = l:diff / 3600
+    let l:m = (l:diff % 3600) / 60
+    let l:s = l:diff % 60
+
+    " Format the result like 1h2m3s, skip zero values
+    let l:result = (l:h > 0 ? l:h . 'h' : '') .
+                  \ (l:m > 0 ? l:m . 'm' : '') .
+                  \ (l:s > 0 ? l:s . 's' : '') .
+                  \ (l:diff > 0 ? ' ago ' : '')
+
+    return l:result
+endfunction
+
 " определяем пользовательские цвета
 hi User1 ctermfg=green
 hi User2 ctermfg=white
 hi User3 ctermfg=cyan
 hi User4 ctermfg=red
+hi User5 ctermfg=grey
 " строка статуса
 set statusline=
 set statusline+=%1*         "colors User1
 set statusline+=%F          "filename with path
 set statusline+=%=          "left/right separator
+set statusline+=%5*
+set statusline+=%{RelativeModifiedTime()}
 set statusline+=%4*
-set statusline+=%-6.6m      "modified flag
+set statusline+=%m       "modified flag 
 set statusline+=%3*
-set statusline+=%-8.8r      "read only flag
+set statusline+=%r      "read only flag
+set statusline+=\  
 set statusline+=%2*
 set statusline+=%c,         "cursor column
 set statusline+=%l/%L       "cursor line/total lines
