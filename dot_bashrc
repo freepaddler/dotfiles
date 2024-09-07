@@ -63,3 +63,5 @@ export PATH
 
 # unset functions and vars
 cleanup
+
+alias resrc="source ~/.bashrc"

@@ -1,5 +1,4 @@
 ### ALIASES
-alias resrc="source ~/.bashrc"
 #alias bashrc="vi ~/.bashrc && resrc"
 alias root="su -m root"
 alias hosts="vi /etc/hosts"
