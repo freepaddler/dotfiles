@@ -1,9 +1,11 @@
 if which chezmoi &>/dev/null; then
     alias cz="chezmoi "
+    alias czs="chezmoi status"
     if [ "$(chezmoi execute-template '{{ .chezmoi.config.data.private }}' 2>/dev/null)" = "true" ]; then
+        alias czs="chezmoi status; cz git -- status -s"
         alias cze="chezmoi edit --apply"
-        #alias bashrc="che ~/.bashrc && resrc"
-        alias vimrc="che ~/.vimrc"
+        #alias bashrc="cze ~/.bashrc && resrc"
+        alias vimrc="cze ~/.vimrc"
         alias sshconfig="cze ~/.ssh/config && resrc"
     fi
 
