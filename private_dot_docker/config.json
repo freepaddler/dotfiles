@@ -6,6 +6,7 @@
 		"repo.videochat.altuera.com": {}
 	},
 	"credsStore": "desktop",
+	"currentContext": "desktop-linux",
 	"plugins": {
 		"-x-cli-hints": {
 			"enabled": "true"

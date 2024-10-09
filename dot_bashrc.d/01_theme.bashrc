@@ -29,7 +29,8 @@ else
 fi
 
 export PS0=
-export PS1="\n$(_cw user)\u$host $(_cw cyan)\w\n$(_cw user)❯ $(_cw)"
+#export PS1="\n$(_cw user)\u$host $(_cw cyan)\w\n$(_cw user)❯ $(_cw)"
+export PS1="\n\[\$([ \$(id -u) -eq 0 ] && printf '$( _cw red )'|| printf '$( _cw green_b )')\]\u$host $(_cw cyan)\w\n\[\$([ \$(id -u) -eq 0 ] && printf '$( _cw red )'|| printf '$( _cw green_b )')\]❯ $(_c)"
 export PS2="$(_cw yellow_b)-> $(_cw)"
 
 unset host
