@@ -49,16 +49,6 @@ if which iptables &> /dev/null; then
     alias ipt="iptables "
 fi
 
-if which doas &> /dev/null; then
-    has_completion doas || complete -c -o bashdefault -o default doas
-    alias doas="doas "
-fi
-
-if which sudo &> /dev/null; then
-    has_completion sudo || complete -c -o bashdefault -o default sudo
-    alias sudo="sudo "
-fi
-
 # glow (markdown in terminal)
 which glow &> /dev/null && alias mdless="glow -p"
 
