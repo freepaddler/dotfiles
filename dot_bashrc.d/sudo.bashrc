@@ -7,5 +7,5 @@ fi
 if which sudo &> /dev/null; then
     has_completion sudo || complete -c -o bashdefault -o default sudo
     alias sudo="sudo "
-    sudo -s BASH_ENV=$HOME/.bashrc bash
+    alias sudoshell='sudo -s BASH_ENV=$HOME/.bashrc bash'
 fi
