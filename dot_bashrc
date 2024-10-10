@@ -47,10 +47,6 @@ export LC_ALL=
 umask 0002
 export CDPATH=.:~
 
-if [ -n "$BASH_ENV" ]; then
-    HOMEDIR=$(dirname "$BASH_ENV")
-fi
-
 HOMEDIR=${HOMEDIR:-$HOME}
 
 ### imports
