@@ -13,7 +13,7 @@ unset bsch
 unset completion_script_locations
 # load personal completions
 if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
-    for f in "$HOMEDIR"/.bash_completion.d/*; do
+    for f in "$HOME"/.bash_completion.d/*; do
         # shellcheck disable=SC1090
         [ -f "$f" ] && source "$f"
     done
