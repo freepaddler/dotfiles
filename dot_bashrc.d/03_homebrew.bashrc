@@ -20,7 +20,7 @@ if [ -x /opt/homebrew/bin/brew ]; then
         echo "Backing up homebrew..."
         echo
 
-        DEST="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
+        DEST="$HOMEDIR/Library/Mobile Documents/com~apple~CloudDocs/Sync"
         [ -d "$DEST" ] || mkdir -p "$DEST"
         mkdir -p "$DEST/Homebrew.backup"
 

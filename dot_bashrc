@@ -47,8 +47,10 @@ export LC_ALL=
 umask 0002
 export CDPATH=.:~
 
+HOMEDIR=${HOMEDIR:-$HOME}
+
 ### imports
-for s in "$HOME"/.bashrc.d/*.bashrc; do
+for s in "$HOMEDIR"/.bashrc.d/*.bashrc; do
     # shellcheck disable=SC1090
     source "$s"
 done
