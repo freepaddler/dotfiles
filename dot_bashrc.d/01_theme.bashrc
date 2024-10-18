@@ -17,10 +17,10 @@ _c() {
 _cw() { printf "\[$(_c $1)\]"; }
 
 
-if [ "$TERM_PROGRAM" = "tmux" ]; then
+if [ -n "$TMUX" ]; then
     # tmux shows hostname in status line
     host=""
-elif [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+elif [ -n "$SSH_TTY" ]; then
     # show hostname in remote session
     host="$(_cw)@$(_cw yellow)\H$(_cw)"
 else
