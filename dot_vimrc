@@ -30,7 +30,8 @@ set wildmenu                " visual autocomplete for command menu
 set showcmd                 " display incomplete commands
 syntax on                   
 colorscheme desert          
-"hi MatchParen cterm=bold ctermfg=green  " matching bracket
+highlight MatchParen cterm=bold ctermbg=white 
+highlight Visual ctermfg=grey ctermbg=NONE
 "set colorcolumn=96          " mark column
 "hi ColorColumn ctermbg=darkgray
 set cursorline              " current line highlight
