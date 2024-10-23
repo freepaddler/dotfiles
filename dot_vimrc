@@ -29,7 +29,7 @@ set modelines=0             " read vim settings from file itself
 set wildmenu                " visual autocomplete for command menu
 set showcmd                 " display incomplete commands
 syntax on                   
-colorscheme desert          
+colorscheme desertold
 highlight MatchParen cterm=bold ctermbg=white 
 highlight Visual ctermfg=grey ctermbg=NONE
 "set colorcolumn=96          " mark column

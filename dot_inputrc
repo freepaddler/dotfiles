@@ -21,22 +21,26 @@ set input-meta      On
 set output-meta     On
 set convert-meta    Off
 
-# allow the use of the Home/End keys
+# home, end 
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
+# shift-left, shift-right
+"\e[1;2D": backward-word
+"\e[1;2C": forward-word
+# pgup, pgdown 
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+# delete, insert
+"\e[3~": delete-char
+"\e[2~": quoted-insert
 
-# mappings for Alt-left-arrow and Alt-right-arrow for word moving
+# alt-left, alt-right
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
+# ctrl-left, ctrl-right
 "\e[5C": forward-word
 "\e[5D": backward-word
+# meta-shift-left, meta-shit-right
 "\e\e[C": forward-word
 "\e\e[D": backward-word
 
-# mappings for "page up" and "page down" to search the history
-"\e[5~": history-search-backward
-"\e[6~": history-search-forward
-
-# mappings for "delete" and "insert" keys
-"\e[3~": delete-char
-"\e[2~": quoted-insert
