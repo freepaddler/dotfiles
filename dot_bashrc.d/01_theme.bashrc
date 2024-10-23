@@ -46,56 +46,54 @@ else
 fi
 
 # show last command exit code and execution time
-if which tput &> /dev/null; then
-    BASH_EXEC_TIME="${TMPDIR:-/tmp}/$USER-$BASHPID.td"
+BASH_EXEC_TIME="${TMPDIR:-/tmp}/$USER-$BASHPID.td"
+BEC=1
+_getstarttime() {
+    [ -n $BASH_EXEC_TIME ] &&  date +%s >| "$BASH_EXEC_TIME"
+}
+
+_printexectime() {
+	if [ -n "$BASH_EXEC_TIME" ] && [ -e "$BASH_EXEC_TIME" ]; then
+		local diff_ts=$(($(cat "$BASH_EXEC_TIME") - $(date +%s)))
+        [ $diff_ts -eq 0 ] && return 0
+		((diff_ts < 0)) && diff_ts=$(( -diff_ts ))
+		local hours=$(( diff_ts / 3600 ))
+		local minutes=$(( (diff_ts % 3600) / 60 ))
+		local seconds=$(( diff_ts % 60 ))
+		if ((hours > 0)); then
+			printf "%dh%dm%ds\n" "$hours" "$minutes" "$seconds"
+		elif ((minutes > 10)); then
+			printf "%dm%ds\n" "$minutes" "$seconds"
+		elif ((minutes > 0)); then
+			printf "%dm%ds\n" "$minutes" "$seconds"
+		else
+			printf "%ds\n" "$seconds"
+		fi
+	fi
+}
+
+_printexitcode() {
+    local e="($?)"
+    if [ $BEC -eq 0 ]; then
+        local t="$(_printexectime)"
+        tput sc
+        local o=11
+        if [ $e = "(0)" ]; then
+            printf "%*s" $COLUMNS "${t:+done in $t}"
+        else
+            e=${e:+$(_c red)failed$e$(_c)}
+            printf "%*s" $((COLUMNS+11)) "${e}${t:+ in $t}"
+        fi
+        tput rc
+    fi
     BEC=1
-    _getstarttime() {
-        [ -n $BASH_EXEC_TIME ] &&  date +%s >| "$BASH_EXEC_TIME"
-    }
+}
 
-    _printexectime() {
-        if [ -n "$BASH_EXEC_TIME" ] && [ -e "$BASH_EXEC_TIME" ]; then
-            local diff_ts=$(($(cat "$BASH_EXEC_TIME") - $(date +%s)))
-            [ $diff_ts -eq 0 ] && return 0
-            ((diff_ts < 0)) && diff_ts=$(( -diff_ts ))
-            local hours=$(( diff_ts / 3600 ))
-            local minutes=$(( (diff_ts % 3600) / 60 ))
-            local seconds=$(( diff_ts % 60 ))
-            if ((hours > 0)); then
-                printf "%dh%dm%ds\n" "$hours" "$minutes" "$seconds"
-            elif ((minutes > 10)); then
-                printf "%dm%ds\n" "$minutes" "$seconds"
-            elif ((minutes > 0)); then
-                printf "%dm%ds\n" "$minutes" "$seconds"
-            else
-                printf "%ds\n" "$seconds"
-            fi
-        fi
-    }
+# shellcheck disable=SC2016
+PS0='$(_getstarttime)\[${BEC:0:${BASH_COMMAND:+$((BEC=0))}}\]'
+PROMPT_COMMAND="_printexitcode; $PROMPT_COMMAND"
 
-    _printexitcode() {
-        local e="($?)"
-        if [ $BEC -eq 0 ]; then
-            local t="$(_printexectime)"
-            tput sc
-            local o=11
-            if [ $e = "(0)" ]; then
-                printf "%*s" $COLUMNS "${t:+done in $t}"
-            else
-                e=${e:+$(_c red)failed$e$(_c)}
-                printf "%*s" $((COLUMNS+11)) "${e}${t:+ in $t}"
-            fi
-            tput rc
-        fi
-        BEC=1
-    }
-
-    # shellcheck disable=SC2016
-    PS0='$(_getstarttime)\[${BEC:0:${BASH_COMMAND:+$((BEC=0))}}\]'
-    PROMPT_COMMAND="_printexitcode; $PROMPT_COMMAND"
-
-    exit_add _rm_BASH_BASH_EXEC_TIME
-    _rm_BASH_BASH_EXEC_TIME() {
-         [ -n "$BASH_EXEC_TIME" ] && rm -f "$BASH_EXEC_TIME" &>/dev/null
-    }
-fi
+exit_add _rm_BASH_BASH_EXEC_TIME
+_rm_BASH_BASH_EXEC_TIME() {
+     [ -n "$BASH_EXEC_TIME" ] && rm -f "$BASH_EXEC_TIME" &>/dev/null
+}
