@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-apk add ncurses
+sudo apk add ncurses
 
 # to be run from iOS ish emulator
 cp -rf "$HOME"/dotfiles/dot_bash_completion.d "$HOME"/.bash_completion.d
