@@ -4,6 +4,7 @@ if which tmux &>/dev/null; then
     if  [ -z "$NO_TMUX_ON_SOURCE" ] &&  # don't try to attach default session on reload bashrc
         [ -z "$TMUX" ] &&               # no tmux in tmux
         #[[ ! "$TERM" =~ tmux ]] &&     # try no tmux in tmux in ssh
+				[ ! is_ish ] &&									# no tmux by default in ish
         [ -z "$SUDO_USER" ] && [ -z "$DOAS_USER" ]
     then
         # no TMUX session or TMUX session is attached
