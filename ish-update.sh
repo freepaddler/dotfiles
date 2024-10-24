@@ -6,8 +6,6 @@ set -e
 echo "add packages"
 sudo apk add ncurses
 
-echo "mounts"
-
 echo "bash_completion"
 rm -rf "$HOME"/.bash_completion.d &> /dev/null
 cp -rf "$HOME"/dotfiles/dot_bash_completion.d "$HOME"/.bash_completion.d
