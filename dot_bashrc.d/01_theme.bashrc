@@ -90,7 +90,7 @@ _printexitcode() {
 }
 
 # shellcheck disable=SC2016
-PS0='$(_getstarttime)\[${BEC:0:${BASH_COMMAND:+$((BEC=0))}}\]'
+PS0='$(_getstarttime)${BEC:0:${BASH_COMMAND:+$((BEC=0))}}'
 PROMPT_COMMAND="_printexitcode; $PROMPT_COMMAND"
 
 exit_add _rm_BASH_BASH_EXEC_TIME
