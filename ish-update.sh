@@ -7,10 +7,6 @@ echo "add packages"
 sudo apk add ncurses
 
 echo "mounts"
-mkdir -p "$HOME"/Downloads
-mount -t ios "$HOME"/Downloads Downloads
-mkdir -p "$HOME"/nPlayer
-mount -t ios "$HOME"/nPlayer nPlayer
 
 echo "bash_completion"
 rm -rf "$HOME"/.bash_completion.d &> /dev/null
