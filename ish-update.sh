@@ -1,9 +1,17 @@
 #!/bin/bash
 set -e
+
+# to be run from iOS ish emulator
+
 echo "add packages"
 sudo apk add ncurses
 
-# to be run from iOS ish emulator
+echo "mounts"
+mkdir -p "$HOME"/Downloads
+mount -t ios "$HOME"/Downloads Downloads
+mkdir -p "$HOME"/nPlayer
+mount -t ios "$HOME"/nPlayer nPlayer
+
 echo "bash_completion"
 rm -rf "$HOME"/.bash_completion.d &> /dev/null
 cp -rf "$HOME"/dotfiles/dot_bash_completion.d "$HOME"/.bash_completion.d
