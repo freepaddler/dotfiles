@@ -4,7 +4,7 @@ set -e
 # to be run from iOS ish emulator
 
 echo "add packages"
-sudo apk add ncurses
+sudo apk add ncurses rtorrent
 
 echo "bash_completion"
 rm -rf "$HOME"/.bash_completion.d &> /dev/null
