@@ -1,7 +1,7 @@
 # homebrew setup
 
 if [ -x /opt/homebrew/bin/brew ]; then
-    path_append "/opt/homebrew/bin:/opt/homebrew/sbin"
+    path_prepend "/opt/homebrew/bin:/opt/homebrew/sbin"
     export HOMEBREW_PREFIX="/opt/homebrew"
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
     export HOMEBREW_REPOSITORY="/opt/homebrew"
