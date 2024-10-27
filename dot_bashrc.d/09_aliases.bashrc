@@ -20,6 +20,9 @@ alias cpr="cp -iRv"
 alias mv="mv -iv"
 
 alias du="du -h"
+du1() {
+    du -hd "$@" | sort -h
+}
 alias df="df -h"
 
 alias j="jobs -l"
