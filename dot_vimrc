@@ -2,8 +2,8 @@
 silent! call plug#begin()
 " syntax check
 Plug 'dense-analysis/ale'
-nmap <silent> <C-Q> <Plug>(ale_previous_wrap)
-nmap <silent> <C-S> <Plug>(ale_next_wrap)
+nnoremap [e :ALEPreviousWrap<CR>
+nnoremap ]e :ALENextWrap<CR>
 
 call plug#end()
  
@@ -125,7 +125,7 @@ autocmd Filetype go   setlocal noet
 set autoindent              " save ident for new lines
 set cin                     " C-style ident 
 set smartindent             " indent for code blocks
-set pastetoggle=<F10>       " disable indent on paste
+set pastetoggle=<C-p>       " disable indent on paste
 
 "--- navigation
 set backspace=indent,eol,start      " backspace everywhere
