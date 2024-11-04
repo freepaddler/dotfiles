@@ -60,9 +60,8 @@ if which tmux &>/dev/null; then
         [ -z "$SUDO_USER" ] && [ -z "$DOAS_USER" ]
     then
         if [[ "$TERM" =~ (tmux|screen) ]]; then
-            echo "Terminal may be controlled by screen or tmux. Run tmux with care."
+            echo "TMUX: Terminal may be controlled by screen or tmux. Use with care."
             tmux ls 2>/dev/null
-            echo
         else
             tm && exit 0
         fi
