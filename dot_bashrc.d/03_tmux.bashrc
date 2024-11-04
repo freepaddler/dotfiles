@@ -18,6 +18,7 @@ if which tmux &>/dev/null; then
     _tmux-session-state() {
         if [ -z "$1" ] || ! tmux has-session -t="$1" &>/dev/null; then
             echo none;
+
         elif [ $(tmux list-clients -t="$1" 2>/dev/null | wc -l) -gt 0 ]; then
             echo attached
         else
@@ -48,7 +49,9 @@ if which tmux &>/dev/null; then
             if [ "$state" = "detached" ] || [ "$state" = "none" ]; then
                 tmux new-session -A -s "$session"
             else
-                _tmux-session-selector 
+                echo "TMUX session is attached already. Use 'tm' to manage"
+                return 1
+                #_tmux-session-selector 
             fi
         fi
     }
@@ -63,7 +66,7 @@ if which tmux &>/dev/null; then
             echo "TMUX: Terminal may be controlled by screen or tmux. Use with care."
             tmux ls 2>/dev/null
         else
-            tm && exit 0
+            tm TMUX && exit 0
         fi
     fi
     export NO_TMUX_AUTOLOAD=1
