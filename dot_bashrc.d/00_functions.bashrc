@@ -24,18 +24,32 @@ trap _onExit EXIT
 unset_add path_append
 path_append() {
     case ":$PATH:" in
-        *:"$1":*) ;;
+        *":$1:"*) ;;
         *) PATH=${PATH:+$PATH:}$1 ;;
     esac
 }
 # add path to the BEGINNING
 unset_add path_prepend
 path_prepend() {
-    case ":$PATH:" in
-        *:"$1":*) ;;
-        *) PATH=$1:${PATH:+$PATH} ;;
+    # remove the existing entry if it exists
+    PATH=$(echo ":$PATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
+    PATH=$1${PATH:+:$PATH}
+}
+
+unset_add manpath_append
+manpath_append() {
+    case ":$MANPATH:" in
+        *":$1:"*) ;;
+        *) MANPATH=${MANPATH:+$MANPATH:}$1 ;;
     esac
 }
+unset_add manpath_prepend
+manpath_prepend() {
+    # remove the existing entry if it exists
+    MANPATH=$(echo ":$MANPATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
+    MANPATH=$1${MANPATH:+:$MANPATH}
+}
+
 
 # check os by kernel
 kernel=$(uname -s); unset_add kernel
