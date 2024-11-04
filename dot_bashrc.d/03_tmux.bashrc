@@ -49,7 +49,8 @@ if which tmux &>/dev/null; then
             if [ "$state" = "detached" ] || [ "$state" = "none" ]; then
                 tmux new-session -A -s "$session"
             else
-                echo "TMUX session is attached already. Use 'tm' to manage"
+                echo "tmux default session is attached already (use 'tm' to manage)"
+                tmux ls 2>/dev/null
                 return 1
                 #_tmux-session-selector 
             fi
@@ -63,7 +64,7 @@ if which tmux &>/dev/null; then
         [ -z "$SUDO_USER" ] && [ -z "$DOAS_USER" ]
     then
         if [[ "$TERM" =~ (tmux|screen) ]]; then
-            echo "TMUX: Terminal may be controlled by screen or tmux. Use with care."
+            echo "terminal may be running screen or tmux (use 'tm' for tmux management)"
             tmux ls 2>/dev/null
         else
             tm TMUX && exit 0
