@@ -1,35 +1,73 @@
 if which tmux &>/dev/null; then
 
-    # load tmux immediately
-    if  [ -z "$NO_TMUX_ON_SOURCE" ] &&  # don't try to attach default session on reload bashrc
+    alias tml="tmux list-sessions"
+
+    _tmux-session-selector() {
+        t=1
+        for arg in "$@"; do
+            if [ "$arg" = "-A" ]; then
+                t=2 # do not kill detached window
+                break
+            fi
+        done
+        tmux new-session "$@" \; set @t "$t" \; choose-tree -Zs \
+    "run 'tmux set -u @t \; if -F \"#{m:=#S:*,%%}\" \"command-prompt -I \\\"#S\\\" \\\"rename-session %%\\\"\" \"switch-client -t %1; kill-session -t \\\"#S\\\"\"'"
+    }
+
+
+    _tmux-session-state() {
+        if [ -z "$1" ] || ! tmux has-session -t="$1" &>/dev/null; then
+            echo none;
+        elif [ $(tmux list-clients -t="$1" 2>/dev/null | wc -l) -gt 0 ]; then
+            echo attached
+        else
+            echo detached
+        fi
+    }
+
+    tm() {
+        sessions=$(tmux display -p '#{server_sessions}' 2>/dev/null || echo 0)
+        session="TMUX"
+        undef=
+        [ -z "$1" ] && undef=1 || session="$1"
+        state=$(_tmux-session-state "$session")
+
+        if [ $sessions -eq 0 ]; then
+            tmux new-session -s "$session"
+        elif [ -n "$undef" ]; then
+            if [ "$state" = "detached" ] && [ "$sessions" -eq 1 ]; then
+                tmux attach-session -t="$session"
+            elif [ "$state" = "detached" ]; then
+                _tmux-session-selector -A -s "$session"
+            elif [ "$state" = "none" ]; then
+                _tmux-session-selector -s "$session"
+            else
+                _tmux-session-selector 
+            fi
+        else 
+            if [ "$state" = "detached" ] || [ "$state" = "none" ]; then
+                tmux new-session -A -s "$session"
+            else
+                _tmux-session-selector 
+            fi
+        fi
+    }
+
+    # tmux auto-load
+    if  [ -z "$NO_TMUX_AUTOLOAD" ] &&   # once loaded, don't retry on reload bashrc
         [ -z "$TMUX" ] &&               # no tmux in tmux
-        #[[ ! "$TERM" =~ tmux ]] &&     # try no tmux in tmux in ssh	
-        ! is_ish &&                     # no tmux by default in ish
+        ! is_ish &&                     # no tmux autoload in ish
         [ -z "$SUDO_USER" ] && [ -z "$DOAS_USER" ]
     then
-        # no TMUX session or TMUX session is attached
-        if ! tmux has-session -t TMUX &>/dev/null ||
-            tmux list-sessions -F '#{session_name}:#{session_attached}' | grep -q ^TMUX:0
-        then
-            tmux new-session -A -s TMUX && exit 0 
+        if [[ "$TERM" =~ (tmux|screen) ]]; then
+            echo "Terminal may be controlled by screen or tmux. Run tmux with care."
+            tmux ls 2>/dev/null
+            echo
         else
-            if [ -n "$SSH_CONNECTION" ]; then
-                first_free=$(tmux ls | grep -vm1 attached | cut -d: -f1)
-                if [ -n "$first_free" ]; then
-                    tmux a -t "$first_free" && exit 0 
-               # else
-               #     tmux new-session && exit 0 
-                fi
-            fi
-            echo TMUX session NOT is attached
+            tm && exit 0
         fi
-        export NO_TMUX_ON_SOURCE=1
     fi
-
-    alias tm="tmux new-session -A -s TMUX"
-    alias tmn="tmux new-session"
-    alias tml="tmux list-sessions"
-    alias tma="tmux attach-session"
+    export NO_TMUX_AUTOLOAD=1
 
 fi
 set +x
