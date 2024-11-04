@@ -5,8 +5,9 @@ if [ -x /opt/homebrew/bin/brew ]; then
     export HOMEBREW_PREFIX="/opt/homebrew"
     export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
     export HOMEBREW_REPOSITORY="/opt/homebrew"
+    manpath_prepend "/opt/homebrew/share/man"
+    export MANPATH
     export INFOPATH=$INFOPATH:/opt/homebrew/share/info:
-    export MANPATH=$MANPATH:/opt/homebrew/share/man
     export HOMEBREW_CASK_OPTS="--no-quarantine"
     alias brew_requested="brew leaves -r && echo && brew list --cask -1"
     brew-usage() {
