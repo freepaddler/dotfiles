@@ -63,7 +63,7 @@ is_ish() { [[ "$(uname -r)" = *"-ish" ]]; }; unset_add is_ish
 unset_add run_info
 run_info() {
     local info="bash $BASH_VERSION @"
-    if [ -f /ets/os-release ]; then
+    if [ -f /etc/os-release ]; then
         source /etc/os-release
         info+=" $PRETTY_NAME"
     fi
