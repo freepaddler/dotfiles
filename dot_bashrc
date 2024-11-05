@@ -3,7 +3,6 @@ set +x
 if [[ $- != *i* ]]; then
     return
 fi
-echo bash "$BASH_VERSION"
 
 ### COMMON ENV VARS
 export BLOCKSIZE="K"
@@ -52,6 +51,8 @@ for s in "$HOME"/.bashrc.d/*.bashrc; do
     # shellcheck disable=SC1090
     source "$s"
 done
+
+run_info
 
 # add all aliases completions
 # https://github.com/cykerway/complete-alias

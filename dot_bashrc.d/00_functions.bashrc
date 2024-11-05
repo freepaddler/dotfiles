@@ -59,6 +59,18 @@ is_bb() { [[ "$(readlink "$(which "$1")")" = *"busybox" ]]; }; unset_add is_bb
 # check if it is ish emulator
 is_ish() { [[ "$(uname -r)" = *"-ish" ]]; }; unset_add is_ish
 
+# system info
+unset_add run_info
+run_info() {
+    local info="bash $BASH_VERSION @"
+    if [ -f /ets/os-release ]; then
+        source /etc/os-release
+        info+=" $PRETTY_NAME"
+    fi
+    info+=" $(uname -smr)"
+    echo "$info"
+}
+
 # temporary history control
 hoff() { set +o history; }
 hon() { set -o history; }
