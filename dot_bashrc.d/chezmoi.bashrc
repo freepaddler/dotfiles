@@ -12,7 +12,7 @@ if which chezmoi &>/dev/null; then
 
     # remote local install chezmoi
     cz-ssh() {
-        ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --purge --force --apply freepaddler'
+        ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler'
     }
     clone_completion ssh cz-ssh
 
