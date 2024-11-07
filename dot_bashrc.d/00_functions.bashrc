@@ -70,6 +70,7 @@ run_info() {
     info+=" $(uname -smr)"
     echo "$info"
 }
+run_info
 
 # temporary history control
 hoff() { set +o history; }

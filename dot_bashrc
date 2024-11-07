@@ -52,8 +52,6 @@ for s in "$HOME"/.bashrc.d/*.bashrc; do
     source "$s"
 done
 
-run_info
-
 # add all aliases completions
 # https://github.com/cykerway/complete-alias
 [ -n "$BASH_COMPLETION_VERSINFO" ] && complete -F _complete_alias "${!BASH_ALIASES[@]}"
