@@ -35,7 +35,7 @@ set -o noclobber
 # locales
 if locale -a | grep -qwi 'ru_ru\.utf-\?8'; then
     export LANG=ru_RU.UTF-8
-    export LC_TYPE=ru_RU.UTF-8
+    export LC_CTYPE=ru_RU.UTF-8
     export LC_COLLATE=ru_RU.UTF-8
 fi
 export LC_MESSAGES=POSIX
