@@ -22,7 +22,7 @@ if command -v chezmoi >/dev/null 2>&1 && chezmoi source-path >/dev/null 2>&1; th
 fi
 
 # show existing tmux sessions on start
-if command -v tmux >/dev/null 2>&1; then
+if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
     tmux has-session 2>/dev/null && {
         printf "\033[32mtmux sessions:\033[0m\n"
         tmux list-sessions
