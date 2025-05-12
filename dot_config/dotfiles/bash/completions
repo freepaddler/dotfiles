@@ -1,9 +1,12 @@
 ### AUTOCOMPLETION
+
 # try load completions
 completion_script_locations="
-    /usr/local/share/bash-completion
+    /etc/profile.d
     ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/etc/profile.d}
+    /usr/local/share/bash-completion
     /opt/local/etc/profile.d
+
 "
 for bcsh in $completion_script_locations; do
         [ -n "$BASH_COMPLETION_VERSINFO" ] && break
@@ -11,9 +14,10 @@ for bcsh in $completion_script_locations; do
 done
 unset bsch
 unset completion_script_locations
+
 # load personal completions
 if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
-    for f in "$HOME"/.bash_completion.d/*; do
+    for f in "$HOME"/.bash_completion.d/* "$DOTFILES"/bash/completions/; do
         # shellcheck disable=SC1090
         [ -f "$f" ] && source "$f"
     done
@@ -21,8 +25,9 @@ if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
 fi
 
 # check if command has completion
-unset_add has_completion
-has_completion() {
+_dotfiles_unset_add _dotfiles_has_bash_completion
+_dotfiles_has_bash_completion() {
+    [ -n "$BASH_VERSION" ] || return 0
     # completion exists
     complete -p "$1" &> /dev/null && return 0
     # no loader -> no completion
@@ -37,15 +42,16 @@ has_completion() {
 }
 
 # clone current completion
-unset_add clone_completion
-clone_completion() {
-    if has_completion $1; then
+_dotfiles_unset_add _dotfiles_clone_bash_completion
+_dotfiles_clone_bash_completion() {
+    [ -n "$BASH_VERSION" ] || return 0
+    if _dotfiles_has_bash_completion $1; then
         complete -r $2 &>/dev/null
         $(complete -p $1) "$2"
     fi
 }
 
 # if no bash-completion, let's make out life a little bit easier
-has_completion man || complete -cf man
-has_completion nohup || complete -c -o bashdefault -o default nohup
-has_completion su || complete -c -o bashdefault -o default su
+_dotfiles_has_bash_completion man || complete -cf man
+_dotfiles_has_bash_completion nohup || complete -c -o bashdefault -o default nohup
+_dotfiles_has_bash_completion su || complete -c -o bashdefault -o default su

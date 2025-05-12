@@ -1,0 +1,92 @@
+# colors
+_c() {
+    case "$1" in
+        green_b) printf  '\033[1;32m';;
+        red_b) printf    '\033[1;31m';;
+        red) printf      '\033[0;31m';;
+        cyan) printf     '\033[0;36m';;
+        yellow) printf   '\033[0;33m';;
+        yellow_b) printf '\033[1;33m';;
+        white_b) printf  '\033[1;1m';;
+        user) [ $(id -u) -eq 0 ] && _c red_b || _c green_b;;
+        *) printf '\033[0m';; # reset color
+    esac
+}
+_cw() { printf "\[$(_c $1)\]"; }
+
+if [ -n "$TMUX" ]; then
+    # tmux shows hostname in status line
+    host=""
+elif [ -n "$SSH_TTY" ]; then
+    # show hostname in remote session
+    host="$(_cw)@$(_cw yellow)\H$(_cw)"
+else
+    # don't show hostname in local session
+    host=""
+fi
+
+PS0=
+PS1="\n$(_cw user)\u$host $(_cw cyan)\w\n$(_cw user)❯ $(_cw)"
+PS2="$(_cw yellow_b)-> $(_cw)"
+SUDO_PS1='\n$([ $(id -u) -eq 0 ] && printf "\033[1;31m" || printf "\033[1;32m")\u\033[0m\033[1;37m@\033[0m\033[0;33m\h \033[0;36m\w\033[0m\n$([ $(id -u) -eq 0 ] && printf "#" || printf "$") '
+export PS1 PS2 SUDO_PS1="$SUDO_PS1"
+unset host
+
+set_window_title() {
+    printf "\033]2;%s\007" "$1"
+}
+
+if [ "$TERM_PROGRAM" == "Apple_Terminal" ]; then
+    PROMPT_COMMAND="set_window_title${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+else
+    PROMPT_COMMAND='printf "\033]0;%s@%s %s\007" "$USER" "$HOSTNAME" "${PWD/$HOME/"~"}"'
+fi
+
+# show last command exit code and execution time
+_execution_timer=1 # skip on shell start
+function _execution_timer_start() {
+    _execution_timer=$(date +%s)
+    #echo "_execution_timer_start: _execution_timer=$_execution_timer"
+}
+
+_execution_timer_stop() {
+    local e="($?)"
+    [[ -z "$_execution_timer" || "$_execution_timer" == 1 ]] && return 0
+    # fix bad values and return flow
+    [[ "$_execution_timer" =~ ^[0-9]+$ ]] || { _execution_timer=1; return; }
+
+    #echo  "_execution_timer_stop: _execution_timer=$_execution_timer TIME=$(date +%s)"
+
+    # make time string
+    local diff_ts=$(( $(date +%s) - _execution_timer ))
+    [[ $diff_ts == 0 ]] && return 0
+    local hours=$(( diff_ts / 3600 ))
+    local minutes=$(( (diff_ts % 3600) / 60 ))
+    local seconds=$(( diff_ts % 60 ))
+    local t
+    if ((hours > 0)); then
+        t=$(printf "%dh%dm%ds\n" "$hours" "$minutes" "$seconds")
+    elif ((minutes > 10)); then
+        t=$(printf "%dm%ds\n" "$minutes" "$seconds")
+    elif ((minutes > 0)); then
+        t=$(printf "%dm%ds\n" "$minutes" "$seconds")
+    else
+        t=$(printf "%ds\n" "$seconds")
+    fi
+
+    printf '\0337'
+    local offset=11
+    if [ $e = "(0)" ]; then
+        printf "%*s" $COLUMNS "${t:+done in $t}"
+    else
+        e=${e:+$(_c red)failed$e$(_c)}
+        printf "%*s" $((COLUMNS+offset)) "${e}${t:+ in $t}"
+    fi
+    printf '\0338'
+    _execution_timer=1
+}
+
+PS0='${_execution_timer:0:${BASH_COMMAND:+$((_execution_timer=0))}}'
+#trap 'echo "trap: _execution_timer=$_execution_timer"; [[ $_execution_timer == 0 ]] && _timerstart' DEBUG
+trap '[[ $_execution_timer == 0 ]] && _execution_timer_start' DEBUG
+PROMPT_COMMAND="_execution_timer_stop; $PROMPT_COMMAND"

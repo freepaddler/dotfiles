@@ -1,0 +1,45 @@
+if [ -n "$BASH_VERSION" ]; then
+    # ssh-keygen override
+    complete -f ssh-keygen
+
+    if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
+        custom_completions="
+           /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+           /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
+           /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
+           /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
+        "
+        for f in $custom_completions; do
+            # shellcheck disable=SC1090
+            [ -f "$f" ] && source "$f"
+        done
+        command -v _vagrant >/dev/null 2>&1 && complete -F _vagrant -f vagrant
+        unset f
+    fi
+fi
+
+alias plu="plutil -p"
+
+#idea
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+
+# logout other macos user
+logout-force() {
+    sudo launchctl bootout "user/$(id -u "$1")"
+}
+
+# iina video player reset cache if hangs in network connection
+iina-reset-cache() {
+    defaults delete com.colliderli.iina recentDocuments
+}
+
+# call vnc from terminal
+vnc() {
+    if [ $# -lt 1 ]; then
+        open vnc://localhost:5900
+    elif [[ $1 =~ ^[0-9]+$ ]]; then
+        open vnc://localhost:$1
+    else
+        open vnc://$1
+    fi
+}

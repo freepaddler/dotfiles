@@ -1,0 +1,84 @@
+# reload shell
+alias resrc=". ~/.profile"
+
+# navigation
+alias ..="cd .."
+alias cd..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -="cd -" 2>/dev/null || alias -- -="cd -"
+
+alias cdd="cd ~/Documents"
+alias cdl="cd ~/Downloads"
+alias cdev="cd ~/dev"
+
+# list files
+alias ls="ls -G"
+[ "$DOTFILES_OS" = "linux" ] && alias ls="ls --color=auto"
+alias l="ls -F"
+alias la="ls -aF"
+alias ll="ls -lhF"
+alias lla="ls -alhF"
+alias lll="ls -alhFi"
+[ "$DOTFILES_OS" = "freebsd" ] && alias llll="ls -alhFio"
+[ "$DOTFILES_OS" = "darwin" ] && alias llll="ls -alhFiOe@"
+
+# copy, move, delete
+alias rm="rm -iv"
+alias rmrf="rm -frv"
+alias cp="cp -iv"
+alias cpr="cp -iRv"
+alias mv="mv -iv"
+alias chmox="chmod +x"
+
+# disk space
+alias du="du -h"
+du1() {
+    du -hd1 "$@" | sort -h
+}
+alias df="df -h"
+alias ds="df -P -kHl"
+
+# job and history
+alias j="jobs -l"
+alias h="history 25"
+
+# monitoring
+
+if [ "$DOTFILES_OS" = "linux" ]; then
+  alias p="ps fuw"
+elif [ "$DOTFILES_OS" = "freebsd" ]; then
+  alias p="ps -auxww"
+elif [ "$DOTFILES_OS" = "darwin" ]; then
+  alias p="ps auxww"
+elif [ "$(readlink -f "$(command -v ps)" 2>/dev/null | xargs basename)" = "busybox" ]; then
+  alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
+fi
+
+alias t="top"
+_dotfiles_cmd htop && alias t="htop"
+
+# grep
+alias grep="grep --color"
+_dotfiles_cmd igrep || alias igrep="grep -i"
+alias fgrep="fgrep --color"
+alias egrep="egrep --color"
+
+alias root="su -m root"
+# shellcheck disable=SC2139
+alias hosts="${EDITOR:-vi} /etc/hosts"
+# shellcheck disable=SC2139
+alias vimrc="${EDITOR:-vi} ~/.vimrc"
+
+## other commands
+
+_dotfiles_cmd iptables && {
+    alias iptl="iptables --line-numbers -vnL "
+    alias ipt="iptables "
+}
+
+_dotfiles_cmd screen && alias sc="screen -U"
+_dotfiles_cmd glow && alias mdless="glow -p"
+_dotfiles_cmd vagrant && alias vagrant-gui="GUI=1 vagrant "

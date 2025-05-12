@@ -1,80 +1,29 @@
-# add function or variable to unset list
-unset_add() {
-   UNSET="$UNSET $*"
-}
-# should be called at the very end of bashrc
-cleanup() {
-    unset_add unset_add
-    unset_add cleanup
-    for u in $UNSET; do unset "$u"; done
-}
+# show shell and machine info
+shell=$(printf '%s\n' "$0" | sed 's/^-//')
+shell_version=""
 
-### exit routines (when bash exits)
-unset_add exit_add
-exit_add() {
-    EXIT="$EXIT $*"
-}
-_onExit() {
-    for e in $EXIT; do $e; done
-    [ -n "$BASH_EXEC_TIME" ] && rm -f "$BASH_EXEC_TIME" &>/dev/null
-}
-trap _onExit EXIT
+case "$shell" in
+    bash) shell_version="$BASH_VERSION" ;;
+    zsh)  shell_version="$ZSH_VERSION" ;;
+esac
 
-# add path to the END
-unset_add path_append
-path_append() {
-    case ":$PATH:" in
-        *":$1:"*) ;;
-        *) PATH=${PATH:+$PATH:}$1 ;;
-    esac
-}
-# add path to the BEGINNING
-unset_add path_prepend
-path_prepend() {
-    # remove the existing entry if it exists
-    PATH=$(echo ":$PATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
-    PATH=$1${PATH:+:$PATH}
-}
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    os_name="$PRETTY_NAME $(uname -srm)"
+else
+    os_name="$(uname -srm)"
+fi
 
-unset_add manpath_append
-manpath_append() {
-    case ":$MANPATH:" in
-        *":$1:"*) ;;
-        *) MANPATH=${MANPATH:+$MANPATH:}$1 ;;
-    esac
-}
-unset_add manpath_prepend
-manpath_prepend() {
-    # remove the existing entry if it exists
-    MANPATH=$(echo ":$MANPATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
-    MANPATH=$1${MANPATH:+:$MANPATH}
-}
+echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
+unset shell shell_version os_name
 
-
-# check os by kernel
-kernel=$(uname -s); unset_add kernel
-os_is() { [ "${kernel,,}" = "${1,,}" ]; }; unset_add os_is
-# check if binary is busybox symlink
-is_bb() { [[ "$(readlink "$(which "$1")")" = *"busybox" ]]; }; unset_add is_bb
-# check if it is ish emulator
-is_ish() { [[ "$(uname -r)" = *"-ish" ]]; }; unset_add is_ish
-
-# system info
-unset_add run_info
-run_info() {
-    local info="bash $BASH_VERSION @"
-    if [ -f /etc/os-release ]; then
-        source /etc/os-release
-        info+=" $PRETTY_NAME"
-    fi
-    info+=" $(uname -smr)"
-    echo "$info"
-}
-run_info
-
-# temporary history control
-hoff() { set +o history; }
-hon() { set -o history; }
+# show existing tmux sessions on start
+if command -v tmux >/dev/null 2>&1; then
+    tmux has-session 2>/dev/null && {
+        echo
+        tmux list-sessions
+    }
+fi
 
 # generate passwords
 apg() {
@@ -88,7 +37,14 @@ apg() {
 
 # random hex string
 rand_x() {
-    cat /dev/urandom | LC_CTYPE=POSIX tr -dc 'a-f0-9' | fold -w $1 | head -n 1
+    # shellcheck disable=SC2002
+    cat /dev/urandom | LC_CTYPE=POSIX tr -dc 'a-f0-9' | fold -w "$1" | head -n 1
+}
+
+# random alfa-numeric string
+rand() {
+    # shellcheck disable=SC2002
+    cat /dev/urandom | LC_CTYPE=POSIX tr -dc 'A-Za-z0-9' | fold -w "$1" | head -n 1
 }
 
 # short emacs-style help
@@ -127,4 +83,46 @@ ${b}!:1 / !:-1 / !:*${r} - 1st(2nd..)/last/all params of prev command
 "
     #${b}M-< / M->${r} - move to hist first/last line
     #${b}C-r / C-s${r} - incremental rev/fwd search
+}
+
+
+## _dotfiles helpers
+
+# add function or variable to unset list
+_dotfiles_unset_add() {
+   DOTFILES_UNSET="$DOTFILES_UNSET $*"
+}
+
+# should be called at the very end .profile
+_dotfiles_cleanup() {
+    _dotfiles_unset_add _dotfiles_unset_add
+    _dotfiles_unset_add _dotfiles_cleanup
+    for u in $DOTFILES_UNSET; do
+        #echo "unsetting $u"
+        unset "$u";
+    done
+    unset DOTFILES_UNSET
+}
+
+# check command exists
+_dotfiles_unset_add _dotfiles_cmd
+_dotfiles_cmd() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# add path to the END
+_dotfiles_unset_add _dotfiles_path_append
+_dotfiles_path_append() {
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) PATH=${PATH:+$PATH:}$1 ;;
+    esac
+}
+
+# add path to the BEGINNING
+_dotfiles_unset_add _dotfiles_path_prepend
+_dotfiles_path_prepend() {
+    # remove the existing entry if it exists
+    PATH=$(echo ":$PATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
+    PATH=$1${PATH:+:$PATH}
 }

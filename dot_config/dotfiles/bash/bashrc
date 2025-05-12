@@ -1,0 +1,31 @@
+export HISTCONTROL="ignoredups"
+export HISTSIZE=1000
+export HISTFILESIZE=10000
+export HISTTIMEFORMAT="%h %d %H:%M:%S "
+
+# append session history to history file upon exit
+shopt -s histappend
+# save multiline commands as multiline but in one history entry
+shopt -s cmdhist
+shopt -s lithist
+# auto edit mistakes in path
+shopt -s cdspell
+# show command from history instead running !! !34
+shopt -s histverify
+# do not accept output replacing existing file >| to force
+set -o noclobber
+# return error if any of the commands in pipe chain exit > 0
+#set -o pipefail
+
+# ps
+[ -f "$DOTFILES/bash/ps" ] && . "$DOTFILES/bash/ps"
+[ -f "$DOTFILES/bash/ps_$DOTFILES_OS" ] && . "$DOTFILES/bash/ps_$DOTFILES_OS"
+
+# completions
+[ -f "$DOTFILES/bash/completions_$DOTFILES_OS" ] && . "$DOTFILES/bash/completions_$DOTFILES_OS"
+[ -f "$DOTFILES/bash/completions" ] && . "$DOTFILES/bash/completions"
+
+# functions
+[ -f "$DOTFILES/bash/functions" ] && . "$DOTFILES/bash/functions"
+[ -f "$DOTFILES/bash/functions_$DOTFILES_OS" ] && . "$DOTFILES/bash/functions_$DOTFILES_OS"
+

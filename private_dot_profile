@@ -1,0 +1,60 @@
+DOTFILES="$HOME/.config/dotfiles"
+export DOTFILES
+
+if [ -z "$DOTFILES_PROFILE" ]; then
+    DOTFILES_OS="$(uname -s 2>/dev/null | tr 'A-Z' 'a-z')"
+    [ -n "$DOTFILES_OS" ] || DOTFILES_OS=unknown
+    export DOTFILES_OS
+
+    # exports
+    [ -f "$DOTFILES/shell/exports" ] && . "$DOTFILES/shell/exports"
+    [ -f "$DOTFILES/shell/exports_$DOTFILES_OS" ] && . "$DOTFILES/shell/exports_$DOTFILES_OS"
+
+    export DOTFILES_PROFILE=1
+fi
+
+# --- interactive shell setup ---
+case "$-" in
+    *i*)
+        # common definitions
+        #echo "common definitions"
+        for dotfile in functions ps aliases; do
+            [ -f "$DOTFILES/shell/$dotfile" ] && . "$DOTFILES/shell/$dotfile"
+            [ -f "$DOTFILES/shell/${dotfile}_$DOTFILES_OS" ] && . "$DOTFILES/shell/${dotfile}_$DOTFILES_OS"
+        done
+
+        # shell specific
+        #echo "shell specific"
+        if [ -n "$BASH_VERSION" ]; then
+            [ -f "$DOTFILES/bash/bashrc" ] && . "$DOTFILES/bash/bashrc"
+        fi
+
+        # os specific
+        #echo "os specific"
+        [ -f "$DOTFILES/$DOTFILES_OS" ] && . "$DOTFILES/$DOTFILES_OS"
+
+        # tools
+        #echo "os tools"
+        if [ -d "$DOTFILES/utils/" ]; then
+            for dotfile in "$DOTFILES"/utils/*; do
+                [ -f "$dotfile" ] && . "$dotfile"
+            done
+        fi
+
+        if [ -n "$BASH_VERSION" ]; then
+            # add all aliases completions
+            # https://github.com/cykerway/complete-alias
+            type _complete_alias >/dev/null 2>&1 && \
+              [ -n "$BASH_COMPLETION_VERSINFO" ] && \
+              complete -F _complete_alias "${!BASH_ALIASES[@]}"
+        fi
+        ;;
+esac
+
+unset dotfile
+
+# cleaning service functions
+if command -v _dotfiles_cleanup >/dev/null 2>&1; then
+    _dotfiles_cleanup
+fi
+

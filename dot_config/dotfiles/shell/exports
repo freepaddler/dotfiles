@@ -1,0 +1,64 @@
+# ===============================
+# POSIX-Compatible Environment
+# ===============================
+
+# --- XDG base directories ---
+export XDG_CONFIG_HOME="$HOME/.config"
+[ -d "$XDG_CONFIG_HOME" ] && mkdir -p "$XDG_CONFIG_HOME"
+export XDG_DATA_HOME="$HOME/.local"
+[ -d "$XDG_DATA_HOME" ] && mkdir -p "$XDG_DATA_HOME"
+export XDG_CACHE_HOME="$HOME/.cache"
+[ -d "$XDG_CACHE_HOME" ] && mkdir -p "$XDG_CACHE_HOME"
+
+# --- Editor/Visual setup with vi/vim logic ---
+if command -v vim >/dev/null 2>&1; then
+  export EDITOR="vim -X"
+  export VISUAL="vim -X"
+  alias vi="vim -X"
+elif command -v vi >/dev/null 2>&1; then
+  export EDITOR="vi"
+  export VISUAL="vi"
+fi
+
+# --- Pagers and block sizes ---
+export BLOCKSIZE="K"  # used by BSD/macOS tools
+export PAGER="less"
+
+# Less config with optional mouse support
+# -XF to disable alternate screen
+if less --help 2>&1 | grep -q -- --mouse; then
+  export LESS="-iRJ --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+else
+  export LESS="-iRJ -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+fi
+
+# --- File listing color support ---
+# BSD/macOS-specific
+export LSCOLORS="gxfxcxdxbxegedabagacad"
+# Linux-specific
+export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+
+# --- Locale setup (safe across systems) ---
+
+# Set UTF-8 Russian locale only if available
+if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
+  export LANG=ru_RU.UTF-8
+  export LC_CTYPE=ru_RU.UTF-8
+  export LC_COLLATE=ru_RU.UTF-8
+fi
+
+# Standardize interface language and formatting
+export LC_MESSAGES=POSIX
+export LC_NUMERIC=POSIX
+export LC_TIME=POSIX
+
+# Clear global override (allows category-specific settings)
+export LC_ALL=
+
+# PATH
+PATH="$HOME/.local/bin:$PATH"
+export PATH
+
+# other
+umask 0002
+export CDPATH=.:~
