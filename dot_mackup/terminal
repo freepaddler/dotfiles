@@ -1,0 +1,5 @@
+[application]
+name = terminal
+
+[configuration_files]
+Library/Preferences/com.apple.Terminal.plist
