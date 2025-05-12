@@ -1,7 +1,3 @@
-# always
-Vagrantfile
-ish-update.sh
-
 # for public hosts/servers
 {{- if not .private }}
 !.profile
@@ -20,6 +16,8 @@ ish-update.sh
 {{- else }}
 
 # private hosts
+Vagrantfile
+ish-update.sh
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
