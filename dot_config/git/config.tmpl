@@ -35,3 +35,12 @@
     rebase = true
 [http]
     postBuffer = 524288000
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+# [includeIf "gitdir:/Users/chu/dev/altuera/**"]
+    path = /Users/chu/dev/altuera/.gitconfig
+[remote "origin"]
+    fetch = +refs/tags/*:refs/tags/*
