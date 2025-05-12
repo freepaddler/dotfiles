@@ -20,7 +20,6 @@ ish-update.sh
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
-.config/gup/
 {{- end }}
 
 # macOS specific

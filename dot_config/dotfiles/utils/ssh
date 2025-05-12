@@ -7,7 +7,7 @@ alias ssh-insecure="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/n
 
 # copy local env to remote host
 ssh-cp-env() {
-    scp -r ~/.bashrc ~/.bash_profile ~/.bashrc.d ~/.screenrc ~/.inputrc ~/.vimrc ~/.tmux.conf ~/.bash_completion.d "$1":.
+    scp -r ~/.profile ~/.bashrc ~/.bash_profile ~/.inputrc ~/.vimrc ~/.tmux.conf ~/.config/dotfiles "$1":.
     ssh "$1" mkdir -p .vim/colors/ .ssh/
     scp -r ~/.vim/colors ~/.vim/autoload "$1":.vim/
 }
