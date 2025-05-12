@@ -18,7 +18,7 @@ echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
 unset shell shell_version os_name
 
 if command -v chezmoi >/dev/null 2>&1 && chezmoi source-path >/dev/null 2>&1; then
-  chezmoi verify || printf "\033[33mLocal dotfiles differ from chezmoi source (run 'czstate' to inspect)\033[0m\n"
+  chezmoi verify --exclude=scripts || printf "\033[33mLocal dotfiles differ from chezmoi source (run 'czstate' to inspect)\033[0m\n"
 fi
 
 # show existing tmux sessions on start
@@ -28,6 +28,10 @@ if command -v tmux >/dev/null 2>&1; then
         tmux list-sessions
     }
 fi
+
+where() {
+    command -v "$1"
+}
 
 # generate passwords
 apg() {
