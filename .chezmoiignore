@@ -1,3 +1,7 @@
+# always
+Vagrantfile
+ish-update.sh
+
 # for public hosts/servers
 {{- if not .private }}
 !.profile
@@ -12,10 +16,10 @@
 !.tmux.conf
 !.config/**
 !.config/htop/**
+!.config/dotfiles/**
 {{- else }}
 
 # private hosts
-ish-update.sh
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
