@@ -4,14 +4,16 @@ set -e
 # to be run from iOS ish emulator
 
 echo "add packages"
-sudo apk add ncurses rtorrent
+sudo apk add rtorrent
 
-echo "bash_completion"
-rm -rf "$HOME"/.bash_completion.d &> /dev/null
-cp -rf "$HOME"/dotfiles/dot_bash_completion.d "$HOME"/.bash_completion.d
-echo "bashrc.d"
-rm -rf "$HOME"/.bashrc.d &> /dev/null
-cp -rf "$HOME"/dotfiles/dot_bashrc.d "$HOME"/.bashrc.d
+echo "dotfiles"
+rm -rf "$HOME"/.config/dotfiles &> /dev/null
+mkdir -p "$HOME"/.config
+cp -rf "$HOME"/dotfiles/dot_config/dotfiles "$HOME"/.config
+
+echo "profile"
+rm -f "$HOME"/.profile &> /dev/null
+cp -f "$HOME"/dotfiles/dot_profile "$HOME"/.profile
 echo "bash_profile"
 rm -f "$HOME"/.bash_profile &> /dev/null
 cp -f "$HOME"/dotfiles/dot_bash_profile "$HOME"/.bash_profile
@@ -36,6 +38,6 @@ mkdir -p "$HOME"/.ssh/mastersocket
 rm -f "$HOME"/.ssh/config &> /dev/null
 age -d -i "$HOME"/.config/chezmoi.age "$HOME"/dotfiles/private_dot_ssh/encrypted_private_config.tmpl.age | sed "/^{{/d" >| "$HOME"/.ssh/config && chmod 600 "$HOME"/.ssh/config
 
-source "$HOME"/.bashrc
+source "$HOME"/.profile
 echo
 echo "env updated"
