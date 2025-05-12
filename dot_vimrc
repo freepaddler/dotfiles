@@ -174,7 +174,7 @@ set notimeout ttimeout ttimeoutlen=200
 " save file with sudo instead of reopening
 cmap w!! WForce
 cmap WQ! WForceQuit
-command WForce :execute ':silent w !$(which doas || which sudo) tee % > /dev/null' | exec "wundo ".escape(undofile(expand('%')),'% ') | :edit!
+command WForce :execute ':silent w !$(which sudo || which doas) tee % > /dev/null' | exec "wundo ".escape(undofile(expand('%')),'% ') | :edit!
 command WForceQuit :execute 'WForce' | :quit!
 
 " set plugin options on vim rum
