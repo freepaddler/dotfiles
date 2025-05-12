@@ -1,8 +1,8 @@
 # for public hosts/servers
 {{- if not .private }}
+!.profile
 !.bash*
 !.bash_completion.d/*
-!.bashrc.d/*
 !.inputrc
 !.vimrc
 !.vim/**
