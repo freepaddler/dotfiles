@@ -18,13 +18,7 @@ echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
 unset shell shell_version os_name
 
 if command -v chezmoi >/dev/null 2>&1 && chezmoi source-path >/dev/null 2>&1; then
-  if chezmoi data | grep -q '"private": true'; then
-    chezmoi verify --exclude=scripts || \
-      printf "\033[33mLocal dotfiles differ from chezmoi source (run 'czstate' to inspect)\033[0m\n"
-  else
-    chezmoi verify --exclude=scripts,encrypted || \
-      printf "\033[33mLocal dotfiles differ from chezmoi source (run 'czstate' to inspect)\033[0m\n"
-  fi
+  chezmoi verify --exclude=scripts || printf "\033[33mLocal dotfiles differ from chezmoi source (run 'czstate' to inspect)\033[0m\n"
 fi
 
 # show existing tmux sessions on start
