@@ -10,7 +10,6 @@
 !.ssh/authorized_keys
 !.screenrc
 !.tmux.conf
-!.config/**
 !.config/htop/**
 !.config/dotfiles/**
 {{- else }}
