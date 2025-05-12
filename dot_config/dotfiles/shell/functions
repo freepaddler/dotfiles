@@ -24,7 +24,7 @@ fi
 # show existing tmux sessions on start
 if command -v tmux >/dev/null 2>&1; then
     tmux has-session 2>/dev/null && {
-        echo
+        printf "\033[32mtmux sessions:\033[0m\n"
         tmux list-sessions
     }
 fi
