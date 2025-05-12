@@ -2,7 +2,6 @@
 {{- if not .private }}
 !.profile
 !.bash*
-!.bash_completion.d/*
 !.inputrc
 !.vimrc
 !.vim/**
@@ -10,6 +9,7 @@
 !.ssh/authorized_keys
 !.screenrc
 !.tmux.conf
+!.config/
 !.config/htop/**
 !.config/dotfiles/**
 {{- else }}
