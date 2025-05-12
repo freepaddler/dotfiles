@@ -1,5 +1,5 @@
 {
-  "bip": "172.17.0.1/16",
+  "bip": "172.27.16.1/20",
   "builder": {
     "gc": {
       "defaultKeepStorage": "20GB",
@@ -8,10 +8,15 @@
   },
   "default-address-pools": [
     {
-      "base": "172.18.0.0/15",
+      "base": "172.27.64.0/18",
       "size": 24
     }
   ],
   "experimental": true,
+  "insecure-registries": [
+    "host.docker.internal",
+    "host.docker.internal:5001",
+    "host.docker.internal:5002"
+  ],
   "userland-proxy": false
 }

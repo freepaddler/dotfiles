@@ -1,6 +1,7 @@
 if [ -f ~/.bashrc ] && test -z "$PROFILEREAD" ; then
-  # shellcheck disable=SC1090
-  source ~/.bashrc
+    # shellcheck disable=SC1090
+    source ~/.bashrc
 fi
-
 return 0
+
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
