@@ -27,7 +27,7 @@ _tmux-session-state() {
 }
 
 tm() {
-    sessions=$(tmux display -p '#{server_sessions}' 2>/dev/null || echo 0)
+    sessions=$(tmux list-sessions 2>/dev/null | wc -l)
     session="main"
     undef=
     [ -z "$1" ] && undef=1 || session="$1"
