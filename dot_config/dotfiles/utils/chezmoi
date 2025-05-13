@@ -5,20 +5,12 @@ alias czup="chezmoi update && czap"
 alias czap="chezmoi apply && resrc"
 alias czst="chezmoi status"
 
-_czedit() {
-    if [ "$#" -eq 1 ] && chezmoi managed "$1" > /dev/null 2>&1; then
-        chezmoi edit --apply "$1"
-    else
-        vi "$@"
-    fi
-}
-
 chezmoi source-path >/dev/null 2>&1 && {
     alias czst="chezmoi status; cz git -- status -s"
     alias czed="chezmoi edit --apply"
 
     _czedit() {
-        if [ "$#" -eq 1 ] && chezmoi managed "$1" > /dev/null 2>&1; then
+        if [ "$#" -eq 1 ] && chezmoi source-path "$1" >/dev/null 2>&1; then
             chezmoi edit --apply "$1"
         else
             vi "$@"
