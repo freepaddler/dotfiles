@@ -18,7 +18,6 @@ Library/
 
 # for public hosts/servers
 {{- if not .private }}
-!.config/
 !.config/htop/**
 !.config/dotfiles/**
 !.local/
