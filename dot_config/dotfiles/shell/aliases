@@ -48,13 +48,13 @@ alias h="history 25"
 # monitoring
 
 if [ "$DOTFILES_OS" = "linux" ]; then
-  alias p="ps fuw"
+    alias p="ps fuw"
 elif [ "$DOTFILES_OS" = "freebsd" ]; then
-  alias p="ps -auxww"
+    alias p="ps -auxww"
 elif [ "$DOTFILES_OS" = "darwin" ]; then
-  alias p="ps auxww"
+    alias p="ps auxww"
 elif [ "$(readlink -f "$(command -v ps)" 2>/dev/null | xargs basename)" = "busybox" ]; then
-  alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
+    alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
 fi
 
 alias t="top"
@@ -68,9 +68,9 @@ alias egrep="egrep --color"
 
 alias root="su -m root"
 # shellcheck disable=SC2139
-alias hosts="${EDITOR:-vi} /etc/hosts"
+alias hosts="v /etc/hosts"
 # shellcheck disable=SC2139
-alias vimrc="${EDITOR:-vi} ~/.vimrc"
+alias vimrc="v ~/.vimrc"
 
 ## other commands
 

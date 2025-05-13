@@ -9,25 +9,23 @@ completion_script_locations="
 
 "
 for bcsh in $completion_script_locations; do
-        [ -n "$BASH_COMPLETION_VERSINFO" ] && break
-        [ -f "$bcsh/bash_completion.sh" ] && source "$bcsh/bash_completion.sh"
+    [ -n "$BASH_COMPLETION_VERSINFO" ] && break
+    [ -f "$bcsh/bash_completion.sh" ] && source "$bcsh/bash_completion.sh"
 done
 unset bsch
 unset completion_script_locations
 
 # load personal completions
-if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
-    for f in "$HOME"/.bash_completion.d/* "$DOTFILES"/bash/bash_completions/*; do
-        # shellcheck disable=SC1090
-        [ -f "$f" ] && source "$f"
-    done
-    unset f
-fi
+for f in "$HOME"/.bash_completion.d/* "$DOTFILES"/bash/bash_completions/*; do
+    # shellcheck disable=SC1090
+    [ -f "$f" ] && source "$f"
+done
+unset f
+
 
 # check if command has completion
-_dotfiles_unset_add _dotfiles_has_bash_completion
-_dotfiles_has_bash_completion() {
-    [ -n "$BASH_VERSION" ] || return 0
+_dotfiles_unset_add _dotfiles_bash_has_completion
+_dotfiles_bash_has_completion() {
     # completion exists
     complete -p "$1" &> /dev/null && return 0
     # no loader -> no completion
@@ -42,16 +40,15 @@ _dotfiles_has_bash_completion() {
 }
 
 # clone current completion
-_dotfiles_unset_add _dotfiles_clone_bash_completion
-_dotfiles_clone_bash_completion() {
-    [ -n "$BASH_VERSION" ] || return 0
-    if _dotfiles_has_bash_completion $1; then
+_dotfiles_unset_add _dotfiles_bash_clone_completion
+_dotfiles_bash_clone_completion() {
+    if _dotfiles_bash_has_completion $1; then
         complete -r $2 &>/dev/null
         $(complete -p $1) "$2"
     fi
 }
 
 # if no bash-completion, let's make out life a little bit easier
-_dotfiles_has_bash_completion man || complete -cf man
-_dotfiles_has_bash_completion nohup || complete -c -o bashdefault -o default nohup
-_dotfiles_has_bash_completion su || complete -c -o bashdefault -o default su
+_dotfiles_bash_has_completion man || complete -cf man
+_dotfiles_bash_has_completion nohup || complete -c -o bashdefault -o default nohup
+_dotfiles_bash_has_completion su || complete -c -o bashdefault -o default su

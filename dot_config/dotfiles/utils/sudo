@@ -4,13 +4,13 @@ if _dotfiles_cmd doas; then
         alias sudo="doas "
     fi
 
-    if [ -n "$BASH_VERSION" ]; then
-        _dotfiles_has_bash_completion doas || complete -cf -o bashdefault -o default doas
+    if _dotfiles_is_bash; then
+        _dotfiles_bash_has_completion doas || complete -cf -o bashdefault -o default doas
     fi
 
 fi
 
-_dotfiles_cmd || return
+_dotfiles_cmd sudo || return
 
 #    # to be sure that this is not doas-sudo-shim
 #    if sudo --version &> /dev/null; then
@@ -56,7 +56,7 @@ _dotfiles_cmd || return
 alias sudo="sudo "
 alias sude="sudo -E "
 
-if [ -n "$BASH_VERSION" ]; then
-    _dotfiles_has_bash_completion sudo || complete -cf -o bashdefault -o default sudo
+if _dotfiles_is_bash; then
+    _dotfiles_bash_has_completion sudo || complete -cf -o bashdefault -o default sudo
 fi
 

@@ -2,6 +2,7 @@
 # POSIX-Compatible Environment
 # ===============================
 
+# commented, because broke chezmoi
 # --- XDG base directories ---
 #export XDG_CONFIG_HOME="$HOME/.config"
 #[ -d "$XDG_CONFIG_HOME" ] && mkdir -p "$XDG_CONFIG_HOME"
@@ -11,16 +12,6 @@
 #[ -d "$XDG_SHARE_HOME" ] && mkdir -p "$XDG_SHARE_HOME"
 #export XDG_CACHE_HOME="$HOME/.cache"
 #[ -d "$XDG_CACHE_HOME" ] && mkdir -p "$XDG_CACHE_HOME"
-
-# --- Editor/Visual setup with vi/vim logic ---
-if command -v vim >/dev/null 2>&1; then
-  export EDITOR="vim -X"
-  export VISUAL="vim -X"
-  alias vi="vim -X"
-elif command -v vi >/dev/null 2>&1; then
-  export EDITOR="vi"
-  export VISUAL="vi"
-fi
 
 # --- Pagers and block sizes ---
 export BLOCKSIZE="K"  # used by BSD/macOS tools

@@ -57,6 +57,14 @@ tm() {
     fi
 }
 
+_tm_complete_sessions() {
+  local word cur
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  mapfile -t COMPREPLY < <(tmux ls 2>/dev/null | cut -d: -f1 | grep -E "^${cur}")
+}
+complete -F _tm_complete_sessions tm
+
 ## tmux auto-load
 #if  [ -z "$NO_TMUX_AUTOLOAD" ] &&   # once loaded, don't retry on reload
 #    [ -z "$TMUX" ] &&               # no tmux in tmux
@@ -73,3 +81,29 @@ tm() {
 #export NO_TMUX_AUTOLOAD=1
 
 set +x
+
+# short tmux help
+tmh() {
+    local b="\033[1m"
+    local r="\033[0m"
+    echo -ne "${b} TMUX Quick Help${r}
+\t\t${b}WINDOWS${r}
+${b}§ n p l${r}  next/prev/last window
+${b}§ c W w${r}  create/rename/list window
+${b}§ k K${r}    kill current/all windows
+${b}§ d e D${r}  detach/force detach/list clients
+\t\t${b}PANES${r}
+${b}M-S-arrows / § arrows ${r} select pane
+${b}§ | - ${r}      vertical/horizontal split (join with Shift)
+${b}§ M-S-arrow${r} resize pane \t${b}§ M-[1-5] / SPACE${r} layout
+${b}§ m M${r}       toggle mark/unmark \t${b}§ q${r} show pane numbers
+${b}§ x z !${r}     kill/zoom(unzoom)/new window from pane
+\t\t${b}VISUAL${r}
+${b}§ [/v PgUp${r} enter visual mode  \t${b}§ ]/V =${r} buffer paste/list
+${b}SPACE y ENTER${r} selection start/copy/copy and exit
+\t\t${b}MISC${r}
+${b}§ r R ${r}  reload config / refresh client
+${b}§ w s D${r} list windows/sessions/clients (tp detach)
+${b}§ : / ?${r} command / check key / help
+"
+}

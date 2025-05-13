@@ -1,35 +1,36 @@
-if [ -n "$BASH_VERSION" ]; then
+if _dotfiles_is_bash; then
     # ssh-keygen override
     complete -f ssh-keygen
 
-    if [ -n "$BASH_COMPLETION_VERSINFO" ]; then
-        custom_completions="
-           /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-           /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
-           /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
-           /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
-        "
-        for f in $custom_completions; do
-            # shellcheck disable=SC1090
-            [ -f "$f" ] && source "$f"
-        done
-        unset f
+    custom_completions="
+       /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+       /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
+       /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
+       /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
+    "
+    for f in $custom_completions; do
+        # shellcheck disable=SC1090
+        [ -f "$f" ] && source "$f"
+    done
+    unset f
 
-        command -v _vagrant >/dev/null 2>&1 && complete -F _vagrant -f vagrant
+    command -v _vagrant >/dev/null 2>&1 && {
+        complete -F _vagrant -f vagrant
+        complete -F _vagrant -f vagrant-gui
+    }
 
-        _dotfiles_cmd tmutil && {
-            _tmutil(){
-              list=$( tmutil | /usr/bin/grep -v ^$ | /usr/bin/grep ^Usage | awk '{print $3}' )
-              COMPREPLY=( $(compgen -W "$list" ${COMP_WORDS[COMP_CWORD]}  ) )
-            }
-            complete -F _tmutil tmutil
+    _dotfiles_cmd tmutil && {
+        _tmutil(){
+          list=$( tmutil | /usr/bin/grep -v ^$ | /usr/bin/grep ^Usage | awk '{print $3}' )
+          COMPREPLY=( $(compgen -W "$list" ${COMP_WORDS[COMP_CWORD]}  ) )
         }
-
-    fi
+        complete -F _tmutil tmutil
+    }
 fi
 
 alias plu="plutil -p"
 alias cleanup-dsstore="find . -name '*.DS_Store' -type f -ls -delete"
+_dotfiles_cmd gsed && alias sed="gsed"
 
 #idea
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

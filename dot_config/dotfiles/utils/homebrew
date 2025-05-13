@@ -1,0 +1,34 @@
+_dotfiles_cmd brew || return
+
+alias brew-requested="brew leaves -r && echo && brew list --cask -1"
+
+brew-usage() {
+    brew list --formula | xargs -n1 -P8 -I {} \
+        sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" |
+        sort -h -r -k2 - | column -t
+}
+
+brew-save() {
+    set -e
+
+    echo "Backing up homebrew..."
+    echo
+
+    DEST="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
+    [ -d "$DEST" ] || mkdir -p "$DEST"
+    BACKUP_DIR="$DEST/Homebrew.backup"
+    mkdir -p "$BACKUP_DIR"
+    BREWFILE="$DEST/Brewfile"
+
+    dmark=$(date +%Y-%m-%d_%H-%M-%S)
+    if [ -f "$BREWFILE" ]; then
+        modtime=$(stat -f "%m" "$BREWFILE")
+        dmark=$(date -r "$modtime" +%Y-%m-%d_%H-%M-%S)
+        mv -fv "$BREWFILE" "$BACKUP_DIR/Brewfile_$dmark"
+    fi
+
+    HOMEBREW_NO_AUTO_UPDATE=1 brew bundle dump --file="$BREWFILE"
+
+    echo
+    echo "Homebrew dump complete"
+}

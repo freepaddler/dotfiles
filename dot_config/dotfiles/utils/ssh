@@ -1,4 +1,4 @@
-alias sshconfig >/dev/null 2>&1 || alias sshconfig="vi ~/.ssh/config && resrc"
+alias sshconfig="v ~/.ssh/config && resrc"
 alias sshexit="ssh -O exit"
 alias ssh-multi="ssh -M"
 alias ssh-single="ssh -o ControlMaster=no"
@@ -27,12 +27,12 @@ ssh-del-knownhost() {
     fi
 }
 
-if [ -n "$BASH_VERSION" ]; then
-    _dotfiles_has_bash_completion ssh || complete -fW \
+if _dotfiles_is_bash; then
+    _dotfiles_bash_has_completion ssh || complete -fW \
         "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
             ssh ssh-copy-id scp sftp sshexit ssh-multi ssh-single ssh-x11 ssh-insecure
-    _dotfiles_clone_bash_completion ssh ssh-cp-env
-    _dotfiles_clone_bash_completion ssh ssh-del-knownhost
+    _dotfiles_bash_clone_completion ssh ssh-cp-env
+    _dotfiles_bash_clone_completion ssh ssh-del-knownhost
 fi
 
 # run shell script(s) over ssh

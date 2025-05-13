@@ -2,7 +2,7 @@ _dotfiles_cmd go || return
 
 _dotfiles_path_append "$(go env GOPATH)/bin"
 
-if [ -n "$BASH_VERSION" ]; then
+if _dotfiles_is_bash; then
     if type gocomplete &> /dev/null; then
         complete -C "$(type -p gocomplete)" go
     fi

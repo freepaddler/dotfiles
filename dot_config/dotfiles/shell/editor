@@ -1,0 +1,13 @@
+# --- Editor/Visual setup with vi/vim logic ---
+if command -v vim >/dev/null 2>&1; then
+    export EDITOR="vim -X"
+    export VISUAL="vim -X"
+    alias vi="vim -X"
+elif command -v vi >/dev/null 2>&1; then
+    export EDITOR="vi"
+    export VISUAL="vi"
+    alias vi="vi"
+else
+    echo "ERROR: vi or vim are not found!"
+fi
+alias v="vi"

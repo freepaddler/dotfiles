@@ -13,6 +13,10 @@ if [ -z "$DOTFILES_PROFILE" ]; then
     export DOTFILES_PROFILE=1
 fi
 
+# editor
+[ -f "$DOTFILES/shell/editor" ] && . "$DOTFILES/shell/editor"
+[ -f "$DOTFILES/shell/editor_$DOTFILES_OS" ] && . "$DOTFILES/shell/editor_$DOTFILES_OS"
+
 # --- interactive shell setup ---
 case "$-" in
     *i*)
@@ -25,7 +29,11 @@ case "$-" in
 
         # shell specific
         #echo "shell specific"
-        if [ -n "$BASH_VERSION" ]; then
+        _dotfiles_unset_add _dotfiles_is_bash
+        _dotfiles_is_bash() {
+            [ -n "$BASH_VERSION" ]
+        }
+        if _dotfiles_is_bash; then
             [ -f "$DOTFILES/bash/bashrc" ] && . "$DOTFILES/bash/bashrc"
         fi
 
@@ -41,11 +49,10 @@ case "$-" in
             done
         fi
 
-        if [ -n "$BASH_VERSION" ]; then
+        if _dotfiles_is_bash; then
             # add all aliases completions
             # https://github.com/cykerway/complete-alias
             type _complete_alias >/dev/null 2>&1 && \
-              [ -n "$BASH_COMPLETION_VERSINFO" ] && \
               complete -F _complete_alias "${!BASH_ALIASES[@]}"
         fi
         ;;
