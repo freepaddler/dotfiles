@@ -1,20 +1,4 @@
-# for public hosts/servers
-{{- if not .private }}
-!.profile
-!.bash*
-!.inputrc
-!.vimrc
-!.vim/**
-!.ssh/
-!.ssh/authorized_keys
-!.screenrc
-!.tmux.conf
-!.config/
-!.config/htop/**
-!.config/dotfiles/**
-{{- else }}
-
-# private hosts
+# for all
 Vagrantfile
 ish-update.sh
 
@@ -22,7 +6,7 @@ ish-update.sh
 {{- if eq .chezmoi.os "darwin" }}
 {{- end }}
 
-# macOS specific
+# ignore on not macOS
 {{- if ne .chezmoi.os "darwin" }}
 .local/bin/brew-update.sh
 .local/bin/pfmanage.sh
@@ -32,6 +16,21 @@ ish-update.sh
 Library/
 {{- end }}
 
-# close non private if
+# for public hosts/servers
+{{- if not .private }}
+!.config/
+!.config/htop/**
+!.config/dotfiles/**
+!.local/
+!.local/bin/**
+!.bash*
+!.inputrc
+!.profile
+!.screenrc
+!.ssh/
+!.ssh/authorized_keys
+!.tmux.conf
+!.vimrc
+!.vim/**
 {{- end }}
-# nothing should be added below
+
