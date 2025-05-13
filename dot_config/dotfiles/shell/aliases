@@ -81,4 +81,3 @@ _dotfiles_cmd iptables && {
 
 _dotfiles_cmd screen && alias sc="screen -U"
 _dotfiles_cmd glow && alias mdless="glow -p"
-_dotfiles_cmd vagrant && alias vagrant-gui="GUI=1 vagrant "

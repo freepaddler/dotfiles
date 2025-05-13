@@ -14,3 +14,10 @@ alias gp="git push"
 alias gu="git pull"
 gh() { alias | grep git; }
 
+_dotfiles_is_bash || return
+
+_dotfiles_os_is darwin && {
+    # completions
+    _dotfiles_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+}
+

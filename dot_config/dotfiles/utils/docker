@@ -4,7 +4,15 @@ alias drm="docker run --rm"
 alias dps='docker ps --format "table {{.Names}}\\t{{.RunningFor}}\\t{{.Status}}\\t{{.Image}}"'
 alias dcomp="docker compose "
 
-if _dotfiles_is_bash; then
-    _dotfiles_bash_has_completion docker >/dev/null 2>/dev/null ||
-        complete -W "$(docker ps -a --format '{{.Names}}' 2>/dev/null; docker image ls --format '{{.Repository}}:{{.Tag}}' --filter "dangling=false" 2>/dev/null)" docker
-fi
+_dotfiles_is_bash || return
+
+_dotfiles_os_is darwin && {
+    completions="
+       /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
+       /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
+    "
+    _dotfiles_source $completions
+}
+
+_dotfiles_bash_has_completion docker >/dev/null 2>/dev/null ||
+    complete -W "$(docker ps -a --format '{{.Names}}' 2>/dev/null; docker image ls --format '{{.Repository}}:{{.Tag}}' --filter "dangling=false" 2>/dev/null)" docker
