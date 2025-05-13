@@ -5,20 +5,42 @@ alias czup="chezmoi update && czap"
 alias czap="chezmoi apply && resrc"
 alias czst="chezmoi status"
 
-chezmoi source-path >/dev/null 2>&1 && {
+# these work only with git binary
+_dotfiles_cmd git && chezmoi source-path >/dev/null 2>&1 && {
     alias czst="chezmoi status; cz git -- status -s"
     alias czed="chezmoi edit --apply"
 
     _czedit() {
-        if  [ "$#" -eq 1 ] &&
-          command -v git >/dev/null 2>&1 &&
-          chezmoi source-path "$1" >/dev/null 2>&1; then
+        if  [ "$#" -eq 1 ] && chezmoi source-path "$1" >/dev/null 2>&1; then
             chezmoi edit --apply "$1"
         else
             vi "$@"
         fi
     }
     alias v="_czedit "
+
+    # chezmoi save all changes
+    cz-save() {
+        echo "Saving chezmoi changes to git..."
+        echo
+
+        chezmoi git -- diff --quiet 2>/dev/null || \
+            chezmoi git add .
+
+        chezmoi git -- diff --cached --quiet 2>/dev/null || {
+            echo "Changes:"
+            chezmoi git -- status -s
+            sleep 2.5
+            echo
+            chezmoi git -- commit -m "${*:-$(chezmoi git -- status -s)}" -m "$(hostname -s)"
+        }
+
+        chezmoi git -- pull --rebase && chezmoi git push
+
+        echo
+        echo "Chezmoi saved to git"
+    }
+
 }
 
 # remote local install chezmoi
@@ -30,24 +52,3 @@ if _dotfiles_is_bash; then
     _dotfiles_bash_clone_completion ssh cz-ssh
 fi
 
-# chezmoi save all changes
-cz-save() {
-    echo "Saving chezmoi changes to git..."
-    echo
-
-    chezmoi git -- diff --quiet 2>/dev/null || \
-        chezmoi git add .
-
-    chezmoi git -- diff --cached --quiet 2>/dev/null || {
-        echo "Changes:"
-        chezmoi git -- status -s
-        sleep 2.5
-        echo
-        chezmoi git -- commit -m "${*:-$(chezmoi git -- status -s)}" -m "$(hostname -s)"
-    }
-
-    chezmoi git -- pull --rebase && chezmoi git push
-
-    echo
-    echo "Chezmoi saved to git"
-}
