@@ -3,7 +3,6 @@ _dotfiles_cmd vagrant || return
 alias vagrant-gui="GUI=1 vagrant "
 
 _dotfiles_os_is darwin && {
-    echo "darwin"
     vagrant-vmware-utility-restart() {
         [ -x /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility ] && {
             sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility uninstall
