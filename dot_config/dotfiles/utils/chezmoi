@@ -10,7 +10,9 @@ chezmoi source-path >/dev/null 2>&1 && {
     alias czed="chezmoi edit --apply"
 
     _czedit() {
-        if [ "$#" -eq 1 ] && chezmoi source-path "$1" >/dev/null 2>&1; then
+        if  [ "$#" -eq 1 ] &&
+          command -v git >/dev/null 2>&1 &&
+          chezmoi source-path "$1" >/dev/null 2>&1; then
             chezmoi edit --apply "$1"
         else
             vi "$@"
