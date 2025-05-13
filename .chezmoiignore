@@ -1,3 +1,21 @@
+# for public hosts/servers
+{{- if not .private }}
+!.config/
+!.config/htop/**
+!.config/dotfiles/**
+!.local/
+!.local/bin/**
+!.bash*
+!.inputrc
+!.profile
+!.screenrc
+!.ssh/
+!.ssh/authorized_keys
+!.tmux.conf
+!.vimrc
+!.vim/**
+{{- end }}
+
 # for all
 Vagrantfile
 ish-update.sh
@@ -16,20 +34,4 @@ ish-update.sh
 Library/
 {{- end }}
 
-# for public hosts/servers
-{{- if not .private }}
-!.config/htop/**
-!.config/dotfiles/**
-!.local/
-!.local/bin/**
-!.bash*
-!.inputrc
-!.profile
-!.screenrc
-!.ssh/
-!.ssh/authorized_keys
-!.tmux.conf
-!.vimrc
-!.vim/**
-{{- end }}
 
