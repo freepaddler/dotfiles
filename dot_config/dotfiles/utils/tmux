@@ -2,6 +2,15 @@ command -v tmux >/dev/null 2>&1 || return
 
 alias tml="tmux list-sessions"
 
+# fix vars after reattach
+tmfix() {
+    [ -n "$TMUX" ] || return
+    vars=$(tmux show-env -s 2>/dev/null | grep -E '^(SSH|DBUS)_') || return
+    eval "$vars"
+    printf '[tmfix] environment updated\n'
+    unset vars
+}
+
 _tmux-session-selector() {
     t=1
     for arg in "$@"; do
