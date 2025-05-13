@@ -4,9 +4,10 @@ ish-update.sh
 
 # for public hosts/servers
 {{- if not .private }}
-encrypted_*
-.npmrc
+**/*.age
 .config/yandex-cloud
+.ssh/**
+!.ssh/authorized_keys
 {{- end }}
 
 # ignore on macOS
