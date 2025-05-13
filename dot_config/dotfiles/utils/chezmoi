@@ -1,7 +1,7 @@
 _dotfiles_cmd chezmoi || return
 
 alias cz="chezmoi "
-alias czup="chezmoi update --apply"
+alias czup="chezmoi update && czap"
 alias czap="chezmoi apply && resrc"
 alias czst="chezmoi status"
 
