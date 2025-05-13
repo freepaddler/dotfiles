@@ -14,15 +14,15 @@ if [ -z "$DOTFILES_PROFILE" ]; then
 fi
 
 # editor
-[ -f "$DOTFILES/shell/editor" ] && . "$DOTFILES/shell/editor"
-[ -f "$DOTFILES/shell/editor_$DOTFILES_OS" ] && . "$DOTFILES/shell/editor_$DOTFILES_OS"
+[ -f "$DOTFILES/shell/environment" ] && . "$DOTFILES/shell/environment"
+[ -f "$DOTFILES/shell/environment_$DOTFILES_OS" ] && . "$DOTFILES/shell/environment_$DOTFILES_OS"
 
 # --- interactive shell setup ---
 case "$-" in
     *i*)
         # common definitions
         #echo "common definitions"
-        for dotfile in functions ps aliases; do
+        for dotfile in functions aliases; do
             [ -f "$DOTFILES/shell/$dotfile" ] && . "$DOTFILES/shell/$dotfile"
             [ -f "$DOTFILES/shell/${dotfile}_$DOTFILES_OS" ] && . "$DOTFILES/shell/${dotfile}_$DOTFILES_OS"
         done
@@ -41,8 +41,8 @@ case "$-" in
         #echo "os specific"
         [ -f "$DOTFILES/$DOTFILES_OS" ] && . "$DOTFILES/$DOTFILES_OS"
 
-        # tools
-        #echo "os tools"
+        # utils
+        #echo "utils"
         if [ -d "$DOTFILES/utils/" ]; then
             for dotfile in "$DOTFILES"/utils/*; do
                 [ -f "$dotfile" ] && . "$dotfile"

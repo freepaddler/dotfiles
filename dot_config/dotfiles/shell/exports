@@ -53,5 +53,4 @@ PATH="$HOME/.local/bin:$PATH"
 export PATH
 
 # other
-umask 0002
 export CDPATH=.:~

@@ -1,3 +1,12 @@
+umask 0002
+
+if [ -n "$PS1" ]; then
+    PS1="\u@\h \w \\$ "
+    PS2="-> "
+
+    export PS2 SUDO_PS1="$PS1"
+fi
+
 # --- Editor/Visual setup with vi/vim logic ---
 if command -v vim >/dev/null 2>&1; then
     export EDITOR="vim -X"

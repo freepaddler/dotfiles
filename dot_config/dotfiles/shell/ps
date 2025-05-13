@@ -1,6 +1,0 @@
-if [ -n "$PS1" ]; then
-    PS1="\u@\h \w \\$ "
-    PS2="-> "
-
-    export PS2 SUDO_PS1="$PS1"
-fi

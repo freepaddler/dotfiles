@@ -23,5 +23,3 @@ unset pyver
 export PATH
 export MANPATH
 export INFOPATH
-
-umask 0022
