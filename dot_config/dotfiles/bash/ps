@@ -57,10 +57,6 @@ _ps_git() {
             ab_info+="$(_c red)-$behind"
         fi
         [ -n "$ab_info" ] && ab_info=" $ab_info"
-
-#        if [ "$ahead" -gt 0 ]; then ab_info+="↑$ahead"; fi
-#        if [ "$behind" -gt 0 ]; then ab_info+="↓$behind"; fi
-#        [ -n "$ab_info" ] && ab_info=" $ab_info"
     fi
 
     printf " %s(%s%s%s%s)%s" "$(_c magenta)" "$display" "$dirty" "$ab_info" "$(_c magenta)" "$(_c)"
