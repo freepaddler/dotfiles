@@ -3,7 +3,7 @@ alias sshexit="ssh -O exit"
 alias sshmulti="ssh -M"
 alias sshsingle="ssh -o ControlMaster=no"
 alias sshx11="ssh -Y"
-alias sshinsecure="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+alias sshnocheck="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
 # copy local env to remote host
 ssh-cp-env() {
@@ -30,7 +30,7 @@ ssh-del-knownhost() {
 if _dotfiles_is_bash; then
     _dotfiles_bash_has_completion ssh || complete -fW \
         "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
-            ssh ssh-copy-id scp sftp sshexit sshmulti sshsingle sshx11 sshinsecure
+            ssh ssh-copy-id scp sftp sshexit sshmulti sshsingle sshx11 sshnocheck
     _dotfiles_bash_clone_completion ssh ssh-cp-env
     _dotfiles_bash_clone_completion ssh ssh-del-knownhost
 fi
