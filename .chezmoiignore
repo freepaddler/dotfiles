@@ -1,24 +1,13 @@
-# for public hosts/servers
-{{- if not .private }}
-!.config/
-!.config/htop/**
-!.config/dotfiles/**
-!.local/
-!.local/bin/**
-!.bash*
-!.inputrc
-!.profile
-!.screenrc
-!.ssh/
-!.ssh/authorized_keys
-!.tmux.conf
-!.vimrc
-!.vim/**
-{{- end }}
-
 # for all
 Vagrantfile
 ish-update.sh
+
+# for public hosts/servers
+{{- if not .private }}
+encrypted_*
+.npmrc
+.config/yandex-cloud
+{{- end }}
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
@@ -26,7 +15,6 @@ ish-update.sh
 
 # ignore on not macOS
 {{- if ne .chezmoi.os "darwin" }}
-.local/bin/brew-update.sh
 .local/bin/pfmanage.sh
 .docker/
 .mackup.cfg
