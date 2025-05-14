@@ -90,11 +90,11 @@ _execution_timer_stop() {
     [[ -z "$_execution_timer" || "$_execution_timer" == 1 ]] && return 0
     # fix bad values and return flow
     [[ "$_execution_timer" =~ ^[0-9]+$ ]] || { _execution_timer=1; return; }
-    #echo  "_execution_timer_stop: _execution_timer=$_execution_timer TIME=$(date +%s)"
+    #echo  "_execution_timer_stop: code='$e' _execution_timer=$_execution_timer TIME=$(date +%s)"
 
     # make time string
     local diff_ts=$(( $(date +%s) - _execution_timer ))
-    [[ $diff_ts == 0 ]] && return 0
+    #[[ $diff_ts == 0 ]] && return 0
     local hours=$(( diff_ts / 3600 ))
     local minutes=$(( (diff_ts % 3600) / 60 ))
     local seconds=$(( diff_ts % 60 ))
@@ -111,17 +111,21 @@ _execution_timer_stop() {
 
     printf '\0337'
     local offset=11
-    if [ $e = "(0)" ]; then
-        printf "%*s" $COLUMNS "${t:+done in $t}"
+    if [[ $e = "(0)" ]]; then
+        (( diff_ts > 0 )) &&  printf "%*s" $COLUMNS "${t:+done in $t}"
     else
         e=${e:+$(_c red)failed$e$(_c)}
-        printf "%*s" $((COLUMNS+offset)) "${e}${t:+ in $t}"
+        if (( diff_ts > 0 )); then
+            printf "%*s" $((COLUMNS+offset)) "${e} in $t"
+        else
+            printf "%*s" $((COLUMNS+offset)) "${e}"
+        fi
     fi
     printf '\0338'
     _execution_timer=1
 }
 
 PS0='${_execution_timer:0:${BASH_COMMAND:+$((_execution_timer=0))}}'
-#trap 'echo "trap: _execution_timer=$_execution_timer"; [[ $_execution_timer == 0 ]] && _timerstart' DEBUG
-trap '[[ $_execution_timer == 0 ]] && _execution_timer_start' DEBUG
+#trap 'echo "trap: _execution_timer=$_execution_timer"; [[ $_execution_timer == 0 ]] && _execution_timer_start' DEBUG
+trap '[[ $_execution_timer == 0 && -n "$BASH_COMMAND" ]] && _execution_timer_start' DEBUG
 PROMPT_COMMAND="_execution_timer_stop; $PROMPT_COMMAND"

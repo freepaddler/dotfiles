@@ -3,6 +3,7 @@ _dotfiles_cmd docker || return
 alias drm="docker run --rm"
 alias dps='docker ps --format "table {{.Names}}\\t{{.RunningFor}}\\t{{.Status}}\\t{{.Image}}"'
 alias dcomp="docker compose "
+alias docit="docker exec -it "
 
 _dotfiles_is_bash || return
 
