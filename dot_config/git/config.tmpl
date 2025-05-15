@@ -20,15 +20,22 @@
 [difftool]
     prompt = false
 [alias]
-    logall = log --all --decorate --oneline --graph --date-order
+    branches = "!git --no-pager branch -vv"
+    branch-cleanup = "!git branch --merged | grep -v main | xargs git branch -d"
+    branch-rm = "!f() { \
+                    case \"$1\" in main|master) echo 'Refusing to delete protected branch'; exit 1;; esac; \
+                    git branch -d \"$1\" && \
+                    git push origin --delete \"$1\"; \
+                  }; f"
+    fetchall = "!git fetch --all --tags --prune"
+    logs = "!git log --decorate --oneline --graph --date-order --pretty='format:%C(auto)%h %d %s [%an]'"
     info = remote show origin
+    tags = "!git --no-pager tag -l --sort=-creatordate --format='%(refname:short)  %(creatordate:short)  %(subject)'"
+    unstage = restore --staged
     stat = status -uno
-    branches = branch -vv
-    tags = tag -ln --sort=-taggerdate
-    logbr = log --oneline --decorate --walk-reflogs
-    logbranch = log --decorate --walk-reflogs
 [fetch]
     prune = true
+    tags = true
 [pull]
     rebase = true
 [http]
