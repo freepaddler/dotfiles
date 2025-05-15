@@ -20,13 +20,9 @@
 [difftool]
     prompt = false
 [alias]
+    aliases = "!git --no-pager config --get-regexp ^alias\\."
     branches = "!git --no-pager branch -vv"
-    branch-cleanup = "!git branch --merged | grep -v main | xargs git branch -d"
-    branch-rm = "!f() { \
-                    case \"$1\" in main|master) echo 'Refusing to delete protected branch'; exit 1;; esac; \
-                    git branch -d \"$1\" && \
-                    git push origin --delete \"$1\"; \
-                  }; f"
+    #branch-cleanup = "!git branch --merged | grep -v main | xargs git branch -d"
     fetchall = "!git fetch --all --tags --prune"
     logs = "!git log --decorate --oneline --graph --date-order --pretty='format:%C(auto)%h %d %s [%an]'"
     info = remote show origin
