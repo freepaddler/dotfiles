@@ -5,8 +5,8 @@ alias vagrant-gui="GUI=1 vagrant "
 _dotfiles_os_is darwin && {
     vagrant-vmware-utility-restart() {
         [ -x /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility ] && {
-            sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility uninstall
-            sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility install
+            sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility service uninstall
+            sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility service install
         }
     }
 }
