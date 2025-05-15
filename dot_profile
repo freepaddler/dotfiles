@@ -13,6 +13,8 @@ if [ -z "$DOTFILES_PROFILE" ]; then
     export DOTFILES_PROFILE=1
 fi
 
+[ -f "$HOME/.profile_local" ] && . "$HOME/.profile_local"
+
 # editor
 [ -f "$DOTFILES/shell/environment" ] && . "$DOTFILES/shell/environment"
 [ -f "$DOTFILES/shell/environment_$DOTFILES_OS" ] && . "$DOTFILES/shell/environment_$DOTFILES_OS"
