@@ -3,12 +3,14 @@ _dotfiles_cmd chezmoi || return
 alias cz="chezmoi "
 alias czup="chezmoi update && czap"
 alias czap="chezmoi apply && resrc"
-alias czst="chezmoi status"
+alias czst="chezmoi status --exclude=scripts"
 
 # these work only with git binary
 _dotfiles_cmd git && chezmoi source-path >/dev/null 2>&1 && {
-    alias czst="chezmoi status; cz git -- status -s"
+    alias czst="chezmoi status --exclude=scripts; cz git -- status -s"
     alias czed="chezmoi edit --apply"
+    alias czcd="chezmoi cd"
+    alias czdiff="chezmoi diff --exclude=scripts"
 
     _czedit() {
         if  [ "$#" -eq 1 ] && chezmoi source-path "$1" >/dev/null 2>&1; then
@@ -17,7 +19,7 @@ _dotfiles_cmd git && chezmoi source-path >/dev/null 2>&1 && {
             vi "$@"
         fi
     }
-    alias v="_czedit "
+    alias v="_czedit"
 
     # chezmoi save all changes
     cz-save() {

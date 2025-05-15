@@ -17,8 +17,15 @@ fi
 echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
 unset shell shell_version os_name
 
+# chezmoi state
 if command -v chezmoi >/dev/null 2>&1 && chezmoi source-path >/dev/null 2>&1; then
-  chezmoi verify --exclude=scripts || printf "\033[33mLocal dotfiles differ from chezmoi source (run 'czstate' to inspect)\033[0m\n"
+    _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'czst'), ")
+    _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted, " || :)
+    _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
+
+    [ -n "${_verify}${_uncommitted}${_unpushed}" ] && \
+      printf "\033[33mchezmoi: %s%s%s\033[0m\n" "$_verify" "$_uncommitted" "$_unpushed"
+    unset _verify _uncommitted _unpushed
 fi
 
 # show existing tmux sessions on start
