@@ -1,3 +1,5 @@
+set nocompatible        " Use Vim defaults instead of 100% vi compatibility
+
 " runtime config
 set runtimepath^=~/.config/vim
 set runtimepath+=~/.config/vim/after
@@ -20,6 +22,7 @@ call map(s:undos, 'delete(v:val)')
 " read .vimrc also from local dirs
 set exrc
 set secure
+set modelines=0         " read vim settings from file itself
 
 let mapleader = " "
 
@@ -62,12 +65,6 @@ nnoremap <leader>] :ALENextWrap<CR>
 
 call plug#end()
 
-
-" Normally we use vim-extensions. If you want true vi-compatibility
-" remove change the following statements
-set nocompatible            " Use Vim defaults instead of 100% vi compatibility
-set backspace=2             " more powerful backspacing
-
 " Don't write backup file if vim is being called by "crontab -e"
 au BufWrite /private/tmp/crontab.* set nowritebackup nobackup
 au BufWrite /tmp/crontab.* set nowritebackup nobackup
@@ -76,7 +73,7 @@ au BufWrite /private/etc/pw.* set nowritebackup nobackup
 au BufWrite /etc/pw.* set nowritebackup nobackup
 
 "--- personal setup ---
-set modelines=0             " read vim settings from file itself
+
 
 "--- interface settings
 set wildmenu                " visual autocomplete for command menu
