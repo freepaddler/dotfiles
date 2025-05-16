@@ -70,7 +70,7 @@ alias root="su -m root"
 # shellcheck disable=SC2139
 alias hosts="v /etc/hosts"
 # shellcheck disable=SC2139
-alias vimrc="v ~/.vimrc"
+alias vimrc="v ~/.config/vim/vimrc"
 
 ## other commands
 

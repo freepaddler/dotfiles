@@ -1,14 +1,67 @@
+" runtime config
+set runtimepath^=~/.config/vim
+set runtimepath+=~/.config/vim/after
+set packpath=~/.config/vim
+
+" runtime data
+" viminfo, backup, swap and undo settings
+silent !mkdir -m 4700 -p ~/.local/vim/swap ~/.local/vim/backup ~/.local/vim/undo
+
+set directory=~/.local/vim/swap
+set viminfo+=n~/.local/vim/viminfo
+" set backupdir=~/.local/vim/backup
+set undofile
+set undodir=~/.local/vim/undo
+" delete undo history after 365 days
+let s:undos = split(globpath(&undodir, '*'), "\n")
+call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 365)')
+call map(s:undos, 'delete(v:val)')
+
+" read .vimrc also from local dirs
+set exrc
+set secure
+
+let mapleader = " "
+
+if has('mouse')
+    set ttymouse=sgr
+    set mouse=a
+    let g:mouse_enabled = 1
+    "--- mouse toggle support
+    nnoremap <leader>m :call ToggleMouse()<CR>
+    function! ToggleMouse()
+        if g:mouse_enabled
+            let g:mouse_enabled = 0
+            set mouse=
+            echo "Mouse disabled"
+        else
+            let g:mouse_enabled = 1
+            set mouse=a
+            echo "Mouse enabled"
+        endif
+    endfunction
+endif
+
+" Plugin install location
+let g:plug_home = expand('~/.config/vim/plugged')
+
 "--- vim-plug ---
 silent! call plug#begin()
+
+" clipboard
+Plug 'ojroques/vim-oscyank', {'branch': 'main'}
+let g:oscyank_term = 'default'
+nmap <leader>c <Plug>OSCYankOperator
+nmap <leader>cc <leader>c_
+vmap <leader>c <Plug>OSCYankVisual
+
 " syntax check
 Plug 'dense-analysis/ale'
-nnoremap [e :ALEPreviousWrap<CR>
-nnoremap ]e :ALENextWrap<CR>
+nnoremap <leader>[ :ALEPreviousWrap<CR>
+nnoremap <leader>] :ALENextWrap<CR>
 
 call plug#end()
- 
-" Configuration file for vima
-set modelines=0             " CVE-2007-2438
+
 
 " Normally we use vim-extensions. If you want true vi-compatibility
 " remove change the following statements
@@ -88,28 +141,6 @@ set statusline+=\ %11(%c,%l/%L%)    "current col,line/total
 set statusline+=\ %P                "percent through file
 set laststatus=2                    "show always
 
-"--- files settings
-" viminfo, backup, swap and undo settings 
-silent !mkdir -m 4700 -p ~/.vim/swap ~/.vim/backup ~/.vim/undo > /dev/null 2>&1
-
-set directory=~/.vim/swap
-set viminfo+=n~/.vim/viminfo
-" set backupdir=~/.vim/backup
-set undofile
-set undodir=~/.vim/undo
-" delete undo history after 365 days
-let s:undos = split(globpath(&undodir, '*'), "\n")
-call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 365)')
-call map(s:undos, 'delete(v:val)')
-
-" read .vimrc also from local dirs
-set exrc
-set secure
-
-"--- mouse support
-if has('mouse')
-    set mouse=a
-endif
 
 "--- tabs and alignment
 set tabstop=4               " \t spaces (view mode)
@@ -147,8 +178,18 @@ inoremap <Up> <C-o>gk
 set number
 set relativenumber                  
 hi LineNr ctermfg=grey
-nmap <C-N> :set relativenumber!<CR>:set number!<CR>
-nmap <C-J> :set number<CR>:set relativenumber!<CR>
+function! ToggleLineNumberMode()
+    if &number && &relativenumber
+        set norelativenumber
+    elseif &number
+        set nonumber
+    else
+        set number
+        set relativenumber
+    endif
+endfunction
+nnoremap <leader>n :call ToggleLineNumberMode()<CR>
+
 " jump to paired bracket
 nnoremap \| %
 
@@ -157,13 +198,13 @@ set showmatch               " brackets
 set hlsearch                " last search
 set incsearch               " incremental
 set ignorecase              " case insensitive
-set smartcase               " case sensetive if uppercase input
+set smartcase               " case sensitive if uppercase input
 " Map <C-L> (redraw screen) to also turn off search highlighting until the next search
-nmap <C-L> :nohl<CR>
+nmap <C-L> :nohlsearch<CR>:redraw!<CR>
 
 "--- system
 set lz                      " lazy redraw
-set autoread                " reaload if changed out of vim, and no local changes 
+set autoread                " reload if changed out of vim, and no local changes
 au CursorHold,CursorHoldI * checktime " reload on cursor hold/invoke default 4s 
 " file formats and encoding order
 set ffs=unix,mac,dos
