@@ -8,9 +8,8 @@ alias sshnocheck="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/nul
 # copy local env to remote host
 ssh-cp-env() {
     scp -r ~/.profile ~/.bashrc ~/.bash_profile ~/.inputrc ~/.vimrc ~/.tmux.conf "$1":.
-    ssh "$1" mkdir -p .vim/colors/ .config/
-    scp -r ~/.vim/colors ~/.vim/autoload "$1":.vim/
-    scp -r ~/.config/dotfiles "$1":.config/
+    ssh "$1" mkdir -p .config/
+    scp -r ~/.config/dotfiles ~./config/vim ~/.config/htop "$1":.config/
 }
 
 # delete record from known_hosts

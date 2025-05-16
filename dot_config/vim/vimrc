@@ -1,7 +1,7 @@
 " runtime config
 set runtimepath^=~/.config/vim
 set runtimepath+=~/.config/vim/after
-set packpath=~/.config/vim
+set packpath+=~/.config/vim
 
 " runtime data
 " viminfo, backup, swap and undo settings
