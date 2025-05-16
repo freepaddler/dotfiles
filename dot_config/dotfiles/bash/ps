@@ -75,7 +75,7 @@ set_window_title() {
 if [ "$TERM_PROGRAM" == "Apple_Terminal" ]; then
     PROMPT_COMMAND="set_window_title${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 else
-    PROMPT_COMMAND='printf "\033]0;%s@%s %s\007" "$USER"@"$HOSTNAME" "${PWD/$HOME/"~"}"'
+    PROMPT_COMMAND='printf "\033]0;%s@%s %s\007" "$USER" "$HOSTNAME" "${PWD/$HOME/"~"}"'
 fi
 
 # show last command exit code and execution time
