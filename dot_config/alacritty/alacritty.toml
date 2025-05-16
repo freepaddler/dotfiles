@@ -1,18 +1,24 @@
 [general]
-import = ["~/.config/alacritty/themes/terminal_app.toml"]
+    import = ["~/.config/alacritty/themes/terminal_app.toml"]
 [window]
-padding = { x = 5, y = 2 }
-opacity = 0.90  
-#option_as_alt = "Both"
-decorations = "Full"
+    padding = { x = 5, y = 2 }
+    opacity = 0.90
+    option_as_alt = "Both"
 [scrolling]
-history = 10000
+    history = 10000
+[mouse]
+    #enabled = true
 [bell]
-duration = 50
-color = "#444444"
+    duration = 50
+    color = "#444444"
 [font]
-#normal = { family = "Menlo" }
-size = 11
-offset = { x = 1, y = 3 }
+    #normal = { family = "Menlo" }
+    size = 11
+    offset = { x = 1, y = 3 }
 [colors.cursor]
-cursor = "#888888"
+    cursor = "#888888"
+[keyboard]
+[[keyboard.bindings]]
+    key = "M"
+    mods = "Command"
+    action = "None"
