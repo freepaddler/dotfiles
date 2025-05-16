@@ -1,0 +1,18 @@
+[general]
+import = ["~/.config/alacritty/themes/terminal_app.toml"]
+[window]
+padding = { x = 5, y = 2 }
+opacity = 0.90  
+#option_as_alt = "Both"
+decorations = "Full"
+[scrolling]
+history = 10000
+[bell]
+duration = 50
+color = "#444444"
+[font]
+#normal = { family = "Menlo" }
+size = 11
+offset = { x = 1, y = 3 }
+[colors.cursor]
+cursor = "#888888"
