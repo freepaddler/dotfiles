@@ -16,14 +16,14 @@ alias cdev="cd ~/dev"
 
 # list files
 alias ls="ls -G"
-[ "$DOTFILES_OS" = "linux" ] && alias ls="ls --color=auto"
+[ "$_ENV_OS" = "linux" ] && alias ls="ls --color=auto"
 alias l="ls -F"
 alias la="ls -aF"
 alias ll="ls -lhF"
 alias lla="ls -alhF"
 alias lll="ls -alhFi"
-[ "$DOTFILES_OS" = "freebsd" ] && alias llll="ls -alhFio"
-[ "$DOTFILES_OS" = "darwin" ] && alias llll="ls -alhFiOe@"
+[ "$_ENV_OS" = "freebsd" ] && alias llll="ls -alhFio"
+[ "$_ENV_OS" = "darwin" ] && alias llll="ls -alhFiOe@"
 
 # copy, move, delete
 alias rm="rm -iv"
@@ -47,11 +47,11 @@ alias h="history 25"
 
 # monitoring
 
-if [ "$DOTFILES_OS" = "linux" ]; then
+if [ "$_ENV_OS" = "linux" ]; then
     alias p="ps fuw"
-elif [ "$DOTFILES_OS" = "freebsd" ]; then
+elif [ "$_ENV_OS" = "freebsd" ]; then
     alias p="ps -auxww"
-elif [ "$DOTFILES_OS" = "darwin" ]; then
+elif [ "$_ENV_OS" = "darwin" ]; then
     alias p="ps auxww"
 elif [ "$(readlink -f "$(command -v ps)" 2>/dev/null | xargs basename)" = "busybox" ]; then
     alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"

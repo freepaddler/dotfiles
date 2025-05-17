@@ -16,7 +16,7 @@ unset bsch
 unset completion_script_locations
 
 # load personal completions
-_env_source "$HOME"/.bash_completion.d/* "$DOTFILES"/bash/bash_completions/*
+_env_source "$HOME"/.bash_completion.d/* "$_ENV_CONFIG_DIR"/bash/bash_completions/*
 
 
 # check if command has completion

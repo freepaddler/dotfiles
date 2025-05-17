@@ -1,12 +1,12 @@
 ## _env helpers
 
 _env_debug() {
-    [ -z "$DOTFILES_DEBUG" ] || echo "[env debug]" "$@"
+    [ -z "$_ENV_DEBUG" ] || echo "[env debug]" "$@"
 }
 
-DOTFILES_OS="$(uname -s 2>/dev/null | tr 'A-Z' 'a-z')"
-[ -n "$DOTFILES_OS" ] || DOTFILES_OS=unknown
-export DOTFILES_OS
+_ENV_OS="$(uname -s 2>/dev/null | tr 'A-Z' 'a-z')"
+[ -n "$_ENV_OS" ] || _ENV_OS=unknown
+export _ENV_OS
 
 # add function or variable to unset list
 _env_cleanup_add() {
@@ -22,7 +22,7 @@ _env_cleanup() {
         _env_debug "cleanup $v"
         unset "$v";
     done
-    unset _ENV_CLEANUP v
+    unset v _ENV_CLEANUP _ENV_OS _ENV_CONFIG_DIR
 }
 
 # check command exists
@@ -97,7 +97,7 @@ _env_manpath_prepend() {
 # check os against arg
 _env_cleanup_add _env_os_is
 _env_os_is() {
-    [ "$DOTFILES_OS" = "$1" ]
+    [ "$_ENV_OS" = "$1" ]
 }
 
 # returns true if bash
@@ -136,4 +136,4 @@ _env_run_after() {
     unset _ENV_RUN_AFTER f
 }
 
-_env_debug "_env_functions loaded, DOTFILES_OS=$DOTFILES_OS"
+_env_debug "_env_functions loaded _ENV_CONFIG_DIR=$_ENV_CONFIG_DIR _ENV_OS=$_ENV_OS"

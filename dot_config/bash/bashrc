@@ -17,11 +17,11 @@ set -o noclobber
 # return error if any of the commands in pipe chain exit > 0
 #set -o pipefail
 
-bash_home="${DOTFILES:-"$HOME/.config"}/bash"
+bash_home="${_ENV_CONFIG_DIR:-"$HOME/.config"}/bash"
 
 # ps
 for file in ps completions functions; do
-    _env_source "$bash_home/$file" "$file_$DOTFILES_OS"
+    _env_source "$bash_home/$file" "$file_$_ENV_OS"
 done
 
 unset bash_home file

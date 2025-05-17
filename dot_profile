@@ -1,36 +1,39 @@
-# --- non-interactive setup ---
-DOTFILES="$HOME/.config"
-export DOTFILES
+# enable debug
+#export _ENV_DEBUG=1
 
-if [ -f "$DOTFILES/profile/_env_functions" ]; then
-    . "$DOTFILES/profile/_env_functions"
+# --- non-interactive setup ---
+_ENV_CONFIG_DIR=${_ENV_CONFIG_DIR:-"$HOME/.config"}
+export _ENV_CONFIG_DIR
+
+if [ -f "$_ENV_CONFIG_DIR/profile/_env_functions" ]; then
+    . "$_ENV_CONFIG_DIR/profile/_env_functions"
 else
     echo "ERROR: _env_functions does not exist, environment setup may fail!"
 fi
 
 _env_source \
     "$HOME/.profile_local" \
-    "$DOTFILES/profile/environment" \
-    "$DOTFILES/profile/environment_$DOTFILES_OS"
+    "$_ENV_CONFIG_DIR/profile/environment" \
+    "$_ENV_CONFIG_DIR/profile/environment_$_ENV_OS"
 
 # --- interactive setup ---
 case "$-" in
     *i*)
         _env_debug "setup interactive"
         for file in functions aliases; do
-            _env_source "$DOTFILES/profile/$file" "$DOTFILES/profile/${file}_$DOTFILES_OS"
+            _env_source "$_ENV_CONFIG_DIR/profile/$file" "$_ENV_CONFIG_DIR/profile/${file}_$_ENV_OS"
         done
 
         if _env_is_bash; then
             _env_debug "setup bash"
-            _env_source "$DOTFILES/bash/bashrc"
+            _env_source "$_ENV_CONFIG_DIR/bash/bashrc"
         fi
 
         _env_debug "setup os"
-        _env_source "$DOTFILES/$DOTFILES_OS"/*
+        _env_source "$_ENV_CONFIG_DIR/$_ENV_OS"/*
 
         _env_debug "setup shell"
-        _env_source "$DOTFILES"/shell/*
+        _env_source "$_ENV_CONFIG_DIR"/shell/*
         ;;
 esac
 
