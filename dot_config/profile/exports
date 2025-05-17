@@ -2,7 +2,7 @@
 # POSIX-Compatible Environment
 # ===============================
 
-# commented, because broke chezmoi
+# commented, because brakes chezmoi
 # --- XDG base directories ---
 #export XDG_CONFIG_HOME="$HOME/.config"
 #[ -d "$XDG_CONFIG_HOME" ] && mkdir -p "$XDG_CONFIG_HOME"
@@ -15,23 +15,8 @@
 
 # --- Pagers and block sizes ---
 export BLOCKSIZE="K"  # used by BSD/macOS tools
-export PAGER="less"
-
-# Less config with optional mouse support
-# -XF to disable alternate screen
-export LESS="-F -iRJ -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
-#if less --help 2>&1 | grep -q -- --mouse; then
-#  export LESS="-F -iRJ --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
-#fi
-
-# --- File listing color support ---
-# BSD/macOS-specific
-export LSCOLORS="gxfxcxdxbxegedabagacad"
-# Linux-specific
-export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
 # --- Locale setup (safe across systems) ---
-
 # Set UTF-8 Russian locale only if available
 if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
   export LANG=ru_RU.UTF-8
@@ -51,5 +36,5 @@ export LC_ALL=
 PATH="$HOME/.local/bin:$PATH"
 export PATH
 
-# other
-export CDPATH=.:~
+# umask
+umask 0002

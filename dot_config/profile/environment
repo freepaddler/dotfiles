@@ -1,0 +1,37 @@
+# --- Editor/Visual setup for vi/vim ---
+if command -v vim >/dev/null 2>&1; then
+    export EDITOR="vim -X"
+    export VISUAL="vim -X"
+    alias vi="vim -X"
+elif command -v vi >/dev/null 2>&1; then
+    export EDITOR="vi"
+    export VISUAL="vi"
+    alias vi="vi"
+else
+    echo "ERROR: vi or vim are not found!"
+fi
+alias v="vi"
+
+# --- PAGER setup ---
+export PAGER="less"
+# -XF to disable alternate screen
+export LESS="-F -iRJ -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+#if less --help 2>&1 | grep -q -- --mouse; then
+#  export LESS="-F -iRJ --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+#fi
+
+# ---ls color support ---
+# BSD/macOS-specific
+export LSCOLORS="gxfxcxdxbxegedabagacad"
+# Linux-specific
+export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+
+if [ -n "$PS1" ]; then
+    PS1="\u@\h \w \\$ "
+    PS2="-> "
+
+    export PS2
+fi
+
+export CDPATH=.:~
+umask 0002

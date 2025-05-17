@@ -17,15 +17,19 @@ set -o noclobber
 # return error if any of the commands in pipe chain exit > 0
 #set -o pipefail
 
+bash_home="${DOTFILES:-"$HOME/.config"}/bash"
+
 # ps
-[ -f "$DOTFILES/bash/ps" ] && . "$DOTFILES/bash/ps"
-[ -f "$DOTFILES/bash/ps_$DOTFILES_OS" ] && . "$DOTFILES/bash/ps_$DOTFILES_OS"
+[ -f "$bash_home/ps" ] && . "$bash_home/ps"
+[ -f "$bash_home/ps_$DOTFILES_OS" ] && . "$bash_home/ps_$DOTFILES_OS"
 
 # completions
-[ -f "$DOTFILES/bash/completions_$DOTFILES_OS" ] && . "$DOTFILES/bash/completions_$DOTFILES_OS"
-[ -f "$DOTFILES/bash/completions" ] && . "$DOTFILES/bash/completions"
+[ -f "$bash_home/completions_$DOTFILES_OS" ] && . "$bash_home/completions_$DOTFILES_OS"
+[ -f "$bash_home/completions" ] && . "$bash_home/completions"
 
 # functions
-[ -f "$DOTFILES/bash/functions" ] && . "$DOTFILES/bash/functions"
-[ -f "$DOTFILES/bash/functions_$DOTFILES_OS" ] && . "$DOTFILES/bash/functions_$DOTFILES_OS"
+[ -f "$bash_home/functions" ] && . "$bash_home/functions"
+[ -f "$bash_home/functions_$DOTFILES_OS" ] && . "$bash_home/functions_$DOTFILES_OS"
+
+unset bash_home
 

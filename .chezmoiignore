@@ -1,7 +1,6 @@
 # for all
 Vagrantfile
 ish-update.sh
-.vim/
 
 # for public hosts/servers
 {{- if not .private }}

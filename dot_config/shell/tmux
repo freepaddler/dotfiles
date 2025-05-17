@@ -93,8 +93,8 @@ set +x
 
 # short tmux help
 tmh() {
-    local b="\033[1m"
-    local r="\033[0m"
+    b="\033[1m"
+    r="\033[0m"
     echo -ne "${b} TMUX Quick Help${r}
 \t\t${b}WINDOWS${r}
 ${b}§ n p l${r}    next/prev/last window
@@ -104,7 +104,7 @@ ${b}§ d C-D D${r}  detach/force detach/list clients
 \t\t${b}PANES${r}
 ${b}M-S-arrows / § arrows ${r} select pane
 ${b}§ | - ${r}      vertical/horizontal split (join with Shift)
-${b}§ M-S-arrow${r} resize pane \t${b}§ M-[1-5] / SPACE${r} layout
+${b}§ M/C-arrow${r} resize pane \t${b}§ M-[1-5] / SPACE${r} layout
 ${b}§ m M${r}       toggle mark/unmark \t${b}§ q${r} show pane numbers
 ${b}§ x z !${r}     kill/zoom(unzoom)/new window from pane
 \t\t${b}VISUAL${r}
@@ -114,5 +114,7 @@ ${b}SPACE y ENTER${r} selection start/copy/copy and exit
 ${b}§ r R ${r}  reload config / refresh client
 ${b}§ w s D${r} list windows/sessions/clients (tp detach)
 ${b}§ : / ?${r} command / check key / help
+${b}M-m ${r}    toggle mouse
 "
+unset b r
 }

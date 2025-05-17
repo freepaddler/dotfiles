@@ -1,4 +1,4 @@
-DOTFILES="$HOME/.config/dotfiles"
+DOTFILES="$HOME/.config"
 export DOTFILES
 
 if [ -z "$DOTFILES_PROFILE" ]; then
@@ -7,17 +7,17 @@ if [ -z "$DOTFILES_PROFILE" ]; then
     export DOTFILES_OS
 
     # exports
-    [ -f "$DOTFILES/shell/exports" ] && . "$DOTFILES/shell/exports"
-    [ -f "$DOTFILES/shell/exports_$DOTFILES_OS" ] && . "$DOTFILES/shell/exports_$DOTFILES_OS"
+    [ -f "$DOTFILES/profile/exports" ] && . "$DOTFILES/profile/exports"
+    [ -f "$DOTFILES/profile/exports_$DOTFILES_OS" ] && . "$DOTFILES/profile/exports_$DOTFILES_OS"
 
     export DOTFILES_PROFILE=1
 fi
 
 [ -f "$HOME/.profile_local" ] && . "$HOME/.profile_local"
 
-# editor
-[ -f "$DOTFILES/shell/environment" ] && . "$DOTFILES/shell/environment"
-[ -f "$DOTFILES/shell/environment_$DOTFILES_OS" ] && . "$DOTFILES/shell/environment_$DOTFILES_OS"
+# environment
+[ -f "$DOTFILES/profile/environment" ] && . "$DOTFILES/profile/environment"
+[ -f "$DOTFILES/profile/environment_$DOTFILES_OS" ] && . "$DOTFILES/profile/environment_$DOTFILES_OS"
 
 # --- interactive shell setup ---
 case "$-" in
@@ -25,8 +25,8 @@ case "$-" in
         # common definitions
         #echo "common definitions"
         for dotfile in functions aliases; do
-            [ -f "$DOTFILES/shell/$dotfile" ] && . "$DOTFILES/shell/$dotfile"
-            [ -f "$DOTFILES/shell/${dotfile}_$DOTFILES_OS" ] && . "$DOTFILES/shell/${dotfile}_$DOTFILES_OS"
+            [ -f "$DOTFILES/profile/$dotfile" ] && . "$DOTFILES/profile/$dotfile"
+            [ -f "$DOTFILES/profile/${dotfile}_$DOTFILES_OS" ] && . "$DOTFILES/profile/${dotfile}_$DOTFILES_OS"
         done
 
         # shell specific
@@ -41,12 +41,12 @@ case "$-" in
 
         # os specific
         #echo "os specific"
-        [ -f "$DOTFILES/$DOTFILES_OS" ] && . "$DOTFILES/$DOTFILES_OS"
+        [ -f "$DOTFILES/os_$DOTFILES_OS" ] && . "$DOTFILES/os_$DOTFILES_OS"
 
         # utils
         #echo "utils"
-        if [ -d "$DOTFILES/utils/" ]; then
-            for dotfile in "$DOTFILES"/utils/*; do
+        if [ -d "$DOTFILES/shell/" ]; then
+            for dotfile in "$DOTFILES"/shell/*; do
                 [ -f "$dotfile" ] && . "$dotfile"
             done
         fi
