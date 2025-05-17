@@ -5,6 +5,7 @@ mkdir -m 4700 -p "$vim_dir"
 
 # viminfo
 for f in "$HOME/.vim/viminfo" "$HOME/.viminfo"; do
+    [ -f "$f" ] || continue
     if [ -f "$vim_dir/viminfo" ]; then
         rm -f "$f"
     else
