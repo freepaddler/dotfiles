@@ -12,7 +12,7 @@
 #[ -d "$XDG_SHARE_HOME" ] && mkdir -p "$XDG_SHARE_HOME"
 #export XDG_CACHE_HOME="$HOME/.cache"
 #[ -d "$XDG_CACHE_HOME" ] && mkdir -p "$XDG_CACHE_HOME"
-
+set +x
 # --- Pagers and block sizes ---
 export BLOCKSIZE="K"  # used by BSD/macOS tools
 
@@ -73,3 +73,4 @@ if [ -n "$PS1" ]; then
 
     export PS2
 fi
+set -x
