@@ -17,8 +17,9 @@
 export BLOCKSIZE="K"  # used by BSD/macOS tools
 
 # --- Editor/Visual setup for vi/vim ---
-unalias vi >/dev/null 2>&1
-unalias vim >/dev/null 2>&1
+( alias vi ) >/dev/null 2>&1 && unalias vi
+( alias vim ) >/dev/null 2>&1 && unalias vim
+
 if _env_cmd vim 2>&1; then
     export EDITOR="vim -X"
     export VISUAL="vim -X"
