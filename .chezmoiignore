@@ -8,6 +8,7 @@ ish-update.sh
 .config/yandex-cloud
 .ssh/**
 !.ssh/authorized_keys
+.nmprc
 {{- end }}
 
 # ignore on macOS

@@ -9,7 +9,9 @@ sudo apk add rtorrent
 echo "dotfiles"
 rm -rf "$HOME"/.config/dotfiles &> /dev/null
 mkdir -p "$HOME"/.config
-cp -rf "$HOME"/dotfiles/dot_config/dotfiles "$HOME"/.config
+for d in profile bash shell vim; do
+    cp -rf "$HOME/dotfiles/dot_config/$d" "$HOME/.config/"
+done
 
 echo "profile"
 rm -f "$HOME"/.profile &> /dev/null
@@ -26,18 +28,15 @@ cp -f "$HOME"/dotfiles/dot_inputrc "$HOME"/.inputrc
 echo "tmux.conf"
 rm -f "$HOME"/.tmux.conf &> /dev/null
 cp -f "$HOME"/dotfiles/dot_tmux.conf "$HOME"/.tmux.conf
-
-echo "vim"
-mkdir -p "$HOME"/.vim
-cp -rf "$HOME"/dotfiles/dot_vim/* "$HOME"/.vim/
-rm -f "$HOME"/.vimrc &> /dev/null
-cp -f "$HOME"/dotfiles/dot_vimrc "$HOME"/.vimrc
+echo "vimrc"
+rm -f  "$HOME"/.vimrc &> /dev/null
+ln -sf "$HOME/.config/vim/vimrc" "$HOME"/.vimrc
 
 echo "ssh"
 mkdir -p "$HOME"/.ssh/mastersocket
 rm -f "$HOME"/.ssh/config &> /dev/null
 age -d -i "$HOME"/.config/chezmoi.age "$HOME"/dotfiles/private_dot_ssh/encrypted_private_config.tmpl.age | sed "/^{{/d" >| "$HOME"/.ssh/config && chmod 600 "$HOME"/.ssh/config
 
-source "$HOME"/.profile
+. "$HOME"/.profile
 echo
 echo "env updated"
