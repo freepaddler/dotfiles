@@ -23,5 +23,3 @@ ish-update.sh
 .mackup/
 Library/
 {{- end }}
-
-

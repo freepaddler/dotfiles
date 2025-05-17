@@ -1,12 +1,12 @@
 #!/bin/sh
 
 vim_dir="$HOME/.local/vim"
-pkdir -m 4700 -p "$vim_dir"
+mkdir -m 4700 -p "$vim_dir"
 
 # viminfo
-for f in "$HOME/vim/viminfo" "$HOME/.viminfo"; do
+for f in "$HOME/.vim/viminfo" "$HOME/.viminfo"; do
     if [ -f "$vim_dir/viminfo" ]; then
-        rm "$f"
+        rm -f "$f"
     else
         mv "$f" "$vim_dir/viminfo"
     fi
