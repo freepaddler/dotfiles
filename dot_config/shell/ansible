@@ -1,5 +1,5 @@
 # ansible
-_dotfiles_cmd ansible || return
+_env_cmd ansible || return
 
 alias ansible-roledir="mkdir -p {defaults,files,templates,handlers,tasks} && touch {defaults,handlers,tasks}/main.yml"
 alias ansible-hostvars='ansible -m debug -a "var=hostvars[inventory_hostname]"'

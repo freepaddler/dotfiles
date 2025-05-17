@@ -1,9 +1,29 @@
+# ===============================
+# POSIX-Compatible Environment
+# ===============================
+
+# commented, because brakes chezmoi
+# --- XDG base directories ---
+#export XDG_CONFIG_HOME="$HOME/.config"
+#[ -d "$XDG_CONFIG_HOME" ] && mkdir -p "$XDG_CONFIG_HOME"
+#export XDG_DATA_HOME="$HOME/.local"
+#[ -d "$XDG_DATA_HOME" ] && mkdir -p "$XDG_DATA_HOME"
+#export XDG_SHARE_HOME="$XDG_DATA_HOME/share"
+#[ -d "$XDG_SHARE_HOME" ] && mkdir -p "$XDG_SHARE_HOME"
+#export XDG_CACHE_HOME="$HOME/.cache"
+#[ -d "$XDG_CACHE_HOME" ] && mkdir -p "$XDG_CACHE_HOME"
+
+# --- Pagers and block sizes ---
+export BLOCKSIZE="K"  # used by BSD/macOS tools
+
 # --- Editor/Visual setup for vi/vim ---
-if command -v vim >/dev/null 2>&1; then
+unalias vi >/dev/null 2>&1
+unalias vim >/dev/null 2>&1
+if _env_cmd vim 2>&1; then
     export EDITOR="vim -X"
     export VISUAL="vim -X"
     alias vi="vim -X"
-elif command -v vi >/dev/null 2>&1; then
+elif _env_cmd vi; then
     export EDITOR="vi"
     export VISUAL="vi"
     alias vi="vi"
@@ -26,12 +46,30 @@ export LSCOLORS="gxfxcxdxbxegedabagacad"
 # Linux-specific
 export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
+# --- Locale setup (safe across systems) ---
+# Set UTF-8 Russian locale only if available
+if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
+  export LANG=ru_RU.UTF-8
+  export LC_CTYPE=ru_RU.UTF-8
+  export LC_COLLATE=ru_RU.UTF-8
+fi
+# Standardize interface language and formatting
+export LC_MESSAGES=POSIX
+export LC_NUMERIC=POSIX
+export LC_TIME=POSIX
+# Clear global override (allows category-specific settings)
+export LC_ALL=
+
+export CDPATH=.:~
+
+# PATH
+_env_path_prepend "$HOME/.local/bin"
+
+umask 0002
+
 if [ -n "$PS1" ]; then
     PS1="\u@\h \w \\$ "
     PS2="-> "
 
     export PS2
 fi
-
-export CDPATH=.:~
-umask 0002

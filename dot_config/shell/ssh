@@ -9,7 +9,10 @@ alias sshnocheck="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/nul
 ssh-cp-env() {
     scp -r ~/.profile ~/.bashrc ~/.bash_profile ~/.inputrc ~/.vimrc ~/.tmux.conf "$1":.
     ssh "$1" mkdir -p .config/
-    scp -r ~/.config/dotfiles ~./config/vim ~/.config/htop "$1":.config/
+    for confdir in profile bash shell darwin linux freebsd vim htop ; do
+        scp -r  ~/.config/$confdir "$1":.config/
+    done
+    unset confdir
 }
 
 # delete record from known_hosts
@@ -31,14 +34,15 @@ ssh-del-knownhost() {
             sed -i '' "/$pattern/d" "$HOME/.ssh/known_hosts"
         fi
     done
+    unset h safe_h pattern
 }
 
-if _dotfiles_is_bash; then
-    _dotfiles_bash_has_completion ssh || complete -fW \
+if _env_is_bash; then
+    _env_bash_has_completion ssh || complete -fW \
         "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
             ssh ssh-copy-id scp sftp sshexit sshmulti sshsingle sshx11 sshnocheck
-    _dotfiles_bash_clone_completion ssh ssh-cp-env
-    _dotfiles_bash_clone_completion ssh ssh-del-knownhost
+    _env_bash_clone_completion ssh ssh-cp-env
+    _env_bash_clone_completion ssh ssh-del-knownhost
 fi
 
 # run shell script(s) over ssh

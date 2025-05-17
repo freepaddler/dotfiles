@@ -1,16 +1,16 @@
-if _dotfiles_cmd doas; then
+if _env_cmd doas; then
     alias doas="doas "
-    if ! _dotfiles_cmd sudo; then
+    if ! _env_cmd sudo; then
         alias sudo="doas "
     fi
 
-    if _dotfiles_is_bash; then
-        _dotfiles_bash_has_completion doas || complete -cf -o bashdefault -o default doas
+    if _env_is_bash; then
+        _env_bash_has_completion doas || complete -cf -o bashdefault -o default doas
     fi
 
 fi
 
-_dotfiles_cmd sudo || return
+_env_cmd sudo || return
 
 #    # to be sure that this is not doas-sudo-shim
 #    if sudo --version &> /dev/null; then
@@ -56,7 +56,7 @@ _dotfiles_cmd sudo || return
 alias sudo="sudo "
 alias sude="sudo -E "
 
-if _dotfiles_is_bash; then
-    _dotfiles_bash_has_completion sudo || complete -cf -o bashdefault -o default sudo
+if _env_is_bash; then
+    _env_bash_has_completion sudo || complete -cf -o bashdefault -o default sudo
 fi
 

@@ -10,22 +10,18 @@ completion_script_locations="
 "
 for bcsh in $completion_script_locations; do
     [ -n "$BASH_COMPLETION_VERSINFO" ] && break
-    [ -f "$bcsh/bash_completion.sh" ] && source "$bcsh/bash_completion.sh"
+    _env_source "$bcsh/bash_completion.sh"
 done
 unset bsch
 unset completion_script_locations
 
 # load personal completions
-for f in "$HOME"/.bash_completion.d/* "$DOTFILES"/bash/bash_completions/*; do
-    # shellcheck disable=SC1090
-    [ -f "$f" ] && source "$f"
-done
-unset f
+_env_source "$HOME"/.bash_completion.d/* "$DOTFILES"/bash/bash_completions/*
 
 
 # check if command has completion
-_dotfiles_unset_add _dotfiles_bash_has_completion
-_dotfiles_bash_has_completion() {
+_env_cleanup_add _env_bash_has_completion
+_env_bash_has_completion() {
     # completion exists
     complete -p "$1" &> /dev/null && return 0
     # no loader -> no completion
@@ -40,15 +36,23 @@ _dotfiles_bash_has_completion() {
 }
 
 # clone current completion
-_dotfiles_unset_add _dotfiles_bash_clone_completion
-_dotfiles_bash_clone_completion() {
-    if _dotfiles_bash_has_completion $1; then
+_env_cleanup_add _env_bash_clone_completion
+_env_bash_clone_completion() {
+    if _env_bash_has_completion $1; then
         complete -r $2 &>/dev/null
         $(complete -p $1) "$2"
     fi
 }
 
+_env_cleanup_add _env_bash_complete_alias
+_env_bash_complete_alias() {
+    type _complete_alias >/dev/null 2>&1 && \
+        complete -F _complete_alias "${!BASH_ALIASES[@]}"
+}
+_env_run_after_add _env_bash_complete_alias
+
+
 # if no bash-completion, let's make out life a little bit easier
-_dotfiles_bash_has_completion man || complete -cf man
-_dotfiles_bash_has_completion nohup || complete -c -o bashdefault -o default nohup
-_dotfiles_bash_has_completion su || complete -c -o bashdefault -o default su
+_env_bash_has_completion man || complete -cf man
+_env_bash_has_completion nohup || complete -c -o bashdefault -o default nohup
+_env_bash_has_completion su || complete -c -o bashdefault -o default su

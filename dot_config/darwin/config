@@ -1,8 +1,8 @@
-if _dotfiles_is_bash; then
+if _env_is_bash; then
     # ssh-keygen override
     complete -f ssh-keygen
 
-    _dotfiles_cmd tmutil && {
+    _env_cmd tmutil && {
         _tmutil(){
           list=$( tmutil | /usr/bin/grep -v ^$ | /usr/bin/grep ^Usage | awk '{print $3}' )
           COMPREPLY=( $(compgen -W "$list" ${COMP_WORDS[COMP_CWORD]}  ) )
@@ -13,7 +13,7 @@ fi
 
 alias plu="plutil -p"
 alias cleanup-dsstore="find . -name '*.DS_Store' -type f -ls -delete"
-_dotfiles_cmd gsed && alias sed="gsed"
+_env_cmd gsed && alias sed="gsed"
 
 #idea
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

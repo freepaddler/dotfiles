@@ -1,4 +1,4 @@
-_dotfiles_cmd chezmoi || return
+_env_cmd chezmoi || return
 
 alias cz="chezmoi "
 alias czup="chezmoi update && czap"
@@ -6,7 +6,7 @@ alias czap="chezmoi apply && resrc"
 alias czst="chezmoi status --exclude=scripts"
 
 # these work only with git binary
-_dotfiles_cmd git && chezmoi source-path >/dev/null 2>&1 && {
+_env_cmd git && chezmoi source-path >/dev/null 2>&1 && {
     alias czst="chezmoi status --exclude=scripts; cz git -- status -s"
     alias czed="chezmoi edit --apply"
     alias czcd="chezmoi cd"
@@ -50,7 +50,7 @@ cz-ssh() {
     ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler'
 }
 
-if _dotfiles_is_bash; then
-    _dotfiles_bash_clone_completion ssh cz-ssh
+if _env_is_bash; then
+    _env_bash_clone_completion ssh cz-ssh
 fi
 

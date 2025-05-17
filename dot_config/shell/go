@@ -1,14 +1,14 @@
-_dotfiles_cmd go || return
+_env_cmd go || return
 
-_dotfiles_path_append "$(go env GOPATH)/bin"
+_env_path_append "$(go env GOPATH)/bin"
 
-if _dotfiles_is_bash; then
+if _env_is_bash; then
     if type gocomplete &> /dev/null; then
         complete -C "$(type -p gocomplete)" go
     fi
 fi
 
-_dotfiles_cmd godoc || return
+_env_cmd godoc || return
 
 godocs() {
     killall godoc >/dev/null 2>&1

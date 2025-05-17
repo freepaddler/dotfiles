@@ -18,7 +18,7 @@ echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
 unset shell shell_version os_name
 
 # chezmoi state
-if command -v chezmoi >/dev/null 2>&1 && chezmoi source-path >/dev/null 2>&1; then
+if _env_cmd chezmoi && chezmoi source-path >/dev/null 2>&1; then
     _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'czst') ")
     _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
     _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
@@ -29,7 +29,7 @@ if command -v chezmoi >/dev/null 2>&1 && chezmoi source-path >/dev/null 2>&1; th
 fi
 
 # show existing tmux sessions on start
-if [ -z "$TMUX" ] && command -v tmux >/dev/null 2>&1; then
+if [ -z "$TMUX" ] && _env_cmd tmux; then
     tmux has-session 2>/dev/null && {
         printf "\033[32mtmux sessions:\033[0m\n"
         tmux list-sessions
@@ -43,11 +43,12 @@ where() {
 # generate passwords
 apg() {
     echo
-    local i=0
+    i=0
     while [ $i -lt 20 ]; do
         openssl rand -base64 $((((i / 5) + 2) * 3))
         i=$((i + 1))
     done
+    unset i
 }
 
 # random hex string
@@ -101,56 +102,4 @@ ${b}!:1 / !:-1 / !:*${r} - 1st(2nd..)/last/all params of prev command
 }
 
 
-## _dotfiles helpers
 
-# add function or variable to unset list
-_dotfiles_unset_add() {
-   DOTFILES_UNSET="$DOTFILES_UNSET $*"
-}
-
-# should be called at the very end .profile
-_dotfiles_cleanup() {
-    _dotfiles_unset_add _dotfiles_unset_add
-    _dotfiles_unset_add _dotfiles_cleanup
-    for u in $DOTFILES_UNSET; do
-        #echo "unsetting $u"
-        unset "$u";
-    done
-    unset DOTFILES_UNSET u
-}
-
-# check command exists
-_dotfiles_unset_add _dotfiles_cmd
-_dotfiles_cmd() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-# add path to the END
-_dotfiles_unset_add _dotfiles_path_append
-_dotfiles_path_append() {
-    case ":$PATH:" in
-        *":$1:"*) ;;
-        *) PATH=${PATH:+$PATH:}$1 ;;
-    esac
-}
-
-# add path to the BEGINNING
-_dotfiles_unset_add _dotfiles_path_prepend
-_dotfiles_path_prepend() {
-    # remove the existing entry if it exists
-    PATH=$(echo ":$PATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
-    PATH=$1${PATH:+:$PATH}
-}
-
-_dotfiles_unset_add _dotfiles_os_is
-_dotfiles_os_is() {
-    [ "$DOTFILES_OS" = "$1" ]
-}
-
-_dotfiles_unset_add _dotfiles_source
-_dotfiles_source() {
-    for f in "$@"; do
-        [ -f "$f" ] && . "$f"
-    done
-    unset f
-}

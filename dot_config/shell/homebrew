@@ -1,4 +1,4 @@
-_dotfiles_cmd brew || return
+_env_cmd brew || return
 
 alias brew-requested="brew leaves -r && echo && brew list --cask -1"
 
@@ -14,21 +14,21 @@ brew-save() {
     echo "Backing up homebrew..."
     echo
 
-    DEST="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
-    [ -d "$DEST" ] || mkdir -p "$DEST"
-    BACKUP_DIR="$DEST/Homebrew.backup"
-    mkdir -p "$BACKUP_DIR"
-    BREWFILE="$DEST/Brewfile"
+    dest_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
+    [ -d "$dest_dir" ] || mkdir -p "$dest_dir"
+    backup_dir="$dest_dir/Homebrew.backup"
+    mkdir -p "$backup_dir"
+    brewfile="$dest_dir/Brewfile"
 
-    dmark=$(date +%Y-%m-%d_%H-%M-%S)
-    if [ -f "$BREWFILE" ]; then
-        modtime=$(stat -f "%m" "$BREWFILE")
+    if [ -f "$brewfile" ]; then
+        modtime=$(stat -f "%m" "$brewfile")
         dmark=$(date -r "$modtime" +%Y-%m-%d_%H-%M-%S)
-        mv -fv "$BREWFILE" "$BACKUP_DIR/Brewfile_$dmark"
+        mv -fv "$brewfile" "$backup_dir/Brewfile_$dmark"
     fi
 
-    HOMEBREW_NO_AUTO_UPDATE=1 brew bundle dump --file="$BREWFILE"
+    HOMEBREW_NO_AUTO_UPDATE=1 brew bundle dump --file="$brewfile"
 
     echo
     echo "Homebrew dump complete"
+    unset dest_dir backup_dir brewfile modtime dmark
 }

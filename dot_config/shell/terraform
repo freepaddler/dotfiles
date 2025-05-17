@@ -1,4 +1,4 @@
-if _dotfiles_is_bash; then
+if _env_is_bash; then
     [ -x /opt/homebrew/bin/terraform ] &&
         complete -C /opt/homebrew/bin/terraform terraform
 fi

@@ -1,69 +1,43 @@
+# --- non-interactive setup ---
 DOTFILES="$HOME/.config"
 export DOTFILES
 
-if [ -z "$DOTFILES_PROFILE" ]; then
-    DOTFILES_OS="$(uname -s 2>/dev/null | tr 'A-Z' 'a-z')"
-    [ -n "$DOTFILES_OS" ] || DOTFILES_OS=unknown
-    export DOTFILES_OS
-
-    # exports
-    [ -f "$DOTFILES/profile/exports" ] && . "$DOTFILES/profile/exports"
-    [ -f "$DOTFILES/profile/exports_$DOTFILES_OS" ] && . "$DOTFILES/profile/exports_$DOTFILES_OS"
-
-    export DOTFILES_PROFILE=1
+if [ -f "$DOTFILES/profile/_env_functions" ]; then
+    . "$DOTFILES/profile/_env_functions"
+else
+    echo "ERROR: _env_functions does not exist, environment setup may fail!"
 fi
 
-[ -f "$HOME/.profile_local" ] && . "$HOME/.profile_local"
+_env_source \
+    "$HOME/.profile_local" \
+    "$DOTFILES/profile/environment" \
+    "$DOTFILES/profile/environment_$DOTFILES_OS"
 
-# environment
-[ -f "$DOTFILES/profile/environment" ] && . "$DOTFILES/profile/environment"
-[ -f "$DOTFILES/profile/environment_$DOTFILES_OS" ] && . "$DOTFILES/profile/environment_$DOTFILES_OS"
-
-# --- interactive shell setup ---
+# --- interactive setup ---
 case "$-" in
     *i*)
-        # common definitions
-        #echo "common definitions"
-        for dotfile in functions aliases; do
-            [ -f "$DOTFILES/profile/$dotfile" ] && . "$DOTFILES/profile/$dotfile"
-            [ -f "$DOTFILES/profile/${dotfile}_$DOTFILES_OS" ] && . "$DOTFILES/profile/${dotfile}_$DOTFILES_OS"
+        _env_debug "setup interactive"
+        for file in functions aliases; do
+            _env_source "$DOTFILES/profile/$file" "$DOTFILES/profile/${file}_$DOTFILES_OS"
         done
 
-        # shell specific
-        #echo "shell specific"
-        _dotfiles_unset_add _dotfiles_is_bash
-        _dotfiles_is_bash() {
-            [ -n "$BASH_VERSION" ]
-        }
-        if _dotfiles_is_bash; then
-            [ -f "$DOTFILES/bash/bashrc" ] && . "$DOTFILES/bash/bashrc"
+        if _env_is_bash; then
+            _env_debug "setup bash"
+            _env_source "$DOTFILES/bash/bashrc"
         fi
 
-        # os specific
-        #echo "os specific"
-        [ -f "$DOTFILES/os_$DOTFILES_OS" ] && . "$DOTFILES/os_$DOTFILES_OS"
+        _env_debug "setup os"
+        _env_source "$DOTFILES/$DOTFILES_OS"/*
 
-        # utils
-        #echo "utils"
-        if [ -d "$DOTFILES/shell/" ]; then
-            for dotfile in "$DOTFILES"/shell/*; do
-                [ -f "$dotfile" ] && . "$dotfile"
-            done
-        fi
-
-        if _dotfiles_is_bash; then
-            # add all aliases completions
-            # https://github.com/cykerway/complete-alias
-            type _complete_alias >/dev/null 2>&1 && \
-              complete -F _complete_alias "${!BASH_ALIASES[@]}"
-        fi
+        _env_debug "setup shell"
+        _env_source "$DOTFILES"/shell/*
         ;;
 esac
 
-unset dotfile
+unset file
 
-# cleaning service functions
-if command -v _dotfiles_cleanup >/dev/null 2>&1; then
-    _dotfiles_cleanup
-fi
+# clear _env_functions
+_env_run_after
+_env_cleanup
+
 

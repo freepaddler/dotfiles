@@ -21,6 +21,7 @@ _tmux-session-selector() {
     done
     tmux new-session "$@" \; set @t "$t" \; choose-tree -Zs \
 "run 'tmux set -u @t \; if -F \"#{m:=#S:*,%%}\" \"command-prompt -I \\\"#S\\\" \\\"rename-session %%\\\"\" \"switch-client -t %1; kill-session -t \\\"#S\\\"\"'"
+    unset t arg
 }
 
 
@@ -58,21 +59,24 @@ tm() {
         if [ "$state" = "detached" ] || [ "$state" = "none" ]; then
             tmux new-session -A -s "$session"
         else
-            echo "tmux default session is attached already (use 'tm' to manage)"
+            echo "tmux '$session' session is attached already (use 'tm' to manage)"
             tmux ls 2>/dev/null
             return 1
             #_tmux-session-selector
         fi
     fi
+    unset sessions session undef state
 }
 
-_tm_complete_sessions() {
-  local word cur
-  COMPREPLY=()
-  cur="${COMP_WORDS[COMP_CWORD]}"
-  mapfile -t COMPREPLY < <(tmux ls 2>/dev/null | cut -d: -f1 | grep -E "^${cur}")
+_env_is_bash && {
+    _tm_complete_sessions() {
+      local word cur
+      COMPREPLY=()
+      cur="${COMP_WORDS[COMP_CWORD]}"
+      mapfile -t COMPREPLY < <(tmux ls 2>/dev/null | cut -d: -f1 | grep -E "^${cur}")
+    }
+    complete -F _tm_complete_sessions tm
 }
-complete -F _tm_complete_sessions tm
 
 ## tmux auto-load
 #if  [ -z "$NO_TMUX_AUTOLOAD" ] &&   # once loaded, don't retry on reload

@@ -58,11 +58,11 @@ elif [ "$(readlink -f "$(command -v ps)" 2>/dev/null | xargs basename)" = "busyb
 fi
 
 alias t="top"
-_dotfiles_cmd htop && alias t="htop"
+_env_cmd htop && alias t="htop"
 
 # grep
 alias grep="grep --color"
-_dotfiles_cmd igrep || alias igrep="grep -i"
+_env_cmd igrep || alias igrep="grep -i"
 alias fgrep="fgrep --color"
 alias egrep="egrep --color"
 
@@ -74,10 +74,10 @@ alias vimrc="v ~/.config/vim/vimrc"
 
 ## other commands
 
-_dotfiles_cmd iptables && {
+_env_cmd iptables && {
     alias iptl="iptables --line-numbers -vnL "
     alias ipt="iptables "
 }
 
-_dotfiles_cmd screen && alias sc="screen -U"
-_dotfiles_cmd glow && alias mdless="glow -p"
+_env_cmd screen && alias sc="screen -U"
+_env_cmd glow && alias mdless="glow -p"

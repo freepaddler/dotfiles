@@ -20,16 +20,10 @@ set -o noclobber
 bash_home="${DOTFILES:-"$HOME/.config"}/bash"
 
 # ps
-[ -f "$bash_home/ps" ] && . "$bash_home/ps"
-[ -f "$bash_home/ps_$DOTFILES_OS" ] && . "$bash_home/ps_$DOTFILES_OS"
+for file in ps completions functions; do
+    _env_source "$bash_home/$file" "$file_$DOTFILES_OS"
+done
 
-# completions
-[ -f "$bash_home/completions_$DOTFILES_OS" ] && . "$bash_home/completions_$DOTFILES_OS"
-[ -f "$bash_home/completions" ] && . "$bash_home/completions"
+unset bash_home file
 
-# functions
-[ -f "$bash_home/functions" ] && . "$bash_home/functions"
-[ -f "$bash_home/functions_$DOTFILES_OS" ] && . "$bash_home/functions_$DOTFILES_OS"
-
-unset bash_home
 

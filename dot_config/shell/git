@@ -1,4 +1,4 @@
-_dotfiles_cmd git || return
+_env_cmd git || return
 
 #alias ga="git add"
 #alias gb="git branches"
@@ -18,10 +18,10 @@ _dotfiles_cmd git || return
 #alias gu="git pull"
 #gh() { alias | grep \'git; }
 
-_dotfiles_is_bash || return
+_env_is_bash || return
 
-_dotfiles_os_is darwin && {
+_env_os_is darwin && {
     # completions
-    _dotfiles_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+    _env_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
 }
 
