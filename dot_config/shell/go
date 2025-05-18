@@ -1,5 +1,9 @@
 _env_cmd go || return
 
+go_path="$HOME/go"
+mkdir -p "$go_path"
+go env -w GOPATH="$HOME/go"
+
 _env_path_append "$(go env GOPATH)/bin"
 
 if _env_is_bash; then
@@ -8,9 +12,36 @@ if _env_is_bash; then
     fi
 fi
 
-_env_cmd godoc || return
+go-install() {
+    binary="$1"
+    [ -n "$binary" ] || { echo "nothing to install"; return 1; }
+    case "$binary" in
+      *@*) ;;  # already versioned
+      *)   binary="$binary@latest" ;;
+    esac
 
-godocs() {
-    killall godoc >/dev/null 2>&1
-    GO111MODULE=off nohup godoc -index >/dev/null 2>&1 &
+    ret=0
+    tmpdir=$(mktemp -d)
+    if GOPATH=$tmpdir go install "$binary"; then
+        cp "$tmpdir"/bin/* "${GOPATH:-$(go env GOPATH)}/bin/"
+    else
+        echo "failed to install $binary"
+        ret=1
+    fi
+    chmod -R u+w "$tmpdir"
+    rm -rf "$tmpdir" > /dev/null
+    return $ret
 }
+
+#_env_cmd godoc || return
+#
+## link to load all installed modules - cpu heavy
+## ( cd "$go_path" && ln -sf pkg/mod src)
+#godocs() {
+#    killall godoc >/dev/null 2>&1
+#    GO111MODULE=off nohup godoc -index >/dev/null 2>&1 &
+#    open http://localhost:6060
+#}
+#godocs-stop() {
+#    killall godoc >/dev/null 2>&1
+#}
