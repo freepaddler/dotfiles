@@ -9,6 +9,7 @@ ish-update.sh
 .ssh/**
 !.ssh/authorized_keys
 .nmprc
+Library/
 {{- end }}
 
 # ignore on macOS
