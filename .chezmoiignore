@@ -1,6 +1,7 @@
 # for all
 Vagrantfile
 ish-update.sh
+ish/
 
 # for public hosts/servers
 {{- if not .private }}
@@ -21,7 +22,5 @@ Library/
 .local/bin/pfmanage.sh
 .local/bin/fix-shared-network-ip.command
 .docker/
-.mackup.cfg
-.mackup/
 Library/
 {{- end }}

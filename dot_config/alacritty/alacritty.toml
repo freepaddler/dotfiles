@@ -1,7 +1,7 @@
 [general]
     import = ["~/.config/alacritty/themes/terminal_app.toml"]
 [window]
-    dimensions = { columns = 96, lines = 36 }
+    dimensions = { columns = 96, lines = 31 }
     padding = { x = 5, y = 2 }
     opacity = 0.90
     option_as_alt = "Both"
