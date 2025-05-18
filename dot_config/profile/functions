@@ -17,25 +17,6 @@ fi
 echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
 unset shell shell_version os_name
 
-# chezmoi state
-if _env_cmd chezmoi && chezmoi source-path >/dev/null 2>&1; then
-    _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'czst') ")
-    _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
-    _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
-
-    [ -n "${_verify}${_uncommitted}${_unpushed}" ] && \
-      printf "\033[33mchezmoi: %s%s%s\033[0m\n" "$_verify" "$_uncommitted" "$_unpushed"
-    unset _verify _uncommitted _unpushed
-fi
-
-# show existing tmux sessions on start
-if [ -z "$TMUX" ] && _env_cmd tmux; then
-    tmux has-session 2>/dev/null && {
-        printf "\033[32mtmux sessions:\033[0m\n"
-        tmux list-sessions
-    }
-fi
-
 where() {
     command -v "$1"
 }

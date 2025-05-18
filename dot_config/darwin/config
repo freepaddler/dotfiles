@@ -12,7 +12,7 @@ if _env_is_bash; then
 fi
 
 alias plu="plutil -p"
-alias cleanup-dsstore="find . -name '*.DS_Store' -type f -ls -delete"
+alias dsstore-cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 _env_cmd gsed && alias sed="gsed"
 
 #idea

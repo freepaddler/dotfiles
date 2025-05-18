@@ -1,5 +1,17 @@
 _env_cmd chezmoi || return
 
+# chezmoi state
+if chezmoi source-path >/dev/null 2>&1; then
+    _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'czst') ")
+    _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
+    _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
+
+    [ -n "${_verify}${_uncommitted}${_unpushed}" ] && \
+      printf "\033[33mchezmoi: %s%s%s\033[0m\n" "$_verify" "$_uncommitted" "$_unpushed"
+    unset _verify _uncommitted _unpushed
+fi
+
+
 alias cz="chezmoi "
 alias czup="chezmoi update && czap"
 alias czap="chezmoi apply && resrc"
