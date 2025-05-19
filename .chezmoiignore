@@ -23,4 +23,5 @@ Library/
 .local/bin/fix-shared-network-ip.command
 .docker/
 Library/
+iCloud
 {{- end }}
