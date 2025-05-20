@@ -1,6 +1,5 @@
 # for all
 Vagrantfile
-ish-update.sh
 ish/
 
 # for public hosts/servers

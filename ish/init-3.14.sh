@@ -25,7 +25,7 @@ cat <<'EOF' >| "$homedir"/.local/bin/ish-update.sh
 WORKDIR="$HOME/dotfiles"
 rm -rf "$WORKDIR"
 git clone --depth 1 https://github.com/freepaddler/dotfiles "$WORKDIR"
-"$WORKDIR"/ish-update.sh && rm -rf "$WORKDIR"
+"$WORKDIR"/ish/ish-update.sh && rm -rf "$WORKDIR"
 EOF
 chown -R chu:chu "$homedir" && chmod +x "$homedir"/.local/bin/ish-update.sh
 
