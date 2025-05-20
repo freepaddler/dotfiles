@@ -1,0 +1,6 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/sh
+defaults write com.apple.desktopservices DSDontWriteNetworkStores true
+defaults write "com.apple.FileMerge" maxNonAscii -int 2147483647
+defaults write com.apple.finder QLEnableTextSelection -bool YES
+{{ end -}}
