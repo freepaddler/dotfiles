@@ -18,6 +18,7 @@ Library/
 
 # ignore on not macOS
 {{- if ne .chezmoi.os "darwin" }}
+run_after/darwin_*
 .local/bin/pfmanage.sh
 .local/bin/fix-shared-network-ip.command
 .docker/
