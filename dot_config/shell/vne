@@ -5,7 +5,7 @@ vne() {
     VNE_PROFILES_DIR="${VNE_PROFILES_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/vne}"
     [ -d "$VNE_PROFILES_DIR" ] || mkdir -p "$VNE_PROFILES_DIR"
 
-    # reading config first to overwrite
+    # reading config first for overrides
 #    VNE_CONFIG_FILE="$VNE_PROFILES_DIR/config"
 #    [ -f "$VNE_CONFIG_FILE" ] && . "$VNE_CONFIG_FILE"
 
@@ -28,28 +28,42 @@ vne() {
         # remove stale files if any
         find "$VNE_PROFILES_DIR" -maxdepth 1 -type f -name 'profiles.tmp.*' -mtime +0 -delete 2>/dev/null || :
         unset _mktemp TMP_SEQ VNE_CONFIG_FILE VNE_PROFILES_FILE \
-            _profile_list _profile_show _profile_exists \
-            _var_add _var_del _profile_remove \
-            _profile_activate _profile_deactivate \
-            _profile_active _help \
+            _sanitize _profile_list _profile_show _profile_exists \
+            _var_add _var_del _profile_remove _profile_activate \
+            _profile_deactivate _profile_active _help \
             profile
 
     }
 
+    # single blank line before each section and no other empty strings
+    _sanitize() {
+        awk '
+            BEGIN { had_header=0 }
+            /^[[:space:]]*$/      { next }
+            /^\[.*\]$/ {
+                if (had_header) print ""
+                print
+                had_header=1
+                next
+            }
+            { print }
+        '
+    }
+
     _profile_list() {
         grep -E '^\[.+\]' "$VNE_PROFILES_FILE" 2> /dev/null |
-            sed -e 's/^\[\(.*\)\]$/\1/'
+            sed -e 's/^\[\(.*\)\]$/\1/' | sort
     }
 
     # var=value
     _profile_show() {
         profile="$1"
-        awk -v section="[$profile]" '
+        _sanitize < "$VNE_PROFILES_FILE" | awk -v section="[$profile]" '
             BEGIN { in_section=0 }
             $0==section             { in_section=1; next }
             /^\[.*\]/ && in_section { exit }
             in_section && NF        { print }
-            ' "$VNE_PROFILES_FILE" 2> /dev/null
+            ' 2> /dev/null
     }
 
     _profile_exists() {
@@ -63,22 +77,23 @@ vne() {
         val="$3"
         exists=1
         _profile_exists "$profile" || exists=0
+
+        # Update existing profile: replace or add the variable within its section
         add_tmp=$(_mktemp) || return 1
-        awk -v SEC="[$profile]" -v KEY="$key" -v VAL="$val" '
+        _sanitize < "$VNE_PROFILES_FILE" | awk -v SEC="[$profile]" -v KEY="$key" -v VAL="$val" '
             BEGIN { printed=0; in_section=0 }
-            $0==SEC                     { print; in_section=1; next }
-            /^\[.*\]/                   { if (in_section && !printed) { print KEY"="VAL; printed=1; } in_section=0 }
-            in_section && $1~"^"KEY"="  { print KEY"="VAL; printed=1; next }
+            $0==SEC                     { print; in_section=1; print KEY"="VAL; printed=1; next }
+            /^\[.*\]/                   { in_section=0 }
+            in_section && $1~"^"KEY"="  { next }
             { print }
             END {
               if (!printed) {
-                print ""
-                print SEC
+                if (!in_section) { print "";  print SEC }
                 print KEY"="VAL
               }
             }
-            ' "$VNE_PROFILES_FILE" >| "$add_tmp" &&
-                command mv -f "$add_tmp" "$VNE_PROFILES_FILE"
+        ' >| "$add_tmp" && command mv -f "$add_tmp" "$VNE_PROFILES_FILE"
+
         if [ "$exists" -eq 0 ]; then
             echo "Profile $profile created."
         fi
@@ -90,14 +105,13 @@ vne() {
         profile="$1"
         key="$2"
         del_tmp=$(_mktemp) || return 1
-        awk -v SEC="[$profile]" -v KEY="$key" '
+        _sanitize < "$VNE_PROFILES_FILE" | awk -v SEC="[$profile]" -v KEY="$key" '
             BEGIN { in_section=0 }
             $0==SEC                     { print; in_section=1; next }
             /^\[.*\]/                   { in_section=0 }
             in_section && $1~"^"KEY"="  { next }
             { print }
-        ' "$VNE_PROFILES_FILE" >| "$del_tmp" &&
-            command mv -f "$del_tmp" "$VNE_PROFILES_FILE"
+        ' >| "$del_tmp" && command mv -f "$del_tmp" "$VNE_PROFILES_FILE"
         unset key del_tmp
     }
 
@@ -107,17 +121,18 @@ vne() {
             echo "Profile $profile does not exist."
             return 1
         fi
-        _deactivate "$profile"
+        _profile_deactivate "$profile"
+
         remove_tmp=$(_mktemp) || return 1
-        awk -v SEC="[$profile]" '
+        _sanitize < "$VNE_PROFILES_FILE" | awk -v SEC="[$profile]" '
             BEGIN { in_section=0 }
-            $0==SEC                 { in_section=1; next }
-            /^\[.*\]/ && in_section { in_section=0; next }
-            !in_section             { print }
-            ' "$VNE_PROFILES_FILE" >| "$remove_tmp" &&
-                command mv -f "$remove_tmp" "$VNE_PROFILES_FILE"
+            $0==SEC                  { in_section=1; next }
+            in_section && /^\[.*\]/  { in_section=0 }
+            !in_section              { print }
+            ' >| "$remove_tmp" && command mv -f "$remove_tmp" "$VNE_PROFILES_FILE"
         echo "Profile $profile removed."
         unset remove_tmp
+
     }
 
     # export profile vars
@@ -194,7 +209,7 @@ vne() {
     _help() {
         cat << EOF
 
-vne.sh - manage environment variables profiles
+vne: manage environment variables profiles
 
 Commands:
   profile list-active           # active profiles
