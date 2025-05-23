@@ -1,0 +1,3 @@
+_env_cmd s5cmd || return 0
+
+_env_is_bash && source <(s5cmd --install-completion)
