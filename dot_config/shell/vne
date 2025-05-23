@@ -2,14 +2,14 @@
 
 vne() {
 
-    VNE_CONFIG_DIR="${VNE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/vne}"
-    [ -d "$VNE_CONFIG_DIR" ] || mkdir -p "$VNE_CONFIG_DIR"
+    VNE_PROFILES_DIR="${VNE_PROFILES_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/vne}"
+    [ -d "$VNE_PROFILES_DIR" ] || mkdir -p "$VNE_PROFILES_DIR"
 
     # reading config first to overwrite
-    VNE_CONFIG_FILE="$VNE_CONFIG_DIR/config"
-    [ -f "$VNE_CONFIG_FILE" ] && . "$VNE_CONFIG_FILE"
+#    VNE_CONFIG_FILE="$VNE_PROFILES_DIR/config"
+#    [ -f "$VNE_CONFIG_FILE" ] && . "$VNE_CONFIG_FILE"
 
-    VNE_PROFILES_FILE="$VNE_CONFIG_DIR/profiles"
+    VNE_PROFILES_FILE="$VNE_PROFILES_DIR/profiles"
     # ensure profiles file exists
     [ -f "$VNE_PROFILES_FILE" ] || touch "$VNE_PROFILES_FILE"
 
@@ -18,7 +18,7 @@ vne() {
     _mktemp() {
       seq=$TMP_SEQ
       TMP_SEQ=$((TMP_SEQ + 1))
-      tmpfile="$VNE_CONFIG_DIR/profiles.tmp.$$.$seq"
+      tmpfile="$VNE_PROFILES_DIR/profiles.tmp.$$.$seq"
       : >"$tmpfile"
       printf '%s' "$tmpfile"
       unset seq tmpfile
@@ -26,7 +26,7 @@ vne() {
 
     _cleanup() {
         # remove stale files if any
-        find "$VNE_CONFIG_DIR" -maxdepth 1 -type f -name 'profiles.tmp.*' -mtime +0 -delete 2>/dev/null || :
+        find "$VNE_PROFILES_DIR" -maxdepth 1 -type f -name 'profiles.tmp.*' -mtime +0 -delete 2>/dev/null || :
         unset _mktemp TMP_SEQ VNE_CONFIG_FILE VNE_PROFILES_FILE \
             _profile_list _profile_show _profile_exists \
             _var_add _var_del _profile_remove \
