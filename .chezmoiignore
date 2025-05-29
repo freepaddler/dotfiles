@@ -19,6 +19,7 @@ Library/
 
 # ignore on not macOS
 {{- if ne .chezmoi.os "darwin" }}
+.config/Brewfile
 .local/bin/pfmanage.sh
 .local/bin/fix-shared-network-ip.command
 .docker/
