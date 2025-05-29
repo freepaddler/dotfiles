@@ -21,7 +21,7 @@ yc-env() {
     YC_CLOUD_ID="$(yc config get cloud-id 2>/dev/null | tr -d '\r')"
     [ -n "$YC_CLOUD_ID" ] && export YC_CLOUD_ID
     YC_FOLDER_ID="$(yc config get folder-id 2>/dev/null | tr -d '\r')"
-    [ -n "$YC_FOLDER_ID" ] && export YC_YC_FOLDER_ID
+    [ -n "$YC_FOLDER_ID" ] && export YC_FOLDER_ID
 }
 
 yc-update() {

@@ -1,6 +1,7 @@
+_env_cmd terraform || return 0
+
 if _env_is_bash; then
-    [ -x /opt/homebrew/bin/terraform ] &&
-        complete -C /opt/homebrew/bin/terraform terraform
+    complete -C /opt/homebrew/bin/terraform terraform
 fi
 
 #alias tf='docker run -it -w /root --rm -v $(pwd):/root \
