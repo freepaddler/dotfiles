@@ -20,17 +20,50 @@ go-install() {
       *)   binary="$binary@latest" ;;
     esac
 
-    ret=0
     tmpdir=$(mktemp -d)
+    rc=0
     if GOPATH=$tmpdir go install "$binary"; then
         cp "$tmpdir"/bin/* "${GOPATH:-$(go env GOPATH)}/bin/"
+        rc=0
     else
         echo "failed to install $binary"
-        ret=1
+        rc=1
     fi
     chmod -R u+w "$tmpdir"
     rm -rf "$tmpdir" > /dev/null
-    return $ret
+    return $rc
+}
+
+_env_cmd gup && {
+    if _env_is_bash; then
+        . <(command gup completion bash)
+    fi
+
+    gup() {
+        case $1 in
+            check|update)
+                gobin=$(go env GOBIN)
+                [ -n "$gobin" ] || gobin="$(go env GOPATH)/bin"
+
+                tmpdir=$(mktemp -d)
+
+                echo "GOBIN=$gobin"
+                echo "GOPATH=$tmpdir"
+
+                rc=0
+                GOPATH=$tmpdir GOBIN=$gobin command gup "$@" || rc=$?
+
+                echo "cleaning GOPATH..."
+                chmod -R u+w "$tmpdir"
+                rm -rf "$tmpdir" > /dev/null
+
+                return $rc
+                ;;
+            *)
+                command gup "$@"
+                ;;
+        esac
+    }
 }
 
 #_env_cmd godoc || return
