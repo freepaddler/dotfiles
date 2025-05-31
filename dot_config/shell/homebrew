@@ -8,27 +8,27 @@ brew-usage() {
         sort -h -r -k2 - | column -t
 }
 
-brew-save() {
-    set -e
-
-    echo "Backing up homebrew..."
-    echo
-
-    dest_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
-    [ -d "$dest_dir" ] || mkdir -p "$dest_dir"
-    backup_dir="$dest_dir/Homebrew.backup"
-    mkdir -p "$backup_dir"
-    brewfile="$dest_dir/Brewfile"
-
-    if [ -f "$brewfile" ]; then
-        modtime=$(stat -f "%m" "$brewfile")
-        dmark=$(date -r "$modtime" +%Y-%m-%d_%H-%M-%S)
-        mv -fv "$brewfile" "$backup_dir/Brewfile_$dmark"
-    fi
-
-    HOMEBREW_NO_AUTO_UPDATE=1 brew bundle dump --file="$brewfile"
-
-    echo
-    echo "Homebrew dump complete"
-    unset dest_dir backup_dir brewfile modtime dmark
-}
+#brew-save() {
+#    set -e
+#
+#    echo "Backing up homebrew..."
+#    echo
+#
+#    dest_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
+#    [ -d "$dest_dir" ] || mkdir -p "$dest_dir"
+#    backup_dir="$dest_dir/Homebrew.backup"
+#    mkdir -p "$backup_dir"
+#    brewfile="$dest_dir/Brewfile"
+#
+#    if [ -f "$brewfile" ]; then
+#        modtime=$(stat -f "%m" "$brewfile")
+#        dmark=$(date -r "$modtime" +%Y-%m-%d_%H-%M-%S)
+#        mv -fv "$brewfile" "$backup_dir/Brewfile_$dmark"
+#    fi
+#
+#    HOMEBREW_NO_AUTO_UPDATE=1 brew bundle dump --file="$brewfile"
+#
+#    echo
+#    echo "Homebrew dump complete"
+#    unset dest_dir backup_dir brewfile modtime dmark
+#}
