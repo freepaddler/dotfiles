@@ -80,7 +80,7 @@ set wildmenu                " visual autocomplete for command menu
 set showcmd                 " display incomplete commands
 syntax on                   
 colorscheme desertold
-highlight MatchParen cterm=bold ctermbg=white 
+highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
 highlight Visual ctermfg=grey ctermbg=NONE
 "set colorcolumn=96          " mark column
 "hi ColorColumn ctermbg=darkgray
@@ -171,6 +171,16 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
+" simple leave INSERT mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+" Leader mappings for line navigation
+nnoremap <Leader>e $
+nnoremap <Leader>a ^
+nnoremap <Leader>b 0
+vnoremap <Leader>e $
+vnoremap <Leader>a ^
+vnoremap <Leader>b 0
 " line numbering
 set number
 set relativenumber                  
