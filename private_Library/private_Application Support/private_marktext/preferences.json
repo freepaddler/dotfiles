@@ -40,7 +40,7 @@
 	"isHtmlEnabled": false,
 	"isGitlabCompatibilityEnabled": false,
 	"sequenceTheme": "simple",
-	"theme": "light",
+	"theme": "dark",
 	"autoSwitchTheme": 0,
 	"spellcheckerEnabled": true,
 	"spellcheckerIsHunspell": false,
