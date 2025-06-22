@@ -10,7 +10,7 @@ adjust-cell-height = 2
 window-padding-x = 5,0
 window-padding-y = 2
 window-height = 36
-window-width = 96
+window-width = 106
 
 background-opacity = 0.9
 unfocused-split-opacity = 0.82
