@@ -28,4 +28,5 @@ macos-option-as-alt = true
 macos-icon = glass
 
 keybind = global:cmd+grave_accent=toggle_quick_terminal
+keybind = global:cmd+§=toggle_quick_terminal
 quick-terminal-position = center
