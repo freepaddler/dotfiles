@@ -1,0 +1,12 @@
+[mgr]
+ratio = [1,3,4]
+
+[preview]
+wrap = "yes"
+tab_size = 2
+image_d2elay = 500 
+
+[plugin]
+prepend_previewers = [
+  { name = "*.md", run = "glow" },
+]

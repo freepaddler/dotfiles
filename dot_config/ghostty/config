@@ -1,4 +1,5 @@
 theme = "Builtin Dark" 
+#theme = "PaulMillr"
 
 font-family = "Menlo"
 #window-title-font-family = "Menlo"
