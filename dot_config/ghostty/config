@@ -1,0 +1,30 @@
+theme = "Builtin Dark" 
+
+font-family = "Menlo"
+#window-title-font-family = "Menlo"
+font-size = 11.0
+font-thicken = true
+adjust-cell-height = 2
+
+window-padding-x = 5,0
+window-padding-y = 2
+window-height = 36
+window-width = 96
+
+background-opacity = 0.9
+unfocused-split-opacity = 0.82
+split-divider-color = 777777
+
+shell-integration-features = no-cursor
+cursor-style = block
+cursor-style-blink = false
+cursor-color = 777777
+
+selection-invert-fg-bg = true
+clipboard-trim-trailing-spaces = true
+
+macos-option-as-alt = true
+macos-icon = glass
+
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-position = center

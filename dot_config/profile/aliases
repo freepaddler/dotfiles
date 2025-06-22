@@ -80,4 +80,4 @@ _env_cmd iptables && {
 }
 
 _env_cmd screen && alias sc="screen -U"
-_env_cmd glow && alias mdless="glow -p"
+_env_cmd glow && alias lemd="glow -p"
