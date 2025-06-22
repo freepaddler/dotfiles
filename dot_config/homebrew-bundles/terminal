@@ -1,0 +1,32 @@
+# core
+tap "buo/cask-upgrade"
+tap "homebrew/bundle"
+tap "homebrew/services"
+
+# base
+#cask "alacritty"
+brew "chezmoi"
+brew "age"
+brew "bash"
+brew "bash-completion@2"
+brew "tmux"
+
+# utils
+
+
+# modern
+cask "ghostty"
+## file manager
+brew "yazi"
+### previewers
+brew "7zip"
+brew "ffmpeg"
+brew "jq"
+brew "poppler" #pdf
+#brew "fd"
+#brew "rg"
+#brew "fzf"
+#brew "zoxide"
+#brew "resvg"
+#brew "imagemagic"
+
