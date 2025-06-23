@@ -2,7 +2,7 @@ _env_cmd chezmoi || return
 
 # chezmoi state
 if chezmoi source-path >/dev/null 2>&1; then
-    _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'czst') ")
+    _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'cz-state') ")
     _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
     _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
 
@@ -13,16 +13,16 @@ fi
 
 
 alias cz="chezmoi "
-alias czup="chezmoi update && czap"
+alias czup="chezmoi update && resrc"
 alias czap="chezmoi apply && resrc"
-alias czst="chezmoi status --exclude=scripts"
+alias cz-state="chezmoi status --exclude=scripts"
 
 # these work only with git binary
 _env_cmd git && chezmoi source-path >/dev/null 2>&1 && {
-    alias czst="chezmoi status --exclude=scripts; cz git -- status -s"
-    alias czed="chezmoi edit --apply"
-    alias czcd="chezmoi cd"
-    alias czdiff="chezmoi diff --exclude=scripts"
+    alias cz-state="chezmoi status --exclude=scripts; cz git -- status -s"
+    alias cz-edit="chezmoi edit --apply"
+    alias cz-cd="chezmoi cd"
+    alias cz-diff="chezmoi diff --exclude=scripts"
 
     _czedit() {
         if  [ "$#" -eq 1 ] && chezmoi source-path "$1" >/dev/null 2>&1; then
