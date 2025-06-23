@@ -4,28 +4,31 @@ tap "homebrew/bundle"
 tap "homebrew/services"
 
 # base
-#cask "alacritty"
 brew "chezmoi"
 brew "age"
 brew "bash"
 brew "bash-completion@2"
 brew "tmux"
 
-# utils
-
-
-# modern
+# tty
+#cask "alacritty"
 cask "ghostty"
-## file manager
-brew "yazi"
-### previewers
+
+# utils
 brew "7zip"
+brew "bat"  # cat/less with highlight
+brew "fd"   # find
 brew "ffmpeg"
+brew "fzf"  # fuzzy search
 brew "jq"
-brew "poppler" #pdf
-#brew "fd"
+
+# file managers
+brew "superfile"    # file manager
+brew "yazi"         # file manageer
+## previewers
+brew "poppler"      # preview pdf
+
 #brew "rg"
-#brew "fzf"
 #brew "zoxide"
 #brew "resvg"
 #brew "imagemagic"

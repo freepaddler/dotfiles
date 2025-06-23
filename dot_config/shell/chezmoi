@@ -66,4 +66,3 @@ if _env_is_bash; then
     . <(chezmoi completion bash --)
     _env_bash_clone_completion ssh cz-ssh
 fi
-

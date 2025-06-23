@@ -26,4 +26,4 @@ done
 
 unset bash_home file
 
-
+_env_cmd fzf && eval "$(fzf --bash)"

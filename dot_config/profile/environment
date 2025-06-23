@@ -35,9 +35,9 @@ alias v="vi"
 # --- PAGER setup ---
 export PAGER="less"
 # -XF to disable alternate screen
-export LESS="-F -iRJ -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
 #if less --help 2>&1 | grep -q -- --mouse; then
-#  export LESS="-F -iRJ --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+#  export LESS="-F -iR --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
 #fi
 
 # ---ls color support ---

@@ -1,11 +1,2 @@
 [flavor]
 dark = "onedark"
-
-#[confirm]
-#border = {fg = "#15afad"}
-#title = {fg = "#15afad"}
-#
-#[spot]
-#border = {fg = "#15afad"}
-#title = {fg = "#15afad"}
-#tbl_col = {fg = "#15afad"}
