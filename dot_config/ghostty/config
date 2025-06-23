@@ -1,4 +1,3 @@
-
 font-family = "Menlo"
 #window-title-font-family = "Menlo"
 font-size = 11.0
@@ -25,33 +24,37 @@ quick-terminal-position = center
 
 # theme
 #theme = "Builtin Dark" 
-palette = 0=#202020
-palette = 1=#bb0000
-palette = 2=#00bb00
-palette = 3=#bbbb00
-palette = 4=#3758ff
-palette = 5=#bb33bb
-palette = 6=#00bbbb
-palette = 7=#bbbbbb
-palette = 8=#555555
-palette = 9=#ff5555
+
+# primary
+foreground = #bbbbbb
+background = #000000
+# cursor
+cursor-text = #cbcbcb
+cursor-color = #606060
+# cursor options
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+# selection
+selection-foreground = #202020
+selection-background = #525252
+selection-invert-fg-bg = true
+# colors normal
+palette =  0=#202020
+palette =  1=#bb0000
+palette =  2=#00bb00
+palette =  3=#bbbb00
+palette =  4=#3758ff
+palette =  5=#bb33bb
+palette =  6=#00bbbb
+palette =  7=#bbbbbb
+# colors bright
+palette =  8=#555555
+palette =  9=#ff5555
 palette = 10=#55ff55
 palette = 11=#ffff55
 palette = 12=#6699ff
 palette = 13=#ff55ff
 palette = 14=#55ffff
 palette = 15=#ffffff
-
-background = #000000
-foreground = #bbbbbb
-
-cursor-color = #777777
-cursor-text = #cbcbcb
-cursor-style = block
-cursor-style-blink = false
-shell-integration-features = no-cursor
-
-selection-background = #555555
-selection-foreground = #202020
-selection-invert-fg-bg = true
 

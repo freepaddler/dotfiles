@@ -1,0 +1,36 @@
+# Colors (Terminal.app)
+
+# Default colors
+[colors.primary]
+foreground = '#bbbbbb'
+background = '#000000'
+
+[colors.cursor]
+text = '#cbcbcb'
+cursor = '#606060'
+
+[colors.selection]
+text = "CellForeground"
+background = '#525252'
+
+# Normal colors
+[colors.normal]
+black   = '#202020'
+red     = '#bb0000'
+green   = '#00bb00'
+yellow  = '#bbbb00'
+blue    = '#3758ff'
+magenta = '#bb33bb'
+cyan    = '#00bbbb'
+white   = '#bbbbbb'
+
+# Bright colors
+[colors.bright]
+black   = '#777777'
+red     = '#ff5555'
+green   = '#55ff55'
+yellow  = '#ffff55'
+blue    = '#6699ff'
+magenta = '#ff55ff'
+cyan    = '#55ffff'
+white   = '#ffffff'

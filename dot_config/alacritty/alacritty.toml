@@ -1,5 +1,5 @@
 [general]
-    import = ["~/.config/alacritty/themes/terminal_app.toml"]
+    import = ["~/.config/alacritty/themes/terminal.toml"]
 [window]
     dimensions = { columns = 96, lines = 31 }
     padding = { x = 5, y = 2 }
@@ -16,8 +16,6 @@
     #normal = { family = "Menlo" }
     size = 11
     offset = { x = 1, y = 3 }
-[colors.cursor]
-    cursor = "#888888"
 [keyboard]
 [[keyboard.bindings]]
     key = "M"
