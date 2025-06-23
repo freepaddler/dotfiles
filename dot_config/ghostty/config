@@ -39,6 +39,7 @@ shell-integration-features = no-cursor
 selection-foreground = #202020
 selection-background = #525252
 selection-invert-fg-bg = true
+
 # colors normal
 palette =  0=#202020
 palette =  1=#bb0000
