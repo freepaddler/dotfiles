@@ -1,5 +1,3 @@
-theme = "Builtin Dark" 
-#theme = "PaulMillr"
 
 font-family = "Menlo"
 #window-title-font-family = "Menlo"
@@ -13,15 +11,9 @@ window-height = 36
 window-width = 106
 
 background-opacity = 0.9
-unfocused-split-opacity = 0.82
+unfocused-split-opacity = 0.80
 split-divider-color = 777777
 
-shell-integration-features = no-cursor
-cursor-style = block
-cursor-style-blink = false
-cursor-color = 777777
-
-selection-invert-fg-bg = true
 clipboard-trim-trailing-spaces = true
 
 macos-option-as-alt = true
@@ -30,3 +22,36 @@ macos-icon = glass
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:cmd+§=toggle_quick_terminal
 quick-terminal-position = center
+
+# theme
+#theme = "Builtin Dark" 
+palette = 0=#202020
+palette = 1=#bb0000
+palette = 2=#00bb00
+palette = 3=#bbbb00
+palette = 4=#3758ff
+palette = 5=#bb33bb
+palette = 6=#00bbbb
+palette = 7=#bbbbbb
+palette = 8=#555555
+palette = 9=#ff5555
+palette = 10=#55ff55
+palette = 11=#ffff55
+palette = 12=#6699ff
+palette = 13=#ff55ff
+palette = 14=#55ffff
+palette = 15=#ffffff
+
+background = #000000
+foreground = #bbbbbb
+
+cursor-color = #777777
+cursor-text = #cbcbcb
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+selection-background = #555555
+selection-foreground = #202020
+selection-invert-fg-bg = true
+

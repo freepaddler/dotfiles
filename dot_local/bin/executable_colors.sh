@@ -1,5 +1,14 @@
 #!/bin/sh
 
+
+names="Black Red Green Yellow Blue Magenta Cyan White Bright-Black Bright-Red Bright-Green Bright-Yellow Bright-Blue Bright-Magenta Bright-Cyan Bright-White"
+
+i=0
+for name in $names; do
+  printf "\033[38;5;%sm%-15s\033[0m Color %2s\n" "$i" "$name" "$i"
+  i=$((i + 1))
+done
+
 cat << EOF
 
         1     4     5     7    30    31    32    33    34    35    36    37  
