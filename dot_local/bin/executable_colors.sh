@@ -1,11 +1,19 @@
 #!/bin/sh
 
-
+# Define color names in a list (index-based)
 names="Black Red Green Yellow Blue Magenta Cyan White Bright-Black Bright-Red Bright-Green Bright-Yellow Bright-Blue Bright-Magenta Bright-Cyan Bright-White"
 
+# Convert names into a positional parameter list
+set -- $names
+
 i=0
-for name in $names; do
-  printf "\033[38;5;%sm%-15s\033[0m Color %2s\n" "$i" "$name" "$i"
+while [ $i -lt 8 ]; do
+  left_name=$(eval "printf '%s' \"\${$((i + 1))}\"")
+  right_name=$(eval "printf '%s' \"\${$((i + 9))}\"")
+
+  printf "\033[38;5;%sm%-15s\033[0m Color %2d    " "$i" "$left_name" "$i"
+  printf "\033[38;5;%sm%-15s\033[0m Color %2d\n" "$((i + 8))" "$right_name" "$((i + 8))"
+
   i=$((i + 1))
 done
 
