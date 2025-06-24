@@ -1,9 +1,7 @@
-# Colors (Terminal.app)
-
 # Default colors
 [colors.primary]
 foreground = '#bbbbbb'
-background = '#000000'
+background = '#080808'
 
 [colors.cursor]
 text = '#cbcbcb'

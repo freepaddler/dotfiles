@@ -1,5 +1,5 @@
 [general]
-    import = ["~/.config/alacritty/themes/terminal.toml"]
+    import = ["~/.config/alacritty/themes/onedark.toml"]
 [window]
     dimensions = { columns = 96, lines = 31 }
     padding = { x = 5, y = 2 }

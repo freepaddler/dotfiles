@@ -4,6 +4,6 @@ rev = "bd3eaa5"
 hash = "92b5c58159a51c567f82b618cee2b78"
 
 [[flavor.deps]]
-use = "BennyOe/onedark"
-rev = "668d71d"
-hash = "5e616226586a2af1ecaf116e08e9a8ec"
+use = "AdithyanA2005/nord"
+rev = "3a791e9"
+hash = "fa7142cda74a50b271ea212356b40b57"

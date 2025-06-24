@@ -79,13 +79,14 @@ au BufWrite /etc/pw.* set nowritebackup nobackup
 set wildmenu                " visual autocomplete for command menu
 set showcmd                 " display incomplete commands
 syntax on                   
-colorscheme desertold
-highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
-highlight Visual ctermfg=grey ctermbg=NONE
+colorscheme nord
+"highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
+highlight Visual ctermbg=lightgrey 
 "set colorcolumn=96          " mark column
 "hi ColorColumn ctermbg=darkgray
 set cursorline              " current line highlight
-hi CursorLine cterm=bold
+hi CursorLine cterm=bold ctermbg=NONE
+hi CursorLineNr cterm=bold ctermbg=NONE ctermfg=white
 
 " Capture the time the file was saved
 autocmd BufWritePost * let b:file_saved_time = localtime()

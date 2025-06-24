@@ -16,10 +16,14 @@ cask "ghostty"
 
 # utils
 brew "7zip"
-brew "bat"  # cat/less with highlight
-brew "fd"   # find
+brew "bat"      # cat/less with highlight
+brew "gdu"      # disk usage
+brew "gnu-sed"
+brew "glow"     # markdown viewer
+brew "fd"       # find
 brew "ffmpeg"
-brew "fzf"  # fuzzy search
+brew "fzf"      # fuzzy search
+brew "htop"
 brew "jq"
 
 # file managers
@@ -27,7 +31,6 @@ brew "superfile"    # file manager
 brew "yazi"         # file manageer
 ## previewers
 brew "poppler"      # preview pdf
-
 #brew "rg"
 #brew "zoxide"
 #brew "resvg"

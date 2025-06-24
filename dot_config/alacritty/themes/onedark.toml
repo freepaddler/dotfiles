@@ -1,0 +1,34 @@
+# Default colors
+[colors.primary]
+foreground = '#abb2bf'
+background = '#020202'
+
+[colors.cursor]
+text = '#ffffff'
+cursor = '#5c6370'
+
+[colors.selection]
+text = "CellForeground"
+background = '#3e4452'
+
+# Normal colors
+[colors.normal]
+black   = '#4b5263'
+red     = '#e06c75'
+green   = '#98c379'
+yellow  = '#e5c07b'
+blue    = '#61afef'
+magenta = '#c678dd'
+cyan    = '#56b6c2'
+white   = '#abb2bf'
+
+# Bright colors
+[colors.bright]
+black   = '#5c6370'
+red     = '#ef8f94'
+green   = '#a5e075'
+yellow  = '#f0c97b'
+blue    = '#82b8ff'
+magenta = '#d19aff'
+cyan    = '#88cddf'
+white   = '#ffffff'
