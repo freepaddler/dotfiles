@@ -1,7 +1,7 @@
 _env_cmd chezmoi || return
 
 # chezmoi state
-if chezmoi source-path >/dev/null 2>&1; then
+if [ -z "$TMUX" ] && chezmoi source-path >/dev/null 2>&1; then
     _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'czstate') ")
     _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
     _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
