@@ -21,6 +21,7 @@ alias czstate="chezmoi status --exclude=scripts"
 _env_cmd git && chezmoi source-path >/dev/null 2>&1 && {
     alias czstate="chezmoi status --exclude=scripts; cz git -- status -s"
     alias cz-edit="chezmoi edit --apply"
+    alias sshconfig="cz-edit ~/.ssh/config && resrc"
     alias cz-diff="chezmoi diff --exclude=scripts"
 
 #    _czedit() {

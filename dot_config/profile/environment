@@ -30,7 +30,7 @@ elif _env_cmd vi; then
 else
     echo "ERROR: vi or vim are not found!"
 fi
-alias v="vi"
+alias v="$EDITOR"
 
 # --- PAGER setup ---
 export PAGER="less"

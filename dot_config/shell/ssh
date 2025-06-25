@@ -1,4 +1,4 @@
-alias sshconfig="v ~/.ssh/config && resrc"
+(alias sshconfig >/dev/null 2>&1) || alias sshconfig="v ~/.ssh/config && resrc"
 alias sshexit="ssh -O exit"
 alias sshmulti="ssh -M"
 alias sshsingle="ssh -o ControlMaster=no"
