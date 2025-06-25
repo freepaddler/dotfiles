@@ -81,12 +81,12 @@ set showcmd                 " display incomplete commands
 syntax on                   
 colorscheme nord
 "highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
-highlight Visual ctermbg=lightgrey 
+highlight Visual ctermbg=grey
 set colorcolumn=81          " mark column
-hi ColorColumn ctermbg=0
+hi ColorColumn ctermbg=black
 set cursorline              " current line highlight
 hi CursorLine cterm=bold ctermbg=NONE
-hi CursorLineNr cterm=bold ctermbg=NONE ctermfg=white
+hi CursorLineNr cterm=bold ctermbg=NONE ctermfg=grey
 
 " Capture the time the file was saved
 autocmd BufWritePost * let b:file_saved_time = localtime()
@@ -187,7 +187,7 @@ nnoremap <leader>h :nohlsearch<CR>
 " line numbering
 set number
 set relativenumber                  
-hi LineNr ctermfg=grey
+hi LineNr ctermfg=black
 function! ToggleLineNumberMode()
     if &number && &relativenumber
         set norelativenumber
