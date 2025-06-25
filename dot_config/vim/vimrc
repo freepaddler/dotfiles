@@ -182,6 +182,8 @@ nnoremap <Leader>b 0
 vnoremap <Leader>e $
 vnoremap <Leader>a ^
 vnoremap <Leader>b 0
+" remove highlights
+nnoremap <leader>h :nohlsearch<CR>
 " line numbering
 set number
 set relativenumber                  
