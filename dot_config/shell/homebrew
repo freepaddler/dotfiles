@@ -1,11 +1,30 @@
+# vim: set syntax=sh : 
 _env_cmd brew || return
 
 alias brew-requested="brew leaves -r && echo && brew list --cask -1"
 
 brew-usage() {
     brew list --formula | xargs -n1 -P8 -I {} \
-        sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" |
-        sort -h -r -k2 - | column -t
+        sh -c "brew info {} | \
+            egrep '[0-9]* files, ' | \
+            sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" |
+                sort -h -r -k2 - | column -t
+}
+
+brew-new-installs() {
+    bundles_dir="$HOME/.config/homebrew-bundles"
+    [ -d "$bundles_dir" ] || {
+        echo "No saved bundles found in $bundles_dir"
+        return 1
+    }
+    echo "New installs:"
+    comm -23 \
+        <(brew bundle dump --all --file=- | sort ) \
+        <(grep -hE '^[a-z]' "$bundles_dir"/* | 
+                sed -E 's/[[:space:]]+(#.*)?$//' | 
+                sort | uniq)
+
+    unset bundles_dir
 }
 
 #brew-save() {

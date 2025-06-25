@@ -1,0 +1,66 @@
+# macos apps
+
+cask "appcleaner"
+cask "cheatsheet"
+cask "clipy"                # clipboard mmanager
+cask "drawio"
+cask "eloston-chromium"     # ungoogled chrome
+cask "firefox"
+cask "fluor"                # fn keys by app
+cask "handbrake-app"        # media converter
+cask "iina"                 # video player
+cask "itsycal"              # bar calendar
+cask "launchpad-manager"
+cask "mac-mouse-fix" 
+cask "maczip"               # archive with preview
+cask "mark-text"            # markdown editor
+# cask "mediahuman-audio-converter"
+cask "obsidian"         
+cask "ocenaudio"            # audio editor
+cask "outline-manager"      # vpn manager
+cask "qlmarkdown"
+cask "qlvideo"
+cask "quicklook-json"
+cask "sigil"                # epub editor
+cask "syntax-highlight"     # quick look
+cask "thunderbird"
+cask "transmission"         # torrent
+cask "ukelele"              # remap keyboard
+# cask "universal-media-server"
+cask "vlc"
+cask "whisky"               # wine wrapper
+cask "yandex"               # yandex browser
+cask "zerotier-one"         # vpn
+
+# mac app store
+brew "mas"
+
+mas "AdGuard for Safari", id: 1440147259
+mas "Apple Configurator", id: 1037126344
+mas "AudioBookBinder", id: 413969927
+mas "BBEdit", id: 404009241
+# mas "DNSecure", id: 1533413232
+mas "Enpass", id: 732710998
+mas "Gemini", id: 463541543         # duplicate finder
+mas "Hush", id: 1544743900          # block cookie and tracers
+mas "iMovie", id: 408981434
+mas "iRingtone Pro", id: 622007267
+mas "JSONPeep", id: 1458969831      # safari JSON preview
+mas "Keynote", id: 409183694
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft PowerPoint", id: 462062816
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Microsoft Word", id: 462054704
+mas "Money Flow", id: 900890647
+# mas "MuteKey", id: 1509590766       # mute microphone
+mas "Numbers", id: 409203825
+mas "OneDrive", id: 823766827
+mas "Outline", id: 1356178125       # vpm
+mas "Pages", id: 409201541
+mas "PiPifier", id: 1160374471      # safari picture-in-picture
+mas "Telegram", id: 747648890
+mas "Telephone", id: 406825478
+mas "Tomito", id: 1526042938        # tomato timer
+mas "WhatsApp", id: 310633997
+mas "WireGuard", id: 1451685025     # vpn
+

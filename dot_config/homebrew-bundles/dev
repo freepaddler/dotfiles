@@ -1,0 +1,63 @@
+# dev tools and utils
+
+brew "go"
+brew "hugo"
+brew "iperf3"
+brew "mas"
+brew "mingw-w64"    # win c-go 
+brew "node"
+brew "pandoc"
+brew "protobuf"
+brew "s5cmd"        # s3 cli
+#brew "sipp"         # sip payload gen
+#brew "sngrep"       # sip flow vizualizer
+brew "sqlite"
+brew "trivy"        # cve, sbom
+
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform"
+cask "hashicorp-vagrant"
+cask "vagrant-vmware-utility"
+
+cask "dbeaver-community"
+cask "docker-desktop"
+cask "goland"
+cask "masscode"
+cask "mongodb-compass"
+cask "mqttx"
+cask "utm"
+cask "vmware-fusion"
+cask "wireshark-app"
+cask "xca"
+cask "yandex-cloud-cli"
+
+vscode "albert.tabout"
+vscode "alefragnani.project-manager"
+vscode "donjayamanne.githistory"
+vscode "formulahendry.code-runner"
+vscode "golang.go"
+vscode "gruntfuggly.todo-tree"
+vscode "humao.rest-client"
+vscode "jebbs.plantuml"
+vscode "jtavin.ldif"
+vscode "mhutchie.git-graph"
+vscode "moshfeu.compare-folders"
+vscode "ms-azuretools.vscode-containers"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-python.debugpy"
+vscode "ms-python.isort"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-vscode-remote.remote-ssh"
+vscode "ms-vscode-remote.remote-ssh-edit"
+vscode "ms-vscode.remote-explorer"
+vscode "ms-vsliveshare.vsliveshare"
+vscode "pkief.material-icon-theme"
+vscode "redhat.vscode-yaml"
+vscode "rogalmic.bash-debug"
+vscode "samuelcolvin.jinjahtml"
+vscode "scala-lang.scala"
+vscode "shd101wyy.markdown-preview-enhanced"
+vscode "wyattferguson.jinja2-snippet-kit"
+vscode "zhuangtongfa.material-theme"
+

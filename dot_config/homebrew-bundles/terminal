@@ -4,35 +4,36 @@ tap "homebrew/bundle"
 tap "homebrew/services"
 
 # base
-brew "chezmoi"
 brew "age"
 brew "bash"
 brew "bash-completion@2"
+brew "chezmoi"
 brew "tmux"
 
 # tty
 #cask "alacritty"
 cask "ghostty"
 
-# utils
-brew "7zip"
-brew "bat"      # cat/less with highlight
-brew "gdu"      # disk usage
-brew "gnu-sed"
-brew "glow"     # markdown viewer
-brew "fd"       # find
-brew "ffmpeg"
-brew "fzf"      # fuzzy search
-brew "htop"
-brew "jq"
-
 # file managers
 brew "superfile"    # file manager
 brew "yazi"         # file manageer
-## previewers
+
+# utils
+brew "7zip"
+brew "bat"          # cat/less with highlight
+brew "convmv"       # filename encoding conversion
+brew "fd"           # find alternative
+brew "ffmpeg"
+brew "fzf"          # fuzzy search
+brew "gdu"          # disk usage
+brew "glow"         # markdown viewer
+brew "gnu-sed"
+brew "htop"
+brew "inetutils"    # telnet, etc
+brew "jq"
 brew "poppler"      # preview pdf
-#brew "rg"
-#brew "zoxide"
-#brew "resvg"
-#brew "imagemagic"
+brew "mp3unicode"
+brew "sevenzip"
+brew "sipcalc"
+brew "tree"
 
