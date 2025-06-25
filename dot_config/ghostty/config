@@ -26,7 +26,7 @@ quick-terminal-position = center
 
 # theme
 theme = soft.conf
-#background = #000000
+#background = #090909
 
 # cursor options
 cursor-style = block
