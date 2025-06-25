@@ -15,6 +15,7 @@ fi
 alias plu="plutil -p"
 alias dsstore-cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 _env_cmd gsed && alias sed="gsed"
+alias o="open "
 
 #idea
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
