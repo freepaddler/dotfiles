@@ -22,7 +22,7 @@ call map(s:undos, 'delete(v:val)')
 " read .vimrc also from local dirs
 set exrc
 set secure
-set modelines=0         " read vim settings from file itself
+set modelines=5         " read vim settings from file itself
 
 let mapleader = " "
 
@@ -82,8 +82,8 @@ syntax on
 colorscheme nord
 "highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
 highlight Visual ctermbg=lightgrey 
-"set colorcolumn=96          " mark column
-"hi ColorColumn ctermbg=darkgray
+set colorcolumn=81          " mark column
+hi ColorColumn ctermbg=0
 set cursorline              " current line highlight
 hi CursorLine cterm=bold ctermbg=NONE
 hi CursorLineNr cterm=bold ctermbg=NONE ctermfg=white

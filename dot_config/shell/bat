@@ -1,0 +1,5 @@
+_env_cmd bat || return 0
+
+export BAT_THEME=Nord
+
+_env_is_bash && . <(bat --completion bash)
