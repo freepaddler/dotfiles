@@ -1,4 +1,3 @@
-# Default colors
 [colors.primary]
 foreground = '#bbbbbb'
 background = '#080808'
@@ -11,7 +10,6 @@ cursor = '#606060'
 text = "CellForeground"
 background = '#525252'
 
-# Normal colors
 [colors.normal]
 black   = '#202020'
 red     = '#bb0000'
@@ -22,7 +20,6 @@ magenta = '#bb33bb'
 cyan    = '#00bbbb'
 white   = '#bbbbbb'
 
-# Bright colors
 [colors.bright]
 black   = '#777777'
 red     = '#ff5555'

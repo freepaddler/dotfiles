@@ -11,7 +11,6 @@ if [ -z "$TMUX" ] && chezmoi source-path >/dev/null 2>&1; then
     unset _verify _uncommitted _unpushed
 fi
 
-
 alias cz="chezmoi "
 alias czup="chezmoi update && resrc"
 alias czap="chezmoi apply && resrc"

@@ -1,3 +1,4 @@
+# vim: set syntax=sh :
 if _env_is_bash; then
     # ssh-keygen override
     complete -f ssh-keygen

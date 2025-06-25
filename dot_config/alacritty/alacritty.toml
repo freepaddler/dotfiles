@@ -1,5 +1,7 @@
 [general]
-    import = ["~/.config/alacritty/themes/onedark.toml"]
+    import = ["~/.config/alacritty/themes/soft.toml"]
+[colors.primary]
+    background = "#020202"
 [window]
     dimensions = { columns = 96, lines = 31 }
     padding = { x = 5, y = 2 }

@@ -1,3 +1,4 @@
+# vim: set syntax=sh :
 # show shell and machine info
 shell=$(printf '%s\n' "$0" | sed 's/^-//')
 shell_version=""
