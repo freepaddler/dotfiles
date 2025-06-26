@@ -36,7 +36,7 @@ alias chmox="chmod +x"
 # disk space
 alias du="du -h"
 du1() {
-    du -hd1 "$@" | sort h
+    du -hd1 "$@" | sort -h
 }
 alias df="df -h"
 alias ds="df -P -kHl"
