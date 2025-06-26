@@ -26,13 +26,13 @@ export FZF_COMPLETION_OPTS='--border --info=inline --height=50%'
 export FZF_COMPLETION_PATH_OPTS=" \
     --walker file,dir,follow,hidden \
     $_fzf_walker_skip \
-    --preview $_fzf_preview_all \
+    --preview '$_fzf_preview_all' \
 "
 
 export FZF_COMPLETION_DIR_OPTS=" \
     --walker dir,follow,hidden \
     $_fzf_walker_skip \
-    --preview='tree -C -L 2 {}' \
+    --preview 'tree -C -L 2 {}' \
 "
 
 # Preview file content using bat (https://github.com/sharkdp/bat)
@@ -61,14 +61,16 @@ export FZF_ALT_C_OPTS=" \
 # - The first argument to the function is the name of the command.
 # - You should make sure to pass the rest of the arguments ($@) to fzf.
 _fzf_comprun() {
-  local command=$1
+  _cmd=$1
   shift
 
-  case "$command" in
-    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-    ssh)          fzf --preview 'dig +short {}'            "$@" ;;
-    *)            fzf --preview "'$_fzf_preview_all'"      "$@" ;;
+  case "$_cmd" in
+    export|unset) fzf --preview "eval 'echo \$'{}"          "$@" ;;
+    ssh)          fzf --preview 'dig +short {}'             "$@" ;;
+    *)            eval "fzf $FZF_COMPLETION_PATH_OPTS \"\$@\"" ;;
   esac
+
+  unset _cmd
 }
 
 unset _fzf_walker_skip _fzf_preview_file _fzf_preview_dir _fzf_preview_all
@@ -76,24 +78,29 @@ unset _fzf_walker_skip _fzf_preview_file _fzf_preview_dir _fzf_preview_all
 # fd intgration
 _env_cmd fd || return 0
 
-_fzf_fd_exclude="-E .git -E node_modules -E Library -E go -E Movies -E Pictures"
-_fzf_fd_opts="--hidden --follow $_fzf_fd_exclude"
+_exclude=".git .idea .vscode .cache node_modules \
+           Applications Library Movies Music Pictures .DS_Store"
+for d in $_exclude; do
+    _fzf_fd_exclude="$_fzf_fd_exclude -E $d"
+done
+
+export FZF_FD_OPTS="--hidden --follow $_fzf_fd_exclude"
     
-export FZF_DEFAULT_COMMAND="fd $_fzf_fd_opts"
-export FZF_ALT_C_COMMAND="fd --type dir $_fzf_fd_opts"
-export FZF_CTRL_T_COMMAND="fd $_fzf_fd_opts"
+export FZF_DEFAULT_COMMAND="fd $FZF_FD_OPTS"
+export FZF_ALT_C_COMMAND="fd --type dir $FZF_FD_OPTS"
+export FZF_CTRL_T_COMMAND="fd $FZF_FD_OPTS"
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - First argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
 _fzf_compgen_path() {
-   fd $_fzf_fd_opts . "$1"
+   fd $FZF_FD_OPTS . "$1"
 }
 
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-    fd --type dir $_fzf_fd_opts . "$1"
+    fd --type dir $FZF_FD_OPTS . "$1"
 }
 
-unset _fzf_fd_exclude _fzf_fd_opts 
+unset _fzf_fd_exclude 
 

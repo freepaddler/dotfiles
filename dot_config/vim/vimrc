@@ -79,9 +79,10 @@ au BufWrite /etc/pw.* set nowritebackup nobackup
 set wildmenu                " visual autocomplete for command menu
 set showcmd                 " display incomplete commands
 syntax on                   
+set termguicolors
 colorscheme nord
 "highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
-highlight Visual ctermbg=grey
+"highlight Visual ctermbg=grey
 set colorcolumn=81          " mark column
 hi ColorColumn ctermbg=black
 set cursorline              " current line highlight
