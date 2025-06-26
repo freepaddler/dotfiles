@@ -4,6 +4,15 @@ Vagrantfile
 ish/
 testdata/
 
+# any images in config
+.config/**/*.png
+.config/**/*.jpg
+.config/**/*.jpeg
+.config/**/*.gif
+.config/**/*.webp
+.config/**/*.svg
+.config/**/*.bmp
+
 ### for public hosts/servers
 {{- if not .private }}
 # no encrypted files
