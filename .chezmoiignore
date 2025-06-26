@@ -2,9 +2,11 @@
 README.md
 Vagrantfile
 ish/
+testdata/
 
-# for public hosts/servers
+### for public hosts/servers
 {{- if not .private }}
+# no encrypted files
 **/*.age
 .config/yandex-cloud
 .ssh/**
@@ -15,11 +17,13 @@ Library/
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
+
 {{- end }}
 
 # ignore on not macOS
 {{- if ne .chezmoi.os "darwin" }}
-.config/Brewfile
+.config/homebrew-bundles
+.config/darwin
 .local/bin/pfmanage.sh
 .local/bin/fix-shared-network-ip.command
 .docker/
