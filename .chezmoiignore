@@ -18,7 +18,7 @@ testdata/
 # no encrypted files
 **/*.age
 .config/yandex-cloud
-.ssh/**
+.ssh/*
 !.ssh/authorized_keys
 .nmprc
 Library/
