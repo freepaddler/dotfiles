@@ -75,7 +75,7 @@ _env_cmd git && chezmoi source-path >/dev/null 2>&1 && {
 
 # remote local install chezmoi
 cz-ssh() {
-    ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --apply --depth=1 --force --purge freepaddler'
+    ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler'
 }
 
 if _env_is_bash; then
