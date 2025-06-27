@@ -4,7 +4,6 @@ cask "appcleaner"
 cask "cheatsheet"
 cask "clipy"                # clipboard mmanager
 cask "drawio"
-cask "eloston-chromium"     # ungoogled chrome
 cask "firefox"
 cask "fluor"                # fn keys by app
 cask "handbrake-app"        # media converter
@@ -26,6 +25,7 @@ cask "syntax-highlight"     # quick look
 cask "thunderbird"
 cask "transmission"         # torrent
 cask "ukelele"              # remap keyboard
+cask "ungoogled-chromium"   # ungoogled chrome
 # cask "universal-media-server"
 cask "vlc"
 cask "whisky"               # wine wrapper
