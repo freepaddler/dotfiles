@@ -21,7 +21,7 @@ testdata/
 .config/yandex-cloud
 .ssh/*
 !.ssh/authorized_keys
-.nmprc
+.npmrc
 Library/
 {{- end }}
 
