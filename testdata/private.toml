@@ -1,2 +1,4 @@
 [data]
 private = true
+email = "private@email.com"
+name = "Victor Chu"
