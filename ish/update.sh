@@ -35,7 +35,7 @@ ln -sf "$HOME/.config/vim/vimrc" "$HOME"/.vimrc
 echo "ssh"
 mkdir -p "$HOME"/.ssh/mastersocket
 rm -f "$HOME"/.ssh/config &> /dev/null
-age -d -i "$HOME"/.config/chezmoi.age "$HOME"/dotfiles/private_dot_ssh/encrypted_private_config.tmpl.age | sed "/^{{/d" >| "$HOME"/.ssh/config && chmod 600 "$HOME"/.ssh/config
+age -d -i "$HOME"/.config/chezmoi.age "$HOME"/dotfiles/private_dot_ssh/encrypted_private_config.age
 
 echo "sourcing profile"
 . "$HOME/.profile"
