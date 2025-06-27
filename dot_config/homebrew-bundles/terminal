@@ -24,6 +24,7 @@ brew "bat"          # cat/less with highlight
 brew "convmv"       # filename encoding conversion
 brew "fd"           # find alternative
 brew "ffmpeg"
+cask "font-hack-nerd-font"
 brew "fzf"          # fuzzy search
 brew "gdu"          # disk usage
 brew "glow"         # markdown viewer
