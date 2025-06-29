@@ -16,8 +16,11 @@ export FZF_DEFAULT_OPTS=" \
     --min-height=10 --layout=reverse \
     --pointer='>' --marker='>' \
     --preview-window='wrap' \
-    --preview-label='CTRL-/ to hide preview' \
+    --preview-label='CTRL-/ to move/hide preview' \
     --bind 'ctrl-/:change-preview-window(down|hidden|)' \
+    --color='bg+:bright-black,hl:cyan,hl+:cyan' \
+    --color='pointer:bright-red,marker:red' \
+    --color='border:bright-black,preview-label:bright-cyan'
 "
 
 export FZF_COMPLETION_TRIGGER='±±'
