@@ -13,11 +13,15 @@ alias tml="tmux list-sessions"
 # fix vars after reattach
 tmfix() {
     [ -n "$TMUX" ] || return
-    vars=$(tmux show-env -s 2>/dev/null | grep -E '^(SSH|DBUS)_') || return
+    vars=$(
+        tmux show-environment -s 2>/dev/null | 
+        grep -E '^(SSH|DBUS)_|^(DISPLAY|XAUTHORITY)='
+    ) || return
     eval "$vars"
     printf '[tmfix] environment updated\n'
     unset vars
 }
+alias tmux-fix-env='tmfix'
 
 _tmux-session-selector() {
     t=1
