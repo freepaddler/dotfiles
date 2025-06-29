@@ -1,10 +1,10 @@
 set nocompatible        " Use Vim defaults instead of 100% vi compatibility
-
+ 
 " runtime config
 set runtimepath^=~/.config/vim
 set runtimepath+=~/.config/vim/after
 set packpath+=~/.config/vim
-
+ 
 " runtime data
 " viminfo, backup, swap and undo settings
 silent !mkdir -m 4700 -p ~/.local/vim/swap ~/.local/vim/backup ~/.local/vim/undo
@@ -25,13 +25,13 @@ set secure
 set modelines=5         " read vim settings from file itself
 
 let mapleader = " "
-
+ 
 if has('mouse')
     set ttymouse=sgr
     set mouse=a
     let g:mouse_enabled = 1
     "--- mouse toggle support
-    nnoremap <leader>m :call ToggleMouse()<CR>
+    nnorema§ <leader>m :call ToggleMouse()<CR>
     function! ToggleMouse()
         if g:mouse_enabled
             let g:mouse_enabled = 0
@@ -63,6 +63,18 @@ Plug 'dense-analysis/ale'
 nnoremap <leader>[ :ALEPreviousWrap<CR>
 nnoremap <leader>] :ALENextWrap<CR>
 
+Plug 'itchyny/lightline.vim'
+let g:lightline = {
+      \ 'colorscheme': 'nord',
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' },
+      \ 'component_function': { 'relmod': 'RelativeModifiedTime' },
+      \ 'active': {
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'readonly', 'filename', 'modified', 'relmod' ] ]
+      \ }
+      \ }
+
 call plug#end()
 
 " Don't write backup file if vim is being called by "crontab -e"
@@ -73,21 +85,6 @@ au BufWrite /private/etc/pw.* set nowritebackup nobackup
 au BufWrite /etc/pw.* set nowritebackup nobackup
 
 "--- personal setup ---
-
-
-"--- interface settings
-set wildmenu                " visual autocomplete for command menu
-set showcmd                 " display incomplete commands
-syntax on                   
-set termguicolors
-colorscheme nord
-"highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
-"highlight Visual ctermbg=grey
-set colorcolumn=81          " mark column
-hi ColorColumn ctermbg=black
-set cursorline              " current line highlight
-hi CursorLine cterm=bold ctermbg=NONE
-hi CursorLineNr cterm=bold ctermbg=NONE ctermfg=grey
 
 " Capture the time the file was saved
 autocmd BufWritePost * let b:file_saved_time = localtime()
@@ -119,25 +116,41 @@ function! RelativeModifiedTime()
     return l:result
 endfunction
 
-" user colors
-hi User1 ctermfg=green
-hi User2 ctermfg=white
-hi User3 ctermfg=cyan
-hi User4 ctermfg=red
-hi User5 ctermfg=grey
-" statusline
-set statusline=
-set statusline+=%1*%F               "filename with path
-set statusline+=\  
-set statusline+=%5*%y               "file syntax
-set statusline+=\  
-set statusline+=%=                  "left/right separator
-set statusline+=%5*%{RelativeModifiedTime()}
-set statusline+=%4*%m               "modified
-set statusline+=%3*%r               "read only
-set statusline+=%2*
-set statusline+=\ %11(%c,%l/%L%)    "current col,line/total
-set statusline+=\ %P                "percent through file
+"--- interface settings
+set wildmenu                " visual autocomplete for command menu
+set showcmd                 " display incomplete commands
+syntax on                   
+set termguicolors
+
+colorscheme nord
+
+
+"highlight MatchParen cterm=bold ctermbg=blue ctermfg=white
+"highlight Visual ctermbg=grey
+set colorcolumn=81          " mark column
+hi ColorColumn ctermbg=black
+set cursorline              " current line highlight
+hi CursorLine cterm=bold ctermbg=NONE
+hi CursorLineNr cterm=bold ctermbg=NONE ctermfg=grey
+"" user colors
+"hi User1 ctermfg=green
+"hi User2 ctermfg=white
+"hi User3 ctermfg=cyan
+"hi User4 ctermfg=red
+"hi User5 ctermfg=grey
+"" statusline
+"set statusline=
+"set statusline+=%1*%F               "filename with path
+"set statusline+=\  
+"set statusline+=%5*%y               "file syntax
+"set statusline+=\  
+"set statusline+=%=                  "left/right separator
+"set statusline+=%5*%{RelativeModifiedTime()}
+"set statusline+=%4*%m               "modified
+"set statusline+=%3*%r               "read only
+"set statusline+=%2*
+"set statusline+=\ %11(%c,%l/%L%)    "current col,line/total
+"set statusline+=\ %P                "percent through file
 set laststatus=2                    "show always
 
 
