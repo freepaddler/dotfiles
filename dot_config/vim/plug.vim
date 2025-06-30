@@ -1,4 +1,4 @@
-" vim-plug
+" vim-plugi
 " https://github.com/junegunn/vim-plug
 let g:plug_home = expand('~/.config/vim/plugged')
 
@@ -21,7 +21,7 @@ Plug 'arcticicestudio/nord-vim'
 
 " trim spaces at the end of lines
 Plug 'csexton/trailertrash.vim'
-"autocmd BufReadPost * let g:show_trailertrash=0
+"autocmd VimEnter * let g:show_trailertrash=0
 
 call plug#end()
 
