@@ -5,7 +5,7 @@ let mapleader = "\<SPACE>"
 
 " Leader mappings for line navigation
 " e: line end, a: first char, b: beginning
-nnoremap <Leader>e $ 
+nnoremap <Leader>e $
 nnoremap <Leader>a ^
 nnoremap <Leader>b 0
 vnoremap <Leader>e $

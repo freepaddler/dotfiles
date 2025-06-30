@@ -4,7 +4,7 @@ function! TruncateFullPath()
   let l:fullpath = expand('%:p')
   let l:cwd = getcwd()
   let l:filename = expand('%:t')
-  
+
   " replace $HOME with ~
   let l:home = expand('$HOME')
   if l:fullpath[:strlen(l:home)-1] ==# l:home
@@ -39,7 +39,7 @@ autocmd BufWritePost * let b:file_saved_time = localtime()
 function! RelativeModifiedTime()
     " Get the current time in seconds
     let l:now = localtime()
-    
+
     if exists('b:file_saved_time')
         let l:time = b:file_saved_time
     else

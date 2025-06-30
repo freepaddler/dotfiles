@@ -1,6 +1,6 @@
 " Use Vim defaults instead of 100% vi compatibility
-set nocompatible        
- 
+set nocompatible
+
 " runtime config
 set runtimepath^=~/.config/vim
 set packpath+=~/.config/vim

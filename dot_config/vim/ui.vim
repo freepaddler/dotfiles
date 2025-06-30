@@ -7,16 +7,16 @@ set number              " line numbering
 set relativenumber
 hi LineNr ctermfg=black
 set colorcolumn=81      " higlight column 81
-hi ColorColumn ctermbg=black
+hi ColorColumn ctermbg=black  
 
-" show extra whitespaces
-hi ExtraWhitespace ctermfg=cyan cterm=underline
-autocmd ColorScheme * hi ExtraWhitespace ctermfg=cyan cterm=underline
-match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+" show extra whitespaces asdqw qweqwe wq
+"hi ExtraWhitespace ctermfg=cyan cterm=underline
+"autocmd ColorScheme * hi ExtraWhitespace ctermfg=cyan cterm=underline
+"match ExtraWhitespace /\s\+$/
+"autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+"autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+"autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+"autocmd BufWinLeave * call clearmatches()
 
 " statusline
 set laststatus=2        " statusline show always
