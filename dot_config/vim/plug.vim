@@ -19,9 +19,9 @@ Plug 'itchyny/lightline.vim'
 " nord colorscheme
 Plug 'arcticicestudio/nord-vim'
 
-" spaces in the end of lines
+" trim spaces at the end of lines
 Plug 'csexton/trailertrash.vim'
-autocmd BufReadPost * let g:show_trailertrash=0
+"autocmd BufReadPost * let g:show_trailertrash=0
 
 call plug#end()
 
