@@ -26,6 +26,8 @@ set encoding=utf-8
 set ffs=unix,mac,dos
 set fencs=utf-8,cp1251,koi8-r,cp866
 
+set hidden              " allow switch buffer without save
+
 " other
 " Don't write backup file if vim is being called by "crontab -e"
 au BufWrite /private/tmp/crontab.* set nowritebackup nobackup
