@@ -1,12 +1,13 @@
 # vim: set syntax=sh :
-# show shell and machine info
-shell=$(printf '%s\n' "$0" | sed 's/^-//')
-shell_version=""
 
-case "$shell" in
-    bash) shell_version="$BASH_VERSION" ;;
-    zsh)  shell_version="$ZSH_VERSION" ;;
-esac
+# show shell and machine info
+if [ -n "$BASH_VERSION" ]; then
+    shell="bash [$BASH_VERSION]"
+elif [ -n "$ZSH_VERSION" ]; then
+    shell="zsh [$ZSH_VERSION]"
+else
+    shell=$(ps | awk -v pid="$$" '$1==pid {print $4}' | sed 's:.*/::')
+fi
 
 if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -15,8 +16,8 @@ else
     os_name="$(uname -srm)"
 fi
 
-echo "${shell}${shell_version:+ [$shell_version]} @ $os_name"
-unset shell shell_version os_name
+echo "${shell} @ $os_name"
+unset shell os_name
 
 # disable mouse modes and clean screen without clearing scrollback
 cls() {

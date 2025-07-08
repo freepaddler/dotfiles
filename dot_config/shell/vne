@@ -309,10 +309,8 @@ _vne() {
     esac
 }
 
-if [ -n "$BASH_VERSION" ]; then
+if _env_cmd complete; then
     complete -F _vne vne
-elif [ -n "$ZSH_VERSION" ]; then
-    compdef _vne vne
 else
-    unset _nve
+    unset _vne
 fi

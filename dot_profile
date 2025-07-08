@@ -27,6 +27,9 @@ case "$-" in
         if _env_is_bash; then
             _env_debug "setup bash"
             _env_source "$_ENV_CONFIG_DIR/bash/bashrc"
+        elif _env_is_zsh; then
+            _env_debug "setup zsh"
+            _env_source "$_ENV_CONFIG_DIR/zsh/zshrc"
         fi
 
         _env_debug "setup os"

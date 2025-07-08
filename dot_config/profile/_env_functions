@@ -105,6 +105,11 @@ _env_cleanup_add _env_is_bash
 _env_is_bash() {
     [ -n "$BASH_VERSION" ]
 }
+# returns true if zsh
+_env_cleanup_add _env_is_zsh
+_env_is_zsh() {
+    [ -n "$ZSH_VERSION" ]
+}
 
 # source file(s) if exist
 _env_cleanup_add _env_source
