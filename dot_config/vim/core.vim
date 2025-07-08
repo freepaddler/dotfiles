@@ -8,15 +8,16 @@ set viminfo+=n~/.local/vim/viminfo
 " set backupdir=~/.local/vim/backup
 set undofile
 set undodir=~/.local/vim/undo
+
 if has("eval")
     " delete undo history after 365 days
     let s:undos = split(globpath(&undodir, '*'), "\n")
     call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 365)')
     call map(s:undos, 'delete(v:val)')
-endif
 
-" don't write .netrwhist
-let g:netrw_dirhistmax = 0
+    " don't write .netrwhist
+    let g:netrw_dirhistmax = 0
+endif
 
 " read .vimrc also from local dirs
 set exrc
