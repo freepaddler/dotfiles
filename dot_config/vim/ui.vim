@@ -1,5 +1,4 @@
 set termguicolors
-
 colorscheme nord
 
 set cursorline          " higlight current line
@@ -7,39 +6,33 @@ set number              " line numbering
 set relativenumber
 hi LineNr ctermfg=black
 set colorcolumn=81      " higlight column 81
-hi ColorColumn ctermbg=black  
-
-" show extra whitespaces asdqw qweqwe wq
-"hi ExtraWhitespace ctermfg=cyan cterm=underline
-"autocmd ColorScheme * hi ExtraWhitespace ctermfg=cyan cterm=underline
-"match ExtraWhitespace /\s\+$/
-"autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-"autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-"autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-"autocmd BufWinLeave * call clearmatches()
+hi ColorColumn ctermbg=black
 
 " statusline
-set laststatus=2        " statusline show always
-let g:lightline = {
-      \ 'colorscheme': 'nord',
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' },
-      \ 'component_function': {
-      \     'relmod': 'RelativeModifiedTime',
-      \     'fullpathtrunc': 'TruncateFullPath'
-      \ },
-      \ 'active': {
-      \     'left': [ [ 'mode', 'paste' ],
-      \               [ 'readonly', 'fullpathtrunc', 'modified', 'relmod' ] ]
-      \ }
-      \ }
-
+if has('statusline')
+    set laststatus=2        " statusline show always
+    let g:lightline = {
+          \ 'colorscheme': 'nord',
+          \ 'separator': { 'left': '', 'right': '' },
+          \ 'subseparator': { 'left': '', 'right': '' },
+          \ 'component_function': {
+          \     'relmod': 'RelativeModifiedTime',
+          \     'fullpathtrunc': 'TruncateFullPath'
+          \ },
+          \ 'active': {
+          \     'left': [ [ 'mode', 'paste' ],
+          \               [ 'readonly', 'fullpathtrunc', 'modified', 'relmod' ] ]
+          \ }
+          \ }
+endif
 
 " mouse
 if has('mouse')
     set ttymouse=sgr
     set mouse=a
-    let g:mouse_enabled = 1
+    if has('eval')
+        let g:mouse_enabled = 1
+    endif
 endif
 
 " reload
