@@ -28,6 +28,7 @@ Library/
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
+.exrc
 {{- end }}
 
 # ignore on not macOS

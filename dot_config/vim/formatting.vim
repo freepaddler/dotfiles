@@ -18,6 +18,7 @@ set smartindent             " indent for code blocks
 set pastetoggle=<C-p>       " disable indent on paste
 
 " other
+set showmatch               " matching bracket on close
 set backspace=indent,eol,start      " backspace everywhere
 set nostartofline           " save col when change line
 set scrolloff=4             " leave lines on screen top/bottom
