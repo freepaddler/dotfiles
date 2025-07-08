@@ -8,6 +8,10 @@ set cursorline          " higlight current line
 set number              " line numbering
 set relativenumber
 hi LineNr ctermfg=black
+" no colorsheme
+if !has('eval')
+    hi LineNr ctermfg=darkgray
+endif
 set colorcolumn=81      " higlight column 81
 hi ColorColumn ctermbg=black
 
