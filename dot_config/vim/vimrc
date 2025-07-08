@@ -7,9 +7,13 @@ set packpath+=~/.config/vim
 
 " imports
 runtime! core.vim
-runtime! plug.vim
-runtime! functions.vim
-runtime! ui.vim
-runtime! formatting.vim
-runtime! mappings.vim
 
+if has("eval") && has("syntax")
+    runtime! plug.vim
+    runtime! functions.vim
+    runtime! ui.vim
+    runtime! formatting.vim
+    runtime! mappings.vim
+else
+    runtime! tiny.vim
+endif
