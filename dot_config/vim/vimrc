@@ -8,15 +8,15 @@ set packpath+=~/.config/vim
 " imports
 runtime! core.vim
 
-if has("eval")
+if has('eval')
     runtime! plug.vim
     runtime! functions.vim
 endif
 
-    runtime! ui.vim
+runtime! ui.vim
 
-if has('syntax')
+"if has('syntax')
     runtime! formatting.vim
-endif
+"endif
 
-    runtime! mappings.vim
+runtime! mappings.vim
