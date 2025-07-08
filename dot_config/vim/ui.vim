@@ -1,19 +1,18 @@
-set termguicolors
+" deafaults (no colorsheme)
+hi LineNr ctermfg=darkgray
 
-if has('eval') && has('syntax')
+" colorscheme
+if has('termguicolors')
+    set termguicolors
     colorscheme nord
+    hi LineNr ctermfg=black
+    hi ColorColumn ctermbg=black
 endif
 
 set cursorline          " higlight current line
 set number              " line numbering
-set relativenumber
-hi LineNr ctermfg=black
-" no colorsheme
-if !has('eval')
-    hi LineNr ctermfg=darkgray
-endif
+set relativenumber      " relative numbers
 set colorcolumn=81      " higlight column 81
-hi ColorColumn ctermbg=black
 
 " statusline
 if has('statusline')
