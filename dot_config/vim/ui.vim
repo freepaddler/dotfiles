@@ -1,5 +1,8 @@
 set termguicolors
-colorscheme nord
+
+if has('eval') && has('syntax')
+    colorscheme nord
+endif
 
 set cursorline          " higlight current line
 set number              " line numbering
