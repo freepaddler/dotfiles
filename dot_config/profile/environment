@@ -20,9 +20,9 @@ export BLOCKSIZE="K"  # used by BSD/macOS tools
 ( alias vim ) >/dev/null 2>&1 && unalias vim
 
 if _env_cmd vim 2>&1; then
-    export EDITOR="vim -X"
-    export VISUAL="vim -X"
-    alias vi="vim -X"
+    export EDITOR="vim -Xp"
+    export VISUAL="vim -Xp"
+    alias vi="vim -Xp"
 elif _env_cmd vi; then
     export EDITOR="vi"
     export VISUAL="vi"

@@ -7,20 +7,34 @@ let mapleader = "\<SPACE>"
 " e: line end, a: first char, b: beginning
 nnoremap <Leader>e $
 nnoremap <Leader>a ^
-nnoremap <Leader>b 0
+nnoremap <Leader>A 0
 vnoremap <Leader>e $
 vnoremap <Leader>a ^
-vnoremap <Leader>b 0
+vnoremap <Leader>A 0
 
 nnoremap <leader>h :nohlsearch<CR>
 nnoremap <leader>m :call ToggleMouse()<CR>
 nnoremap <leader>n :call ToggleLineNumberMode()<CR>
 nnoremap <Leader>p :set invpaste<CR>
-nnoremap <Leader>t :%s/\s\+$//e \| echom "Trailing spaces removed"<CR>
+
+" tabs
+nnoremap <leader><TAB><TAB> :tabnew<CR>
+nnoremap <leader><TAB>n :tabnext<CR>
+nnoremap <leader><TAB>p :tabprevious<CR>
+nnoremap <leader><TAB>l :tablast<CR>
+nnoremap <leader><TAB>f :tabfirst<CR>
+nnoremap <leader><TAB>o :tabonly<CR>
+
+" buffers
+nnoremap <leader>B <C-^>
+nnoremap <leader>b :ls<CR>:b
 
 " split
-nnoremap <leader>- :split<CR>:Explore<CR>
-nnoremap <leader>\ :vsplit<CR>:Explore<CR>
+nnoremap <leader>- :split<CR>
+nnoremap <leader>\ :vsplit<CR>
+
+" explorer
+nnoremap <leader>x :Explore<CR>
 
 " copy to terminal clipboard
 nmap <leader>c <Plug>OSCYankOperator
@@ -53,10 +67,17 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " cursor keys
-nnoremap <Down> gj
-nnoremap <Up> gk
-vnoremap <Down> gj
-vnoremap <Up> gk
-inoremap <Down> <C-o>gj
-inoremap <Up> <C-o>gk
+nnoremap <Up>    :echo "Use k"<CR>
+nnoremap <Down>  :echo "Use j"<CR>
+nnoremap <Left>  :echo "Use h"<CR>
+nnoremap <Right> :echo "Use l"<CR>
 
+nnoremap <Up>    :echo "Use k"<CR>
+nnoremap <Down>  :echo "Use j"<CR>
+nnoremap <Left>  :echo "Use h"<CR>
+nnoremap <Right> :echo "Use l"<CR>
+
+inoremap <Up>    <Esc>:echo "Use k"<CR>
+inoremap <Down>  <Esc>:echo "Use j"<CR>
+inoremap <Left>  <Esc>:echo "Use h"<CR>
+inoremap <Right> <Esc>:echo "Use l"<CR>
