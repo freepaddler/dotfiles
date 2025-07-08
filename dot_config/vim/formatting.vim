@@ -1,4 +1,7 @@
-syntax on
+if has('syntax')
+    syntax on
+endif
+
 set wrap
 
 " tabs and alignment
@@ -20,7 +23,8 @@ set nostartofline           " save col when change line
 set scrolloff=4             " leave lines on screen top/bottom
 
 " file types
-autocmd Filetype yaml setlocal et ts=2 sts=2 sw=2
-autocmd Filetype json setlocal et ts=2 sts=2 sw=2
-autocmd Filetype make setlocal noet
-autocmd Filetype go   setlocal noet
+autocmd Filetype yaml   setlocal et ts=2 sts=2 sw=2
+autocmd Filetype json   setlocal et ts=2 sts=2 sw=2
+autocmd Filetype python setlocal et ts=2 sts=2 sw=2
+autocmd Filetype make   setlocal noet
+autocmd Filetype go     setlocal noet

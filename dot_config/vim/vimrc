@@ -14,9 +14,5 @@ if has('eval')
 endif
 
 runtime! ui.vim
-
-"if has('syntax')
-    runtime! formatting.vim
-"endif
-
+runtime! formatting.vim
 runtime! mappings.vim
