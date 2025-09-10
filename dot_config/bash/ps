@@ -128,4 +128,4 @@ _execution_timer_stop() {
 PS0='${_execution_timer:0:${BASH_COMMAND:+$((_execution_timer=0))}}'
 #trap 'echo "trap: _execution_timer=$_execution_timer"; [[ $_execution_timer == 0 ]] && _execution_timer_start' DEBUG
 trap '[[ $_execution_timer == 0 && -n "$BASH_COMMAND" ]] && _execution_timer_start' DEBUG
-PROMPT_COMMAND="_execution_timer_stop; $PROMPT_COMMAND"
+PROMPT_COMMAND="_execution_timer_stop; history -a; $PROMPT_COMMAND"
