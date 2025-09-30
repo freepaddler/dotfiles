@@ -1,5 +1,6 @@
 # for all
 **/.git
+**/.DS_Store
 README.md
 Vagrantfile
 ish/
