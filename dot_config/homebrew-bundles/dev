@@ -1,5 +1,6 @@
 # dev tools and utils
 
+brew "codex"        #chatGPT agent
 brew "go"
 brew "hugo"
 brew "iperf3"
@@ -19,6 +20,7 @@ brew "hashicorp/tap/terraform"
 cask "hashicorp-vagrant"
 cask "vagrant-vmware-utility"
 
+#cask "android-platform-tools"
 cask "dbeaver-community"
 cask "docker-desktop"
 cask "goland"

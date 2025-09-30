@@ -15,7 +15,7 @@ brew "tmux"
 cask "ghostty"
 
 # file managers
-brew "superfile"    # file manager
+#brew "superfile"    # file manager
 brew "yazi"         # file manageer
 
 # utils

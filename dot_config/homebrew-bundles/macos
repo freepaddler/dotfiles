@@ -17,9 +17,10 @@ cask "mark-text"            # markdown editor
 cask "obsidian"         
 cask "ocenaudio"            # audio editor
 cask "outline-manager"      # vpn manager
+# cask "paintbrush"          # simple paining app
 cask "qlmarkdown"
 cask "qlvideo"
-cask "quicklook-json"
+#cask "quicklook-json"
 cask "sigil"                # epub editor
 cask "syntax-highlight"     # quick look
 cask "thunderbird"
@@ -45,7 +46,7 @@ mas "Gemini", id: 463541543         # duplicate finder
 mas "Hush", id: 1544743900          # block cookie and tracers
 mas "iMovie", id: 408981434
 mas "iRingtone Pro", id: 622007267
-mas "JSONPeep", id: 1458969831      # safari JSON preview
+mas "JSON Peep", id: 1458969831     # safari JSON preview
 mas "Keynote", id: 409183694
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft PowerPoint", id: 462062816
@@ -54,6 +55,7 @@ mas "Microsoft Word", id: 462054704
 mas "Money Flow", id: 900890647
 # mas "MuteKey", id: 1509590766       # mute microphone
 mas "Numbers", id: 409203825
+mas "One Markdown", id: 1507139439
 mas "OneDrive", id: 823766827
 mas "Outline", id: 1356178125       # vpm
 mas "Pages", id: 409201541
@@ -61,6 +63,7 @@ mas "PiPifier", id: 1160374471      # safari picture-in-picture
 mas "Telegram", id: 747648890
 mas "Telephone", id: 406825478
 mas "Tomito", id: 1526042938        # tomato timer
+mas "v2RayTun", id: 6476628951      # v2ray vpn client
 mas "WhatsApp", id: 310633997
 mas "WireGuard", id: 1451685025     # vpn
 
