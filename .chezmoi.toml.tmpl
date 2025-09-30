@@ -23,6 +23,11 @@ umask = 0o22
 [edit]
   watch = true
 
+[[textconv]]
+pattern = "**/*.plist"
+command = "plutil"
+args = ["-convert", "xml1", "-o", "-", "-"]
+
 [git]
   autoadd = true
   autoCommit = false
