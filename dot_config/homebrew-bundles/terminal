@@ -24,7 +24,8 @@ brew "bat"          # cat/less with highlight
 brew "convmv"       # filename encoding conversion
 brew "fd"           # find alternative
 brew "ffmpeg"
-cask "font-hack-nerd-font"
+# cask "font-hack-nerd-font" #
+cask "font-symbols-only-nerd-font" # yazi requirement
 brew "fzf"          # fuzzy search
 brew "gdu"          # disk usage
 brew "glow"         # markdown viewer
@@ -35,6 +36,6 @@ brew "jq"
 brew "poppler"      # preview pdf
 brew "mp3unicode"
 brew "sevenzip"
-brew "sipcalc"
+brew "sipcalc"      # ip calculator
 brew "tree"
 

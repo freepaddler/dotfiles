@@ -1,7 +1,7 @@
 # macos apps
 
-cask "appcleaner"
-cask "cheatsheet"
+cask "appcleaner"           # prune apps on delete
+cask "cheatsheet"           # show keyboard shortcuts per app
 cask "clipy"                # clipboard mmanager
 cask "drawio"
 cask "firefox"
@@ -10,58 +10,59 @@ cask "handbrake-app"        # media converter
 cask "iina"                 # video player
 cask "itsycal"              # bar calendar
 cask "launchpad-manager"
-cask "mac-mouse-fix" 
+cask "mac-mouse-fix"        # mouse tuning
 cask "maczip"               # archive with preview
-cask "mark-text"            # markdown editor
-# cask "mediahuman-audio-converter"
-cask "obsidian"         
+cask "markedit"             # markdown editor
+#cask "mark-text"            # markdown editor, heavy, unsupported, bad anchors
+#cask "mediahuman-audio-converter"
+#cask "obsidian"
 cask "ocenaudio"            # audio editor
-cask "outline-manager"      # vpn manager
+cask "outline-manager"      # shadowsocks vpn manager
 # cask "paintbrush"          # simple paining app
-cask "qlmarkdown"
-cask "qlvideo"
-#cask "quicklook-json"
+cask "qlmarkdown"           # markdown preview, without mermaid support
+cask "qlvideo"              # video files info and preview
+#cask "quicklook-json"      # obsoleted by syntax-highlight
 cask "sigil"                # epub editor
-cask "syntax-highlight"     # quick look
+cask "syntax-highlight"     # quick look (universal)
 cask "thunderbird"
 cask "transmission"         # torrent
 cask "ukelele"              # remap keyboard
 cask "ungoogled-chromium"   # ungoogled chrome
 # cask "universal-media-server"
-cask "vlc"
+cask "vlc"                  # needed for hls and different video tests, mostly for dev
 cask "whisky"               # wine wrapper
 cask "yandex"               # yandex browser
-cask "zerotier-one"         # vpn
+cask "zerotier-one"         # cloud vpn
 
 # mac app store
 brew "mas"
 
-mas "AdGuard for Safari", id: 1440147259
-mas "Apple Configurator", id: 1037126344
-mas "AudioBookBinder", id: 413969927
-mas "BBEdit", id: 404009241
-# mas "DNSecure", id: 1533413232
-mas "Enpass", id: 732710998
+mas "AdGuard for Safari", id: 1440147259    # Safari ad block
+mas "Apple Configurator", id: 1037126344    # to send profiles to iOS
+mas "AudioBookBinder", id: 413969927        # create audiobooks
+mas "BBEdit", id: 404009241         # universal text editor
+mas "DNSecure", id: 1533413232      # DNS over secure channels
+mas "Enpass", id: 732710998         # password manager
 mas "Gemini", id: 463541543         # duplicate finder
-mas "Hush", id: 1544743900          # block cookie and tracers
+mas "Hush", id: 1544743900          # Safari cookie/trace block
 mas "iMovie", id: 408981434
 mas "iRingtone Pro", id: 622007267
-mas "JSON Peep", id: 1458969831     # safari JSON preview
+mas "JSON Peep", id: 1458969831     # Safari JSON preview
 mas "Keynote", id: 409183694
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft PowerPoint", id: 462062816
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Microsoft Word", id: 462054704
-mas "Money Flow", id: 900890647
-# mas "MuteKey", id: 1509590766       # mute microphone
+mas "Money Flow", id: 900890647     # expense tracker
+#mas "MuteKey", id: 1509590766       # mute microphone
 mas "Numbers", id: 409203825
-mas "One Markdown", id: 1507139439
+#mas "One Markdown", id: 1507139439  # markdown editor, bad anchors support
 mas "OneDrive", id: 823766827
-mas "Outline", id: 1356178125       # vpm
+mas "Outline", id: 1356178125       # shadowsocks vpn client
 mas "Pages", id: 409201541
-mas "PiPifier", id: 1160374471      # safari picture-in-picture
+mas "PiPifier", id: 1160374471      # Safari picture-in-picture
 mas "Telegram", id: 747648890
-mas "Telephone", id: 406825478
+mas "Telephone", id: 406825478      # sip phone
 mas "Tomito", id: 1526042938        # tomato timer
 mas "v2RayTun", id: 6476628951      # v2ray vpn client
 mas "WhatsApp", id: 310633997
