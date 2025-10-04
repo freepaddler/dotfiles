@@ -19,7 +19,7 @@ cask "ghostty"
 brew "yazi"         # file manageer
 
 # utils
-brew "7zip"
+#brew "7zip"         # obsolete by sevenzip
 brew "bat"          # cat/less with highlight
 brew "convmv"       # filename encoding conversion
 brew "fd"           # find alternative
