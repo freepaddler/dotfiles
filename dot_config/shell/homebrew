@@ -11,43 +11,21 @@ brew-usage() {
                 sort -h -r -k2 - | column -t
 }
 
-brew-new-installs() {
+brew-diff() {
     bundles_dir="$HOME/.config/homebrew-bundles"
     [ -d "$bundles_dir" ] || {
         echo "No saved bundles found in $bundles_dir"
         return 1
     }
-    echo "New installs:"
-    comm -23 \
-        <(brew bundle dump --all --file=- | sort ) \
-        <(grep -hE '^[a-z]' "$bundles_dir"/* | 
-                sed -E 's/[[:space:]]+(#.*)?$//' | 
-                sort | uniq)
 
-    unset bundles_dir
+    normalize() {
+        sed -E 's/[[:space:]]+(#.*)?$//' | awk 'NF' | LC_ALL=C sort -u
+    }
+
+    files=$(find "$bundles_dir" -maxdepth 1 -type f ! -name '*.md' -print)
+
+    comm -3 \
+        <(brew bundle dump --all --file=- | normalize) \
+        <( [ -n "$files" ] && grep -hE '^[^#[:space:]]' $files 2>/dev/null | normalize ) \
+    | sed -E $'s/^([^\t]+)/+ \\1/; s/^\t(.*)/- \\1/'
 }
-
-#brew-save() {
-#    set -e
-#
-#    echo "Backing up homebrew..."
-#    echo
-#
-#    dest_dir="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Sync"
-#    [ -d "$dest_dir" ] || mkdir -p "$dest_dir"
-#    backup_dir="$dest_dir/Homebrew.backup"
-#    mkdir -p "$backup_dir"
-#    brewfile="$dest_dir/Brewfile"
-#
-#    if [ -f "$brewfile" ]; then
-#        modtime=$(stat -f "%m" "$brewfile")
-#        dmark=$(date -r "$modtime" +%Y-%m-%d_%H-%M-%S)
-#        mv -fv "$brewfile" "$backup_dir/Brewfile_$dmark"
-#    fi
-#
-#    HOMEBREW_NO_AUTO_UPDATE=1 brew bundle dump --file="$brewfile"
-#
-#    echo
-#    echo "Homebrew dump complete"
-#    unset dest_dir backup_dir brewfile modtime dmark
-#}
