@@ -2,6 +2,7 @@
 
 cask "appcleaner"           # prune apps on delete
 cask "cheatsheet"           # show keyboard shortcuts per app
+cask "chatgpt"
 cask "clipy"                # clipboard mmanager
 cask "drawio"
 cask "firefox"
@@ -21,16 +22,18 @@ cask "outline-manager"      # shadowsocks vpn manager
 # cask "paintbrush"          # simple paining app
 cask "qlmarkdown"           # markdown preview, without mermaid support
 cask "qlvideo"              # video files info and preview
-#cask "quicklook-json"      # obsoleted by syntax-highlight
+#cask "quicklook-json"       # obsoleted by syntax-highlight
 cask "sigil"                # epub editor
 cask "syntax-highlight"     # quick look (universal)
 cask "thunderbird"
-cask "transmission"         # torrent
+cask "transmission"         # torrent client
+#cask "typora"               # markdown editor
 cask "ukelele"              # remap keyboard
 cask "ungoogled-chromium"   # ungoogled chrome
 # cask "universal-media-server"
 cask "vlc"                  # needed for hls and different video tests, mostly for dev
 cask "whisky"               # wine wrapper
+cask "xquartz"              # X-Windows system
 cask "yandex"               # yandex browser
 cask "zerotier-one"         # cloud vpn
 
@@ -54,6 +57,7 @@ mas "Microsoft PowerPoint", id: 462062816
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Microsoft Word", id: 462054704
 mas "Money Flow", id: 900890647     # expense tracker
+mas "Monit", id: 1014850245         # system resources monitor
 #mas "MuteKey", id: 1509590766       # mute microphone
 mas "Numbers", id: 409203825
 #mas "One Markdown", id: 1507139439  # markdown editor, bad anchors support
