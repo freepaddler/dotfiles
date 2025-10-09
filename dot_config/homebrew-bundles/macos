@@ -45,6 +45,7 @@ brew "mas"
 mas "AdGuard for Safari", id: 1440147259    # Safari ad block
 mas "Apple Configurator", id: 1037126344    # to send profiles to iOS
 mas "AudioBookBinder", id: 413969927        # create audiobooks
+mas "Bandwidth+", id: 490461369             # traffic consumption monitor
 mas "BBEdit", id: 404009241         # universal text editor
 mas "DNSecure", id: 1533413232      # DNS over secure channels
 mas "Enpass", id: 732710998         # password manager
