@@ -55,6 +55,7 @@ mas "iMovie", id: 408981434
 mas "iRingtone Pro", id: 622007267
 mas "JSON Peep", id: 1458969831     # Safari JSON preview
 mas "Keynote", id: 409183694
+#mas "Launchie", id: 6752657468      # launcher to replace launchpad
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft PowerPoint", id: 462062816
 mas "Microsoft Remote Desktop", id: 1295203466
