@@ -1,22 +1,29 @@
 # macos apps
 
 cask "appcleaner"           # prune apps on delete
+cask "bbedit"               # universal text editor
 cask "cheatsheet"           # show keyboard shortcuts per app
 cask "chatgpt"
 cask "clipy"                # clipboard mmanager
 cask "drawio"
+cask "enpass"               # password manager
 cask "firefox"
 cask "fluor"                # fn keys by app
 cask "handbrake-app"        # media converter
+cask "hush"                 # Safari cookie/trace block
 cask "iina"                 # video player
 cask "itsycal"              # bar calendar
-cask "launchpad-manager"
+#cask "launchpad-manager"   # obsolete sinse Tahoe (26)
 cask "mac-mouse-fix"        # mouse tuning
 cask "maczip"               # archive with preview
 cask "markedit"             # markdown editor
 #cask "mark-text"            # markdown editor, heavy, unsupported, bad anchors
 cask "microsoft-auto-update"
+cask "microsoft-excel"
+cask "microsoft-powerpoint"
+cask "microsoft-remote-desktop"
 cask "microsoft-teams"
+cask "microsoft-word"
 #cask "mediahuman-audio-converter"
 #cask "obsidian"
 cask "ocenaudio"            # audio editor
@@ -29,11 +36,13 @@ cask "sigil"                # epub editor
 cask "syntax-highlight"     # quick look (universal)
 cask "thunderbird"
 cask "transmission"         # torrent client
+cask "telegram"
 #cask "typora"               # markdown editor
 cask "ukelele"              # remap keyboard
 cask "ungoogled-chromium"   # ungoogled chrome
 # cask "universal-media-server"
 cask "vlc"                  # needed for hls and different video tests, mostly for dev
+cask "whatsapp"
 cask "whisky"               # wine wrapper
 cask "xquartz"              # X-Windows system
 cask "yandex"               # yandex browser
@@ -46,20 +55,20 @@ mas "AdGuard for Safari", id: 1440147259    # Safari ad block
 mas "Apple Configurator", id: 1037126344    # to send profiles to iOS
 mas "AudioBookBinder", id: 413969927        # create audiobooks
 mas "Bandwidth+", id: 490461369             # traffic consumption monitor
-mas "BBEdit", id: 404009241         # universal text editor
+#mas "BBEdit", id: 404009241         # universal text editor
 mas "DNSecure", id: 1533413232      # DNS over secure channels
-mas "Enpass", id: 732710998         # password manager
+#mas "Enpass", id: 732710998         # password manager
 mas "Gemini", id: 463541543         # duplicate finder
-mas "Hush", id: 1544743900          # Safari cookie/trace block
+#mas "Hush", id: 1544743900          # Safari cookie/trace block
 mas "iMovie", id: 408981434
 mas "iRingtone Pro", id: 622007267
 mas "JSON Peep", id: 1458969831     # Safari JSON preview
 mas "Keynote", id: 409183694
 #mas "Launchie", id: 6752657468      # launcher to replace launchpad
-mas "Microsoft Excel", id: 462058435
-mas "Microsoft PowerPoint", id: 462062816
-mas "Microsoft Remote Desktop", id: 1295203466
-mas "Microsoft Word", id: 462054704
+#mas "Microsoft Excel", id: 462058435
+#mas "Microsoft PowerPoint", id: 462062816
+#mas "Microsoft Remote Desktop", id: 1295203466
+#mas "Microsoft Word", id: 462054704
 mas "Money Flow", id: 900890647     # expense tracker
 mas "Monit", id: 1014850245         # system resources monitor
 #mas "MuteKey", id: 1509590766       # mute microphone
@@ -69,10 +78,10 @@ mas "OneDrive", id: 823766827
 mas "Outline", id: 1356178125       # shadowsocks vpn client
 mas "Pages", id: 409201541
 mas "PiPifier", id: 1160374471      # Safari picture-in-picture
-mas "Telegram", id: 747648890
+#mas "Telegram", id: 747648890
 mas "Telephone", id: 406825478      # sip phone
 mas "Tomito", id: 1526042938        # tomato timer
 mas "v2RayTun", id: 6476628951      # v2ray vpn client
-mas "WhatsApp", id: 310633997
+#mas "WhatsApp", id: 310633997
 mas "WireGuard", id: 1451685025     # vpn
 

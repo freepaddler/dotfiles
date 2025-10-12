@@ -10,9 +10,10 @@ alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -="cd -" 2>/dev/null || alias -- -="cd -"
 
+alias cdc="cd ~/.config"
 alias cdd="cd ~/Documents"
 alias cdl="cd ~/Downloads"
-alias cdev="cd ~/dev"
+alias cde="cd ~/dev"
 
 # list files
 alias ls="ls -G"
