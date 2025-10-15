@@ -1,3 +1,4 @@
+# vim: filetype=sh
 # ansible
 _env_cmd ansible || return
 

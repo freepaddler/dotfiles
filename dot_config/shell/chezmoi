@@ -1,4 +1,4 @@
-# vim: set syntax=sh :
+# vim: filetype=sh
 _env_cmd chezmoi || return
 
 # chezmoi state

@@ -1,3 +1,4 @@
+# vim: filetype=sh
 _env_cmd terraform || return 0
 
 if _env_is_bash; then

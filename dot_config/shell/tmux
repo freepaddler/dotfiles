@@ -1,3 +1,4 @@
+# vim: filetype=sh
 _env_cmd tmux || return
 
 # show existing tmux sessions on start

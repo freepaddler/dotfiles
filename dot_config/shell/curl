@@ -1,3 +1,4 @@
+# vim: filetype=sh
 # curl with time report
 curl-time() {
     curl -w @- -o /dev/null -s "$@" << EOF

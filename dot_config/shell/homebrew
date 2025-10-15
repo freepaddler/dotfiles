@@ -1,4 +1,4 @@
-# vim: set syntax=sh : 
+# vim: filetype=sh
 _env_cmd brew || return
 
 alias brew-requested="brew leaves -r && echo && brew list --cask -1"

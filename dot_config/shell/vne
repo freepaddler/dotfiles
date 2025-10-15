@@ -1,3 +1,4 @@
+# vim: filetype=sh
 # POSIX-compatible environment variables profiles manager
 
 vne() {

@@ -1,3 +1,5 @@
+# vim: filetype=bash
+
 # colors
 _c() {
     case "$1" in
