@@ -18,7 +18,7 @@ cask "mac-mouse-fix"        # mouse tuning
 cask "maczip"               # archive with preview
 cask "markedit"             # markdown editor
 #cask "mark-text"            # markdown editor, heavy, unsupported, bad anchors
-cask "microsoft-auto-update"
+#cask "microsoft-auto-update"
 cask "microsoft-excel"
 cask "microsoft-powerpoint"
 cask "microsoft-remote-desktop"
