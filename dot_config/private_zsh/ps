@@ -1,0 +1,9 @@
+PROMPT='%B%F{green}%n%b'
+
+if [[ -z "$TMUX" && -n "$SSH_TTY" ]]; then
+    PROMPT+='%f@%F{yellow}%m'
+fi
+
+PROMPT+=' %F{cyan}%~ \n%F{green}❯%f '
+
+export SUDO_PS1='hello world'

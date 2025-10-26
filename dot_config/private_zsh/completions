@@ -1,0 +1,15 @@
+# vim: filetype=zsh
+
+# colorized files suggestions
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+
+_env_cleanup_add _env_zsh_compinit
+_env_zsh_compinit() {
+    # completions
+    autoload -Uz compinit
+    compinit
+    #autoload -Uz bashcompinit
+    #bashcompinit
+}
+_env_run_after_add _env_zsh_compinit
