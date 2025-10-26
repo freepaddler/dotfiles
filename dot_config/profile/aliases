@@ -44,7 +44,7 @@ alias ds="df -P -kHl"
 
 # job and history
 alias j="jobs -l"
-alias h="history 25"
+alias h="history 50"
 
 # monitoring
 

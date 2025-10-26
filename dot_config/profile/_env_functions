@@ -133,10 +133,16 @@ _env_run_after_add() {
 _env_cleanup_add _env_run_after
 _env_run_after() {
     for f in $_ENV_RUN_AFTER; do
-        if [ "$(type -t "$f")" = "function" ]; then
-            _env_debug "run_after $f"
-            "$f"
-        fi
+#        if [ "$(type -t "$f")" = "function" ]; then
+#            _env_debug "run_after $f"
+#            "$f"
+#        fi
+        case "$(command -V -- "$f" 2>/dev/null)" in
+            *"function"*)
+                _env_debug "run_after $f"
+                "$f"
+            ;;
+        esac
     done
     unset _ENV_RUN_AFTER f
 }
