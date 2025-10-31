@@ -6,13 +6,6 @@ alias dps='docker ps --format "table {{.Names}}\\t{{.RunningFor}}\\t{{.Status}}\
 alias dcomp="docker compose "
 alias docit="docker exec -it "
 
-_env_is_bash || return
+_env_is_zsh && . <(docker completion zsh)
+_env_is_bash && . <(docker completion bash)
 
-_env_os_is darwin && {
-    _env_source \
-       "/Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion" \
-       "Applications/Docker.app/Contents/Resources/etc/docker.bash-completion"
-}
-
-_env_bash_has_completion docker >/dev/null 2>/dev/null ||
-    complete -W "$(docker ps -a --format '{{.Names}}' 2>/dev/null; docker image ls --format '{{.Repository}}:{{.Tag}}' --filter "dangling=false" 2>/dev/null)" docker

@@ -12,6 +12,12 @@ _env_os_is darwin && {
     }
 }
 
+_env_is_zsh && {
+    autoload -Uz /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/zsh/_vagrant
+    compdef _vagrant vagrant
+    compdef _vagrant vagrant-gui=vagrant
+}
+
 _env_is_bash || return
 
 # completions

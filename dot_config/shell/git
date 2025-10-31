@@ -22,7 +22,7 @@ _env_cmd git || return
 _env_is_bash || return
 
 _env_os_is darwin && {
-    # completions
-    _env_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+    _env_is_bash && _env_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+    _env_is_zsh && _env_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.zsh
 }
 

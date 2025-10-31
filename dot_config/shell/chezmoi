@@ -78,7 +78,9 @@ cz-ssh() {
     ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler'
 }
 
-if _env_is_bash; then
+_env_is_zsh && compdef _ssh cz-ssh=ssh
+
+_env_is_bash && {
     . <(chezmoi completion bash --)
     _env_bash_clone_completion ssh cz-ssh
-fi
+}

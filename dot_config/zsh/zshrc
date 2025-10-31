@@ -53,10 +53,14 @@ setopt hist_find_no_dups
 setopt hist_verify
 
 zsh_home="${_ENV_CONFIG_DIR:-"$HOME/.config"}/zsh"
-
-# ps
-for file in ps completions functions; do
+for file in alias ps completions functions; do
     _env_source "$zsh_home/$file" "$file_$_ENV_OS"
 done
-
 unset zsh_home file
+
+## plugins
+# autosuggestions
+_env_source "$HOMEBREW_PREFIX"/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# syntax highlight
+_env_source "$HOMEBREW_PREFIX"/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+

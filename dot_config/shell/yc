@@ -5,7 +5,8 @@ if [ -d "$HOME/.config/yandex-cloud" ]; then
 fi
 
 _env_cmd yc || return 0
-_env_is_bash && source <(yc completion bash)
+_env_is_bash && . <(yc completion bash)
+_env_is_zsh  && . <(yc completion zsh)
 
 alias yc-profile-list='yc config profile list'
 alias yc-profile-activate='yc config profile activate'

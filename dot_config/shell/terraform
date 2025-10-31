@@ -1,12 +1,6 @@
 # vim: filetype=sh
 _env_cmd terraform || return 0
 
-if _env_is_bash; then
-    complete -C /opt/homebrew/bin/terraform terraform
-fi
+cmd=$(command -v terraform)
+_env_cmd complete && complete -C "$cmd" terraform
 
-#alias tf='docker run -it -w /root --rm -v $(pwd):/root \
-#-e YC_TOKEN="${YC_TOKEN}" \
-#-e YC_CLOUD_ID="${YC_CLOUD_ID}" \
-#-e YC_FOLDER_ID="${YC_FOLDER_ID}" \
-#hashicorp/terraform:latest'

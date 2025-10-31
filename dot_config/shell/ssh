@@ -46,58 +46,8 @@ if _env_is_bash; then
     _env_bash_clone_completion ssh ssh-del-knownhost
 fi
 
-# run shell script(s) over ssh
-#ssh-run() {
-#    local ssh_string="ssh"
-#    while [ $# -gt 0 ]; do
-#        case $1 in
-#            # multiple shell scripts without args
-#            --m)
-#                local m=yes
-#                ;;
-#            # one script with args
-#            --)
-#                shift
-#                break
-#                ;;
-#            *)
-#                ssh_string=${ssh_string:+$ssh_string $1}
-#                ;;
-#        esac
-#        shift
-#    done;
-#    echo "=== === ssh connection string: '$ssh_string'"
-#
-#    case $1 in
-#        sudo|doas)
-#            local sudo="$1"
-#            echo "=== === using $1"
-#            shift
-#            ;;
-#    esac
-#
-#    local script
-#    [ $# -eq 0 ] && { echo "=== === ERROR: no scripts to run. Usage: ssh-run.sh <ssh connection options> -- <path/to/script(s)>"; return 1; }
-#    if [ ! "$m" ]; then
-#        echo "=== === running '$*' on remote"
-#        script="$1"
-#        shift
-#        if [ -f "$script" ] && [ -x "$script" ]; then
-#            $ssh_string "$sudo /bin/sh -s" < "$script" $* || { echo "=== === ERROR: script execution failed "; return 1; }
-#        else
-#            echo "=== === can't find or not executable '$script'"
-#        fi
-#    else
-#        for script in $@; do
-#            if [ -f "$script" ] && [ -x "$script" ]; then
-#                echo "=== === running '$script' on remote"
-#                $ssh_string "$sudo /bin/sh -s" < "$script" || { echo "=== === ERROR: script execution failed "; return 1; }
-#            else
-#                echo "=== === can't find or not executable '$script'"
-#            fi
-#        done
-#    fi
-#
-#    echo "=== === finished"
-#}
-#clone_completion ssh ssh-run
+_env_is_zsh && {
+    compdef _ssh_hosts ssh-del-knownhost
+    compdef _ssh ssh-cp-env=ssh
+}
+

@@ -1,3 +1,4 @@
-# ~/.bashrc
+# ~/.zshrc
 [ -f "$HOME/.profile" ] && . "$HOME/.profile"
+
 

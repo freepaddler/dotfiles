@@ -91,6 +91,24 @@ _env_is_bash && {
     complete -F _tm_complete_sessions tm
 }
 
+_env_is_zsh && {
+# zsh completion for: tm  (list tmux sessions)
+    _tm_complete_sessions() {
+      setopt localoptions noshwordsplit
+      local -a sessions
+      local cur=${words[CURRENT]}
+
+      # collect session names (left of the colon)
+      sessions=(${(f)"$(tmux ls 2>/dev/null | sed -E 's/:.*$//' )"})
+
+      # offer them; zsh will prefix-match against $cur by default
+      compadd -Q -S '' -- $sessions
+    }
+
+    # attach to the command name "tm"
+    compdef _tm_complete_sessions tm
+}
+
 ## tmux auto-load
 #if  [ -z "$NO_TMUX_AUTOLOAD" ] &&   # once loaded, don't retry on reload
 #    [ -z "$TMUX" ] &&               # no tmux in tmux

@@ -7,6 +7,7 @@ _env_is_bash && {
 }
 _env_is_zsh && {
     eval "$(fzf --zsh)"
+    compdef _gnu_generic fzf
 }
 
 _fzf_preview_file='bat -p --color=always -r=:500 {}'
@@ -111,6 +112,15 @@ _fzf_compgen_path() {
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
     fd --type dir $FZF_FD_OPTS . "$1"
+}
+
+_env_is_zsh && {
+    _fzf_compgen_path() {
+       fd ${=FZF_FD_OPTS} . "$1"
+    }
+    _fzf_compgen_dir() {
+        fd --type dir ${=FZF_FD_OPTS} . "$1"
+    }
 }
 
 unset _fzf_fd_exclude
