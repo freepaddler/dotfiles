@@ -37,24 +37,24 @@ if has('eval')
     nnoremap <leader>m :call ToggleMouse()<CR>
     nnoremap <leader>n :call ToggleLineNumberMode()<CR>
 
+    " close buffer and quit on last
+    nnoremap <silent> <leader>q :if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1 \| confirm bdelete \| else \| confirm quit \| endif<CR>
+
     " tabs
     " open
-    "nnoremap <leader><TAB><TAB> :tabnew<CR>
     nnoremap <leader><TAB>c :tabnew<CR>
     nnoremap <leader><TAB>e :tabnew<CR>:edit 
     nnoremap <leader><TAB>E :tabnew<CR>:Explore<CR>
-    " track the last active
-    let g:lasttab = 1
-    autocmd TabLeave * let g:lasttab = tabpagenr()
-    nnoremap <silent> <Leader><TAB><TAB> :execute 'tabn' g:lasttab<CR>
     " navigate
     nnoremap <leader><TAB>n :tabnext<CR>
     nnoremap <leader><TAB>p :tabprevious<CR>
     nnoremap <leader><TAB>l :tablast<CR>
     nnoremap <leader><TAB>f :tabfirst<CR>
-    "" close
     nnoremap <leader><TAB>o :tabonly<CR>
-    nnoremap <leader><TAB>q :bdelete<CR>
+    " track the last active
+    let g:lasttab = 1
+    autocmd TabLeave * let g:lasttab = tabpagenr()
+    nnoremap <silent> <Leader><TAB><TAB> :execute 'tabn' g:lasttab<CR>
 
     " buffers
     nnoremap <leader>B <C-^>
