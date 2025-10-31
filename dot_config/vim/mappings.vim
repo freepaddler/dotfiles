@@ -38,12 +38,23 @@ if has('eval')
     nnoremap <leader>n :call ToggleLineNumberMode()<CR>
 
     " tabs
-    nnoremap <leader><TAB><TAB> :tabnew<CR>
+    " open
+    "nnoremap <leader><TAB><TAB> :tabnew<CR>
+    nnoremap <leader><TAB>c :tabnew<CR>
+    nnoremap <leader><TAB>e :tabnew<CR>:edit 
+    nnoremap <leader><TAB>E :tabnew<CR>:Explore<CR>
+    " track the last active
+    let g:lasttab = 1
+    autocmd TabLeave * let g:lasttab = tabpagenr()
+    nnoremap <silent> <Leader><TAB><TAB> :execute 'tabn' g:lasttab<CR>
+    " navigate
     nnoremap <leader><TAB>n :tabnext<CR>
     nnoremap <leader><TAB>p :tabprevious<CR>
     nnoremap <leader><TAB>l :tablast<CR>
     nnoremap <leader><TAB>f :tabfirst<CR>
+    "" close
     nnoremap <leader><TAB>o :tabonly<CR>
+    nnoremap <leader><TAB>q :bdelete<CR>
 
     " buffers
     nnoremap <leader>B <C-^>
@@ -53,8 +64,9 @@ if has('eval')
     nnoremap <leader>- :split<CR>
     nnoremap <leader>\ :vsplit<CR>
 
-    " explorer
-    nnoremap <leader>x :Explore<CR>
+    " edit or explorer
+    nnoremap <leader>E :Explore<CR>
+    nnoremap <leader>e :edit 
 
     " copy to terminal clipboard
     nmap <leader>c <Plug>OSCYankOperator
