@@ -1,3 +1,6 @@
+# :vim ft=zsh
+
 # ~/.zprofile
+export _ZPROFILE=1
 [ -f "$HOME/.profile" ] && . "$HOME/.profile"
 

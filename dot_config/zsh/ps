@@ -15,7 +15,12 @@ PROMPT+=' %F{cyan}%~ %F{green}❯%f '
 PS2='%F{8}↳%f '
 
 # powerlevel10k
-#typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-_env_source "$zsh_home"/themes/powerlevel10k/powerlevel10k.zsh-theme
-_env_source "$zsh_home/p10k.zsh"
-_env_source "$zsh_home/p10k.override.zsh"
+_p10k_load() {
+    #typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+    _env_source "$XDG_CONFIG_HOME/zsh"/themes/powerlevel10k/powerlevel10k.zsh-theme
+    _env_source "$XDG_CONFIG_HOME/zsh/p10k.zsh"
+    _env_source "$XDG_CONFIG_HOME/zsh/p10k.override.zsh"
+    typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+}
+_env_cleanup_add _p10k_load
+_env_run_after_add _p10k_load
