@@ -1,4 +1,4 @@
-# vim: filetype=zsh
+# vim: ft=zsh
 
 # word splitting (POSIX)
 setopt sh_word_split
@@ -27,8 +27,6 @@ bindkey '^[[6~' history-search-forward
 bindkey '^[[3~' delete-char
 bindkey '^[[2~' quoted-insert
 
-# history
-alias hi='history -i 50'
 ## file
 HISTSIZE=1000
 SAVEHIST=10000
@@ -53,7 +51,7 @@ setopt hist_find_no_dups
 setopt hist_verify
 
 zsh_home="${_ENV_CONFIG_DIR:-"$HOME/.config"}/zsh"
-for file in alias ps completions functions; do
+for file in ps completions functions; do
     _env_source "$zsh_home/$file" "$file_$_ENV_OS"
 done
 

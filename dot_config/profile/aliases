@@ -1,6 +1,18 @@
 # reload shell
 alias resrc=". ~/.profile"
 
+_env_is_zsh && {
+  alias cp='nocorrect cp'
+  alias man='nocorrect man'
+  alias mkdir='nocorrect mkdir'
+  alias mv='nocorrect mv'
+  alias sudo='nocorrect sudo'
+  alias su='nocorrect su'
+}
+
+_env_is_bash && {
+}
+
 # navigation
 alias ..="cd .."
 alias cd..="cd .."
@@ -45,9 +57,9 @@ alias ds="df -P -kHl"
 # job and history
 alias j="jobs -l"
 alias h="history 50"
+_env_is_zsh && alias hi='history -i 50'
 
 # monitoring
-
 if [ "$_ENV_OS" = "linux" ]; then
     alias p="ps fuw"
 elif [ "$_ENV_OS" = "freebsd" ]; then

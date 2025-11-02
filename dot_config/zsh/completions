@@ -8,7 +8,7 @@ zstyle ':completion:*:*:*:default' menu select search
 # group results by type (files, dirs, etc.)
 zstyle ':completion:*' group-name ''
 # display descriptions like “(directory)” inline
-zstyle ':completion:*:descriptions' format '%F{blue}-- %d:%f'
+zstyle ':completion:*:descriptions' format '%K{black}%F{blue}↳ %d %k%F{black}%f'
 
 # try load completions
 completions_locations="

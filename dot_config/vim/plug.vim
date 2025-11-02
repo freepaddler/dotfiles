@@ -10,8 +10,8 @@ let g:oscyank_term = 'default'
 
 " syntax check
 Plug 'dense-analysis/ale'
-nnoremap <leader>[ :ALEPreviousWrap<CR>
-nnoremap <leader>] :ALENextWrap<CR>
+nmap [e <Plug>(ale_previous_wrap)
+nmap ]e <Plug>(ale_next_wrap)
 
 " lightline status bar
 Plug 'itchyny/lightline.vim'

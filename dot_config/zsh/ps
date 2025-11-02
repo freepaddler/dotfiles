@@ -12,8 +12,10 @@ if [[ -z "$TMUX" && -n "$SSH_TTY" ]]; then
     PROMPT+='%f@%F{yellow}%m'
 fi
 PROMPT+=' %F{cyan}%~ %F{green}❯%f '
+PS2='%F{8}↳%f '
 
 # powerlevel10k
 #typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 _env_source "$zsh_home"/themes/powerlevel10k/powerlevel10k.zsh-theme
 _env_source "$zsh_home/p10k.zsh"
+_env_source "$zsh_home/p10k.override.zsh"

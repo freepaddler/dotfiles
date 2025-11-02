@@ -21,6 +21,8 @@ inoremap jk <Esc>
 " line navigation
 nnoremap <C-a> ^
 nnoremap <C-e> $
+vnoremap <C-a> ^
+vnoremap <C-e> $
 "Ctrl+ to move between windows
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -69,11 +71,8 @@ if has('eval')
     nnoremap <leader><TAB>E :tabnew<CR>:Explore<CR>
     nnoremap <leader><TAB>gf <C-w>gf
     " navigate
-    nnoremap <leader><TAB>n :tabnext<CR>
-    nnoremap <leader><TAB>p :tabprevious<CR>
-    nnoremap <leader><TAB>l :tablast<CR>
-    nnoremap <leader><TAB>f :tabfirst<CR>
-    nnoremap <leader><TAB>o :tabonly<CR>
+    nnoremap <leader><TAB>n gt
+    nnoremap <leader><TAB>p gT
     " track the last active
     let g:lasttab = 1
     autocmd TabLeave * let g:lasttab = tabpagenr()
@@ -97,11 +96,10 @@ if has('eval')
     vmap <leader>c <Plug>OSCYankVisual
 
     " save file with sudo instead of reopening
-    cmap w!! WForce
-    cmap WQ! WForceQuit
-    "command! WForce :execute ':silent w !$(which sudo || which doas) tee % > /dev/null' | exec "wundo ".escape(undofile(expand('%')),'% ') | :edit!
     command! WForce execute ':silent w !$(command -v sudo || command -v doas) tee % > /dev/null' | execute 'wundo ' . fnameescape(undofile(expand('%'))) | edit!
     command! WForceQuit :execute 'WForce' | :quit!
+    cmap w!! WForce
+    cmap WQ! WForceQuit
 
 endif
 
