@@ -24,6 +24,8 @@ unset completion_locations
 
 # completions
 autoload -Uz compinit
+autoload -Uz run-help
+alias help="run-help"
 compinit -u
 # block later re-init
 compinit() { return 0 }
@@ -33,15 +35,4 @@ autoload -Uz bashcompinit
 bashcompinit -u
 # block later re-init
 bashcompinit() { return 0 }
-
-#for dir in \
-#  /etc/profile.d \
-#  ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/etc/profile.d} \
-#  /usr/share/bash-completion/completions \
-#  /usr/local/share/bash-completion/completions \
-#  /opt/local/etc/profile.d
-#do
-#  _env_source "$d/bash_completion.sh"
-#done
-#_env_source "$HOME"/.bash_completion.d/* "$_ENV_CONFIG_DIR"/bash/bash_completions/*
 

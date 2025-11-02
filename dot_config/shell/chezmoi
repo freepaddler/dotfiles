@@ -24,15 +24,6 @@ _env_cmd git && chezmoi source-path >/dev/null 2>&1 && {
     alias sshconfig="cz-edit ~/.ssh/config && resrc"
     alias cz-diff="chezmoi diff --exclude=scripts"
 
-#    _czedit() {
-#        if  [ "$#" -eq 1 ] && chezmoi source-path "$1" >/dev/null 2>&1; then
-#            chezmoi edit --apply "$1"
-#        else
-#            vi "$@"
-#        fi
-#    }
-#    alias v="_czedit"
-
     cz-add() {
         if [ "$#" -lt 1 ]; then
             echo "usage: cz-add <files>"
@@ -40,8 +31,7 @@ _env_cmd git && chezmoi source-path >/dev/null 2>&1 && {
         fi
         for f in "$@"; do
             if chezmoi source-path "$f" > /dev/null 2>&1; then
-                echo "re-add file $f"
-                chezmoi re-add "$f"
+                chezmoi re-add --interactive "$f"
             else
                 echo "add file $f"
                 chezmoi add "$f"

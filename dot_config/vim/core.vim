@@ -1,13 +1,17 @@
 " core runtime data
 
-" viminfo, backup, swap and undo settings
-silent !mkdir -m 4700 -p ~/.local/vim/swap ~/.local/vim/backup ~/.local/vim/undo
+" viminfo and undo location
+silent !mkdir -p -m 4700 $XDG_DATA_HOME/vim/undo
 
-set directory=~/.local/vim/swap
-set viminfo+=n~/.local/vim/viminfo
-" set backupdir=~/.local/vim/backup
+if has('viminfofile')
+  set viminfofile=$XDG_DATA_HOME/vim/viminfo
+else
+  set viminfo+=n$XDG_DATA_HOME/vim/viminfo
+endif
+set noswapfile
+set nobackup
+set undodir=$XDG_DATA_HOME/vim/undo
 set undofile
-set undodir=~/.local/vim/undo
 
 if has("eval")
     " delete undo history after 365 days
@@ -17,6 +21,9 @@ if has("eval")
 
     " don't write .netrwhist
     let g:netrw_dirhistmax = 0
+    let g:netrw_browse_split = 0
+    let g:netrw_banner = 0
+    let g:netrw_winsize = 25
 endif
 
 " read .vimrc also from local dirs
@@ -30,11 +37,4 @@ set ffs=unix,mac,dos
 set fencs=utf-8,cp1251,koi8-r,cp866
 
 set hidden              " allow switch buffer without save
-
-" other
-" Don't write backup file if vim is being called by "crontab -e"
-au BufWrite /private/tmp/crontab.* set nowritebackup nobackup
-au BufWrite /tmp/crontab.* set nowritebackup nobackup
-" Don't write backup file if vim is being called by "chpass" or "vipw"
-au BufWrite /private/etc/pw.* set nowritebackup nobackup
-au BufWrite /etc/pw.* set nowritebackup nobackup
+set isfname+=@-@        " treat @ as filename

@@ -13,6 +13,7 @@ set cursorline          " higlight current line
 set number              " line numbering
 set relativenumber      " relative numbers
 set colorcolumn=81      " higlight column 81
+set signcolumn=yes      " always who sign column
 
 " statusline
 if has('statusline')
@@ -55,7 +56,6 @@ set splitright          " vsplit always right
 set splitbelow          " split always down
 
 " search
-set showmatch           " brackets
 set hlsearch            " last search
 set incsearch           " incremental
 set ignorecase          " case insensitive

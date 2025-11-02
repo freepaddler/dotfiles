@@ -1,7 +1,19 @@
-PROMPT='%B%F{green}%n%b'
+# :vim ft=zsh
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+PROMPT='%B%F{green}%n%b'
 if [[ -z "$TMUX" && -n "$SSH_TTY" ]]; then
     PROMPT+='%f@%F{yellow}%m'
 fi
-
 PROMPT+=' %F{cyan}%~ %F{green}❯%f '
+
+# powerlevel10k
+#typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+_env_source "$zsh_home"/themes/powerlevel10k/powerlevel10k.zsh-theme
+_env_source "$zsh_home/p10k.zsh"
