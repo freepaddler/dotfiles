@@ -1,5 +1,5 @@
 #!/bin/sh
-
+XDG_DATA_HOME=${XDG_DATA_HOME-:~/.local/share}
 vimDir="$XDG_DATA_HOME/vim"
 mkdir -m 4700 -p "$vimDir/undo"
 
