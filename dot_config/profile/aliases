@@ -11,6 +11,7 @@ _env_is_zsh && {
 }
 
 _env_is_bash && {
+    :
 }
 
 # navigation
