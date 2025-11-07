@@ -20,7 +20,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 #]
 
 [workspace-to-monitor-force-assignment]
-4 = 'secondary'
+9 = 'secondary'
 10 = 'main'
 
 [[on-window-detected]]
@@ -125,9 +125,9 @@ run = 'layout floating'
     j = 'resize height +50'
     k = 'resize height -50'
     l = 'resize width +50'
-    alt-h = 'move-workspace-to-monitor --wrap-around left'
-    alt-j = 'move-workspace-to-monitor --wrap-around down'
-    alt-k = 'move-workspace-to-monitor --wrap-around up'
-    alt-l = 'move-workspace-to-monitor --wrap-around right'
+    alt-shift-h = 'move-workspace-to-monitor --wrap-around left'
+    alt-shift-j = 'move-workspace-to-monitor --wrap-around down'
+    alt-shift-k = 'move-workspace-to-monitor --wrap-around up'
+    alt-shift-l = 'move-workspace-to-monitor --wrap-around right'
     enter = 'mode main'
     esc = 'mode main'
