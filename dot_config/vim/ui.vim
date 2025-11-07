@@ -36,9 +36,9 @@ endif
 " mouse
 if has('mouse')
     set ttymouse=sgr
-    set mouse=a
+    set mouse=
     if has('eval')
-        let g:mouse_enabled = 1
+        let g:mouse_enabled = 0
     endif
 endif
 

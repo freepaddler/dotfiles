@@ -18,11 +18,6 @@ vnoremap k gk
 " simple leave INSERT mode
 inoremap jj <Esc>
 inoremap jk <Esc>
-" line navigation
-nnoremap <C-a> ^
-nnoremap <C-e> $
-vnoremap <C-a> ^
-vnoremap <C-e> $
 "Ctrl+ to move between windows
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -39,9 +34,6 @@ nnoremap N Nzzzv
 " move selected block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" buffers navigation
-nnoremap <C-S-j> :bnext<CR>
-nnoremap <C-S-k> :bprev<CR>
 
 " enchancements
 if has('eval')
@@ -58,8 +50,8 @@ if has('eval')
     nnoremap <silent> <leader>x :!chmod +x %<CR>
 
     nnoremap <leader>h :nohlsearch<CR>
-    nnoremap <leader>m :call ToggleMouse()<CR>
-    nnoremap <leader>n :call ToggleLineNumberMode()<CR>
+    nnoremap <leader>M :call ToggleMouse()<CR>
+    nnoremap <leader>N :call ToggleLineNumberMode()<CR>
 
     " close buffer and quit on last
     nnoremap <silent> <leader>q :if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1 \| confirm bdelete \| else \| confirm quit \| endif<CR>
@@ -67,8 +59,6 @@ if has('eval')
     " tabs
     " open
     nnoremap <leader><TAB>c :tabnew<CR>
-    nnoremap <leader><TAB>e :tabnew<CR>:edit 
-    nnoremap <leader><TAB>E :tabnew<CR>:Explore<CR>
     nnoremap <leader><TAB>gf <C-w>gf
     " navigate
     nnoremap <leader><TAB>n gt
@@ -79,21 +69,29 @@ if has('eval')
     nnoremap <silent> <Leader><TAB><TAB> :execute 'tabn' g:lasttab<CR>
 
     " buffers
-    nnoremap <leader>B <C-^>
     nnoremap <leader>b :ls<CR>:b
 
-    " split
-    nnoremap <leader>- :split<CR>
-    nnoremap <leader>\ :vsplit<CR>
+    " explorer
+    nnoremap <leader>e :Explore<CR>
 
-    " edit or explorer
-    nnoremap <leader>E :Explore<CR>
-    nnoremap <leader>e :edit 
-
-    " copy to terminal clipboard
-    nmap <leader>c <Plug>OSCYankOperator
-    nmap <leader>cc <leader>c_
-    vmap <leader>c <Plug>OSCYankVisual
+    " yank also copy to terminal clipboard
+    " the + and * registers will not be distinct from the unnamed register. In
+    " this case, a:event.regname will always be '' (empty string). However, it
+    " can be the case that `has('clipboard_working')` is false, yet `+` is
+    " still distinct, so we want to check them all.
+    let s:VimOSCYankPostRegisters = ['', '+', '*']
+    " copy text to clipboard on both (y)ank and (d)elete
+    let s:VimOSCYankOperators = ['y']
+    function! s:VimOSCYankPostCallback(event)
+        if index(s:VimOSCYankPostRegisters, a:event.regname) != -1
+                    \ && index(s:VimOSCYankOperators, a:event.operator) != -1
+            call OSCYankRegister(a:event.regname)
+        endif
+    endfunction
+    augroup VimOSCYankPost
+        autocmd!
+        autocmd TextYankPost * call s:VimOSCYankPostCallback(v:event)
+    augroup END
 
     " save file with sudo instead of reopening
     command! WForce execute ':silent w !$(command -v sudo || command -v doas) tee % > /dev/null' | execute 'wundo ' . fnameescape(undofile(expand('%'))) | edit!
