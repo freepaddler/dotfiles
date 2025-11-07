@@ -1,5 +1,0 @@
-# vim: filetype=bash
-
-# temporary history control
-hoff() { set +o history; }
-hon() { set -o history; }

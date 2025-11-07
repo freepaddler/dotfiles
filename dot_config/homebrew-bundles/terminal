@@ -22,10 +22,12 @@ brew "yazi"         # file manageer
 #brew "7zip"         # obsolete by sevenzip
 brew "bat"          # cat/less with highlight
 brew "convmv"       # filename encoding conversion
+brew "curl"
 brew "fd"           # find alternative
 brew "ffmpeg"
 # cask "font-hack-nerd-font" #
 cask "font-symbols-only-nerd-font" # yazi requirement
+cask "font-meslo-for-powerlevel10k"
 brew "fzf"          # fuzzy search
 brew "gdu"          # disk usage
 brew "glow"         # markdown viewer

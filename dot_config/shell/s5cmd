@@ -1,5 +1,0 @@
-# vim: filetype=sh
-_env_cmd s5cmd || return 0
-
-_env_is_bash && . <(SHELL=/bash s5cmd --install-completion)
-_env_is_zsh  && . <(SHELL=/zsh  s5cmd --install-completion)

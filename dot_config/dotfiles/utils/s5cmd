@@ -1,0 +1,5 @@
+# vim: ft=bash
+_env_cmd s5cmd || return 0
+
+_env_shell bash && . <(SHELL=/bash s5cmd --install-completion)
+_env_shell zsh  && . <(SHELL=/zsh  s5cmd --install-completion)

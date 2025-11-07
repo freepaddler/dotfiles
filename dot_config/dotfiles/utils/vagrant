@@ -1,0 +1,31 @@
+# vim: ft=bash
+_env_cmd vagrant || return
+
+alias vagrant-gui="GUI=1 vagrant "
+
+_env_os darwin && {
+    fix-vagrant-vmware-utility-restart() {
+        [ -x /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility ] && {
+            sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility service uninstall
+            sudo /opt/vagrant-vmware-desktop/bin/vagrant-vmware-utility service install
+        }
+    }
+}
+
+_env_shell zsh && {
+    autoload -Uz /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/zsh/_vagrant
+    compdef _vagrant vagrant
+    compdef _vagrant vagrant-gui=vagrant
+}
+
+_env_shell bash || return
+
+# completions
+_env_source /opt/vagrant/embedded/gems/gems/vagrant-*/contrib/bash/completion.sh
+_env_cmd _vagrant && {
+    complete -F _vagrant -f vagrant
+    complete -F _vagrant -f vagrant-gui
+}
+
+
+

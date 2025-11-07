@@ -1,4 +1,6 @@
 # macos apps
+tap "nikitabobko/tap"
+cask "aerospace"            # tiled window manager
 
 cask "appcleaner"           # prune apps on delete
 cask "bbedit"               # universal text editor

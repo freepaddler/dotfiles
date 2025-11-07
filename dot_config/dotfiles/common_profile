@@ -1,0 +1,74 @@
+# vim: ft=sh
+
+# ===============================
+# POSIX-Compatible Environment
+# ===============================
+
+# --- XDG base directories ---
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+[ -d "$XDG_CONFIG_HOME" ] || mkdir -p "$XDG_CONFIG_HOME"
+[ -d "$XDG_DATA_HOME" ]   || mkdir -p "$XDG_DATA_HOME"
+[ -d "$XDG_CACHE_HOME" ]  || mkdir -p "$XDG_CACHE_HOME"
+[ -d "$XDG_STATE_HOME" ]  || mkdir -p "$XDG_STATE_HOME"
+
+# --- Pagers and block sizes ---
+export BLOCKSIZE="K"  # used by BSD/macOS tools
+
+# --- Editor/Visual setup for vi/vim ---
+( alias vi ) >/dev/null 2>&1 && unalias vi
+( alias vim ) >/dev/null 2>&1 && unalias vim
+
+if _env_cmd vim 2>&1; then
+    export EDITOR="vim -Xp"
+    export VISUAL="vim -Xp"
+    alias vi="vim -Xp"
+elif _env_cmd vi; then
+    export EDITOR="vi"
+    export VISUAL="vi"
+    alias vi="vi"
+else
+    echo "ERROR: vi or vim are not found!"
+fi
+alias v="$EDITOR"
+
+# --- PAGER setup ---
+export PAGER="less"
+# -XF to disable alternate screen
+export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+#if less --help 2>&1 | grep -q -- --mouse; then
+#  export LESS="-F -iR --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+#fi
+
+# ---ls color support ---
+# BSD/macOS-specific
+export LSCOLORS="gxfxcxdxbxegedabagacad"
+# Linux-specific
+export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+
+# --- Locale setup (safe across systems) ---
+# Set UTF-8 Russian locale only if available
+if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
+  export LANG=ru_RU.UTF-8
+  export LC_CTYPE=ru_RU.UTF-8
+  export LC_COLLATE=ru_RU.UTF-8
+fi
+# Standardize interface language and formatting
+export LC_MESSAGES=POSIX
+export LC_NUMERIC=POSIX
+export LC_TIME=POSIX
+# Clear global override (allows category-specific settings)
+export LC_ALL=
+
+export CDPATH=.:~
+umask 0002
+# os specific profile
+_env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_profile"
+
+# PATH
+_env_path_prepend "$HOME/.local/bin"
+_env_path_prepend "$HOME/.local/bin/scripts"
+
+

@@ -1,0 +1,38 @@
+# vim: ft=zsh
+
+# apply LS_COLORS
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# cycle through menu on multiple matches with incremental search
+#zstyle ':completion:*' menu select search
+zstyle ':completion:*:*:*:default' menu select search
+# group results by type (files, dirs, etc.)
+zstyle ':completion:*' group-name ''
+# display descriptions like “(directory)” inline
+zstyle ':completion:*:descriptions' format '%F{yellow}↳ %d %f'
+
+# try load completions
+completions_locations="
+    ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share/zsh-completions}
+    ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share/zsh/site-functions}
+    $_ENV_CONFIG_DIR/zsh/zsh-completions
+"
+for d in $completions_locations; do
+    [[ -d $d ]] && fpath=($d $fpath)
+done
+unset d
+unset completions_locations
+
+# completions
+autoload -Uz compinit
+autoload -Uz run-help
+alias help="run-help"
+compinit -u
+# block later re-init
+compinit() { return 0 }
+
+# bash completions
+autoload -Uz bashcompinit
+bashcompinit -u
+# block later re-init
+bashcompinit() { return 0 }
+

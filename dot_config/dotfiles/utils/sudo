@@ -1,0 +1,22 @@
+# vim: ft=bash
+if _env_cmd doas; then
+    alias doas="doas "
+    if ! _env_cmd sudo; then
+        alias sudo="doas "
+    fi
+
+    if _env_shell bash; then
+        _env_bash_has_completion doas || complete -cf -o bashdefault -o default doas
+    fi
+
+fi
+
+_env_cmd sudo || return
+
+alias sudo="sudo "
+alias sude="sudo -E "
+
+if _env_shell bash; then
+    _env_bash_has_completion sudo || complete -cf -o bashdefault -o default sudo
+fi
+
