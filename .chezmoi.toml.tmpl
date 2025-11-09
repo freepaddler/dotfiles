@@ -3,8 +3,8 @@
 {{-   $private = true  -}}
 {{- end -}}
 
-{{- $email := " " -}}
-{{- $name := "Victor Chu" -}}
+{{- $email := .email | default " " -}}
+{{- $name  := .name  | default "Victor Chu" -}}
 
 {{-   if stdinIsATTY -}}
 {{-     $email = promptString "email" " " -}}
