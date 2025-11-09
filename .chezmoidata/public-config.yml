@@ -11,23 +11,14 @@ public_files:
   - ".ssh/authorized_keys"
 # config
   - ".config/"
+  - ".config/vim/**"
+  - ".config/tmux/**"
 # env
   - ".config/env/"
   - ".config/env/*"
-  - ".config/env/bash/"
-  - ".config/env/bash/complete_helper"
-  - ".config/env/bash/completions/**"
-  - ".config/env/zsh/"
-  - ".config/env/zsh/completions/**"
+  - ".config/env/bash/**"
+  - ".config/env/zsh/**"
   - ".config/env/rc/"
   - ".config/env/rc/docker"
   - ".config/env/rc/sudo"
-## vim
-  - ".config/vim/"
-  - ".config/vim/vimrc"
-  - ".config/vim/*.vim"
-  - ".config/vim/autoload/**"
-  - ".config/vim/plugged/"
-  - ".config/vim/plugged/nord-vim/**"
-  - ".config/vim/plugged/trailertrash.vim/**"
-  - ".config/vim/plugged/vim-ocsyank/**"
+
