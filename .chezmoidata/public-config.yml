@@ -7,5 +7,5 @@ public_files:
   - ".exrc"
   - ".screenrc"
   - ".ssh/authorized_keys"
-  - ".config/env/*"
-  - ".config/vim/"
+  - '.config/env/**'
+  - ".config/vim/vimrc"
