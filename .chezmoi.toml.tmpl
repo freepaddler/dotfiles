@@ -7,8 +7,8 @@
 {{- $name  := (get . "name")  | default "Victor Chu" -}}
 
 {{-   if stdinIsATTY -}}
-{{-     $email = promptString "email" " " -}}
-{{-     $name = promptString "name" "Victor Chu" -}}
+{{-     $email = promptString "email" $email -}}
+{{-     $name = promptString "name" $name -}}
 {{-   end -}}
 
 {{- if $private -}}
