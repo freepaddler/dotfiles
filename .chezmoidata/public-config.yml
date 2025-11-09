@@ -14,9 +14,9 @@ public_files:
 # env
   - ".config/env/"
   - ".config/env/*"
-  - ".config/env/bash/"
-  - ".config/env/zsh/"
-  - ".config/env/rc/"
+#  - ".config/env/bash/"
+#  - ".config/env/zsh/"
+#  - ".config/env/rc/"
 ## vim
   - ".config/vim/"
   - ".config/vim/vimrc"
