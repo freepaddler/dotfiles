@@ -12,6 +12,7 @@ public_files:
 # config
   - ".config/"
 # env
+  - ".config/env/"
   - ".config/env/*"
 ## vim
   - ".config/vim/"
