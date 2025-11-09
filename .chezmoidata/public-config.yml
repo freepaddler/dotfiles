@@ -8,4 +8,4 @@ public_files:
   - ".screenrc"
   - ".ssh/authorized_keys"
   - ".config/env/*"
-  - ".config/vim/*.vim"
+  - ".config/vim"
