@@ -14,9 +14,14 @@ public_files:
 # env
   - ".config/env/"
   - ".config/env/*"
-#  - ".config/env/bash/"
-#  - ".config/env/zsh/"
-#  - ".config/env/rc/"
+  - ".config/env/bash/"
+  - ".config/env/bash/complete_helper"
+  - ".config/env/bash/completions/**"
+  - ".config/env/zsh/"
+  - ".config/env/zsh/completions/**"
+  - ".config/env/rc/"
+  - ".config/env/rc/docker"
+  - ".config/env/rc/sudo"
 ## vim
   - ".config/vim/"
   - ".config/vim/vimrc"
