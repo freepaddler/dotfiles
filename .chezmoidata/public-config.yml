@@ -11,6 +11,8 @@ public_files:
   - ".ssh/authorized_keys"
 # config
   - ".config/"
+# env
+  - ".config/env/*"
 ## vim
   - ".config/vim/"
   - ".config/vim/vimrc"
