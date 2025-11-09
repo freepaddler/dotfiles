@@ -1,3 +1,18 @@
+### for public hosts/servers
+{{- if not .private }}
+*
+{{- range $pf := .public_files }}
+  {{- if regexMatch "/$" $pf }}
+!{{$pf}}
+{{$pf}}**
+  {{- else }}
+!{{$pf}}
+  {{- end }}
+{{- end }}
+# no encrypted files (double-check)
+**/*.age
+{{- end }}
+
 # for all
 **/.git
 **/.DS_Store
@@ -15,15 +30,7 @@ testdata/
 .config/**/*.svg
 .config/**/*.bmp
 
-### for public hosts/servers
-{{- if not .private }}
-*
-{{- range .public_files }}
-!{{ . }}
-{{- end }}
-# no encrypted files (double-check)
-**/*.age
-{{- end }}
+
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}
