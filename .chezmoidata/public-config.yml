@@ -1,0 +1,10 @@
+public_files:
+  - ".profile"
+  - ".bash_profile"
+  - ".bashrc"
+  - ".zprofile"
+  - ".zshrc"
+  - ".exrc"
+  - ".screenrc"
+  - ".ssh/authorized_keys"
+  - ".config/env/*"

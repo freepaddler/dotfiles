@@ -17,14 +17,12 @@ testdata/
 
 ### for public hosts/servers
 {{- if not .private }}
-# no encrypted files
+*
+{{- range .public_files }}
+!{{ . }}
+{{- end }}
+# no encrypted files (double-check)
 **/*.age
-.config/yandex-cloud
-.ssh/*
-!.ssh/authorized_keys
-.npmrc
-dev/
-Library/
 {{- end }}
 
 # ignore on macOS
@@ -35,8 +33,9 @@ Library/
 # ignore on not macOS
 {{- if ne .chezmoi.os "darwin" }}
 .ssh/config.d/darwin
+.config/aerospace
+.config/env/darwin_*
 .config/homebrew-bundles
-.config/darwin
 .local/bin/pfmanage.sh
 .local/bin/fix-shared-network-ip.command
 .docker/

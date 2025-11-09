@@ -1,5 +1,5 @@
 {{- $private := false  -}}
-{{- if or (stat (joinPath .chezmoi.homeDir ".config/chezmoi.age")) (stat (joinPath .chezmoi.homeDir "chezmoi.age")) -}}
+{{- if or (stat (joinPath .chezmoi.homeDir ".config/chezmoi/chezmoi.age")) (stat (joinPath .chezmoi.homeDir "chezmoi.age")) -}}
 {{-   $private = true  -}}
 {{- end -}}
 
