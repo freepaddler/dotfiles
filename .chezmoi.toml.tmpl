@@ -14,7 +14,7 @@
 {{- if $private -}}
 encryption = "age"
 [age]
-  identity = "~/.config/chezmoi.age"
+  identity = "~/.config/chezmoi/chezmoi.age"
   recipient = "age1myfxv62zvx85n04v755glrxyz5gckjxn0w9shd5m70s03wtcd43qf0mqcl"
 {{- end }}
 
@@ -37,3 +37,4 @@ args = ["-convert", "xml1", "-o", "-", "-"]
   private = {{ $private }}
   email = "{{ $email }}"
   name = "{{ $name }}"
+

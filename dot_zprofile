@@ -1,0 +1,8 @@
+export _ENV_SHELL="zsh"
+
+# word splitting (POSIX)
+setopt sh_word_split
+
+. "$HOME/.profile"
+
+return

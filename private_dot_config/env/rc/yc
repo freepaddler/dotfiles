@@ -1,0 +1,35 @@
+# vim: ft=bash
+if [ -d "$XDG_CONFIG_HOME/yandex-cloud" ]; then
+    _env_cmd yc ||
+        alias yc="docker run -it --rm -v \"$XDG_CONFIG_HOME/.config/yandex-cloud\":/root/.config/yandex-cloud yc "
+fi
+
+_env_cmd yc || return 0
+_env_shell bash && . <(yc completion bash)
+_env_shell zsh  && . <(yc completion zsh)
+
+alias yc-profile-list='yc config profile list'
+alias yc-profile-activate='yc config profile activate'
+alias yc-init='yc init'
+yc-token() {
+    if YC_TOKEN="$(yc iam create-token | head -n1)"; then
+        [ -n "$YC_TOKEN" ] && export YC_TOKEN
+    else
+        exit 1
+    fi
+}
+yc-env() {
+    yc-token || exit 1
+    YC_CLOUD_ID="$(yc config get cloud-id 2>/dev/null | tr -d '\r')"
+    [ -n "$YC_CLOUD_ID" ] && export YC_CLOUD_ID
+    YC_FOLDER_ID="$(yc config get folder-id 2>/dev/null | tr -d '\r')"
+    [ -n "$YC_FOLDER_ID" ] && export YC_FOLDER_ID
+}
+
+yc-update() {
+    if [ -f "$XDG_CONFIG_HOME/yandex-cloud/Dockerfile" ] && command -v docker >/dev/null 2>&1; then
+        docker build --no-cache -t yc --file "$XDG_CONFIG_HOME/yandex-cloud/Dockerfile" "$XDG_CONFIG_HOME/yandex-cloud"
+    else
+        yc components update
+    fi
+}

@@ -1,0 +1,5 @@
+export _ENV_SHELL="bash"
+
+. "$HOME/.profile"
+
+return

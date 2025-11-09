@@ -1,0 +1,18 @@
+" Use Vim defaults instead of 100% vi compatibility
+set nocompatible
+
+" runtime config
+set runtimepath^=$XDG_CONFIG_HOME/vim
+set packpath+=$XDG_CONFIG_HOME/vim
+
+" imports
+runtime! core.vim
+
+if has('eval')
+    runtime! plug.vim
+    runtime! functions.vim
+endif
+
+runtime! ui.vim
+runtime! formatting.vim
+runtime! mappings.vim

@@ -1,0 +1,5 @@
+# vim: ft=bash
+_env_cmd terraform || return 0
+
+_env_cmd complete && complete -o nospace -C $(command -v terraform) terraform
+

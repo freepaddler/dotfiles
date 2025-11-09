@@ -22,8 +22,8 @@ adduser chu root
 adduser chu wheel
 
 homedir=$(getent passwd chu | cut -d: -f6)
-mkdir -p "$homedir"/.config "$homedir"/.local/bin
-cp -f /iCloud/Documents/Secrets/chezmoi.age "$homedir"/.config/
+mkdir -p "$homedir"/.config/chezmoi "$homedir"/.local/bin
+cp -f /iCloud/Documents/Secrets/chezmoi.age "$homedir"/.config/chezmoi/
 cat <<'EOF' >| "$homedir"/.local/bin/ish-update.sh
 #!/bin/sh
 WORKDIR="$HOME/dotfiles"

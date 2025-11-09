@@ -1,0 +1,81 @@
+# vim: ft=sh
+
+# reload
+alias resrc=". ~/.profile"
+_env_shell zsh && alias resrc=". ~/.zprofile && . ~/.zshrc"
+_env_shell bash && alias resrc=". ~/.bash_profile"
+
+# navigation
+alias ..="cd .."
+alias cd..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -="cd -" 2>/dev/null || alias -- -="cd -"
+
+alias cdc="cd ~/.config"
+alias cdt="cd ~/.config/dotfiles"
+alias cdd="cd ~/Documents"
+alias cdl="cd ~/Downloads"
+alias cde="cd ~/dev"
+alias cdw="cd ~/work"
+
+# list files
+alias ls="ls -G"
+_env_os linux && alias ls="ls --color=auto"
+alias l="ls -F"
+alias la="ls -aF"
+alias ll="ls -lhF"
+alias lla="ls -alhF"
+alias lll="ls -alhFi"
+_env_os freebsd && alias llll="ls -alhFio"
+_env_os darwin  && alias llll="ls -alhFiOe@"
+
+# copy, move, delete
+alias rm="rm -iv"
+alias rmrf="rm -frv"
+alias cp="cp -iv"
+alias cpr="cp -iRv"
+alias mv="mv -iv"
+alias chmox="chmod +x"
+
+# disk space
+alias du="du -h"
+alias df="df -h"
+alias ds="df -P -kHl"
+
+# job and history
+alias j="jobs -l"
+
+# monitoring
+if _env_os linux; then
+    alias p="ps fuw"
+elif _env_os freebsd; then
+    alias p="ps -auxww"
+elif _env_os darwin; then
+    alias p="ps auxww"
+elif [ "$(readlink -f "$(command -v ps)" 2>/dev/null | xargs basename)" = "busybox" ]; then
+    alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
+fi
+
+alias t="top"
+_env_cmd htop && alias t="htop"
+
+# grep
+alias grep="grep --color"
+_env_cmd igrep || alias igrep="grep -i"
+alias fgrep="fgrep --color"
+alias egrep="egrep --color"
+
+alias root="su -m root"
+alias hosts="v /etc/hosts"
+
+## other
+_env_cmd iptables && {
+    alias iptl="iptables --line-numbers -vnL "
+    alias ipt="iptables "
+}
+
+_env_cmd screen && alias sc="screen -U"
+_env_cmd glow && alias lemd="glow -p"

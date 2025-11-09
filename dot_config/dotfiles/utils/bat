@@ -1,8 +1,0 @@
-# vim: ft=bash
-#
-_env_cmd bat || return 0
-
-export BAT_THEME=Nord
-
-_env_shell bash && . <(bat --completion bash)
-alias less='bat -p'

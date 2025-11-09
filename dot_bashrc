@@ -1,0 +1,5 @@
+_ENV_SHELL="bash"
+
+. "$_ENV_CONFIG_DIR/bashrc"
+
+return

@@ -1,0 +1,5 @@
+_ENV_SHELL="zsh"
+
+. "$_ENV_CONFIG_DIR/zshrc"
+
+return

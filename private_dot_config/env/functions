@@ -1,0 +1,102 @@
+# vim: ft=sh
+
+# show shell and machine info
+if _env_shell bash; then
+    shell="bash [$BASH_VERSION]"
+elif _env_shell zsh; then
+    shell="zsh [$ZSH_VERSION]"
+else
+    shell=$(ps | awk -v pid="$$" '$1==pid {print $4}' | sed 's:.*/::')
+fi
+
+if [ -f /etc/os-release ]; then
+    os_name="$(. /etc/os-release; echo "$PRETTY_NAME") $(uname -srm)"
+else
+    os_name="$(uname -srm)"
+fi
+
+echo "${shell} @ $os_name"
+unset shell os_name
+
+
+# disable mouse modes and clean screen without clearing scrollback
+cls() {
+  printf '\033[?1000l\033[?1002l\033[?1003l\033[?1006l'  # mouse off
+  printf '\033[H\033[J'  # clear screen
+}
+
+# simple replacement to which
+where() {
+    command -v "$1"
+}
+
+du1() {
+    du -hd1 "$@" | sort -h
+}
+
+# generate passwords
+apg() {
+    echo
+    i=0
+    while [ $i -lt 20 ]; do
+        openssl rand -base64 $((((i / 5) + 2) * 3))
+        i=$((i + 1))
+    done
+    unset i
+}
+
+# random hex string
+rand_x() {
+    # shellcheck disable=SC2002
+    cat /dev/urandom | LC_CTYPE=POSIX tr -dc 'a-f0-9' | fold -w "$1" | head -n 1
+}
+
+# random alfa-numeric string
+rand() {
+    # shellcheck disable=SC2002
+    cat /dev/urandom | LC_CTYPE=POSIX tr -dc 'A-Za-z0-9' | fold -w "$1" | head -n 1
+}
+
+# curl with time report
+curl_time() {
+    curl -w @- -o /dev/null -s "$@" << EOF
+    time_namelookup:  %{time_namelookup}\n
+       time_connect:  %{time_connect}\n
+    time_appconnect:  %{time_appconnect}\n
+   time_pretransfer:  %{time_pretransfer}\n
+      time_redirect:  %{time_redirect}\n
+ time_starttransfer:  %{time_starttransfer}\n
+                    ----------\n
+         time_total:  %{time_total}\n
+EOF
+}
+
+# short emacs-style help
+hlp() {
+    b="\033[1m"
+    r="\033[0m"
+    echo -ne "${b} SHELL Quick Help${r}
+\t\t\t${b}MOVING${r}
+${b}C-a / C-e${r} — start/end of line\t${b}C-x C-x${r} - start of line and back
+${b}M-f / M-b${r} — word fwd/bwd\t${b}C-f / C-b${r} - char fwd/bwd
+\t\t\t${b}EDITING
+${b}C-x C-u / C-_${r} - undo\t\t${b}C-d / C-h${r} - delete/backspace
+${b}M-u / M-l /M-c${r} - upcase/downcase/capitalize word
+${b}C-y${r} - yank last killed text\t${b}C-k / C-u${r} - kill to line end/start
+${b}M-d / C-w${r} - delete previous/next || to the end/start of word
+${b}C-x C-e${r} - open '$EDITOR' to modify command, execute upon exit
+\t\t\t${b}HISTORY
+${b}M-.${r} - paste last arg\t\t\t${b}M-C-y${r} 1st arg of prev command
+${b}PgUp / PgDn${r} - hist rev/fwd search\t${b}C-p / C-n${r} - prev/next command
+${b}C-r${r} - incremental reverse search\t${b}C-j${r} - stop search and edit
+\t\t\t${b}SIGNALS
+${b}C-c / C-z / C-t / C-d${r} - SIGINT / SIGTSTP / SIGINFO / EOF - soft exit
+\t\t\t${b}SPECIAL VARS
+${b}\$?${r} - exit status of last command\t${b}%% / %n${r} - last/n job pid
+${b}\$!${r} - last backgroud command pid\t\t${b}\$\$${r} - current shell pid
+${b}!!${r} - previous command line\t\t${b}!:0${r} - name of prev command
+${b}!:1 / !:-1 / !:*${r} - 1st(2nd..)/last/all params of prev command
+"
+unset b r
+}
+

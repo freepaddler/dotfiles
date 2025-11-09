@@ -1,0 +1,25 @@
+# vim: ft=sh
+
+export COPYFILE_DISABLE=true
+# remove macOS bash warning
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Homebrew
+if [ -x /opt/homebrew/bin/brew ]; then
+    export HOMEBREW_PREFIX="/opt/homebrew"
+    export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+    export HOMEBREW_REPOSITORY="/opt/homebrew"
+    export HOMEBREW_CASK_OPTS="--no-quarantine"
+    [ -d /opt/homebrew/bin ] && _env_path_prepend "/opt/homebrew/bin"
+    [ -d /opt/homebrew/sbin ] && _env_path_prepend  "/opt/homebrew/sbin"
+    [ -d /opt/homebrew/share/man ] && _env_manpath_prepend "/opt/homebrew/share/man"
+    [ -d /opt/homebrew/share/info ] && _env_infopath_prepend "/opt/homebrew/share/info"
+fi
+
+# ~/Library/Python/*/bin
+for pyver in "$HOME"/Library/Python/*; do
+    [ -d "$pyver/bin" ] && _env_path_append "$pyver/bin"
+done
+unset pyver
+
+umask 0022

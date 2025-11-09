@@ -1,0 +1,55 @@
+# vim: ft=zsh
+
+## env vars
+#idea
+___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+
+## aliases
+alias plu="plutil -p"
+alias o="open "
+alias dsstore-cleanup="find . -name '*.DS_Store' -type f -ls -delete"
+_env_cmd gsed && alias sed="gsed"
+
+## functions
+
+# logout other macos user
+logout-force() {
+    sudo launchctl bootout "user/$(id -u "$1")"
+}
+
+# iina video player reset cache if hangs in network connection
+fix-iina-reset-cache() {
+    defaults delete com.colliderli.iina recentDocuments
+}
+
+# call vnc from terminal
+vnc() {
+    if [ $# -lt 1 ]; then
+        open vnc://localhost:5900
+    elif [[ $1 =~ ^[0-9]+$ ]]; then
+        open vnc://localhost:$1
+    else
+        open vnc://$1
+    fi
+}
+
+## completions
+_env_cmd complete && {
+    _tmutil(){
+        list=$( tmutil | /usr/bin/grep -v ^$ | /usr/bin/grep ^Usage | awk '{print $3}' )
+        COMPREPLY=( $(compgen -W "$list" ${COMP_WORDS[COMP_CWORD]}  ) )
+    }
+    complete -F _tmutil tmutil
+}
+
+_env_shell zsh && {
+    # good zsh curl completions
+    fpath=("$HOMEBREW_PREFIX/opt/curl/share/zsh/site-functions" $fpath)
+    autoload -Uz _curl
+    compdef _curl curl
+}
+
+_env_shell bash && {
+    _env_source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+}
+

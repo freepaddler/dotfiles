@@ -1,6 +1,0 @@
-# vim: ft=bash
-_env_cmd terraform || return 0
-
-cmd=$(command -v terraform)
-_env_cmd complete && complete -C "$cmd" terraform
-
