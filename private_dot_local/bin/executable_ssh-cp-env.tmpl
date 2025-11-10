@@ -42,8 +42,7 @@ done
 
 (
     cd "$HOME" || exit 1
-   # tar czf - "$@" | ssh -- "$remote" 'tar xzf - -C "$HOME/tdir"'
-   tar czf home.tgz "$@"
+   tar cf - "$@" | gzip -c | ssh -- "$dst" 'gzip -dc | tar xpf - -C "$HOME"'
 )
 
 echo "remote: $remote"
