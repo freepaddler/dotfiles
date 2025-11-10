@@ -1,0 +1,54 @@
+#!/bin/sh
+
+set -eu
+
+if [ $# -ne 1 ]; then
+    printf >&2 "usage: %s <ssh-connection>\n" "${0##*/}"
+    exit 2
+fi
+
+remote=$1
+
+LIST='
+{{- range $pf := .public_files }}
+{{$pf}}
+{{- end }}
+'
+
+set --
+
+for line in $LIST; do
+    case $line in
+        */) # skip directory
+            continue
+            ;;
+        *'/**') # full subtree
+            base=${line%/**}
+            [ -d "$HOME/$base" ] && set -- "$@" "$base"
+            ;;
+        *'/*') # one-level files
+            dir=${line%/*}
+            for x in "$HOME/$dir"/*; do
+                [ -f "$x" ] || continue
+                rel=${x#"$HOME"/}
+                set -- "$@" "$rel"
+            done
+            ;;
+        *)
+            [ -e "$HOME/$line" ] && set -- "$@" "$line"
+            ;;
+    esac
+done
+
+(
+    cd "$HOME" || exit 1
+   # tar czf - "$@" | ssh -- "$remote" 'tar xzf - -C "$HOME/tdir"'
+   tar czf home.tgz "$@"
+)
+
+echo "remote: $remote"
+echo "files:"
+echo "$@"
+
+exit 0
+
