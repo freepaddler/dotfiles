@@ -45,9 +45,9 @@ done
    tar cf - "$@" | gzip -c | ssh -- "$dst" 'gzip -dc | tar xpf - -C "$HOME"'
 )
 
-echo "remote: $remote"
-echo "files:"
-echo "$@"
+#echo "remote: $remote"
+#echo "files:"
+#echo "$@"
 
 exit 0
 
