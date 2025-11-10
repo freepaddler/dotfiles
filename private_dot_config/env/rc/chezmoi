@@ -1,13 +1,8 @@
-# vim: filetype=bash
+# vim: ft=bash
 _env_cmd chezmoi || return
+[ -d "$(chezmoi source-path)" ] || return
 
-if ! chezmoi source-path >/dev/null 2>&1; then
-    alias czup="chezmoi init --force --purge --apply freepaddler"
-    alias cz-init="chezmoi init --apply freepaddler"
-    return
-fi
-
-# chezmoi state
+# echo chezmoi state
 if [ -z "$TMUX" ]; then
     _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'cz-state') ")
     _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
@@ -18,6 +13,7 @@ if [ -z "$TMUX" ]; then
     unset _verify _uncommitted _unpushed
 fi
 
+unset -f czup 2>/dev/null
 alias cz="chezmoi "
 alias czup="chezmoi update && resrc"
 alias czap="chezmoi apply && resrc"
@@ -36,7 +32,7 @@ _env_cmd git && {
             return 1
         fi
         for f in "$@"; do
-            if chezmoi source-path "$f" > /dev/null 2>&1; then
+            if chezmoi source-path "$f" >/dev/null 2>&1; then
                 chezmoi re-add --interactive "$f"
             else
                 echo "add file $f"
@@ -71,7 +67,7 @@ _env_cmd git && {
 
 # remote local install chezmoi
 cz-ssh() {
-    ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --purge --apply freepaddler'
+    ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler; rm -rf $(chezmoi source-path)'
 }
 
 _env_shell zsh && compdef _ssh cz-ssh=ssh

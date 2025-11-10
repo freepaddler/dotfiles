@@ -24,10 +24,11 @@ if has('statusline')
           \ 'subseparator': { 'left': '', 'right': '' },
           \ 'component_function': {
           \     'relmod': 'RelativeModifiedTime',
-          \     'fullpathtrunc': 'TruncateFullPath'
+          \     'fullpathtrunc': 'TruncateFullPath',
+          \     'remotehost': 'RemoteHost'
           \ },
           \ 'active': {
-          \     'left': [ [ 'mode', 'paste' ],
+          \     'left': [ [ 'mode', 'paste' ], [ 'remotehost' ],
           \               [ 'readonly', 'fullpathtrunc', 'modified', 'relmod' ] ]
           \ }
           \ }

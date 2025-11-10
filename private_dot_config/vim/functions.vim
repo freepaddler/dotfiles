@@ -91,3 +91,10 @@ function! ToggleMouse()
         echo "Mouse enabled"
     endif
 endfunction
+
+function! RemoteHost()
+  if !empty($SSH_TTY)
+    return hostname()->split('\.')[0]
+  endif
+  return ''
+endfunction

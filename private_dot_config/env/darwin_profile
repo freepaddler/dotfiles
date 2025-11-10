@@ -19,7 +19,7 @@ fi
 # ~/Library/Python/*/bin
 for pyver in "$HOME"/Library/Python/*; do
     [ -d "$pyver/bin" ] && _env_path_append "$pyver/bin"
-done
+done 2>/dev/null
 unset pyver
 
 umask 0022

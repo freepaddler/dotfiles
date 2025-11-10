@@ -71,6 +71,19 @@ curl_time() {
 EOF
 }
 
+czup() {
+    command -v chezmoi >/dev/null 2>/dev/null ||
+        sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler; rm -rf $(chezmoi source-path) ||
+        { echo "failed to install chezmoi"; return 1; }
+
+    if [ "$(chezmoi state data)" = "null" ]; then
+        chezmoi init --apply --force freepaddler
+    else
+        chezmoi update --apply --force freepaddler
+    fi
+    rm -rf "$(chezmoi source-path)"
+}
+
 # short emacs-style help
 hlp() {
     b="\033[1m"
