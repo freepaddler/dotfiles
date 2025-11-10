@@ -1,0 +1,99 @@
+# vim: ft=zsh
+_env_cmd sshfs || return
+
+__ssh_mount_encode() {
+    printf '%s' "$1" | sed 's|/|__|g'
+}
+
+__ssh_mount_decode() {
+    case $1 in
+        *:*)
+            prefix=${1%%:*}       # everything before :
+            suffix=${1#*:}        # everything after :
+            printf '%s:%s\n' "$prefix" "$(printf '%s' "$suffix" | sed 's|__|/|g')"
+            ;;
+        *)
+            printf '%s\n' "$1"    # no colon → unchanged
+            ;;
+    esac
+}
+
+ssh_mount() {
+    if [ -z "$1" ]; then
+        echo "Usage: ssh_mount [user@]hostname:[path]"
+        exit 1
+    fi
+    safeName=$(__ssh_mount_encode "$1")
+    mntDir=$HOME/mnt/ssh/$safeName
+    mkdir -p "$mntDir"
+    sshfs "$1" -o follow_symlinks,delay_connect "$mntDir" &&  echo $mntDir
+}
+
+ssh_rm_mount() {
+    if [ -z "$1" ]; then
+        echo "Usage: ssh_rm_mount [user@]hostname:[path]"
+        exit 1
+    fi
+    safeName=$(__ssh_mount_encode "$1")
+    mntDir=$HOME/mnt/ssh/$safeName
+    rmdir "$mntDir"
+}
+
+_env_shell zsh && {
+    _sshfs_mixed () {
+        # number of args after the command name
+        local argc=$(( $#words - 1 ))
+
+        if (( argc == 1 )) && [[ ${words[2]} != -* ]]; then
+            _ssh_hosts
+            return
+        fi
+
+        _sshfs
+    }
+    compdef _sshfs_mixed sshfs
+
+    _sshfs_mount() {
+        local ret=1     # assume no matches
+
+        if (( CURRENT == 2 )); then
+            local -a mounts
+
+            # 1) add local mount names
+            mounts=(${HOME}/mnt/ssh/*(/))   # dirs only
+            mounts=(${mounts:t})            # strip path
+            mounts=("${(@f)$(for m in $mounts; do __ssh_mount_decode "$m"; done)}")
+            mounts=("${(@)mounts//:/\\:}")
+            if (( $#mounts )); then
+                _describe -t mounts 'local ssh mounts' mounts && ret=0
+            fi
+
+            # 2) add scp-style ssh completions
+            local service=scp
+            _ssh && ret=0
+        fi
+
+        return ret
+    }
+    compdef _sshfs_mount ssh_mount
+
+    _sshfs_rm_mount () {
+        local ret=1
+        if (( CURRENT ==2 )); then
+            local -a mounts
+            mounts=(${HOME}/mnt/ssh/*(/))
+            mounts=(${mounts:t})
+            mounts=("${(@f)$(for m in $mounts; do __ssh_mount_decode "$m"; done)}")
+            mounts=("${(@)mounts//:/\\:}")
+            if (( $#mounts )); then
+                _describe -t mounts 'local ssh mounts' mounts && ret=0
+            fi
+        fi
+
+        return ret
+    }
+    compdef _sshfs_rm_mount ssh_rm_mount
+
+}
+
+

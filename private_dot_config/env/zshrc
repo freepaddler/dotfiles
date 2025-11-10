@@ -71,7 +71,10 @@ setopt hist_verify
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # cycle through menu on multiple matches with incremental search
 #zstyle ':completion:*' menu select search
-zstyle ':completion:*:*:*:default' menu select search
+#zstyle ':completion:*:*:*:default' menu select search
+# simple menu
+zstyle ':completion:*' menu select=2
+setopt automenu
 # group results by type (files, dirs, etc.)
 zstyle ':completion:*' group-name ''
 # display descriptions like “(directory)” inline
