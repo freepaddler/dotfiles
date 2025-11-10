@@ -1,5 +1,9 @@
 _ENV_SHELL="zsh"
 
+if [ -z "$_ENV_CONFIG_DIR" ]; then
+    . "$HOME/.zprofile"
+fi
+
 . "$_ENV_CONFIG_DIR/zshrc"
 
 return
