@@ -28,7 +28,7 @@ ssh-del-knownhost() {
     unset h safe_h pattern
 }
 
-if _env_is_bash; then
+if _env_shell bash; then
     _env_bash_has_completion ssh || complete -fW \
         "$({ grep -siE '^(host|hostname)' ~/.ssh/config | cut -d' ' -f2; cut -d' ' -f1 ~/.ssh/known_hosts 2> /dev/null; } | grep -v '\*' | sed 's/[][]//g' | sort | uniq)" \
             ssh ssh-copy-id scp sftp sshexit sshmulti sshsingle sshx11 sshnocheck
@@ -36,7 +36,7 @@ if _env_is_bash; then
     _env_bash_clone_completion ssh ssh-del-knownhost
 fi
 
-_env_is_zsh && {
+_env_shell zsh && {
     compdef _ssh_hosts ssh-del-knownhost
     compdef _ssh ssh-cp-env=ssh
 }

@@ -71,6 +71,7 @@ curl_time() {
 EOF
 }
 
+unalias czsup 2>/dev/null
 czup() {
     command -v chezmoi >/dev/null 2>/dev/null ||
         sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler; rm -rf $(chezmoi source-path) ||
