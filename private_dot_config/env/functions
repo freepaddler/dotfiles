@@ -78,7 +78,7 @@ czup() {
         { echo "failed to install chezmoi"; return 1; }
 
     chezmoi init --apply --force freepaddler
-    rm -rf "$(chezmoi source-path)"
+    rm -rf "$(chezmoi source-path)" >/dev/null
 }
 
 # short emacs-style help
