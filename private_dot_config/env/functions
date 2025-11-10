@@ -79,6 +79,8 @@ czup() {
 
     chezmoi init --apply --force freepaddler
     rm -rf "$(chezmoi source-path)" >/dev/null
+    command -v resrc >/dev/null 2>/dev/null && resrc ||
+        echo "source your profile or/and rc to apply changes"
 }
 
 # short emacs-style help
