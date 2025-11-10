@@ -13,12 +13,14 @@ public_files:
   - ".config/"
   - ".config/vim/**"
   - ".config/tmux/**"
+  - ".config/htop/**"
 # env
   - ".config/env/"
   - ".config/env/*"
   - ".config/env/bash/**"
   - ".config/env/zsh/**"
   - ".config/env/rc/"
-  - ".config/env/rc/docker"
   - ".config/env/rc/sudo"
+  - ".config/env/rc/docker"
+  - ".config/env/rc/tmux"
 
