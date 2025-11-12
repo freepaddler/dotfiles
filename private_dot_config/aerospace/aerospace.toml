@@ -23,40 +23,55 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 9 = 'secondary'
 10 = 'main'
 
+# Safari Personal/Private to 1
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
-if.window-title-regex-substring = '^Personal'
-if.during-aerospace-startup = true
+if.window-title-regex-substring = '(^Personal|^Watching|Private Browsing)'
 run = 'move-node-to-workspace 1'
 
+# Safari others (work) to 4
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
-if.during-aerospace-startup = true
+#if.during-aerospace-startup = true
 run = 'move-node-to-workspace 4'
 
+# Ghostty always 2, but allow in other workspaces
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
 if.during-aerospace-startup = true
 run = 'move-node-to-workspace 2'
 
+# Goland always 3
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.goland'
 run = [ 'move-node-to-workspace 3' ]
 
+# ChatGPT always 9
+[[on-window-detected]]
+if.app-name-regex-substring = 'ChatGPT'
+run = 'move-node-to-workspace 9'
+
+# Everyhere available floating
 [[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
 if.during-aerospace-startup = false
 run = 'layout floating'
 
-# move all other windows to default workspace 10
-# this rule should always be the last
 [[on-window-detected]]
-if.during-aerospace-startup = true
-run = [ 'layout floating' ,'move-node-to-workspace 10' ]
+if.app-id = 'com.apple.calculator'
+if.during-aerospace-startup = false
+run = 'layout floating'
 
+# move all other windows to default workspace 10
+# make them float
+# this rule should always be the last
 [[on-window-detected]]
 if.workspace = '10'
 run = 'layout floating'
+
+[[on-window-detected]]
+#if.during-aerospace-startup = true
+run = [ 'layout floating' ,'move-node-to-workspace 10' ]
 
 
 [mode.main.binding]
