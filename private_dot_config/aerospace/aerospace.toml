@@ -62,6 +62,10 @@ if.app-id = 'com.apple.calculator'
 if.during-aerospace-startup = false
 run = 'layout floating'
 
+[[on-window-detected]]
+if.app-id = 'com.apple.LocalAuthentication.UIAgent'
+run = 'layout floating'
+
 # move all other windows to default workspace 10
 # make them float
 # this rule should always be the last
