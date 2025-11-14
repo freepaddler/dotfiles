@@ -1,7 +1,7 @@
 # vim: ft=bash
 if [ -d "$XDG_CONFIG_HOME/yandex-cloud" ]; then
     _env_cmd yc ||
-        alias yc="docker run -it --rm -v \"$XDG_CONFIG_HOME/.config/yandex-cloud\":/root/.config/yandex-cloud yc "
+        alias yc="docker run -it --rm -v \"$XDG_CONFIG_HOME/.config/yandex-cloud\":/root/.config/yandex-cloud yc"
 fi
 
 _env_cmd yc || return 0

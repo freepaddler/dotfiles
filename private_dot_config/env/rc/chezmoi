@@ -14,7 +14,7 @@ if [ -z "$TMUX" ]; then
 fi
 
 unset -f czup 2>/dev/null
-alias cz="chezmoi "
+alias cz="chezmoi"
 alias czup="chezmoi update && resrc"
 alias czap="chezmoi apply && resrc"
 alias cz-state="chezmoi status --exclude=scripts"

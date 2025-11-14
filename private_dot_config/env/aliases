@@ -15,7 +15,6 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -="cd -" 2>/dev/null || alias -- -="cd -"
 
 alias cdc="cd ~/.config"
-alias cdt="cd ~/.config/dotfiles"
 alias cdd="cd ~/Documents"
 alias cdl="cd ~/Downloads"
 alias cde="cd ~/dev"
@@ -73,8 +72,8 @@ alias hosts="v /etc/hosts"
 
 ## other
 _env_cmd iptables && {
-    alias iptl="iptables --line-numbers -vnL "
-    alias ipt="iptables "
+    alias iptl="iptables --line-numbers -vnL"
+    alias ipt="iptables"
 }
 
 _env_cmd screen && alias sc="screen -U"

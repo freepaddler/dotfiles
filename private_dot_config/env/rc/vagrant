@@ -1,7 +1,7 @@
 # vim: ft=bash
 _env_cmd vagrant || return
 
-alias vagrant-gui="GUI=1 vagrant "
+alias vagrant-gui="GUI=1 vagrant"
 
 _env_os darwin && {
     fix-vagrant-vmware-utility() {

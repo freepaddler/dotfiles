@@ -18,10 +18,24 @@ set signcolumn=yes      " always who sign column
 " statusline
 if has('statusline')
     set laststatus=2        " statusline show always
+    "let g:lightline = {
+    "      \ 'colorscheme': 'nord',
+    "      \ 'separator': { 'left': '', 'right': '' },
+    "      \ 'subseparator': { 'left': '', 'right': '' },
+    "      \ 'component_function': {
+    "      \     'relmod': 'RelativeModifiedTime',
+    "      \     'fullpathtrunc': 'TruncateFullPath',
+    "      \     'remotehost': 'RemoteHost'
+    "      \ },
+    "      \ 'active': {
+    "      \     'left': [ [ 'mode', 'paste' ], [ 'remotehost' ],
+    "      \               [ 'readonly', 'fullpathtrunc', 'modified', 'relmod' ] ]
+    "
+    "      \ }
+    "      \ }
+    set noshowmode
     let g:lightline = {
           \ 'colorscheme': 'nord',
-          \ 'separator': { 'left': '', 'right': '' },
-          \ 'subseparator': { 'left': '', 'right': '' },
           \ 'component_function': {
           \     'relmod': 'RelativeModifiedTime',
           \     'fullpathtrunc': 'TruncateFullPath',
