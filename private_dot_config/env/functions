@@ -34,6 +34,10 @@ du1() {
     du -hd1 "$@" | sort -h
 }
 
+mkcd() {
+    mkdir "$1" && cd "$1"
+}
+
 # generate passwords
 apg() {
     echo

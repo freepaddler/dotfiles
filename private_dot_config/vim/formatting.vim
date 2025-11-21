@@ -13,7 +13,7 @@ set expandtab               " spaces instead of \t
 
 " indents
 set autoindent              " save ident for new lines
-set smartindent             " indent for code blocks
+"set smartindent             " indent for code blocks
 set pastetoggle=<C-p>       " disable indent on paste
 
 " other

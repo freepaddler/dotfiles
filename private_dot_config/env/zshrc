@@ -78,7 +78,7 @@ setopt automenu
 # group results by type (files, dirs, etc.)
 zstyle ':completion:*' group-name ''
 # display descriptions like “(directory)” inline
-zstyle ':completion:*:descriptions' format '%F{yellow}↳ %d %f'
+zstyle ':completion:*:descriptions' format '%F{8}↳ %d %f'
 
 # make fpath unique (no duplicates) and global
 typeset -gU fpath
@@ -89,7 +89,6 @@ fpath=(
   ${HOMEBREW_PREFIX:+${HOMEBREW_PREFIX}/share/zsh-completions(N-/)}
   $fpath
 )
-
 
 ## init
 # completions
@@ -105,15 +104,17 @@ bashcompinit -u
 # block later re-init
 bashcompinit() { return 0 }
 
-
 ## prompt
-PROMPT='%B%F{green}%n%b'
-if [[ -n "$SSH_TTY" ]]; then
-    PROMPT+='%f@%F{yellow}%m'
+if [[ -f "$_ENV_ZSH_DIR/prompt.zsh" ]]; then
+    source "$_ENV_ZSH_DIR/prompt.zsh"
+else
+    PROMPT='%B%F{green}%n%b'
+    if [[ -n "$SSH_TTY" ]]; then
+        PROMPT+='%f@%F{yellow}%m'
+    fi
+    PROMPT+=$' %F{cyan}%~ \n%F{green}❯%f '
+    PS2='%F{8}↳%f '
 fi
-PROMPT+=$' %F{cyan}%~ \n%F{green}❯%f '
-
-PS2='%F{8}↳%f '
 
 
 ## plugins
@@ -130,22 +131,6 @@ _env_source "$_ENV_CONFIG_DIR/rc"/*(.N)
 
 ## functions
 
-
-## this SHOULD be at the end
-# powerlevel10k prompt
-if [ -f "$_ENV_ZSH_DIR/themes/powerlevel10k/powerlevel10k.zsh-theme" ]; then
-    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-      source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-    fi
-
-    local config="classic"
-    #typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
-    _env_source "$_ENV_ZSH_DIR/themes/powerlevel10k/powerlevel10k.zsh-theme"
-    _env_source "$_ENV_ZSH_DIR/p10k.$config.zsh"
-    _env_source "$_ENV_ZSH_DIR/p10k.$config.override.zsh"
-    typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-    #typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=off
-fi
-
+## bottom
 _env_clean
 return 0
