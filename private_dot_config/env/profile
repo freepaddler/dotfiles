@@ -1,59 +1,39 @@
 # vim: ft=sh
 
 . "$_ENV_CONFIG_DIR/_env_functions"
+_ENV_DEBUG=1
 _env_debug "profile"
 
-export INPUTRC="$_ENV_CONFIG_DIR/inputrc"
-
-# --- Pagers and block sizes ---
 export BLOCKSIZE="K"  # used by BSD/macOS tools
-
-# --- Editor/Visual setup for vi/vim ---
-export VIMINIT='source $XDG_CONFIG_HOME/vim/vimrc'
+export INPUTRC="$_ENV_CONFIG_DIR/inputrc"
+export VIMINIT="source $XDG_CONFIG_HOME/vim/vimrc"
+export PAGER="less"
+export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
+export LSCOLORS="gxfxcxdxbxahahabagacad"
+export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=30;47:cd=34;47:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
 unalias vi vim 2>/dev/null || :
 if _env_cmd vim 2>&1; then
     EDITOR="vim -Xp"
 elif _env_cmd vi; then
     EDITOR="vi"
-else
-    echo "ERROR: vi or vim are not found!"
 fi
 
 VISUAL=$EDITOR
 export VISUAL EDITOR
-alias v="$EDITOR"
 
-# --- PAGER setup ---
-export PAGER="less"
-# -XF to disable alternate screen
-export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
-#if less --help 2>&1 | grep -q -- --mouse; then
-#  export LESS="-F -iR --mouse -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
-#fi
-
-# ---ls color support ---
-# BSD/macOS-specific
-export LSCOLORS="gxfxcxdxbxegedabagacad"
-# Linux-specific
-export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
-
-# --- Locale setup (safe across systems) ---
-# Set UTF-8 Russian locale only if available
 if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
   export LANG=ru_RU.UTF-8
   export LC_CTYPE=ru_RU.UTF-8
   export LC_COLLATE=ru_RU.UTF-8
 fi
-# Standardize interface language and formatting
 export LC_MESSAGES=POSIX
 export LC_NUMERIC=POSIX
 export LC_TIME=POSIX
-# Clear global override (allows category-specific settings)
 export LC_ALL=
 
-
 export CDPATH=.:~
+
 umask 0002
 
 _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_profile"
@@ -65,8 +45,12 @@ _env_path_prepend "$HOME/.local/bin"
 # interactive session
 case "$-" in
     *i*)
+
         # useful if root shell is BASH
         export SUDO_PS1="\n\$([ \$(id -u) -eq 0 ] && printf \"\[\033[1;31m\]\" || printf \"\[\033[1;32m\]\")\u\$([ -n \"\$SSH_TTY\" ] && printf \"\[\033[0m\033[1;37m\]@\[\033[0m\033[0;33m\]\h\") \[\033[0;36m\]\w\[\033[0m\]\n\$([ \$(id -u) -eq 0 ] && printf \"\[\033[1;31m\]"#"\[\033[0m\]\" || printf \"\[\033[1;32m\]$\[\033[0m\]\") "
+
+        _env_source "$_ENV_CONFIG_DIR/functions"
+        _env_source "$_ENV_CONFIG_DIR/aliases"
 
         case "$_ENV_SHELL" in
             bash)
@@ -78,8 +62,6 @@ case "$-" in
                 # do nothing .zshrc will be sourced by zsh
                 ;;
             *)
-                _env_source "$_ENV_CONFIG_DIR/functions"
-                _env_source "$_ENV_CONFIG_DIR/aliases"
                 if [ -n "$PS1" ]; then
                     PS1="\u@\h \w \\$ "
                     PS2="-> "

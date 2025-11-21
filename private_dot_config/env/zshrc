@@ -7,10 +7,6 @@ _env_debug "zshrc"
 _ENV_ZSH_DIR="$_ENV_CONFIG_DIR/zsh"
 _env_clean_add _ENV_ZSH_DIR
 
-_env_source "$_ENV_CONFIG_DIR/aliases"
-_env_source "$_ENV_CONFIG_DIR/functions"
-
-
 ## options
 # word splitting (POSIX)
 setopt sh_word_split

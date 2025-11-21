@@ -45,64 +45,43 @@ _env_cmd() {
 # add PATH to the END
 _env_clean_add _env_path_append
 _env_path_append() {
-    case ":$PATH:" in
-        *":$1:"*) ;;
-        *) PATH=${PATH:+$PATH:}$1 ;;
+    dir="$1"
+    var="${2:-PATH}"
+
+    # (indirect read)
+    eval "cur=\${$var}"
+
+    case ":$cur:" in
+        *":$dir:"*) ;;                    # already present
+        *) cur="${cur:+$cur:}$dir" ;;     # append
     esac
-    _env_debug "path_append $1"
-    export PATH
+
+    _env_debug "path_append $dir -> $var"
+
+    export $var="$cur"
+    unset dir var cur
 }
 
 # add PATH to the BEGINNING
 _env_clean_add _env_path_prepend
 _env_path_prepend() {
-    # remove the existing entry if it exists
-    PATH=$(echo ":$PATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
-    PATH=$1${PATH:+:$PATH}
-    _env_debug "path_prepend $1"
-    export PATH
-}
+    dir="$1"
+    var="${2:-PATH}"
 
-# add INFOPATH to the END
-_env_clean_add _env_infopath_append
-_env_infopath_append() {
-    case ":$INFOPATH:" in
-        *":$1:"*) ;;
-        *) INFOPATH=${INFOPATH:+$INFOPATH:}$1 ;;
-    esac
-    _env_debug "infopath_append $1"
-    export INFOPATH
-}
+    # (indirect read)
+    eval "cur=\${$var}"
 
-# add INFOPATH to the BEGINNING
-_env_clean_add _env_infopath_prepend
-_env_infopath_prepend() {
-    # remove the existing entry if it exists
-    INFOPATH=$(echo ":$INFOPATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
-    INFOPATH=$1${PATH:+:$INFOPATH}
-    _env_debug "infopath_prepend $1"
-    export INFOPATH
-}
+    # Remove any existing occurrences of $dir
+    cur=$(printf '%s\n' ":$cur:" |
+        sed -e "s|:$dir:|:|g" -e 's|^:||;s|:$||')
 
-# add MANPATH to the END
-_env_clean_add _env_manpath_append
-_env_manpath_append() {
-    case ":$MANPATH:" in
-        *":$1:"*) ;;
-        *) MANPATH=${INFOPATH:+$MANPATH:}$1 ;;
-    esac
-    _env_debug "manpath_append $1"
-    export MANPATH
-}
+    # Prepend
+    cur="$dir${cur:+:$cur}"
 
-# add MANPATH to the BEGINNING
-_env_clean_add _env_manpath_prepend
-_env_manpath_prepend() {
-    # remove the existing entry if it exists
-    MANPATH=$(echo ":$MANPATH:" | sed -e "s|:$1:|:|g" -e 's|^:||;s|:$||')
-    MANPATH=$1${PATH:+:$MANPATH}
-    _env_debug "manpath_prepend $1"
-    export MANPATH
+    _env_debug "path_prepend $dir -> $var"
+
+    export $var="$cur"
+        unset dir var cur
 }
 
 # check os against arg

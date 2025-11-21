@@ -1,9 +1,3 @@
-## env setup
-
-+ `.profile` env vars setup + necessary functions
-+ `.bash_profile` -> `.bashrc`, which sources `.profile` first
-+ `.zshenv` sources `.profile`
-
 
 ### reference
 + https://blog.flowblok.id.au/2013-02/shell-startup-scripts.html

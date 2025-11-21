@@ -7,9 +7,6 @@ _env_debug "bashrc"
 _ENV_BASH_DIR="$_ENV_CONFIG_DIR/bash"
 _env_clean_add _ENV_BASH_DIR
 
-_env_source "$_ENV_CONFIG_DIR/aliases"
-_env_source "$_ENV_CONFIG_DIR/functions"
-
 
 ## options
 # auto edit mistakes in path

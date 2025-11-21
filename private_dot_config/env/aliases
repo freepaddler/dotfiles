@@ -5,6 +5,8 @@ alias resrc=". ~/.profile"
 _env_shell zsh && alias resrc=". ~/.zprofile && . ~/.zshrc"
 _env_shell bash && alias resrc=". ~/.bash_profile"
 
+alias v="$EDITOR"
+
 # navigation
 alias ..="cd .."
 alias cd..="cd .."

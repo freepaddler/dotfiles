@@ -12,8 +12,8 @@ if [ -x /opt/homebrew/bin/brew ]; then
     export HOMEBREW_CASK_OPTS="--no-quarantine"
     [ -d /opt/homebrew/bin ] && _env_path_prepend "/opt/homebrew/bin"
     [ -d /opt/homebrew/sbin ] && _env_path_prepend  "/opt/homebrew/sbin"
-    [ -d /opt/homebrew/share/man ] && _env_manpath_prepend "/opt/homebrew/share/man"
-    [ -d /opt/homebrew/share/info ] && _env_infopath_prepend "/opt/homebrew/share/info"
+    [ -d /opt/homebrew/share/man ] && _env_path_prepend "/opt/homebrew/share/man" MANPATH
+    [ -d /opt/homebrew/share/info ] && _env_path_prepend "/opt/homebrew/share/info" INFOPATH
 fi
 
 # ~/Library/Python/*/bin
