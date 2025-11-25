@@ -21,13 +21,16 @@ _env_bash_has_completion() {
 # clone current completion
 _env_clean_add _env_bash_clone_completion
 _env_bash_clone_completion() {
-    if _env_bash_has_completion $1; then
-        complete -r $2 &>/dev/null
-        $(complete -p $1) "$2"
+    if _env_bash_has_completion "$1"; then
+        complete -r "$2" &>/dev/null
+        $(complete -p "$1") "$2"
     fi
 }
 
 # if no bash-completion, let's make out life a little bit easier
-_env_bash_has_completion man || complete -cf man
-_env_bash_has_completion nohup || complete -c -o bashdefault -o default nohup
-_env_bash_has_completion su || complete -c -o bashdefault -o default su
+_env_bash_has_completion man    || complete -cf man
+_env_bash_has_completion nohup  || complete -c  -o bashdefault -o default nohup
+_env_bash_has_completion su     || complete -c  -o bashdefault -o default su
+_env_bash_has_completion sudo   || complete -cf -o bashdefault -o default sudo
+_env_bash_has_completion doas   || complete -cf -o bashdefault -o default doas
+

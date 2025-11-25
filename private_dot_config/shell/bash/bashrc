@@ -13,8 +13,6 @@ _env_clean_add _ENV_BASH_DIR
 shopt -s cdspell
 # do not accept output replacing existing file >| to force
 set -o noclobber
-# return error if any of the commands in pipe chain exit > 0
-#set -o pipefail
 
 
 ## history
@@ -30,27 +28,6 @@ shopt -s cmdhist
 shopt -s lithist
 # show command from history instead running !! !34
 shopt -s histverify
-
-
-## completions
-# bootstrap
-for dir in \
-    /etc/profile.d \
-    ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/etc/profile.d} \
-    /usr/share/bash-completion \
-    /usr/local/share/bash-completion \
-    /opt/local/etc/profile.d
-do
-    [[ -n ${BASH_COMPLETION_VERSINFO-} ]] && break
-    _env_source "$dir/bash_completion.sh"
-done
-unset dir
-
-# load personal completions
-_env_source "$HOME/.bash_completion.d"/* "$_ENV_BASH_DIR/completions"/*
-
-# load helper functions
-_env_source "$_ENV_BASH_DIR/complete_helper"
 
 
 ## prompt
@@ -69,6 +46,27 @@ else
 fi
 
 _env_source "$_ENV_BASH_DIR/prompt"
+
+
+## completions
+if (( BASH_VERSINFO[0] > 4 )); then
+    # bootstrap
+    for dir in \
+        /etc/profile.d \
+        ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/etc/profile.d} \
+        /usr/share/bash-completion \
+        /usr/local/share/bash-completion \
+        /opt/local/etc/profile.d
+    do
+        [[ -n ${BASH_COMPLETION_VERSINFO-} ]] && break
+        _env_source "$dir/bash_completion.sh"
+    done
+    unset dir
+
+    _env_source "$_ENV_BASH_DIR/complete_alias"
+fi
+# load helper functions
+_env_source "$_ENV_BASH_DIR/complete_helper"
 
 
 ## custom rc

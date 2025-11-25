@@ -37,7 +37,7 @@ go-install() {
 
 _env_cmd gup && {
     _env_shell bash && . <(command gup completion bash)
-    _env_shell zsh && . <(command gup completion zsh)
+    _env_shell zsh  && . <(command gup completion zsh)
 
     gup() {
         case $1 in

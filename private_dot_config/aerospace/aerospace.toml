@@ -1,5 +1,7 @@
 # Reference: https://github.com/i3/i3/blob/nehhjt/etc/config
 
+start-at-login = true
+
 # i3 doesn't have "normalizations" feature that why we disable them here.
 # But the feature is very helpful.
 # Normalizations eliminate all sorts of weird tree configurations that don't make sense.
@@ -11,17 +13,16 @@ enable-normalization-opposite-orientation-for-nested-containers = false
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # force window layouts
-#exec-on-workspace-change = [ '/bin/bash', '-c', '''
-#  case "$AEROSPACE_FOCUSED_WORKSPACE" in
-#    3) aerospace layout h_accordion ;;
-#    5) aerospace layout h_accordion ;;
-#  esac
-#  '''
-#]
+after-startup-command = [
+    'workspace 0', 'layout v_accordion',
+    'workspace 1', 'layout h_accordion',
+    'workspace 3', 'layout h_accordion',
+    'workspace 4', 'layout v_accordion',
+]
 
 [workspace-to-monitor-force-assignment]
-9 = 'secondary'
-10 = 'main'
+8 = 'secondary'
+0 = 'main'
 
 # Safari Personal/Private to 1
 [[on-window-detected]]
@@ -29,10 +30,12 @@ if.app-id = 'com.apple.Safari'
 if.window-title-regex-substring = '(^Personal|^Watching|Private Browsing)'
 run = 'move-node-to-workspace 1'
 
-# Safari others (work) to 4
+# Work to 4
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
-#if.during-aerospace-startup = true
+run = 'move-node-to-workspace 4'
+[[on-window-detected]]
+if.app-id = 'ru.yandex.desktop.telemost'
 run = 'move-node-to-workspace 4'
 
 # Ghostty always 2, but allow in other workspaces
@@ -46,15 +49,36 @@ run = 'move-node-to-workspace 2'
 if.app-id = 'com.jetbrains.goland'
 run = [ 'move-node-to-workspace 3' ]
 
-# Markedit always 8
+# finder
 [[on-window-detected]]
-if.app-id = 'app.cyan.markedit'
-run = [ 'move-node-to-workspace 8' ]
+if.app-id = 'com.apple.finder'
+run = 'move-node-to-workspace 9'
 
-# ChatGPT always 9
+# main  always 0
 [[on-window-detected]]
 if.app-name-regex-substring = 'ChatGPT'
-run = 'move-node-to-workspace 9'
+if.during-aerospace-startup = true
+run = 'move-node-to-workspace 0'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace 0'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = 'move-node-to-workspace 0'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = 'move-node-to-workspace 0'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = 'move-node-to-workspace 0'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = 'move-node-to-workspace 0'
 
 # Everyhere available floating
 [[on-window-detected]]
@@ -67,25 +91,24 @@ if.app-id = 'com.apple.calculator'
 if.during-aerospace-startup = false
 run = 'layout floating'
 
+# auth, fingerprint
 [[on-window-detected]]
 if.app-id = 'com.apple.LocalAuthentication.UIAgent'
 run = 'layout floating'
 
-# move all other windows to default workspace 10
-# make them float
-# this rule should always be the last
-[[on-window-detected]]
-if.workspace = '10'
-run = 'layout floating'
 
-[[on-window-detected]]
+# move other windows on startup to workspace 9
+#[[on-window-detected]]
 #if.during-aerospace-startup = true
-run = [ 'layout floating' ,'move-node-to-workspace 10' ]
+#run = [ 'layout floating' ,'move-node-to-workspace 9' ]
+#
+## workspace 0 is always floating
+#[[on-window-detected]]
+#if.workspace = '9'
+#run = 'layout floating'
 
 
 [mode.main.binding]
-    alt-q = 'enable toggle'
-
     # i3 wraps focus by default
     alt-j =         'focus --boundaries-action wrap-around-the-workspace left'
     alt-k =         'focus --boundaries-action wrap-around-the-workspace down'
@@ -101,6 +124,8 @@ run = [ 'layout floating' ,'move-node-to-workspace 10' ]
     # normalizations
     alt-h = 'split horizontal'
     alt-v = 'split vertical'
+    #alt-h = 'join-with horizontal'
+    #alt-v = 'join-with vertical'
 
     alt-f = 'fullscreen'
 
@@ -118,6 +143,7 @@ run = [ 'layout floating' ,'move-node-to-workspace 10' ]
     # should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
     # alt-a = 'focus parent'
 
+    alt-0 = 'workspace 0'
     alt-1 = 'workspace 1'
     alt-2 = 'workspace 2'
     alt-3 = 'workspace 3'
@@ -127,8 +153,8 @@ run = [ 'layout floating' ,'move-node-to-workspace 10' ]
     alt-7 = 'workspace 7'
     alt-8 = 'workspace 8'
     alt-9 = 'workspace 9'
-    alt-0 = 'workspace 10'
 
+    alt-shift-0 = 'move-node-to-workspace 0'
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
     alt-shift-3 = 'move-node-to-workspace 3'
@@ -138,7 +164,6 @@ run = [ 'layout floating' ,'move-node-to-workspace 10' ]
     alt-shift-7 = 'move-node-to-workspace 7'
     alt-shift-8 = 'move-node-to-workspace 8'
     alt-shift-9 = 'move-node-to-workspace 9'
-    alt-shift-0 = 'move-node-to-workspace 10'
 
     alt-shift-c = 'reload-config'
 

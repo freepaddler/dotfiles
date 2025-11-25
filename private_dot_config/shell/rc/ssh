@@ -1,0 +1,96 @@
+# vim: filetype=zsh
+
+(alias sshconfig >/dev/null 2>&1) || alias sshconfig="v ~/.ssh/config && resrc"
+alias sshexit="ssh -O exit"
+alias sshmulti="ssh -M"
+alias sshsingle="ssh -o ControlMaster=no"
+alias sshx11="ssh -Y"
+alias sshnocheck="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+if _env_shell bash; then
+    # basic completion for ssh
+    if ! _env_bash_has_completion ssh; then
+        _ssh_hosts_complete() {
+            local cur hosts
+            cur=${COMP_WORDS[COMP_CWORD]}
+            hosts="$(
+                { grep -siE '^(host|hostname)' "$HOME/.ssh/config" 2>/dev/null | awk '{print $2}';
+                    awk '{print $1}' "$HOME/.ssh/known_hosts" 2>/dev/null;
+                } | grep -v '\*' | sed 's/[][]//g' | sort -u
+            )"
+            COMPREPLY=( $(compgen -W "$hosts" -- "$cur") )
+        }
+
+    complete -f -F _ssh_hosts_complete \
+        ssh ssh-copy-id scp sftp sshexit sshmulti sshsingle sshx11 sshnocheck
+    fi
+
+    _env_bash_clone_completion ssh ssh-cp-env
+fi
+
+_env_shell zsh && {
+    compdef _ssh ssh-cp-env=ssh
+}
+
+# delete record from known_hosts
+ssh_rm_knownhost() {
+    [ $# -eq 0 ] && { echo "nothing to delete from known_hosts"; return 1; }
+
+    khFile="$HOME/.ssh/known_hosts"
+
+    for h in "$@"; do
+        # normalization to known_hosts format
+        case "$h" in
+            *:*)
+                case "$h" in
+                    \[*\]*) ;;  # already bracketed, do nothing
+                    *)
+                        host=${h%:*}   # everything before last :
+                        port=${h##*:}  # everything after last :
+                        h="[$host]:$port"
+                        ;;
+                esac
+                ;;
+        esac
+
+        echo "deleting '$h' from known_hosts"
+
+
+        # Escape dots and build a safe pattern
+        safe_h=$(printf '%s\n' "$h" | sed 's/[].[^$*\/]/\\&/g')
+        pattern="^${safe_h}[ ,]"
+
+        deleted=$(sed -n "/$pattern/p" "$khFile")
+
+        if sed --version >/dev/null 2>&1; then
+            # gnu
+            sed -i "/$pattern/d" "$khFile"
+        else
+            # bsd
+            sed -i '' "/$pattern/d" "$khFile"
+        fi
+
+        printf 'removed lines:\n%s\n\n' "$deleted"
+
+    done
+    unset h safe_h pattern
+}
+
+# completions
+_ssh_known_hosts_complete() {
+    # collect hosts
+    local hosts
+    hosts="$(
+        awk '{print $1}' "$HOME/.ssh/known_hosts" 2>/dev/null |
+        sed 's/[][]//g' |
+        sort -u
+    )"
+
+    local cur
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=( $(compgen -W "$hosts" -- "$cur") )
+}
+
+complete -F _ssh_known_hosts_complete ssh_rm_knownhost
+
+

@@ -3,6 +3,7 @@ fpath+=($_ENV_ZSH_DIR/pure)
 autoload -U promptinit; promptinit
 
 PURE_CMD_MAX_EXEC_TIME=1
+VIRTUAL_ENV_DISABLE_PROMPT=1
 
 zstyle :prompt:pure:user        color 10    # bright-green
 zstyle :prompt:pure:user:root   color 9     # bright-red

@@ -6,6 +6,12 @@ _env_shell zsh && alias resrc=". ~/.zprofile && . ~/.zshrc"
 _env_shell bash && alias resrc=". ~/.bash_profile"
 
 alias v="$EDITOR"
+_env_cmd vim && alias v="vim -Xp"
+
+alias root="su -m root"
+alias sudo="sudo "
+alias doas="doas "
+alias hosts="v /etc/hosts"
 
 # navigation
 alias ..="cd .."
@@ -41,6 +47,12 @@ alias cpr="cp -iRv"
 alias mv="mv -iv"
 alias chmox="chmod +x"
 
+# grep
+alias grep="grep --color"
+_env_cmd igrep || alias igrep="grep -i"
+alias fgrep="fgrep --color"
+alias egrep="egrep --color"
+
 # disk space
 alias du="du -h"
 alias df="df -h"
@@ -62,15 +74,7 @@ fi
 
 alias t="top"
 _env_cmd htop && alias t="htop"
-
-# grep
-alias grep="grep --color"
-_env_cmd igrep || alias igrep="grep -i"
-alias fgrep="fgrep --color"
-alias egrep="egrep --color"
-
-alias root="su -m root"
-alias hosts="v /etc/hosts"
+_env_cmd free && alias f="free -h"
 
 ## other
 _env_cmd iptables && {

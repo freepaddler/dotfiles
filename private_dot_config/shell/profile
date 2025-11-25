@@ -1,7 +1,7 @@
 # vim: ft=sh
 
 . "$_ENV_CONFIG_DIR/_env_functions"
-_ENV_DEBUG=1
+#_ENV_DEBUG=1
 _env_debug "profile"
 
 export BLOCKSIZE="K"  # used by BSD/macOS tools
@@ -12,9 +12,11 @@ export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(
 export LSCOLORS="gxfxcxdxbxahahabagacad"
 export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=30;47:cd=34;47:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
-unalias vi vim 2>/dev/null || :
-if _env_cmd vim 2>&1; then
-    EDITOR="vim -Xp"
+unalias vi vim nvim 2>/dev/null || :
+if _env_cmd nvim; then
+    EDITOR="nvim"
+elif _env_cmd vim; then
+    EDITOR="vim"
 elif _env_cmd vi; then
     EDITOR="vi"
 fi

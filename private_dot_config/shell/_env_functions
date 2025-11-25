@@ -28,7 +28,7 @@ _env_clean() {
 }
 
 # get current environment
-_ENV_OS="$(uname -s 2>/dev/null | tr 'A-Z' 'a-z')"
+_ENV_OS="$(uname -s 2>/dev/null | tr '[:upper:]' '[:lower:]')"
 [ -n "$_ENV_OS" ] || _ENV_OS=unknown
 
 _ENV_SHELL="undefined"
@@ -48,7 +48,7 @@ _env_path_append() {
     dir="$1"
     var="${2:-PATH}"
 
-    # (indirect read)
+    # indirect read
     eval "cur=\${$var}"
 
     case ":$cur:" in
@@ -108,24 +108,4 @@ _env_source() {
     unset f
 }
 
-## add function to run at the very end
-#_env_clean_add _env_run_after_add
-#_env_run_after_add() {
-#   _ENV_RUN_AFTER="$_ENV_RUN_AFTER $*"
-#}
-#
-## run functions at the very end
-#_env_clean_add _env_run_after
-#_env_run_after() {
-#    for f in $_ENV_RUN_AFTER; do
-#        case "$(command -V -- "$f" 2>/dev/null)" in
-#            *"function"*)
-#                _env_debug "run_after $f"
-#                "$f"
-#            ;;
-#        esac
-#    done
-#    unset _ENV_RUN_AFTER f
-#}
-#
 _env_debug "_env_functions: _ENV_CONFIG_DIR=$_ENV_CONFIG_DIR _ENV_OS=$_ENV_OS _ENV_SHELL=$_ENV_SHELL"
