@@ -1,9 +1,10 @@
+# .bashrc
 _ENV_SHELL="bash"
 
 if [ -z "$_ENV_CONFIG_DIR" ]; then
     . "$HOME/.bash_profile"
 else
-    . "$_ENV_CONFIG_DIR/bashrc"
+    . "$_ENV_CONFIG_DIR/bash/bashrc"
 fi
 
 return

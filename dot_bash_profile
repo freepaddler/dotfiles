@@ -1,3 +1,4 @@
+# .bash_profile
 export _ENV_SHELL="bash"
 
 . "$HOME/.profile"

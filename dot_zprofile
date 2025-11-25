@@ -1,3 +1,4 @@
+# .zprofile
 export _ENV_SHELL="zsh"
 
 # word splitting (POSIX)
