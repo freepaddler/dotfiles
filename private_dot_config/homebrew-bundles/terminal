@@ -21,6 +21,7 @@ brew "yazi"         # file manageer
 # utils
 #brew "7zip"         # obsolete by sevenzip
 brew "bat"          # cat/less with highlight
+brew "bat-extras"
 brew "convmv"       # filename encoding conversion
 brew "curl"
 brew "fd"           # find alternative
@@ -35,6 +36,7 @@ brew "gnu-sed"
 brew "htop"
 brew "inetutils"    # telnet, etc
 brew "jq"
+brew "macfuse"      # for sshfs
 brew "poppler"      # preview pdf
 brew "mp3unicode"
 brew "sevenzip"
