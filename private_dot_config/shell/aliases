@@ -6,7 +6,6 @@ _env_shell zsh && alias resrc=". ~/.zprofile && . ~/.zshrc"
 _env_shell bash && alias resrc=". ~/.bash_profile"
 
 alias v="$EDITOR"
-_env_cmd vim && alias v="vim -Xp"
 
 alias root="su -m root"
 alias sudo="sudo "

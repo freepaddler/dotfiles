@@ -6,7 +6,6 @@ _env_debug "profile"
 
 export BLOCKSIZE="K"  # used by BSD/macOS tools
 export INPUTRC="$_ENV_CONFIG_DIR/inputrc"
-export VIMINIT="source $XDG_CONFIG_HOME/vim/vimrc"
 export PAGER="less"
 export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
 export LSCOLORS="gxfxcxdxbxahahabagacad"

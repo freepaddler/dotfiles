@@ -13,7 +13,7 @@ window-height = 36
 window-width = 136
 window-inherit-working-directory = true
 
-#background-opacity = 0.90
+background-opacity = 0.90
 unfocused-split-opacity = 0.80
 split-divider-color = 777777
 
@@ -26,7 +26,7 @@ macos-icon = glass
 #keybind = global:cmd+§=toggle_quick_terminal
 keybind = global:cmd+option+space=toggle_quick_terminal
 quick-terminal-position = right
-quick-terminal-size = 50%,50%
+quick-terminal-size = 50%,60%
 
 # theme
 theme = nord.conf
