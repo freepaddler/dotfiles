@@ -1,13 +1,28 @@
 " deafaults (no colorsheme)
 hi LineNr ctermfg=darkgray
 
-" colorscheme
 if has('termguicolors')
-    set termguicolors
-    colorscheme nord
-    hi LineNr ctermfg=black
-    hi ColorColumn ctermbg=black
+  set termguicolors
 endif
+
+" colorscheme
+colorscheme nord
+hi ColorColumn ctermbg=black
+
+" transparent background
+function! s:ForceTransparentBG() abort
+    highlight! Normal     guibg=NONE ctermbg=NONE
+    highlight! SignColumn guibg=NONE ctermbg=NONE
+    highlight! LineNr     guibg=NONE ctermbg=NONE
+endfunction
+
+augroup AlwaysTransparentBG
+  autocmd!
+  " Run once after startup (whatever colorscheme is active)
+  autocmd VimEnter *       call s:ForceTransparentBG()
+  " Run again after ANY :colorscheme
+  "autocmd ColorScheme *    call s:ForceTransparentBG()
+augroup END
 
 set cursorline          " higlight current line
 set number              " line numbering

@@ -14,7 +14,7 @@ if [ -z "$TMUX" ]; then
 fi
 
 unset -f czup 2>/dev/null
-unset -f cz
+
 cz() {
     args="$@"
     word="$1"
@@ -111,7 +111,6 @@ _env_cmd complete && {
 _env_shell zsh && {
     compdef _ssh cz-ssh=ssh
 }
-    
 
 _env_shell bash && {
     . <(chezmoi completion bash --)
