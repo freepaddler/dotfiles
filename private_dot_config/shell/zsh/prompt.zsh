@@ -5,21 +5,8 @@ autoload -U promptinit; promptinit
 PURE_CMD_MAX_EXEC_TIME=1
 VIRTUAL_ENV_DISABLE_PROMPT=1
 
-zstyle :prompt:pure:user        color 10    # bright-green
-zstyle :prompt:pure:user:root   color 9     # bright-red
-zstyle :prompt:pure:host        color yellow
-zstyle :prompt:pure:path        color cyan
-
-zstyle :prompt:pure:suspended_jobs      color yellow
-zstyle :prompt:pure:prompt:error        color 9     # bright-red
-zstyle :prompt:pure:prompt:success      color green
-zstyle :prompt:pure:prompt:continuation color 8     # bright-black
-
-zstyle :prompt:pure:git:branch  color magenta
-zstyle :prompt:pure:git:dirty   color yellow
-zstyle :prompt:pure:git:stash   show yes
-zstyle :prompt:pure:git:stash   color 12    # bright-blue
-zstyle :prompt:pure:git:arrow   color 12    # bright-blue
+#_env_source "$_ENV_ZSH_DIR/prompt-nord.zsh"
+_env_source "$_ENV_ZSH_DIR/prompt-catppuccin.zsh"
 
 prompt pure
 

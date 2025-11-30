@@ -105,7 +105,7 @@ if [[ -f "$_ENV_ZSH_DIR/prompt.zsh" ]]; then
     source "$_ENV_ZSH_DIR/prompt.zsh"
 else
     PROMPT='%B%F{green}%n%b'
-    if [[ -n "$SSH_TTY" ]]; then
+    if [[ -n "$SSH_CONNECTION" ]]; then
         PROMPT+='%f@%F{yellow}%m'
     fi
     PROMPT+=$' %F{cyan}%~ \n%F{green}❯%f '

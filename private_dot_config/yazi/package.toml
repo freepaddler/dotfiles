@@ -42,3 +42,8 @@ hash = "a20327710c3a8d37ee0972128dcb6a31"
 use = "AdithyanA2005/nord"
 rev = "3a791e9"
 hash = "fa7142cda74a50b271ea212356b40b57"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-macchiato"
+rev = "3edeb49"
+hash = "4127d9d6c96862ed96a7a64b3973a5af"

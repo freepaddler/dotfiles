@@ -29,7 +29,8 @@ quick-terminal-position = right
 quick-terminal-size = 50%,60%
 
 # theme
-theme = nord.conf
+#theme = nord.conf
+theme = Catppuccin Macchiato
 #background = #090909
 
 # cursor options

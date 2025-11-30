@@ -19,7 +19,7 @@ _c() {
 
 _ps_host() {
     # don't show hostname in local session
-    if [[ -n "$SSH_TTY" ]]; then
+    if [[ -n "$SSH_CONNECTION" ]]; then
         printf "%s@%s%s%s" "$(_c)" "$(_c yellow)" "$HOSTNAME" "$(_c)"
     fi
 }

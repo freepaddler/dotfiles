@@ -93,7 +93,7 @@ function! ToggleMouse()
 endfunction
 
 function! RemoteHost()
-  if !empty($SSH_TTY)
+  if !empty($SSH_CONNECTION)
     return hostname()->split('\.')[0]
   endif
   return ''

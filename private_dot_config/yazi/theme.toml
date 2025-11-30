@@ -1,2 +1,3 @@
 [flavor]
-dark = "nord"
+#dark = "nord"
+dark = "catppuccin-macchiato"
