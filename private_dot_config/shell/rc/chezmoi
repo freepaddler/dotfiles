@@ -48,7 +48,7 @@ cz() {
                 chezmoi git -- commit -m "${*:-$(chezmoi git -- status -s)}" -m "$(hostname -s)"
             }
             chezmoi git -- pull --rebase && chezmoi git push
-            printf 'Chezmoi saved to git'
+            printf 'Chezmoi saved to git\n'
             ;;
         add)
             if [ "$#" -lt 1 ]; then
