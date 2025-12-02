@@ -15,7 +15,7 @@ window-inherit-working-directory = true
 
 background-opacity = 0.90
 unfocused-split-opacity = 0.80
-split-divider-color = 777777
+#split-divider-color = 777777
 
 clipboard-trim-trailing-spaces = true
 
@@ -38,5 +38,5 @@ cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 # selection
-#selection-invert-fg-bg = true
+selection-foreground = cell-foreground
 
