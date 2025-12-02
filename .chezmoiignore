@@ -1,4 +1,5 @@
 ### for public hosts/servers
+# list of files in .chezmoidata/.public_files
 {{- if not .private }}
 *
 {{- range $pf := .public_files }}
@@ -16,7 +17,7 @@
 # for all
 **/.git
 **/.DS_Store
-README.md
+*.md
 Vagrantfile
 ish/
 testdata/
@@ -29,8 +30,6 @@ testdata/
 .config/**/*.webp
 .config/**/*.svg
 .config/**/*.bmp
-
-
 
 # ignore on macOS
 {{- if eq .chezmoi.os "darwin" }}

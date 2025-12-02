@@ -8,11 +8,13 @@ brew "age"
 brew "bash"
 brew "bash-completion@2"
 brew "chezmoi"
+brew "neovim"
 brew "tmux"
 
 # tty
 #cask "alacritty"
 cask "ghostty"
+cask "macfuse"      # for sshfs
 
 # file managers
 #brew "superfile"    # file manager
@@ -36,7 +38,6 @@ brew "gnu-sed"
 brew "htop"
 brew "inetutils"    # telnet, etc
 brew "jq"
-brew "macfuse"      # for sshfs
 brew "poppler"      # preview pdf
 brew "mp3unicode"
 brew "sevenzip"
@@ -45,6 +46,4 @@ brew "tree"
 brew "zsh-autosuggestions"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
-
-
 
