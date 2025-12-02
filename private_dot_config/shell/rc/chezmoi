@@ -77,15 +77,42 @@ cz-ssh() {
     ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler; rm -rf $(chezmoi source-path)'
 }
 
-_env_cmd complete && {
+_env_shell zsh && {
+    compdef _ssh cz-ssh=ssh
+
+    _cz_completion() {
+        local -a subcmds=('state' 'up' 'ap' 'save' 'edit' 'diff' 'add')
+        local -a path_subcmds=('edit' 'diff' 'add')
+        local cur first
+
+        cur=${words[CURRENT]}
+        first=${words[2]}
+
+        if (( CURRENT == 2 )); then
+            _describe -t subcommands 'cz subcommand' subcmds
+            return
+        fi
+
+        if (( ${path_subcmds[(Ie)$first]} )); then
+            _files
+        fi
+        return
+    }
+    compdef _cz_completion cz
+}
+
+_env_shell bash && {
+    . <(chezmoi completion bash --)
+    _env_bash_clone_completion ssh cz-ssh
+
     _cz_completion() {
         local words="state up ap save"
         local words_path="edit diff add"
-        local cur prev
+        local cur first
         COMPREPLY=()
 
         cur="${COMP_WORDS[COMP_CWORD]}"
-        prev="${COMP_WORDS[COMP_CWORD-1]}"
+        first="${COMP_WORDS[1]}"
 
         # position 1 after command: suggest all keywords
         if (( COMP_CWORD == 1 )); then
@@ -94,25 +121,12 @@ _env_cmd complete && {
             return 0
         fi
 
-        # if previous word is one that wants a path → complete files/dirs
         for w in $words_path; do
-            if [[ $prev == "$w" ]]; then
-                COMPREPLY=( $(compgen -f -- "$cur") )
-                return 0
+            if [[ $first == "$w" ]]; then
+                compopt -o bashdefault -o default 2>/dev/null
             fi
         done
-
-        # otherwise: no completion (you could fall back to files here if you want)
         return 0
     }
     complete -F _cz_completion cz
-}
-
-_env_shell zsh && {
-    compdef _ssh cz-ssh=ssh
-}
-
-_env_shell bash && {
-    . <(chezmoi completion bash --)
-    _env_bash_clone_completion ssh cz-ssh
 }
