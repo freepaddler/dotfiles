@@ -50,8 +50,6 @@ case "$-" in
         # useful if root shell is BASH
         export SUDO_PS1="\n\$([ \$(id -u) -eq 0 ] && printf \"\[\033[1;31m\]\" || printf \"\[\033[1;32m\]\")\u\$([ -n \"\$SSH_CONNECTION\" ] && printf \"\[\033[0m\033[1;37m\]@\[\033[0m\033[0;33m\]\h\") \[\033[0;36m\]\w\[\033[0m\]\n\$([ \$(id -u) -eq 0 ] && printf \"\[\033[1;31m\]"#"\[\033[0m\]\" || printf \"\[\033[1;32m\]$\[\033[0m\]\") "
 
-        _env_source "$_ENV_CONFIG_DIR/functions"
-        _env_source "$_ENV_CONFIG_DIR/aliases"
 
         case "$_ENV_SHELL" in
             bash)
@@ -63,6 +61,8 @@ case "$-" in
                 # do nothing .zshrc will be sourced by zsh
                 ;;
             *)
+                _env_source "$_ENV_CONFIG_DIR/functions"
+                _env_source "$_ENV_CONFIG_DIR/aliases"
                 if [ -n "$PS1" ]; then
                     PS1="\u@\h \w \\$ "
                     PS2="-> "

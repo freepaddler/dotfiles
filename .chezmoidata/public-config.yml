@@ -13,17 +13,8 @@ public_files:
   - ".config/"
   - ".config/tmux/**"
   - ".config/htop/**"
-## vim
-  - ".config/vim/"
-  - ".config/vim/*"
-  - ".config/vim/autoload/"
-  - ".config/vim/autoload/plug.vim"
-  - ".config/vim/plugged/"
-  - ".config/vim/plugged/lightline.vim/**"
-  - ".config/vim/plugged/nord-vim/**"
-  - ".config/vim/plugged/trailertrash.vim/**"
-  - ".config/vim/plugged/vim-ocsyank/**"
-# env
+  - ".config/vim/**"
+# shell
   - ".config/shell/"
   - ".config/shell/*"
   - ".config/shell/bash/**"

@@ -69,7 +69,9 @@ fi
 _env_source "$_ENV_BASH_DIR/complete_helper"
 
 
-## custom rc
+## common
+_env_source "$_ENV_CONFIG_DIR/functions"
+_env_source "$_ENV_CONFIG_DIR/aliases"
 _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_rc"
 _env_source "$_ENV_CONFIG_DIR/rc"/*
 

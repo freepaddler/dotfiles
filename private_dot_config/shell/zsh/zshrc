@@ -120,7 +120,9 @@ _env_source "$HOMEBREW_PREFIX"/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 _env_source "$HOMEBREW_PREFIX"/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-## cutomized rc
+## common
+_env_source "$_ENV_CONFIG_DIR/functions"
+_env_source "$_ENV_CONFIG_DIR/aliases"
 _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_rc"
 _env_source "$_ENV_CONFIG_DIR/rc"/*(.N)
 

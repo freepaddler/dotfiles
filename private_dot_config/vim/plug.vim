@@ -8,11 +8,6 @@ silent! call plug#begin()
 Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 let g:oscyank_term = 'default'
 
-" syntax check
-Plug 'dense-analysis/ale'
-nmap [e <Plug>(ale_previous_wrap)
-nmap ]e <Plug>(ale_next_wrap)
-
 " lightline status bar
 Plug 'itchyny/lightline.vim'
 

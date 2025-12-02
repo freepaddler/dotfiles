@@ -1,8 +1,12 @@
 # vim: ft=bash
 _env_cmd bat || return 0
 
-#export BAT_THEME=Nord
-export BAT_THEME="Catppuccin Macchiato"
+mkdir -p "$(bat --config-dir)"
+cat >| "$(bat --config-file)" << EOF
+#--theme="Nord"
+--theme="Catppuccin Macchiato"
+--map-syntax "$XDG_CONFIG_HOME/shell/**:sh"
+EOF
 
 alias less='bat -p'
 man() {
