@@ -9,6 +9,7 @@ alias plu="plutil -p"
 alias o="open "
 alias dsstore-cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 _env_cmd gsed && alias sed="gsed"
+alias gdu="gdu-go --no-color"
 
 ## functions
 
