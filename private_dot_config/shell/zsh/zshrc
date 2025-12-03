@@ -24,18 +24,29 @@ setopt append_create
 
 
 ## key bindings
+bindkey -v
+bindkey '^h' history-search-backward
+bindkey '^j' down-line-or-history
+bindkey '^k' up-line-or-history
+bindkey '^l' history-search-forward
 # emacs key binding
-bindkey -e
-# home, end
-bindkey '^[[H' beginning-of-line
-bindkey '^[[F' end-of-line
-# pgup, pgdown
-bindkey '^[[5~' history-search-backward
-bindkey '^[[6~' history-search-forward
-# delete, insert
-bindkey '^[[3~' delete-char
-bindkey '^[[2~' quoted-insert
+#bindkey -e
+## home, end
+#bindkey '^[[H' beginning-of-line
+#bindkey '^[[F' end-of-line
+## pgup, pgdown
+#bindkey '^[[5~' history-search-backward
+#bindkey '^[[6~' history-search-forward
+## delete, insert
+#bindkey '^[[3~' delete-char
+#bindkey '^[[2~' quoted-insert
 
+# use Ctrl-f to trigger fzf completion
+ZVM_INIT_MODE=sourcing
+fzf_tab() { zle -U "$FZF_COMPLETION_TRIGGER"$'\t'; }
+zle -N fzf_tab
+bindkey -M viins '^F' fzf_tab
+bindkey -M emacs '^F' fzf_tab
 
 ### history
 alias h='history -i -100'
@@ -100,25 +111,6 @@ bashcompinit -u
 # block later re-init
 bashcompinit() { return 0 }
 
-## prompt
-if [[ -f "$_ENV_ZSH_DIR/prompt.zsh" ]]; then
-    source "$_ENV_ZSH_DIR/prompt.zsh"
-else
-    PROMPT='%B%F{green}%n%b'
-    if [[ -n "$SSH_CONNECTION" ]]; then
-        PROMPT+='%f@%F{yellow}%m'
-    fi
-    PROMPT+=$' %F{cyan}%~ \n%F{green}❯%f '
-    PS2='%F{8}↳%f '
-fi
-
-
-## plugins
-# autosuggestions
-_env_source "$HOMEBREW_PREFIX"/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-# syntax highlight
-_env_source "$HOMEBREW_PREFIX"/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 
 ## common
 _env_source "$_ENV_CONFIG_DIR/functions"
@@ -127,7 +119,21 @@ _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_rc"
 _env_source "$_ENV_CONFIG_DIR/rc"/*(.N)
 
 
+## prompt
+PROMPT='%B%F{green}%n%b'
+if [[ -n "$SSH_CONNECTION" ]]; then
+    PROMPT+='%f@%F{yellow}%m'
+fi
+PROMPT+=$' %F{cyan}%~ \n%F{green}❯%f '
+PS2='%F{8}↳%f '
+
+
 ## functions
+
+
+## plugins
+_env_source "$_ENV_ZSH_DIR/zinit.zsh" 
+
 
 ## bottom
 _env_clean
