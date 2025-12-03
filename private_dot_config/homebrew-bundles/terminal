@@ -14,6 +14,7 @@ brew "tmux"
 # tty
 #cask "alacritty"
 cask "ghostty"
+cask "karabiner-elements"
 cask "macfuse"      # for sshfs
 
 # file managers
@@ -43,7 +44,4 @@ brew "mp3unicode"
 brew "sevenzip"
 brew "sipcalc"      # ip calculator
 brew "tree"
-brew "zsh-autosuggestions"
-brew "zsh-completions"
-brew "zsh-syntax-highlighting"
 

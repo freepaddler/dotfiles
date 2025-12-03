@@ -13,7 +13,7 @@ _env_shell zsh && {
 _fzf_preview_file='fzf-preview.sh {}'
 _fzf_preview_dir='tree -C -L 2 {}'
 _fzf_preview_all='[ -d {} ] && tree -C -L 2 {} || \
-                 ( [ -f {} ] && fzf-preview.sh {} || file {} )'
+                 ( [ -f {} ] && fzf-preview.sh {} 2>/dev/null || echo "no preview available" )'
 _fzf_walker_skip='--walker-skip .git,node_modules,Library,Movies,Pictures'
 
 _fzf_height='--height=40%'
@@ -34,7 +34,7 @@ export FZF_DEFAULT_OPTS=" \
     --preview-window='wrap' \
     --preview-label='CTRL-/ to move/hide preview' \
     --bind 'ctrl-/:change-preview-window(down|hidden|)' \
-    --color='bg+:bright-black,hl:cyan,hl+:cyan' \
+    --color='bg+:bright-black,hl:bright-cyan,hl+:bright-cyan' \
     --color='pointer:bright-red,marker:red' \
     --color='border:bright-black,preview-label:bright-cyan'
 "
