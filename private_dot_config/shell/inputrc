@@ -53,3 +53,5 @@ set convert-meta    Off
 "\e\e[C": forward-word
 "\e\e[D": backward-word
 
+# vi mode
+#set show-mode-in-prompt on
