@@ -15,6 +15,10 @@ set visible-stats   On
 # show nothing in the first line
 set horizontal-scroll-mode  Off
 
+# key mapping
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+
 # allow 8-bit input/output
 set meta-flag       On
 set input-meta      On
@@ -25,10 +29,6 @@ set convert-meta    Off
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
 
-# shift-left, shift-right
-"\e[1;2D": backward-word
-"\e[1;2C": forward-word
-
 # pgup, pgdown
 "\e[5~": history-search-backward
 "\e[6~": history-search-forward
@@ -37,13 +37,17 @@ set convert-meta    Off
 "\e[3~": delete-char
 "\e[2~": quoted-insert
 
-# alt-left, alt-right
+# ctrl-left, ctrl-right
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
 
-# ctrl-left, ctrl-right
+# FreeBSD console ctrl-left, ctrl-right
 "\e[5C": forward-word
 "\e[5D": backward-word
+
+# shift-left, shift-right
+"\e[1;2D": backward-word
+"\e[1;2C": forward-word
 
 # meta-shift-left, meta-shit-right
 "\e\e[C": forward-word

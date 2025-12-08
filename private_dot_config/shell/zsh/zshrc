@@ -24,23 +24,12 @@ setopt append_create
 
 
 ## key bindings
-bindkey -v
-bindkey '^h' history-search-backward
-bindkey '^j' down-line-or-history
-bindkey '^k' up-line-or-history
-bindkey '^l' history-search-forward
+bindkey -e
+bindkey          '^n' history-beginning-search-forward
+bindkey          '^p' history-beginning-search-backward
+bindkey -M viins '^n' history-beginning-search-forward
+bindkey -M viins '^p' history-beginning-search-backward
 bindkey -M viins '^[.' insert-last-word
-# emacs key binding
-#bindkey -e
-## home, end
-#bindkey '^[[H' beginning-of-line
-#bindkey '^[[F' end-of-line
-## pgup, pgdown
-#bindkey '^[[5~' history-search-backward
-#bindkey '^[[6~' history-search-forward
-## delete, insert
-#bindkey '^[[3~' delete-char
-#bindkey '^[[2~' quoted-insert
 
 # use Ctrl-f to trigger fzf completion
 ZVM_INIT_MODE=sourcing
