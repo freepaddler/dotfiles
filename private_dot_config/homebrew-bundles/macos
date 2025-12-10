@@ -44,6 +44,7 @@ cask "ukelele"              # remap keyboard
 cask "ungoogled-chromium"   # ungoogled chrome
 # cask "universal-media-server"
 cask "vlc"                  # needed for hls and different video tests, mostly for dev
+cask "wechat"
 cask "whatsapp"
 cask "whisky"               # wine wrapper
 cask "xquartz"              # X-Windows system
