@@ -25,6 +25,24 @@ setopt append_create
 
 ## key bindings
 bindkey -e
+# delete
+bindkey          '^[[3~' delete-char
+# home, end
+bindkey          '^[[1~' beginning-of-line
+bindkey          '^[[4~' end-of-line
+# pgup, pgdown
+bindkey          '^[[5~' history-search-backward
+bindkey          '^[[6~' history-search-forward
+# ctrl-left, ctrl-right
+bindkey          '^[[1;5C' forward-word
+bindkey          '^[[1;5D' backward-word
+# FreeBSD console ctrl-left, ctrl-right
+bindkey          '^[[5C' forward-word
+bindkey          '^[[5D' backward-word
+# shift-left, shift-right
+bindkey          '^[[1;2D' backward-word
+bindkey          '^[[1;2C' forward-word
+
 bindkey          '^n' history-beginning-search-forward
 bindkey          '^p' history-beginning-search-backward
 bindkey -M viins '^n' history-beginning-search-forward
