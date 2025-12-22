@@ -43,8 +43,10 @@ bindkey          '^[[5D' backward-word
 bindkey          '^[[1;2D' backward-word
 bindkey          '^[[1;2C' forward-word
 
+# common
 bindkey          '^n' history-beginning-search-forward
 bindkey          '^p' history-beginning-search-backward
+# vi-mode
 bindkey -M viins '^n' history-beginning-search-forward
 bindkey -M viins '^p' history-beginning-search-backward
 bindkey -M viins '^[.' insert-last-word
