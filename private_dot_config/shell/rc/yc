@@ -5,8 +5,6 @@ if [ -d "$XDG_CONFIG_HOME/yandex-cloud" ]; then
 fi
 
 _env_cmd yc || return 0
-_env_shell bash && . <(yc completion bash)
-_env_shell zsh  && . <(yc completion zsh)
 
 alias yc-profile-list='yc config profile list'
 alias yc-profile-activate='yc config profile activate'
@@ -32,4 +30,25 @@ yc-update() {
     else
         yc components update
     fi
+}
+
+_env_shell bash && {
+    _yc_lazy() {
+        unset -f _yc_lazy
+        complete -r yc
+        source <(yc completion bash)
+        if declare -F __start_yc >/dev/null; then
+            __start_yc
+        fi
+    }
+    complete -o default -o nospace -F _yc_lazy yc
+}
+
+_env_shell zsh && {
+    _yc_lazy() {
+        unfunction _yc_lazy
+        source <(yc completion zsh)
+        zle .complete-word
+    }
+    compdef _yc_lazy yc
 }
