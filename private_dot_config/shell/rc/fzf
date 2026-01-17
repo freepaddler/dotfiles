@@ -10,16 +10,20 @@ _env_shell zsh && {
     compdef _gnu_generic fzf
 }
 
-_fzf_preview_file='fzf-preview.sh {}'
-_fzf_preview_dir='tree -C -L 2 {}'
-_fzf_preview_all='[ -d {} ] && tree -C -L 2 {} || \
-                 ( [ -f {} ] && fzf-preview.sh {} 2>/dev/null || echo "no preview available" )'
-_fzf_walker_skip='--walker-skip .git,node_modules,Library,Movies,Pictures'
+_skip_dir=".git .idea .vscode .cache node_modules \
+    Applications Library Movies Music Pictures .DS_Store"
 
-_fzf_height='--height=40%'
-_fzf_layout='--layout=reverse'
-_fzf_widget_layout='--layout=default'
-_fzf_complt_layout='--layout=default'
+for d in $_skip_dir; do
+    if [ -z "$_fzf_walker_skip" ]; then
+        _fzf_walker_skip="--walker-skip $d"
+    else
+        _fzf_walker_skip="$_fzf_walker_skip,$d"
+    fi
+    _fzf_fd_exclude="$_fzf_fd_exclude -E $d"
+done
+unset _skip_dir
+
+_fzf_preview="--preview '[ -d {} ] && tree -C -L 2 {} || fzf-preview.sh {}'"
 
 _fzf_widget_opts='--border --info=inline --height=40% --layout=reverse'
 if [ -n "$TMUX" ]; then
@@ -28,55 +32,25 @@ if [ -n "$TMUX" ]; then
     _fzf_widget_opts='--border --info=inline --layout=default'
 fi
 
-export FZF_DEFAULT_OPTS=" \
-    --min-height=10 --layout=default \
-    --pointer='>' --marker='>' \
-    --preview-window='wrap' \
-    --preview-label='CTRL-/ to move/hide preview' \
-    --bind 'ctrl-/:change-preview-window(down|hidden|)' \
-    --color='bg+:bright-black,hl:bright-cyan,hl+:bright-cyan' \
-    --color='pointer:bright-red,marker:red' \
-    --color='border:bright-black,preview-label:bright-cyan'
+export FZF_DEFAULT_OPTS="--min-height=10 --layout=default --color=dark,hl:red,hl+:red \
+    --preview-window='wrap' --preview-label='CTRL-/ to move/hide preview' \
+    --bind 'ctrl-/:change-preview-window(down|up|hidden|)' \
 "
 
 export FZF_COMPLETION_TRIGGER='±±'
 export FZF_COMPLETION_OPTS="--border --info=inline --height=40% --layout=reverse"
+export FZF_COMPLETION_PATH_OPTS="--walker file,dir,follow,hidden $_fzf_walker_skip $_fzf_preview"
+export FZF_COMPLETION_DIR_OPTS="--walker dir,follow,hidden $_fzf_walker_skip $_fzf_preview"
 
-export FZF_COMPLETION_PATH_OPTS=" \
-    --walker file,dir,follow,hidden \
-    $_fzf_walker_skip \
-    --preview '$_fzf_preview_all' \
-"
-
-export FZF_COMPLETION_DIR_OPTS=" \
-    --walker dir,follow,hidden \
-    $_fzf_walker_skip \
-    --preview 'tree -C -L 2 {}' \
-"
-
-# Preview file content using bat (https://github.com/sharkdp/bat)
-export FZF_CTRL_T_OPTS=" \
-    $_fzf_widget_opts \
-    --preview '$_fzf_preview_all' \
-    --bind 'ctrl-/:change-preview-window(down|hidden|)' \
-"
+export FZF_CTRL_T_OPTS="$_fzf_widget_opts $_fzf_preview $_fzf_walker_skip"
+export FZF_ALT_C_OPTS="$_fzf_widget_opts $_fzf_preview $_fzf_walker_skip"
 
 # CTRL-Y to copy the command into clipboard using pbcopy
-export FZF_CTRL_R_OPTS=" \
-    $_fzf_widget_opts \
-    --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' \
-    --color header:italic \
-    --header 'CTRL-Y to copy command into clipboard' \
+export FZF_CTRL_R_OPTS="$_fzf_widget_opts \
+    --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' 
+    --color header:italic --header 'CTRL-Y to copy command into clipboard'\
 "
 
-# Print tree structure in the preview window
-export FZF_ALT_C_OPTS=" \
-    $_fzf_widget_opts \
-    --preview '$_fzf_preview_dir' \
-    $_fzf_walker_skip \
-"
-
-unset _fzf_widget_opts _fzf_widget_layout
 
 # Advanced customization of fzf options via _fzf_comprun function
 # - The first argument to the function is the name of the command.
@@ -94,44 +68,37 @@ _fzf_comprun() {
   unset _cmd
 }
 
-unset _fzf_walker_skip _fzf_preview_file _fzf_preview_dir _fzf_preview_all
+unset _fzf_walker_skip _fzf_preview _fzf_widget_opts 
 
 # fd intgration
-_env_cmd fd || return 0
+_env_cmd fd && {
+    FZF_FD_OPTS="--hidden --follow $_fzf_fd_exclude"
 
-_exclude=".git .idea .vscode .cache node_modules \
-           Applications Library Movies Music Pictures .DS_Store"
+    export FZF_DEFAULT_COMMAND="fd $FZF_FD_OPTS"
+    export FZF_ALT_C_COMMAND="fd --type dir $FZF_FD_OPTS"
+    export FZF_CTRL_T_COMMAND="fd $FZF_FD_OPTS"
 
-for d in $_exclude; do
-    _fzf_fd_exclude="$_fzf_fd_exclude -E $d"
-done
-
-export FZF_FD_OPTS="--hidden --follow $_fzf_fd_exclude"
-
-export FZF_DEFAULT_COMMAND="fd $FZF_FD_OPTS"
-export FZF_ALT_C_COMMAND="fd --type dir $FZF_FD_OPTS"
-export FZF_CTRL_T_COMMAND="fd $FZF_FD_OPTS"
-
-# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - First argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-   fd $FZF_FD_OPTS . "$1"
-}
-
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-    fd --type dir $FZF_FD_OPTS . "$1"
-}
-
-_env_shell zsh && {
+    # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+    # - First argument to the function ($1) is the base path to start traversal
+    # - See the source code (completion.{bash,zsh}) for the details.
     _fzf_compgen_path() {
-       fd ${=FZF_FD_OPTS} . "$1"
+        fd $FZF_FD_OPTS . "$1"
     }
+
+    # Use fd to generate the list for directory completion
     _fzf_compgen_dir() {
-        fd --type dir ${=FZF_FD_OPTS} . "$1"
+        fd --type dir $FZF_FD_OPTS . "$1"
+    }
+
+    _env_shell zsh && {
+        _fzf_compgen_path() {
+            fd ${=FZF_FD_OPTS} . "$1"
+        }
+        _fzf_compgen_dir() {
+            fd --type dir ${=FZF_FD_OPTS} . "$1"
+        }
     }
 }
 
-unset _fzf_fd_exclude
+unset _fzf_fd_exclude 
 
