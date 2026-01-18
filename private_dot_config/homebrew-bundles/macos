@@ -11,7 +11,7 @@ cask "drawio"
 cask "enpass"               # password manager
 cask "firefox"
 cask "fluor"                # fn keys by app
-cask "handbrake-app"        # media converter
+#cask "handbrake-app"        # media converter
 cask "hush"                 # Safari cookie/trace block
 cask "iina"                 # video player
 cask "itsycal"              # bar calendar
@@ -28,9 +28,9 @@ cask "microsoft-teams"
 cask "microsoft-word"
 #cask "mediahuman-audio-converter"
 #cask "obsidian"
-cask "ocenaudio"            # audio editor
-cask "outline-manager"      # shadowsocks vpn manager
-# cask "paintbrush"          # simple paining app
+#cask "ocenaudio"            # audio editor
+#cask "outline-manager"      # shadowsocks vpn manager
+#cask "paintbrush"          # simple paining app
 cask "qlmarkdown"           # markdown preview, without mermaid support
 cask "qlvideo"              # video files info and preview
 #cask "quicklook-json"       # obsoleted by syntax-highlight
@@ -42,7 +42,7 @@ cask "telegram"
 #cask "typora"               # markdown editor
 cask "ukelele"              # remap keyboard
 cask "ungoogled-chromium"   # ungoogled chrome
-# cask "universal-media-server"
+#cask "universal-media-server"
 cask "vlc"                  # needed for hls and different video tests, mostly for dev
 cask "wechat"
 cask "whatsapp"
@@ -57,7 +57,7 @@ brew "mas"
 mas "AdGuard for Safari", id: 1440147259    # Safari ad block
 mas "Apple Configurator", id: 1037126344    # to send profiles to iOS
 mas "AudioBookBinder", id: 413969927        # create audiobooks
-mas "Bandwidth+", id: 490461369             # traffic consumption monitor
+#mas "Bandwidth+", id: 490461369             # traffic consumption monitor
 #mas "BBEdit", id: 404009241         # universal text editor
 mas "DNSecure", id: 1533413232      # DNS over secure channels
 #mas "Enpass", id: 732710998         # password manager
@@ -78,12 +78,12 @@ mas "Monit", id: 1014850245         # system resources monitor
 mas "Numbers", id: 409203825
 #mas "One Markdown", id: 1507139439  # markdown editor, bad anchors support
 mas "OneDrive", id: 823766827
-mas "Outline", id: 1356178125       # shadowsocks vpn client
+#mas "Outline", id: 1356178125       # shadowsocks vpn client
 mas "Pages", id: 409201541
 mas "PiPifier", id: 1160374471      # Safari picture-in-picture
 #mas "Telegram", id: 747648890
 mas "Telephone", id: 406825478      # sip phone
-mas "Tomito", id: 1526042938        # tomato timer
+#mas "Tomito", id: 1526042938        # tomato timer
 mas "v2RayTun", id: 6476628951      # v2ray vpn client
 #mas "WhatsApp", id: 310633997
 mas "WireGuard", id: 1451685025     # vpn
