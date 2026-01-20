@@ -55,8 +55,22 @@ bindkey -M viins '^[.' insert-last-word
 ZVM_INIT_MODE=sourcing
 fzf_tab() { zle -U "$FZF_COMPLETION_TRIGGER"$'\t'; }
 zle -N fzf_tab
-bindkey -M viins '^F' fzf_tab
-bindkey -M emacs '^F' fzf_tab
+bindkey -M viins '^G' fzf_tab
+bindkey -M emacs '^G' fzf_tab
+
+# tmux-sessionizer
+tmux_sessionizer_widget() {
+  if [[ -n "$TMUX" ]]; then
+    BUFFER='tmux display-popup -E tmux-sessionizer'
+  else
+    BUFFER='tmux-sessionizer'
+  fi
+  zle accept-line
+}
+zle -N tmux_sessionizer_widget
+
+# bind it (pick your key)
+bindkey '^F' tmux_sessionizer_widget
 
 ### history
 alias h='history -i -100'

@@ -72,6 +72,13 @@ map('n', '<leader><TAB>7', '7gt', { desc = 'Goto tab 7' })
 map('n', '<leader><TAB>8', '8gt', { desc = 'Goto tab 8' })
 map('n', '<leader><TAB>8', '9gt', { desc = 'Goto tab 9' })
 
+-- tmux-sessionizer
+map("n", "<C-f>", function()
+  if vim.env.TMUX == nil then
+    return
+  end
+  vim.cmd("silent !tmux display-popup -E tmux-sessionizer")
+end, { noremap = true, silent = true, desc = 'tmux-sessionizer' })
 
 map('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
 map('n', '<leader>X', '<cmd>!chmod +x %<CR>', { desc = 'Make file executable', silent = true })
