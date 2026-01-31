@@ -1,0 +1,57 @@
+#!/usr/bin/env sh
+
+if command -v tmux1 > /dev/null 2>&1; then 
+    echo "tmux is not installed"
+    exit 1
+fi
+
+shorten_home_path() {
+    local path="$1"
+
+    if [[ -z "$path" ]]; then
+        echo ""
+        return
+    fi
+
+    if [[ "$path" == "$HOME" || "$path" == "$HOME/" ]]; then
+        echo "~"
+    elif [[ "$path" == "$HOME/"* ]]; then
+        local remainder="${path#"$HOME/"}"
+        echo "~/${remainder}"
+    else
+        echo "$path"
+    fi
+}
+
+has_session() {
+    tmux list-sessions | grep -q "^$1:"
+}
+
+count_sessions() {
+    tmux list-sessions | wc -l
+}
+
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        tmux attach-session -t "=$1"
+    else
+        tmux switch-client -t "=$1"
+    fi
+}
+
+arg="$1"
+path="$arg"
+if [ -z "$arg" ]; then
+    path="$HOME"
+fi
+target="$(shorten_home_path "$path")"
+
+if ! has_session "$target"; then
+    tmux new-session -ds "$target" -c "$path"
+fi
+switch_to "$target"
+
+if [ -z "$arg" ] && [ "$(count_sessions)" -gt 1 ]; then
+    echo "run choose tree"
+    tmux choose-tree -Zs -t '~:'
+fi
