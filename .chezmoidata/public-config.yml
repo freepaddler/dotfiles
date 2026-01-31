@@ -12,6 +12,8 @@ public_files:
 # config
   - ".config/"
   - ".config/tmux/*"
+  - ".config/tmux/theme/"
+  - ".config/tmux/theme/nord2.conf"
   - ".config/htop/**"
   - ".config/vim/**"
 # shell
