@@ -10,7 +10,7 @@ else
 endif
 set noswapfile
 set nobackup
-set undodir=$XDG_DATA_HOME/vim/undo
+set undodir=$XDG_DATA_HOME/vim/undo//
 set undofile
 
 if has("eval")
@@ -22,7 +22,7 @@ if has("eval")
     " don't write .netrwhist
     let g:netrw_dirhistmax = 0
     let g:netrw_browse_split = 0
-    let g:netrw_banner = 0
+    let g:netrw_banner = 1
     let g:netrw_winsize = 25
 endif
 
