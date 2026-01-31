@@ -42,7 +42,7 @@ done
 
 (
     cd "$HOME" || exit 1
-    tar cf - "$@" | gzip -c | ssh -- "$remote" 'gzip -dc | tar xpof - -C "$HOME"'
+    tar --no-xattrs -cf - "$@" | gzip -c | ssh -- "$remote" 'gzip -dc | tar xpof - -C "$HOME"'
 )
 
 #echo "remote: $remote"
