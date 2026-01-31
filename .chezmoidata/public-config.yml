@@ -11,7 +11,7 @@ public_files:
   - ".ssh/authorized_keys"
 # config
   - ".config/"
-  - ".config/tmux/**"
+  - ".config/tmux/*"
   - ".config/htop/**"
   - ".config/vim/**"
 # shell
