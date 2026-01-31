@@ -21,5 +21,7 @@ public_files:
   - ".config/shell/zsh/**"
   - ".config/shell/rc/"
   - ".config/shell/rc/docker"
-  - ".config/shell/rc/tmux"
-
+# local/bin
+  - ".local/bin/"
+  - ".local/bin/*"
+  - ".local/bin/tm"
