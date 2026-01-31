@@ -34,6 +34,8 @@ nnoremap N Nzzzv
 " move selected block
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+" run latest macro
+nnoremap Q @@
 
 " enchancements
 if has('eval')
