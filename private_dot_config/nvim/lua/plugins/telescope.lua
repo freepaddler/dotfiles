@@ -9,6 +9,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 local actions = require("telescope.actions")
 require('telescope').setup({
     defaults = {
+        hidden = true,
         mappings = {
             i = {
                 ['<C-\\>'] = actions.select_vertical,   -- instead of <C-v>
@@ -22,6 +23,11 @@ require('telescope').setup({
                 ['<C-v>'] = false,
                 ['<C-y>'] = false,
             },
+        },
+    },
+    pickers = {
+        find_files = {
+            hidden = true,
         },
     },
 })

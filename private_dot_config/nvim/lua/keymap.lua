@@ -70,7 +70,7 @@ map('n', '<leader><TAB>5', '5gt', { desc = 'Goto tab 5' })
 map('n', '<leader><TAB>6', '6gt', { desc = 'Goto tab 6' })
 map('n', '<leader><TAB>7', '7gt', { desc = 'Goto tab 7' })
 map('n', '<leader><TAB>8', '8gt', { desc = 'Goto tab 8' })
-map('n', '<leader><TAB>8', '9gt', { desc = 'Goto tab 9' })
+map('n', '<leader><TAB>9', '9gt', { desc = 'Goto tab 9' })
 
 -- tmux-sessionizer
 map("n", "<C-f>", function()
