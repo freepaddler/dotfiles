@@ -1,18 +1,29 @@
 local cmp = require("cmp")
 
+require("luasnip.loaders.from_vscode").lazy_load()
+
 cmp.setup({
     -- No external snippet engine needed.
     -- Neovim 0.11 has built-in snippet support via vim.snippet.
     snippet = {
         expand = function(args)
-            -- Safe even if you don't use snippets now; later LSP may return snippet items.
-            vim.snippet.expand(args.body)
+            require('luasnip').lsp_expand(args.body)
         end,
     },
 
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered({
+            border = "rounded",
+        }),
+        documentation = cmp.config.window.bordered({
+            border = "rounded",
+        }),
+    },
+
+    view = {
+        entries = {
+            follow_cursor = true,
+        },
     },
 
     mapping = cmp.mapping.preset.insert({
@@ -24,7 +35,10 @@ cmp.setup({
     }),
 
     sources = cmp.config.sources({
+        -- { name = 'nvim_lsp' },
+        { name = 'luasnip' },
         { name = "path" },
+    }, {
         { name = "buffer", keyword_length = 2 },
     }),
 })

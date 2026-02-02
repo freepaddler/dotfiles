@@ -4,6 +4,7 @@ vim.keymap.set('n', '<leader>fp', builtin.git_files, { desc = 'Telescope find gi
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fm', builtin.keymaps, { desc = 'Telescope help keymaps' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 
 -- remap split/vsplit
 local actions = require("telescope.actions")
