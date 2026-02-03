@@ -1,0 +1,27 @@
+set keep-english-in-normal-and-restore-in-insert
+
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+" simple leave INSERT mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+"Ctrl+ to move between windows
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" join line leave coursour untouched
+nnoremap J mzJ`z
+" scroll screen with centeringj
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+" search with centering
+nnoremap n nzzzv
+nnoremap N Nzzzv
+" move selected block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+" run latest macro
+nnoremap Q @@
