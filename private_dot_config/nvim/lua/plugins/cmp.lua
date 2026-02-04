@@ -12,12 +12,8 @@ cmp.setup({
     },
 
     window = {
-        completion = cmp.config.window.bordered({
-            border = "rounded",
-        }),
-        documentation = cmp.config.window.bordered({
-            border = "rounded",
-        }),
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
 
     view = {
@@ -35,7 +31,7 @@ cmp.setup({
     }),
 
     sources = cmp.config.sources({
-        -- { name = 'nvim_lsp' },
+        { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = "path" },
     }, {

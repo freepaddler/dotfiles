@@ -1,5 +1,5 @@
 " Quickly time out on keycodes, but never time out on mappings
-set notimeout ttimeout ttimeoutlen=200
+set notimeout ttimeout ttimeoutlen=100
 inoremap <C-c> <Esc>
 nnoremap Q <nop>
 

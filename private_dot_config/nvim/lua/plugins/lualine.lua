@@ -39,18 +39,18 @@ require('lualine').setup({
     extensions = {'lazy'},
     sections = {
         lualine_a = {'mode'},
-        lualine_b = {{'branch',icons_enabled = true},'diagnostics'},
+        lualine_b = {{'branch',icons_enabled = true}},
         lualine_c = {
             { 'filename', path = 3, shorting_target = vim.o.columns - 60 },
-            relModTime, 
+            relModTime,
         },
-        lualine_x = {'fileformat','encoding','filetype'},
+        lualine_x = {'diagnostics','fileformat','encoding','filetype'},
         lualine_y = {'progress'},
         lualine_z = {'location'},
     },
     tabline = {
         lualine_a = {
-            { 
+            {
                 'tabs',
                 max_length = vim.o.columns,
                 mode = 2,

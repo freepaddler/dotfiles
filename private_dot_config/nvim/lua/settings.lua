@@ -14,8 +14,11 @@ vim.opt.autoread = true         -- reload on external change if no local changes
 
 vim.opt.updatetime = 200        -- be more responsive (default 4000ms)
 
+vim.opt.timeoutlen = 2000
+
 vim.opt.termguicolors = true
 vim.opt.guicursor = ''          -- avoid cursor mutations
+vim.opt.winborder = 'rounded'
 
 vim.opt.wrap = true
 

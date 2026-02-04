@@ -1,15 +1,20 @@
-
 local plugins = {
     {
-        'nvim-telescope/telescope.nvim', tag = 'v0.1.9',
-        dependencies = { 'nvim-lua/plenary.nvim' },
+        'nvim-telescope/telescope.nvim',
+        tag = 'v0.1.9',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope-ui-select.nvim',
+        },
         config = function()
             require('plugins.telescope')
         end,
     },
     {
         "nvim-treesitter/nvim-treesitter",
-        branch = 'master', lazy = false, build = ":TSUpdate",
+        branch = 'master',
+        lazy = false,
+        build = ":TSUpdate",
         config = function()
             require('plugins.treesitter')
         end,
@@ -35,7 +40,7 @@ local plugins = {
     },
     {
         'nvim-neo-tree/neo-tree.nvim',
-        dependencies= {
+        dependencies = {
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
             "nvim-tree/nvim-web-devicons",
@@ -51,7 +56,7 @@ local plugins = {
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-emoji',
+            'hrsh7th/cmp-nvim-lsp',
 
             -- snippets
             "L3MON4D3/LuaSnip",
@@ -62,18 +67,33 @@ local plugins = {
             require('plugins.cmp')
         end,
     },
--- ui
+    {
+        'neovim/nvim-lspconfig',
+        dependencies = {
+            'williamboman/mason.nvim',
+            'williamboman/mason-lspconfig.nvim',
+        },
+        config = function()
+            require('plugins.lsp')
+        end,
+    },
+    -- ui
     -- themes
     {
         'gbprod/nord.nvim',
-        enabled = false, lazy = false, priority = 1000,
+        enabled = false,
+        lazy = false,
+        priority = 1000,
         config = function()
             require('plugins.nord')
         end,
     },
     {
-        'catppuccin/nvim', name = 'catppuccin',
-        enabled = true, lazy = false, priority = 1000,
+        'catppuccin/nvim',
+        name = 'catppuccin',
+        enabled = true,
+        lazy = false,
+        priority = 1000,
         config = function()
             require('plugins.catppuccin')
         end,
@@ -81,7 +101,8 @@ local plugins = {
     -- status line
     {
         'nvim-lualine/lualine.nvim',
-        enabled = true, lazy = false,
+        enabled = true,
+        lazy = false,
         config = function()
             require('plugins.lualine')
         end,
@@ -100,7 +121,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
             { 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
-            { out, 'WarningMsg' },
+            { out,                            'WarningMsg' },
             { '\nPress any key to exit...' },
         }, true, {})
         vim.fn.getchar()
@@ -109,4 +130,4 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup(plugins,options)
+require('lazy').setup(plugins, options)

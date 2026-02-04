@@ -11,11 +11,12 @@ local actions = require("telescope.actions")
 require('telescope').setup({
     defaults = {
         hidden = true,
+        prompt_prefix = '🔍 ',
         mappings = {
             i = {
-                ['<C-\\>'] = actions.select_vertical,   -- instead of <C-v>
-                ['<C-->'] = actions.select_horizontal,  -- instead of <C-y>
-                ['<C-v>'] = false,                      -- disable original
+                ['<C-\\>'] = actions.select_vertical,  -- instead of <C-v>
+                ['<C-->'] = actions.select_horizontal, -- instead of <C-y>
+                ['<C-v>'] = false,                     -- disable original
                 ['<C-y>'] = false,
             },
             n = {
@@ -31,4 +32,11 @@ require('telescope').setup({
             hidden = true,
         },
     },
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_cursor {}
+        }
+    }
 })
+
+require("telescope").load_extension("ui-select")

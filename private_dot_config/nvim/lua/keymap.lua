@@ -3,7 +3,7 @@ vim.g.mapleader = ' '
 local map = vim.keymap.set
 
 map('n', '<leader>e', vim.cmd.Ex, { desc = 'Explorer' })
-map('n', '<leader>b', '<cmd>ls<CR>:b', { desc = 'Buffers quick actions' })
+map('n', '<leader>b', '<md>ls<CR>:b', { desc = 'Buffers quick actions' })
 
 -- yank/delete/change
 map({'n','v'}, '<leader>y', [["+y]], { desc = 'Yank to clipboard' })
@@ -80,25 +80,29 @@ map("n", "<C-f>", function()
   vim.cmd("silent !tmux display-popup -E tmux-sessionizer")
 end, { noremap = true, silent = true, desc = 'tmux-sessionizer' })
 
-map('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
-map('n', '<leader>X', '<cmd>!chmod +x %<CR>', { desc = 'Make file executable', silent = true })
-
-map('n', '<leader>F', vim.lsp.buf.format, { desc = 'Format with lsp' })
 -- quickfix entry
-map('n', ']q', '<cmd>cnext<CR>zz')
-map('n', '[q', '<cmd>cprev<CR>zz')
+map('n', '<leader>[p', '<cmd>copen<CR>',  { desc = 'Quickfix open' })
+map('n', '<leader>]p', '<cmd>cclose<CR>', { desc = 'Quickfix close' })
+map('n', ']p', '<cmd>cnext<CR>zz', { desc = 'Quickfix next' })
+map('n', '[p', '<cmd>cprev<CR>zz', { desc = 'Quickfix prev' })
 -- location list entry
-map('n', ']l', '<cmd>lnext<CR>zz')
-map('n', '[l', '<cmd>lprev<CR>zz')
+map('n', '<leader>[l', '<cmd>lopen<CR>',  { desc = 'Location open' })
+map('n', '<leader>]l', '<cmd>lclose<CR>', { desc = 'Location close' })
+map('n', ']l', '<cmd>lnext<CR>zz', { desc = 'Location next' })
+map('n', '[l', '<cmd>lprev<CR>zz', { desc = 'Location prev' })
 -- diagnostics entry
+ map('n', '<leader>[d', function()
+  vim.diagnostic.setloclist()
+  vim.cmd('lopen')
+end, { desc = 'Diagnostics → location list (open)' })
 map('n', ']d', function()
   vim.diagnostic.goto_next()
   vim.cmd('normal! zz')
-end)
+end, { desc = 'Diagnostics next' })
 map('n', '[d', function()
   vim.diagnostic.goto_prev()
   vim.cmd('normal! zz')
-end)
+end, { desc = 'Diagnostics prev' })
 
 -- save file with sudo instead of reopening
 vim.cmd([[
@@ -111,6 +115,10 @@ vim.cmd([[
   cmap w!! WForce
   cmap WQ! WForceQuit
 ]])
+
+-- misc
+map('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
+map('n', '<leader>X', '<cmd>!chmod +x %<CR>', { desc = 'Make file executable', silent = true })
 
 -- block cursor keys
 map({'n','i','v'}, '<Up>',    [[<cmd>echo 'Use k'<CR>]])
