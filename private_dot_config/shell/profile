@@ -41,6 +41,7 @@ _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_profile"
 
 # PATH
 _env_path_append "$HOME/go/bin"
+_env_path_prepend "$XDG_DATA_HOME/nvim/mason/bin"
 _env_path_prepend "$HOME/.local/bin"
 
 # interactive session

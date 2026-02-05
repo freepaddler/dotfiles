@@ -1,5 +1,5 @@
 -- store save time on each write
-vim.api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd('BufWritePost', {
     callback = function()
         vim.b.file_saved_time = os.time()
     end
@@ -8,12 +8,12 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 local function relModTime()
     local saved = vim.b.file_saved_time
     if not saved then
-        return ""
+        return ''
     end
 
     local diff = os.time() - saved
     if diff <= 0 then
-        return ""
+        return ''
     end
 
     local h = math.floor(diff / 3600)
@@ -21,11 +21,11 @@ local function relModTime()
     local s = diff % 60
 
     if h > 0 then
-        return string.format("%dh%dm ago", h, m)
+        return string.format('%dh%dm ago', h, m)
     elseif m > 0 then
-        return string.format("%dm ago", m)
+        return string.format('%dm ago', m)
     else
-        return string.format("%ds ago", s)
+        return string.format('%ds ago', s)
     end
 end
 
@@ -36,17 +36,17 @@ require('lualine').setup({
         component_separators = { left = '|', right = '|' },
         section_separators = { left = '', right = '' },
     },
-    extensions = {'lazy'},
+    extensions = { 'lazy' },
     sections = {
-        lualine_a = {'mode'},
-        lualine_b = {{'branch',icons_enabled = true}},
+        lualine_a = { 'mode' },
+        lualine_b = { { 'branch', icons_enabled = true } },
         lualine_c = {
             { 'filename', path = 3, shorting_target = vim.o.columns - 60 },
             relModTime,
         },
-        lualine_x = {'diagnostics','fileformat','encoding','filetype'},
-        lualine_y = {'progress'},
-        lualine_z = {'location'},
+        lualine_x = { 'diagnostics', 'fileformat', 'encoding', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' },
     },
     tabline = {
         lualine_a = {

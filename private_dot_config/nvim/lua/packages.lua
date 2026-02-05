@@ -11,10 +11,10 @@ local plugins = {
         end,
     },
     {
-        "nvim-treesitter/nvim-treesitter",
+        'nvim-treesitter/nvim-treesitter',
         branch = 'master',
         lazy = false,
-        build = ":TSUpdate",
+        build = ':TSUpdate',
         config = function()
             require('plugins.treesitter')
         end,
@@ -41,15 +41,16 @@ local plugins = {
     {
         'nvim-neo-tree/neo-tree.nvim',
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "MunifTanjim/nui.nvim",
-            "nvim-tree/nvim-web-devicons",
+            'nvim-lua/plenary.nvim',
+            'MunifTanjim/nui.nvim',
+            'nvim-tree/nvim-web-devicons',
         },
         lazy = false,
         config = function()
             require('plugins.neo-tree')
         end,
     },
+    -- completions
     {
         'hrsh7th/nvim-cmp',
         dependencies = {
@@ -59,19 +60,27 @@ local plugins = {
             'hrsh7th/cmp-nvim-lsp',
 
             -- snippets
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-            "rafamadriz/friendly-snippets",
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+            'rafamadriz/friendly-snippets',
         },
         config = function()
-            require('plugins.cmp')
+            require('plugins.completions')
         end,
     },
+    -- lsp
     {
         'neovim/nvim-lspconfig',
         dependencies = {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
+            -- formatter
+            'stevearc/conform.nvim',
+            -- linter
+            'mfussenegger/nvim-lint',
+            -- code actions
+            'nvimtools/none-ls.nvim',
+            'gbprod/none-ls-shellcheck.nvim',
         },
         config = function()
             require('plugins.lsp')
@@ -106,7 +115,7 @@ local plugins = {
         config = function()
             require('plugins.lualine')
         end,
-    }
+    },
 }
 
 local options = {

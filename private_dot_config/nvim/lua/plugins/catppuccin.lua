@@ -2,7 +2,7 @@ require('catppuccin').setup({
     flavour = 'macchiato',
     transparent_background = true,
     styles = {
-        conditionals = {}
+        conditionals = {},
     },
-    auto_integrations = true, 
+    auto_integrations = true,
 })

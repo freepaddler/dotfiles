@@ -7,7 +7,7 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help ta
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 
 -- remap split/vsplit
-local actions = require("telescope.actions")
+local actions = require('telescope.actions')
 require('telescope').setup({
     defaults = {
         hidden = true,
@@ -33,10 +33,10 @@ require('telescope').setup({
         },
     },
     extensions = {
-        ["ui-select"] = {
-            require("telescope.themes").get_cursor {}
+        ['ui-select'] = {
+            require('telescope.themes').get_cursor {}
         }
     }
 })
 
-require("telescope").load_extension("ui-select")
+require('telescope').load_extension('ui-select')
