@@ -1,5 +1,6 @@
 require('settings')
 require('keymap')
+require('filetypes')
 require('packages')
 
 --vim.cmd.colorscheme 'nord'

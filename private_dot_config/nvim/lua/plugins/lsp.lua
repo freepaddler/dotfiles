@@ -5,19 +5,25 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 ---- packages
 require('mason').setup({
-    ensure_installed = {
-        'prettier',
-        'shellcheck',
-        'shfmt',
+    ui = {
+        icons = {
+            package_installed = '✓',
+            package_pending = '➜',
+            package_uninstalled = '✗'
+        }
     },
 })
 
 require('mason-lspconfig').setup({
     ensure_installed = {
-        'lua_ls',
-        'bashls',
+        'lua_ls', 'bashls',
+        'dockerls', 'docker_compose_language_service',
     },
-    automatic_installation = true,
+    automatic_enable = {
+        exclude = {
+            'docker_language_server',
+        },
+    },
 })
 
 ---- lsp
@@ -44,6 +50,18 @@ vim.lsp.config('bashls', {
     capabilities = capabilities,
 })
 
+vim.lsp.config('dockerls', {
+    capabilities = capabilities,
+})
+
+vim.lsp.config('docker_language_server', {
+    capabilities = capabilities,
+})
+
+vim.lsp.config('docker_compose_language_service', {
+    capabilities = capabilities,
+})
+
 ---- format
 local conform = require('conform')
 conform.setup({
@@ -59,7 +77,7 @@ conform.setup({
     formatters_by_ft = {
         json = { 'prettier' },
         jsonc = { 'prettier' },
-        yaml = { 'prettier' },
+        -- yaml = { 'prettier' },
         markdown = { 'prettier' },
         html = { 'prettier' },
         css = { 'prettier' },
@@ -80,8 +98,7 @@ end, { desc = 'Format with conform (LSP fallback)' })
 ---- lint
 local lint = require('lint')
 lint.linters_by_ft = {
-    --    sh = { 'shellcheck' },
-    --    bash = { 'shellcheck' },
+    dockerfile = { 'hadolint' },
 }
 
 map('n', '<leader>L', lint.try_lint, { desc = 'lint.try_lint' })
