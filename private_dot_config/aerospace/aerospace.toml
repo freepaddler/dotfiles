@@ -14,7 +14,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # force window layouts
 after-startup-command = [
-    'workspace 0', 'layout v_accordion',
+    'workspace 0', 'layout floating',
     'workspace 1', 'layout h_accordion',
     'workspace 3', 'layout h_accordion',
     'workspace 4', 'layout v_accordion',
@@ -38,10 +38,10 @@ run = 'move-node-to-workspace 4'
 if.app-id = 'ru.yandex.desktop.telemost'
 run = 'move-node-to-workspace 4'
 
-# Ghostty always 2, but allow in other workspaces
+# Ghostty always 2
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
-if.during-aerospace-startup = true
+#if.during-aerospace-startup = true
 run = 'move-node-to-workspace 2'
 
 # Goland always 3
@@ -49,36 +49,44 @@ run = 'move-node-to-workspace 2'
 if.app-id = 'com.jetbrains.goland'
 run = [ 'move-node-to-workspace 3' ]
 
+# ChatGPT always 8
+[[on-window-detected]]
+if.app-name-regex-substring = 'ChatGPT'
+run = 'move-node-to-workspace 8'
+[[on-window-detected]]
+if.app-name-regex-substring = 'Codex'
+run = 'move-node-to-workspace 8'
+
 # finder
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace 9'
 
-# main  always 0
-[[on-window-detected]]
-if.app-name-regex-substring = 'ChatGPT'
-if.during-aerospace-startup = true
-run = 'move-node-to-workspace 0'
-
-[[on-window-detected]]
-if.app-id = 'ru.keepcoder.Telegram'
-run = 'move-node-to-workspace 0'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace 0'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.Notes'
-run = 'move-node-to-workspace 0'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.reminders'
-run = 'move-node-to-workspace 0'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.iCal'
-run = 'move-node-to-workspace 0'
+## main  always 0
+#[[on-window-detected]]
+#if.app-name-regex-substring = 'ChatGPT'
+#if.during-aerospace-startup = true
+#run = 'move-node-to-workspace 0'
+#
+#[[on-window-detected]]
+#if.app-id = 'ru.keepcoder.Telegram'
+#run = 'move-node-to-workspace 0'
+#
+#[[on-window-detected]]
+#if.app-id = 'com.apple.mail'
+#run = 'move-node-to-workspace 0'
+#
+#[[on-window-detected]]
+#if.app-id = 'com.apple.Notes'
+#run = 'move-node-to-workspace 0'
+#
+#[[on-window-detected]]
+#if.app-id = 'com.apple.reminders'
+#run = 'move-node-to-workspace 0'
+#
+#[[on-window-detected]]
+#if.app-id = 'com.apple.iCal'
+#run = 'move-node-to-workspace 0'
 
 # Everyhere available floating
 [[on-window-detected]]
@@ -96,19 +104,23 @@ run = 'layout floating'
 if.app-id = 'com.apple.LocalAuthentication.UIAgent'
 run = 'layout floating'
 
+# chromium
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
+if.workspace = '0'
+run = 'layout floating'
+[[on-window-detected]]
+if.app-id = 'org.chromium.Chromium'
+run = 'flatten-workspace-tree'
 
-# move other windows on startup to workspace 9
-#[[on-window-detected]]
+# move other windows on startup to workspace 0
+[[on-window-detected]]
 #if.during-aerospace-startup = true
-#run = [ 'layout floating' ,'move-node-to-workspace 9' ]
-#
-## workspace 0 is always floating
-#[[on-window-detected]]
-#if.workspace = '9'
-#run = 'layout floating'
-
+run = [ 'layout floating' ,'move-node-to-workspace 0' ]
 
 [mode.main.binding]
+    alt-b = 'exec-and-forget open -na "Chromium" --args --new-window'
+
     # i3 wraps focus by default
     alt-j =         'focus --boundaries-action wrap-around-the-workspace left'
     alt-k =         'focus --boundaries-action wrap-around-the-workspace down'
