@@ -18,5 +18,6 @@
     "host.docker.internal:5001",
     "host.docker.internal:5002"
   ],
+  "min-api-version": "1.24",
   "userland-proxy": false
 }
