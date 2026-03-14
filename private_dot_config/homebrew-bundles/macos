@@ -1,6 +1,6 @@
 # macos apps
 tap "nikitabobko/tap"
-cask "aerospace"            # tiled window manager
+cask "nikitabobko/tap/aerospace" # tiled window manager
 
 cask "appcleaner"           # prune apps on delete
 cask "bbedit"               # universal text editor
@@ -50,6 +50,7 @@ cask "whisky"               # wine wrapper
 cask "xquartz"              # X-Windows system
 cask "yandex"               # yandex browser
 cask "zerotier-one"         # cloud vpn
+cask "zoom"
 
 # mac app store
 brew "mas"
