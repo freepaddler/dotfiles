@@ -6,6 +6,7 @@ Key rules:
 
 - Anything I edit manually and want to keep should end up tracked by `chezmoi`, unless it is explicitly machine-local, generated, or intentionally excluded from sync.
 - Prefer working from this `.config` tree first, then reconcile the final result with `chezmoi` by checking what is tracked, what drifted, and what still needs to be added, updated, or ignored.
+- Do not commit or push `chezmoi` changes unless I explicitly ask for it. `Add to chezmoi` means `cz add`; `push` means `cz save`. It is normal to keep local working changes in `.config` and pending tracked changes in the local `chezmoi` source repo until I ask to save them.
 - When operating on `chezmoi`, prefer the local `cz` wrapper and run it outside sandbox restrictions when available. Fall back to lower-level `chezmoi` and `git` commands only if the wrapper is unavailable, broken, or insufficient for the task.
 - Preserve config integrity. Many files depend on each other, load in a specific order, or are deployed together. Do not make isolated edits that break cross-file assumptions.
 - Shell config is a single modular system. The profile layer is intended to stay portable across POSIX `sh`, `bash`, and `zsh`. `zsh` is the current primary shell; `bash` remains a supported fallback.
