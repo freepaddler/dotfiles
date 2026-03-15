@@ -2,34 +2,180 @@
 
 AI_MODEL=qwen-fast
 AI_MODEL_CLI=qwen-cli
+AI_MODEL_MAX=qwen-max
 AI_KEEPALIVE=30m
+AI_CONTEXT_MAX_KB=256
+AI_COMMAND_SPECS=$(cat <<'EOF'
+analyze|General analysis|Analyze the provided input and answer the user's request concisely.
+summarize|Short summary|Summarize the provided input briefly and focus on the most important points.
+incident|Incident review|Analyze the provided input as an incident. Identify what failed, likely sequence, and probable cause. Be concise.
+inspect|Explain input|Inspect the provided input and explain how it works or what it means. Be concise and practical.
+extract|Pull specific data|Extract exactly what the user's request asks for from the provided input. Prefer concrete results over broad commentary.
+transform|Rewrite or reshape input|Transform the provided input according to the user's request. Return the transformed result directly and keep extra commentary to a minimum.
+diff|Review patches and diffs|Review the provided diff or patch. Focus on behavior changes, risks, regressions, and anything suspicious. Be concise and concrete.
+EOF
+)
 
 _ollama_run() {
     ollama run --keepalive "$AI_KEEPALIVE" "$@"
 }
 
-ai() {
-    local execute=0
-    local prompt model result input cmd confirm
+_ai_byte_count() {
+    LC_ALL=C printf '%s' "$1" | wc -c | tr -d ' '
+}
 
-    case "$1" in
-        -h | --help)
-            cat << 'EOF'
+_ai_context_limit_bytes() {
+    printf '%s\n' $((AI_CONTEXT_MAX_KB * 1024))
+}
+
+_ai_check_input_limit() {
+    local label="$1"
+    local content="$2"
+    local limit
+    local size
+
+    limit="$(_ai_context_limit_bytes)"
+    size="$(_ai_byte_count "$content")"
+    if [ "$size" -gt "$limit" ]; then
+        printf 'ai input too large: %s is %s bytes, limit is %s bytes\n' "$label" "$size" "$limit" >&2
+        return 1
+    fi
+}
+
+_ai_has_command() {
+    local name="$1"
+    while IFS='|' read -r cmd _; do
+        [ -n "$cmd" ] || continue
+        [ "$cmd" = "$name" ] && return 0
+    done <<EOF
+$AI_COMMAND_SPECS
+EOF
+    return 1
+}
+
+_ai_get_command_field() {
+    local name="$1"
+    local field="$2"
+    local cmd description prompt
+
+    while IFS='|' read -r cmd description prompt; do
+        [ -n "$cmd" ] || continue
+        if [ "$cmd" = "$name" ]; then
+            case "$field" in
+                description) printf '%s\n' "$description" ;;
+                prompt) printf '%s\n' "$prompt" ;;
+            esac
+            return 0
+        fi
+    done <<EOF
+$AI_COMMAND_SPECS
+EOF
+    return 1
+}
+
+_ai_maybe_switch_to_max() {
+    local label="$1"
+    local content="$2"
+    local limit
+    local size confirm
+
+    limit="$(_ai_context_limit_bytes)"
+    size="$(_ai_byte_count "$content")"
+    if [ "$size" -le "$limit" ]; then
+        return 1
+    fi
+
+    if [ ! -r /dev/tty ] || [ ! -w /dev/tty ]; then
+        printf 'ai input too large for %s: %s is %s bytes, limit is %s bytes\n' "$AI_MODEL" "$label" "$size" "$limit" >&2
+        printf 'Run with a smaller input or use %s explicitly in a future max mode.\n' "$AI_MODEL_MAX" >&2
+        return 2
+    fi
+
+    printf 'ai input too large for %s: %s is %s bytes, limit is %s bytes\n' "$AI_MODEL" "$label" "$size" "$limit" >/dev/tty
+    printf 'Switch to %s? [y/N] ' "$AI_MODEL_MAX" >/dev/tty
+    read -r confirm </dev/tty
+    case "$confirm" in
+        y | Y) return 0 ;;
+        *) return 2 ;;
+    esac
+}
+
+_ai_print_help() {
+    local name description prompt
+
+    cat <<EOF
 Usage:
   ai QUERY
+  ai [FILE ...] -- QUERY
   ai run QUERY
   ai ! QUERY
   COMMAND | ai QUERY
 
-Behavior:
-  Without stdin, ai uses qwen-cli for short CLI help.
-  With stdin, ai uses qwen-fast to analyze the input data.
+Runtime modes:
+  cli
+    Trigger: no stdin and no files
+    Model: $AI_MODEL_CLI
+    Purpose: short CLI help and shell commands
+  data-fast
+    Trigger: stdin or files within fast limits
+    Model: $AI_MODEL
+    Limit: each stdin or file input <= $AI_CONTEXT_MAX_KB KB
+  data-max
+    Trigger: oversized stdin or files after confirmation
+    Model: $AI_MODEL_MAX
+    Note: non-interactive oversized input is rejected instead of prompting
+
+Data mode routing:
+  If ai sees stdin or one or more files, it switches to data mode.
+  If no subcommand is given, ai sends the input and query without a predefined command prompt.
+  run/! are only supported in cli mode.
+
+Commands:
+EOF
+
+    while IFS='|' read -r name description prompt; do
+        [ -n "$name" ] || continue
+        printf '  %s\n' "$name"
+        printf '    Description: %s\n' "$description"
+        printf '    Prompt: %s\n' "$prompt"
+    done <<EOF
+$AI_COMMAND_SPECS
+EOF
+
+    cat <<'EOF'
 
 Examples:
   ai 'find files older than 5 days'
   ai run 'find files named rc in current directory tree'
-  git diff | ai 'summarize suspicious changes'
+  ai ! 'list docker containers running'
+  ai db_crash.log -- 'find the root cause'
+  ai summarize db_crash.log -- 'summarize the failure briefly'
+  ai extract access.log -- 'extract all client IPs'
+  ai transform handler.go -- 'rewrite this in a simpler style'
+  git diff | ai diff 'review risky changes'
+  journalctl -u nginx | ai incident 'what failed first and why'
 EOF
+}
+
+ai() {
+    local execute=0
+    local command=
+    local prompt model result input cmd confirm
+    local data_mode=0
+    local use_max=0
+    local query=
+    local file_content
+    local arg
+    local saw_query=0
+    local data_input=
+    local data_has_input=0
+    local has_stdin=0
+    local -a files
+    local -a query_parts
+
+    case "$1" in
+        -h | --help)
+            _ai_print_help
             return 0
             ;;
     esac
@@ -39,20 +185,108 @@ EOF
         shift
     fi
 
-    prompt="$*"
-    model="$AI_MODEL_CLI"
+    if _ai_has_command "$1"; then
+        command="$1"
+        shift
+    fi
 
     if [ ! -t 0 ]; then
-        model="$AI_MODEL"
         input="$(cat)"
-        if [ -n "$prompt" ]; then
-            prompt="$input
-
-$prompt"
-        else
-            prompt="$input"
+        if [ -n "$input" ]; then
+            has_stdin=1
+            data_mode=1
         fi
     fi
+
+    for arg in "$@"; do
+        if [ "$arg" = "--" ] && [ "$saw_query" -eq 0 ]; then
+            saw_query=1
+            continue
+        fi
+
+        if [ "$saw_query" -eq 0 ] && [ -f "$arg" ]; then
+            files+=("$arg")
+            data_mode=1
+            continue
+        fi
+
+        saw_query=1
+        query_parts+=("$arg")
+    done
+
+    query="${query_parts[*]}"
+
+    if [ -n "$command" ] || [ "$data_mode" -eq 1 ]; then
+        if [ "$execute" -eq 1 ]; then
+            printf 'run/! is only supported in cli mode\n' >&2
+            return 2
+        fi
+
+        if [ -n "$input" ]; then
+            if ! _ai_check_input_limit "stdin" "$input"; then
+                _ai_maybe_switch_to_max "stdin" "$input" || return 2
+                use_max=1
+            fi
+            data_has_input=1
+            data_input="==> stdin <==
+$input"
+        fi
+
+        for arg in "${files[@]}"; do
+            file_content="$(cat -- "$arg")"
+            if ! _ai_check_input_limit "$arg" "$file_content"; then
+                _ai_maybe_switch_to_max "$arg" "$file_content" || return 2
+                use_max=1
+            fi
+            if [ -n "$data_input" ]; then
+                data_input="$data_input
+
+==> $arg <==
+$file_content"
+            else
+                data_input="==> $arg <==
+$file_content"
+            fi
+            data_has_input=1
+        done
+
+        if [ "$data_has_input" -eq 0 ]; then
+            printf 'ai %s expects stdin or at least one file\n' "$command" >&2
+            return 2
+        fi
+
+        model="$AI_MODEL"
+        [ "$use_max" -eq 1 ] && model="$AI_MODEL_MAX"
+
+        if [ -n "$command" ]; then
+            prompt="$(_ai_get_command_field "$command" prompt)"
+        fi
+        if [ -n "$command" ] && [ -n "$query" ]; then
+            prompt="$prompt
+
+Request:
+$query"
+        fi
+        if [ -n "$command" ]; then
+            prompt="$prompt
+
+Input:
+$data_input"
+        elif [ -n "$query" ]; then
+            prompt="$data_input
+
+$query"
+        else
+            prompt="$data_input"
+        fi
+
+        result="$(_ollama_run "$model" "$prompt")"
+        printf '%s\n' "$result"
+        return 0
+    fi
+
+    prompt="$query"
+    model="$AI_MODEL_CLI"
 
     if [ "$execute" -eq 1 ]; then
         prompt="Return only the shell command. Do not add explanation, markdown, or extra text.
