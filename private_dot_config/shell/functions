@@ -88,10 +88,9 @@ czup() {
 
     PATH="$bin_dir:$PATH"
     export PATH
-    chezmoi init --apply --force freepaddler
-    rm -rf "$(chezmoi source-path)" >/dev/null
-    command -v resrc >/dev/null 2>/dev/null && resrc ||
-        echo "source your profile or/and rc to apply changes"
+    chezmoi init --apply --force --purge freepaddler
+    [ -f "$HOME/.profile" ] && . "$HOME/.profile" ||
+        echo "source $HOME/.profile to apply changes"
 }
 
 # short emacs-style help

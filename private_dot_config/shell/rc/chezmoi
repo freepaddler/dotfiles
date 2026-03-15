@@ -26,6 +26,10 @@ cz() {
         ap)
             chezmoi apply && resrc
             ;;
+        ssh)
+            shift 1
+            chezmoi ssh "$@"
+            ;;
         edit)
             shift 1
             chezmoi edit --apply "$@"
@@ -63,7 +67,7 @@ cz() {
         add)
             shift 1
             if [ "$#" -lt 1 ]; then
-                chezmoi re-add --interactive
+                chezmoi re-add --interactive && chezmoi git add -u .
             else
                 for f in "$@"; do
                     if chezmoi source-path "$f" >/dev/null 2>&1; then
@@ -83,16 +87,9 @@ cz() {
 
 alias sshconfig="cz edit ~/.ssh/config && resrc"
 
-# remote local install chezmoi
-cz-ssh() {
-    ssh "$@" 'sh <(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb) -- init --force --apply freepaddler; rm -rf $(chezmoi source-path)'
-}
-
 _env_shell zsh && {
-    compdef _ssh cz-ssh=ssh
-
     _cz_completion() {
-        local -a subcmds=('state' 'up' 'ap' 'save' 'edit' 'diff' 'add')
+        local -a subcmds=('state' 'up' 'ap' 'save' 'ssh' 'edit' 'diff' 'add')
         local -a path_subcmds=('edit' 'diff' 'add')
         local cur first
 
@@ -114,10 +111,9 @@ _env_shell zsh && {
 
 _env_shell bash && {
     . <(chezmoi completion bash --)
-    _env_bash_clone_completion ssh cz-ssh
 
     _cz_completion() {
-        local words="state up ap save"
+        local words="state up ap save ssh"
         local words_path="edit diff add"
         local cur first
         COMPREPLY=()
