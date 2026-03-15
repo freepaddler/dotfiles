@@ -77,10 +77,17 @@ EOF
 
 unalias czup 2>/dev/null
 czup() {
+    bin_dir="${HOME}/.local/bin"
     command -v chezmoi >/dev/null 2>/dev/null ||
-        sh -c "$(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb)" ||
+        {
+            mkdir -p "$bin_dir" &&
+            PATH="$bin_dir:$PATH" \
+            sh -c "$(curl -fsLS get.chezmoi.io/lb || wget -qO- get.chezmoi.io/lb)" -- -b "$bin_dir"
+        } ||
         { echo "failed to install chezmoi"; return 1; }
 
+    PATH="$bin_dir:$PATH"
+    export PATH
     chezmoi init --apply --force freepaddler
     rm -rf "$(chezmoi source-path)" >/dev/null
     command -v resrc >/dev/null 2>/dev/null && resrc ||
@@ -115,4 +122,3 @@ ${b}!:1 / !:-1 / !:*${r} - 1st(2nd..)/last/all params of prev command
 "
 unset b r
 }
-

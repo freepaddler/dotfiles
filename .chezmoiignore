@@ -1,14 +1,24 @@
 ### for public hosts/servers
 # list of files in .chezmoidata/.public_files
 {{- if not .private }}
-*
+**
 {{- range $pf := .public_files }}
-  {{- if regexMatch "/$" $pf }}
-!{{$pf}}
-{{$pf}}**
-  {{- else }}
-!{{$pf}}
+  {{- $path := $pf -}}
+  {{- if regexMatch "/\\*\\*$" $pf }}
+    {{- $path = regexReplaceAll "/\\*\\*$" $pf "/" -}}
+  {{- else if regexMatch "/\\*$" $pf }}
+    {{- $path = regexReplaceAll "/\\*$" $pf "/" -}}
   {{- end }}
+  {{- $parts := splitList "/" $path -}}
+  {{- $prefix := "" -}}
+  {{- range $i, $part := $parts }}
+    {{- if eq $part "" }}{{- continue -}}{{- end }}
+    {{- $prefix = print $prefix $part "/" -}}
+    {{- if lt $i (sub (len $parts) 1) }}
+!{{$prefix}}
+    {{- end }}
+  {{- end }}
+!{{$pf}}
 {{- end }}
 # no encrypted files (double-check)
 **/*.age
