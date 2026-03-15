@@ -16,9 +16,7 @@ fi
 unset -f czup 2>/dev/null
 
 cz() {
-    args="$@"
-    word="$1"
-    case "$word" in
+    case "${1-}" in
         state)
             chezmoi status --exclude=scripts; chezmoi git -- status -s
             ;;
@@ -38,16 +36,27 @@ cz() {
             ;;
         save)
             printf 'Saving chezmoi changes to git...\n\n'
-            chezmoi git -- diff --quiet 2>/dev/null || \
-                chezmoi git add .
-
-            chezmoi git -- diff --cached --quiet 2>/dev/null || {
+            if chezmoi git -- diff --cached --quiet 2>/dev/null; then
+                printf 'No staged changes to commit.\n'
+                chezmoi git -- status -s
+                if ! chezmoi git -- diff --quiet 2>/dev/null || \
+                   chezmoi git -- ls-files --others --exclude-standard | grep -q .; then
+                    printf "\nStage intended paths with 'cz add <target>' before saving.\n"
+                    return 1
+                fi
+            else
                 printf 'Changes:\n'
                 chezmoi git -- status -s
                 sleep 2.5
                 printf '\n'
-                chezmoi git -- commit -m "${*:-$(chezmoi git -- status -s)}" -m "$(hostname -s)"
+                chezmoi git -- commit -m "${*:-$(chezmoi git -- status -s)}" -m "$(hostname -s)" || return
+            fi
+
+            chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . || {
+                printf 'No unpushed commits\n'
+                return 0
             }
+
             chezmoi git -- pull --rebase && chezmoi git push
             printf 'Chezmoi saved to git\n'
             ;;
@@ -63,13 +72,13 @@ cz() {
                         echo "add file $f"
                         chezmoi add "$f"
                     fi
+                    chezmoi git add -- "$(chezmoi source-path "$f")"
                 done
             fi
             ;;
-        *) chezmoi $@
+        *) chezmoi "$@"
             ;;
     esac
-    unset word
 }
 
 alias sshconfig="cz edit ~/.ssh/config && resrc"
