@@ -1,0 +1,9 @@
+{
+  "integrations": {
+    "codex": {
+      "models": ["qwen-fast"]
+    }
+  },
+  "last_selection": "codex"
+}
+

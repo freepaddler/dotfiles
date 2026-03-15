@@ -1,0 +1,109 @@
+# vim: ft=bash
+
+AI_MODEL=qwen-fast
+AI_MODEL_CLI=qwen-cli
+AI_KEEPALIVE=30m
+
+_ollama_run() {
+    ollama run --keepalive "$AI_KEEPALIVE" "$@"
+}
+
+ai() {
+    local execute=0
+    local prompt model result input cmd confirm
+
+    case "$1" in
+        -h | --help)
+            cat << 'EOF'
+Usage:
+  ai QUERY
+  ai run QUERY
+  ai ! QUERY
+  COMMAND | ai QUERY
+
+Behavior:
+  Without stdin, ai uses qwen-cli for short CLI help.
+  With stdin, ai uses qwen-fast to analyze the input data.
+
+Examples:
+  ai 'find files older than 5 days'
+  ai run 'find files named rc in current directory tree'
+  git diff | ai 'summarize suspicious changes'
+EOF
+            return 0
+            ;;
+    esac
+
+    if [ "$1" = "!" ] || [ "$1" = "run" ]; then
+        execute=1
+        shift
+    fi
+
+    prompt="$*"
+    model="$AI_MODEL_CLI"
+
+    if [ ! -t 0 ]; then
+        model="$AI_MODEL"
+        input="$(cat)"
+        if [ -n "$prompt" ]; then
+            prompt="$input
+
+$prompt"
+        else
+            prompt="$input"
+        fi
+    fi
+
+    if [ "$execute" -eq 1 ]; then
+        prompt="Return only the shell command. Do not add explanation, markdown, or extra text.
+
+$prompt"
+    fi
+
+    result="$(_ollama_run "$model" "$prompt")"
+
+    if [ "$execute" -eq 0 ]; then
+        printf '%s\n' "$result"
+        return 0
+    fi
+
+    cmd="$(printf '%s\n' "$result" | awk '
+    BEGIN { inblock=0 }
+    /^```/ {
+      if (inblock == 0) { inblock=1; next }
+      else { inblock=0; next }
+    }
+    inblock && NF {
+      print
+      exit
+    }
+    !inblock && NF {
+      print
+      exit
+    }
+  ')"
+
+    if [ -z "$cmd" ]; then
+        printf '%s\n' "$result"
+        return 1
+    fi
+
+    case "$cmd" in
+        rm\ * | */rm\ * | sudo\ rm\ * | sudo\ */rm\ * | dd\ * | sudo\ dd\ * | mkfs* | sudo\ mkfs* | shutdown* | sudo\ shutdown* | reboot* | sudo\ reboot* | halt* | sudo\ halt* | poweroff* | sudo\ poweroff* | init\ 0 | init\ 6)
+            printf '\nCommand execution blocked:\n%s\n' "$cmd" >&2
+            return 2
+            ;;
+    esac
+
+    if printf '%s\n' "$cmd" | grep -Fq ':(){ :|:& };:'; then
+        printf '\nCommand execution blocked:\n%s\n' "$cmd" >&2
+        return 2
+    fi
+
+    printf '\nCommand:\n%s\n\n' "$cmd"
+    printf 'Execute? [y/N] '
+    read -r confirm
+    case "$confirm" in
+        y | Y) eval "$cmd" ;;
+    esac
+}
