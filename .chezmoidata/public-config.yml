@@ -27,4 +27,5 @@ public_files:
   - ".config/shell/rc/docker"
 # local/bin
   - ".local/bin/"
+  - ".local/bin/fix-env-packages"
   - ".local/bin/tm"
