@@ -232,6 +232,24 @@ EOF
     return 1
 }
 
+_ai_print_result() {
+    local result="$1"
+
+    if [ -t 1 ]; then
+        if command -v glow >/dev/null 2>&1; then
+            if printf '%s\n' "$result" | glow; then
+                return 0
+            fi
+        fi
+
+        if printf '%s\n' "$result" | less; then
+            return 0
+        fi
+    fi
+
+    printf '%s\n' "$result"
+}
+
 ai() {
     local execute=0
     local command=
@@ -359,7 +377,7 @@ $query"
         fi
 
         result="$(_ollama_run "$model" "$prompt")"
-        printf '%s\n' "$result"
+        _ai_print_result "$result"
         return 0
     fi
 
@@ -375,7 +393,7 @@ $prompt"
     result="$(_ollama_run "$model" "$prompt")"
 
     if [ "$execute" -eq 0 ]; then
-        printf '%s\n' "$result"
+        _ai_print_result "$result"
         return 0
     fi
 

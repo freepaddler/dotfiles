@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -eu
+
+packages="curl jq"
+
+if command -v brew >/dev/null 2>&1; then
+    echo "using brew"
+    brew install vim curl jq
+    exit 0
+fi
+
+if command -v apt-get >/dev/null 2>&1; then
+    echo "using apt-get"
+    sudo apt-get update
+    sudo apt-get install -y vim $packages
+    exit 0
+fi
+
+if command -v dnf >/dev/null 2>&1; then
+    echo "using dnf"
+    sudo dnf install -y vim-enhanced $packages
+    exit 0
+fi
+
+if command -v yum >/dev/null 2>&1; then
+    echo "using yum"
+    sudo yum install -y vim-enhanced $packages
+    exit 0
+fi
+
+if command -v apk >/dev/null 2>&1; then
+    echo "using apk"
+    sudo apk add vim $packages
+    exit 0
+fi
+
+echo "unsupported package manager" >&2
+exit 1
