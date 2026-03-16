@@ -41,11 +41,13 @@ mkdir -p \
   "$FIXTURE_SRC/private_dot_config/tmux/themes" \
   "$FIXTURE_SRC/private_dot_config/vim" \
   "$FIXTURE_SRC/private_dot_config/ghostty" \
+  "$FIXTURE_SRC/private_dot_config/shell/rc" \
   "$FIXTURE_SRC/private_dot_local/bin" \
   "$FIXTURE_SRC/private_dot_ssh" \
   "$FIXTURE_HOME/.config/tmux/themes" \
   "$FIXTURE_HOME/.config/vim" \
   "$FIXTURE_HOME/.config/ghostty" \
+  "$FIXTURE_HOME/.config/shell/rc" \
   "$FIXTURE_HOME/.local/bin" \
   "$FIXTURE_HOME/.ssh" \
   "$PUBLIC_HOME" \
@@ -60,6 +62,7 @@ public_files:
   - ".config/"
   - ".config/tmux/*"
   - ".config/vim/**"
+  - ".config/shell/rc/ai"
   - ".local/bin/"
   - ".local/bin/tm"
 EOF
@@ -144,6 +147,7 @@ printf 'tmux\n' > "$FIXTURE_SRC/private_dot_config/tmux/tmux.conf"
 printf 'theme\n' > "$FIXTURE_SRC/private_dot_config/tmux/themes/nord2.conf"
 printf 'vim\n' > "$FIXTURE_SRC/private_dot_config/vim/vimrc"
 printf 'ghostty\n' > "$FIXTURE_SRC/private_dot_config/ghostty/config"
+printf 'ai\n' > "$FIXTURE_SRC/private_dot_config/shell/rc/ai"
 printf 'tm\n' > "$FIXTURE_SRC/private_dot_local/bin/executable_tm"
 printf 'other\n' > "$FIXTURE_SRC/private_dot_local/bin/executable_other-tool"
 printf 'auth\n' > "$FIXTURE_SRC/private_dot_ssh/private_authorized_keys"
@@ -153,6 +157,7 @@ printf 'tmux\n' > "$FIXTURE_HOME/.config/tmux/tmux.conf"
 printf 'theme\n' > "$FIXTURE_HOME/.config/tmux/themes/nord2.conf"
 printf 'vim\n' > "$FIXTURE_HOME/.config/vim/vimrc"
 printf 'ghostty\n' > "$FIXTURE_HOME/.config/ghostty/config"
+printf 'ai\n' > "$FIXTURE_HOME/.config/shell/rc/ai"
 printf 'tm\n' > "$FIXTURE_HOME/.local/bin/tm"
 printf 'other\n' > "$FIXTURE_HOME/.local/bin/other-tool"
 printf 'auth\n' > "$FIXTURE_HOME/.ssh/authorized_keys"
@@ -190,6 +195,8 @@ assert_file_exists "$PUBLIC_HOME/.profile" "public chezmoi apply should include 
 assert_file_exists "$SSH_COPY_HOME/.profile" "ssh-cp-env should include .profile"
 assert_file_exists "$PUBLIC_HOME/.config/vim/vimrc" "public chezmoi apply should include explicit vim subtree"
 assert_file_exists "$SSH_COPY_HOME/.config/vim/vimrc" "ssh-cp-env should include explicit vim subtree"
+assert_file_exists "$PUBLIC_HOME/.config/shell/rc/ai" "public chezmoi apply should include explicit ai wrapper"
+assert_file_exists "$SSH_COPY_HOME/.config/shell/rc/ai" "ssh-cp-env should include explicit ai wrapper"
 assert_file_exists "$PUBLIC_HOME/.ssh/authorized_keys" "public chezmoi apply should include authorized_keys"
 assert_file_exists "$SSH_COPY_HOME/.ssh/authorized_keys" "ssh-cp-env should include authorized_keys"
 

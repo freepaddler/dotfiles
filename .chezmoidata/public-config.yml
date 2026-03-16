@@ -23,6 +23,7 @@ public_files:
   - ".config/shell/bash/**"
   - ".config/shell/zsh/**"
   - ".config/shell/rc/"
+  - ".config/shell/rc/ai"
   - ".config/shell/rc/docker"
 # local/bin
   - ".local/bin/"
