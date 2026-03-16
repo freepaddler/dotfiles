@@ -18,24 +18,16 @@ after-startup-command = [
     'workspace 1', 'layout h_accordion',
     'workspace 3', 'layout h_accordion',
     'workspace 4', 'layout v_accordion',
-    'workspace 8', 'layout v_accordion',
 ]
 
 [workspace-to-monitor-force-assignment]
-8 = 'secondary'
+4 = 'secondary'
 0 = 'main'
 
-# Safari Personal/Private to 1
+# Safari to 1
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
-if.window-title-regex-substring = '(^Personal|^Watching|Private Browsing)'
 run = 'move-node-to-workspace 1'
-
-# Work to 4
-[[on-window-detected]]
-if.app-id = 'com.apple.Safari'
-run = 'move-node-to-workspace 4'
-
 
 # Ghostty always 2
 [[on-window-detected]]
@@ -52,13 +44,13 @@ run = [ 'move-node-to-workspace 3' ]
 if.window-title-regex-substring = '(W.o.T|WOT)'
 run = 'move-node-to-workspace 6'
 
-# ChatGPT always 8
+# ChatGPT/Codex always 4
 [[on-window-detected]]
 if.app-name-regex-substring = 'ChatGPT'
-run = 'move-node-to-workspace 8'
+run = 'move-node-to-workspace 4'
 [[on-window-detected]]
 if.app-name-regex-substring = 'Codex'
-run = 'move-node-to-workspace 8'
+run = 'move-node-to-workspace 4'
 
 # finder
 [[on-window-detected]]
