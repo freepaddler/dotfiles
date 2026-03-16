@@ -5,19 +5,59 @@ AI_MODEL_CLI=qwen-cli
 AI_MODEL_MAX=qwen-max
 AI_KEEPALIVE=30m
 AI_CONTEXT_MAX_KB=256
-AI_COMMAND_SPECS=$(cat <<'EOF'
-analyze|General analysis|Analyze the provided input and answer the user's request concisely.
-summarize|Short summary|Summarize the provided input briefly and focus on the most important points.
-incident|Incident review|Analyze the provided input as an incident. Identify what failed, likely sequence, and probable cause. Be concise.
-inspect|Explain input|Inspect the provided input and explain how it works or what it means. Be concise and practical.
-extract|Pull specific data|Extract exactly what the user's request asks for from the provided input. Prefer concrete results over broad commentary.
-transform|Rewrite or reshape input|Transform the provided input according to the user's request. Return the transformed result directly and keep extra commentary to a minimum.
-diff|Review patches and diffs|Review the provided diff or patch. Focus on behavior changes, risks, regressions, and anything suspicious. Be concise and concrete.
-EOF
+AI_COMMAND_SPECS=$(
+    printf '%s\n' \
+        "analyze|General analysis|Analyze the provided input and answer the user's request concisely." \
+        "summarize|Short summary|Summarize the provided input briefly and focus on the most important points." \
+        "incident|Incident review|Analyze the provided input as an incident. Identify what failed, likely sequence, and probable cause. Be concise." \
+        "inspect|Explain input|Inspect the provided input and explain how it works or what it means. Be concise and practical." \
+        "extract|Pull specific data|Extract exactly what the user's request asks for from the provided input. Prefer concrete results over broad commentary." \
+        "transform|Rewrite or reshape input|Transform the provided input according to the user's request. Return the transformed result directly and keep extra commentary to a minimum." \
+        "diff|Review patches and diffs|Review the provided diff or patch. Focus on behavior changes, risks, regressions, and anything suspicious. Be concise and concrete."
 )
 
 _ollama_run() {
-    ollama run --keepalive "$AI_KEEPALIVE" "$@"
+    local model="$1"
+    local prompt="$2"
+    local payload_file
+    local response
+    local error
+    local curl_status
+
+    if ! command -v curl >/dev/null 2>&1; then
+        printf 'ai requires curl for Ollama HTTP access\n' >&2
+        return 1
+    fi
+
+    if ! command -v jq >/dev/null 2>&1; then
+        printf 'ai requires jq for Ollama HTTP access\n' >&2
+        return 1
+    fi
+
+    payload_file="$(mktemp "${TMPDIR:-/tmp}/ai-ollama-payload.XXXXXX")" || return 1
+    if ! printf '%s' "$prompt" | jq -Rs \
+        --arg model "$model" \
+        --arg keep_alive "$AI_KEEPALIVE" \
+        '{model: $model, prompt: ., stream: false, keep_alive: $keep_alive}' >|"$payload_file"; then
+        command rm -f "$payload_file" >/dev/null 2>&1
+        return 1
+    fi
+
+    response="$(curl --silent --show-error --fail \
+        --header 'Content-Type: application/json' \
+        --data-binary "@$payload_file" \
+        'http://127.0.0.1:11434/api/generate')"
+    curl_status=$?
+    command rm -f "$payload_file" >/dev/null 2>&1
+    [ "$curl_status" -eq 0 ] || return 1
+
+    error="$(printf '%s' "$response" | jq -r '.error // empty')"
+    if [ -n "$error" ]; then
+        printf 'ai Ollama HTTP error: %s\n' "$error" >&2
+        return 1
+    fi
+
+    printf '%s\n' "$response" | jq -r '.response // empty'
 }
 
 _ai_byte_count() {
@@ -44,6 +84,8 @@ _ai_check_input_limit() {
 
 _ai_has_command() {
     local name="$1"
+    local cmd
+
     while IFS='|' read -r cmd _; do
         [ -n "$cmd" ] || continue
         [ "$cmd" = "$name" ] && return 0
@@ -77,7 +119,8 @@ _ai_maybe_switch_to_max() {
     local label="$1"
     local content="$2"
     local limit
-    local size confirm
+    local size
+    local confirm
 
     limit="$(_ai_context_limit_bytes)"
     size="$(_ai_byte_count "$content")"
@@ -101,7 +144,9 @@ _ai_maybe_switch_to_max() {
 }
 
 _ai_print_help() {
-    local name description prompt
+    local name
+    local description
+    local prompt
 
     cat <<EOF
 Usage:
@@ -142,7 +187,7 @@ EOF
 $AI_COMMAND_SPECS
 EOF
 
-    cat <<'EOF'
+    cat <<EOF
 
 Examples:
   ai 'find files older than 5 days'
@@ -157,21 +202,55 @@ Examples:
 EOF
 }
 
+_ai_extract_first_command() {
+    local result="$1"
+    local line
+    local inblock=0
+    local fence
+
+    fence="$(printf '\140\140\140')"
+
+    while IFS= read -r line; do
+        case "$line" in
+            "${fence}"*)
+                if [ "$inblock" -eq 0 ]; then
+                    inblock=1
+                else
+                    inblock=0
+                fi
+                continue
+                ;;
+        esac
+
+        [ -n "$line" ] || continue
+        printf '%s\n' "$line"
+        return 0
+    done <<EOF
+$result
+EOF
+
+    return 1
+}
+
 ai() {
     local execute=0
     local command=
-    local prompt model result input cmd confirm
+    local prompt=
+    local model=
+    local result=
+    local input=
+    local cmd=
+    local confirm=
     local data_mode=0
     local use_max=0
     local query=
-    local file_content
+    local file_content=
     local arg
     local saw_query=0
     local data_input=
     local data_has_input=0
-    local has_stdin=0
-    local -a files
-    local -a query_parts
+    local files=()
+    local query_parts=()
 
     case "$1" in
         -h | --help)
@@ -193,7 +272,6 @@ ai() {
     if [ ! -t 0 ]; then
         input="$(cat)"
         if [ -n "$input" ]; then
-            has_stdin=1
             data_mode=1
         fi
     fi
@@ -301,21 +379,7 @@ $prompt"
         return 0
     fi
 
-    cmd="$(printf '%s\n' "$result" | awk '
-    BEGIN { inblock=0 }
-    /^```/ {
-      if (inblock == 0) { inblock=1; next }
-      else { inblock=0; next }
-    }
-    inblock && NF {
-      print
-      exit
-    }
-    !inblock && NF {
-      print
-      exit
-    }
-  ')"
+    cmd="$(_ai_extract_first_command "$result")"
 
     if [ -z "$cmd" ]; then
         printf '%s\n' "$result"
