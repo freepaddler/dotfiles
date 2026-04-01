@@ -1,0 +1,23 @@
+# vim: ft=bash
+_env_cmd just || return 0
+
+_env_shell bash && {
+    _just_lazy() {
+        unset -f _just_lazy
+        complete -r just
+        source <(just --completions bash)
+        if declare -F _just >/dev/null; then
+            _just
+        fi
+    }
+    complete -o default -F _just_lazy just
+}
+
+_env_shell zsh && {
+    _just_lazy() {
+        unfunction _just_lazy
+        source <(just --completions zsh)
+        zle .complete-word
+    }
+    compdef _just_lazy just
+}
