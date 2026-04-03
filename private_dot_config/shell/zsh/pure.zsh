@@ -55,8 +55,10 @@ function _docker_context_prompt() {
         [[ -z "$ctx" ]] && ctx="default"
     fi
 
-    # Return empty if default
-    [[ "$ctx" == "default" ]] && return 0
+    # Hide common local Docker Desktop contexts
+    case "$ctx" in
+        default | desktop-linux) return 0 ;;
+    esac
 
     # Non-default context segment (you can change colors/icon here)
     print -r -- "%F{blue}🐳 $ctx%f"
