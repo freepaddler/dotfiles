@@ -1,5 +1,6 @@
 # dev tools and utils
 
+brew "ansible"
 brew "go"
 brew "hugo"
 brew "iperf3"
@@ -7,7 +8,7 @@ brew "just"         # make alternative
 brew "mas"
 brew "mingw-w64"    # win c-go 
 brew "node"
-brew "ollama"       # llm launcher
+brew "ollama", restart_service: :changed # llm launcher
 brew "pandoc"
 brew "protobuf"
 brew "s5cmd"        # s3 cli
@@ -16,6 +17,10 @@ brew "s5cmd"        # s3 cli
 #brew "sngrep"       # sip flow vizualizer
 brew "sqlite"
 brew "trivy"        # cve, sbom
+
+# ai
+tap "anomalyco/tap"
+brew "anomalyco/tap/opencode"
 
 tap "hashicorp/tap"
 brew "hashicorp/tap/terraform"

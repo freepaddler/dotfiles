@@ -32,7 +32,7 @@ cask "microsoft-word"
 #cask "outline-manager"      # shadowsocks vpn manager
 #cask "paintbrush"          # simple paining app
 cask "qlmarkdown"           # markdown preview, without mermaid support
-cask "qlvideo"              # video files info and preview
+cask "quicklook-video"      # video files info and preview
 #cask "quicklook-json"       # obsoleted by syntax-highlight
 cask "sigil"                # epub editor
 cask "syntax-highlight"     # quick look (universal)
