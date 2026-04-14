@@ -41,7 +41,7 @@ assert_contains "$help_bash" "Runtime modes:" "bash help should describe runtime
 assert_contains "$help_bash" "Model: qwen-cli" "bash help should mention cli model"
 assert_contains "$help_bash" "Model: qwen-fast" "bash help should mention fast model"
 assert_contains "$help_bash" "Model: qwen-max" "bash help should mention max model"
-assert_contains "$help_bash" "Limit: each stdin or file input <= 96 KB" "bash help should mention KB limit"
+assert_contains "$help_bash" "Limit: each stdin or file input <= 256 KB" "bash help should mention KB limit"
 assert_contains "$help_bash" "If no subcommand is given, ai sends the input and query without a predefined command prompt." "bash help should mention raw data prompt behavior"
 assert_contains "$help_bash" "Prompt: Transform the provided input according to the user's request." "bash help should render command prompt"
 assert_contains "$help_bash" "ai [FILE ...] -- QUERY" "bash help should mention file shorthand"
