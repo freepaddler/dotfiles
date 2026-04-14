@@ -15,6 +15,9 @@
       "models": {
         "qwen-fast": {
           "name": "Qwen 2.5 Coder 7B - Fast"
+        },
+        "qwen3.5:4b": {
+          "name": "Qwen 3.5 4B"
         }
       }
     }

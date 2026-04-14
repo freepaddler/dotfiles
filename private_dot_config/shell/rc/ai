@@ -4,16 +4,18 @@ AI_MODEL=qwen-fast
 AI_MODEL_CLI=qwen-cli
 AI_MODEL_MAX=qwen-max
 AI_KEEPALIVE=30m
-AI_CONTEXT_MAX_KB=256
+AI_PROMPT_PREFIX_CLI='/no_think
+'
+AI_CONTEXT_MAX_KB=96
 AI_COMMAND_SPECS=$(
     printf '%s\n' \
-        "analyze|General analysis|Analyze the provided input and answer the user's request concisely." \
-        "summarize|Short summary|Summarize the provided input briefly and focus on the most important points." \
-        "incident|Incident review|Analyze the provided input as an incident. Identify what failed, likely sequence, and probable cause. Be concise." \
-        "inspect|Explain input|Inspect the provided input and explain how it works or what it means. Be concise and practical." \
+        "analyze|General analysis|Analyze the provided input and answer the user's request concisely. Start with the direct conclusion." \
+        "summarize|Short summary|Summarize the provided input briefly. Lead with the most important point." \
+        "incident|Incident review|Analyze the provided input as an incident. Start with 'What failed:' then 'Likely sequence:' then 'Probable cause:'. Prefer concrete evidence from the input. If evidence is missing, say what is missing briefly." \
+        "inspect|Explain input|Inspect the provided input and explain how it works or what it means. Start with the main point. Be concise and practical." \
         "extract|Pull specific data|Extract exactly what the user's request asks for from the provided input. Prefer concrete results over broad commentary." \
         "transform|Rewrite or reshape input|Transform the provided input according to the user's request. Return the transformed result directly and keep extra commentary to a minimum." \
-        "diff|Review patches and diffs|Review the provided diff or patch. Focus on behavior changes, risks, regressions, and anything suspicious. Be concise and concrete."
+        "diff|Review patches and diffs|Review the provided diff or patch. List the main findings first. Focus on behavior changes, risks, regressions, and suspicious details. If nothing stands out, say so briefly."
 )
 
 _ollama_run() {
@@ -23,6 +25,7 @@ _ollama_run() {
     local response
     local error
     local curl_status
+    local full_prompt
 
     if ! command -v curl >/dev/null 2>&1; then
         printf 'ai requires curl for Ollama HTTP access\n' >&2
@@ -34,8 +37,10 @@ _ollama_run() {
         return 1
     fi
 
+    full_prompt="$prompt"
+
     payload_file="$(mktemp "${TMPDIR:-/tmp}/ai-ollama-payload.XXXXXX")" || return 1
-    if ! printf '%s' "$prompt" | jq -Rs \
+    if ! printf '%s' "$full_prompt" | jq -Rs \
         --arg model "$model" \
         --arg keep_alive "$AI_KEEPALIVE" \
         '{model: $model, prompt: ., stream: false, keep_alive: $keep_alive}' >|"$payload_file"; then
@@ -390,7 +395,7 @@ $query"
 $prompt"
     fi
 
-    result="$(_ollama_run "$model" "$prompt")"
+    result="$(_ollama_run "$model" "${AI_PROMPT_PREFIX_CLI}${prompt}")"
 
     if [ "$execute" -eq 0 ]; then
         _ai_print_result "$result"

@@ -1,0 +1,5 @@
+FROM qwen-fast
+
+PARAMETER num_ctx 32768
+PARAMETER num_predict 2048
+PARAMETER presence_penalty 0
