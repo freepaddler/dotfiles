@@ -3,17 +3,6 @@ local map = vim.keymap.set
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
----- packages
-require('mason').setup({
-    ui = {
-        icons = {
-            package_installed = '✓',
-            package_pending = '➜',
-            package_uninstalled = '✗'
-        }
-    },
-})
-
 require('mason-lspconfig').setup({
     ensure_installed = {
         'lua_ls', 'bashls',
@@ -117,7 +106,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(event)
         local bufmap = function(mode, lhs, rhs, opts)
             opts = opts or {}
-            opts.buffer = event.buf
+            opts.buf = event.buf
             opts.silent = opts.silent ~= false
             vim.keymap.set(mode, lhs, rhs, opts)
         end

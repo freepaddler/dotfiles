@@ -1,5 +1,13 @@
 local plugins = {
     {
+        'williamboman/mason.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require('plugins.mason')
+        end,
+    },
+    {
         'nvim-telescope/telescope.nvim',
         tag = 'v0.1.9',
         dependencies = {
@@ -12,7 +20,7 @@ local plugins = {
     },
     {
         'nvim-treesitter/nvim-treesitter',
-        branch = 'master',
+        branch = 'main',
         lazy = false,
         build = ':TSUpdate',
         config = function()
@@ -72,7 +80,6 @@ local plugins = {
     {
         'neovim/nvim-lspconfig',
         dependencies = {
-            'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
             -- formatter
             'stevearc/conform.nvim',
