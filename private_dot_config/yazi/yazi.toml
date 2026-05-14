@@ -11,19 +11,18 @@ image_delay = 100
 image_bound = [0,0]
 
 [[plugin.prepend_previewers]]
-name = "*.md"
-run = "glow"
-
-#[[plugin.prepend_previewers]]
-#name = "*.md"
-#run  = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'
+url = "*.md"
+run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'
+group = "default"
 
 [[plugin.prepend_fetchers]]
 id   = "git"
-name = "*"
+url = "*"
 run  = "git"
+group = "default"
 
 [[plugin.prepend_fetchers]]
 id   = "git"
-name = "*/"
+url = "*/"
 run  = "git"
+group = "default"
