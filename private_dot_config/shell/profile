@@ -11,18 +11,6 @@ export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(
 export LSCOLORS="exfxcxdxbxahahabagacad"
 export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=30;47:cd=34;47:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
-unalias vi vim nvim 2>/dev/null || :
-if _env_cmd nvim; then
-    EDITOR="nvim"
-elif _env_cmd vim; then
-    EDITOR="vim"
-elif _env_cmd vi; then
-    EDITOR="vi"
-fi
-
-VISUAL=$EDITOR
-export VISUAL EDITOR
-
 if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
   export LANG=ru_RU.UTF-8
   export LC_CTYPE=ru_RU.UTF-8
@@ -43,6 +31,18 @@ _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_profile"
 _env_path_append "$HOME/go/bin"
 _env_path_prepend "$XDG_DATA_HOME/nvim/mason/bin"
 _env_path_prepend "$HOME/.local/bin"
+
+unalias vi vim nvim 2>/dev/null || :
+if _env_cmd nvim; then
+    EDITOR="nvim"
+elif _env_cmd vim; then
+    EDITOR="vim"
+elif _env_cmd vi; then
+    EDITOR="vi"
+fi
+
+VISUAL=$EDITOR
+export VISUAL EDITOR
 
 # interactive session
 case "$-" in
@@ -76,4 +76,3 @@ case "$-" in
         _env_clean
         ;;
 esac
-
