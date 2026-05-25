@@ -25,6 +25,7 @@ public_files:
   - ".config/shell/rc/"
   - ".config/shell/rc/ai"
   - ".config/shell/rc/docker"
+  - ".config/shell/rc/resticprofile"
 # local/bin
   - ".local/bin/"
   - ".local/bin/fix-env-packages"

@@ -1,0 +1,5 @@
+# vim: ft=bash
+_env_cmd resticprofile || return 0
+
+_env_shell bash && eval "$(resticprofile generate --bash-completion)"
+_env_shell zsh  && eval "$(resticprofile generate --zsh-completion)"
