@@ -124,8 +124,8 @@ vim.cmd([[
 map('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
 map('n', '<leader>X', '<cmd>!chmod +x %<CR>', { desc = 'Make file executable', silent = true })
 
--- block cursor keys
-map({ 'n', 'i', 'v' }, '<Up>', [[<cmd>echo 'Use k'<CR>]])
-map({ 'n', 'i', 'v' }, '<Down>', [[<cmd>echo 'Use j'<CR>]])
-map({ 'n', 'i', 'v' }, '<Left>', [[<cmd>echo 'Use h'<CR>]])
-map({ 'n', 'i', 'v' }, '<Right>', [[<cmd>echo 'Use l'<CR>]])
+-- block cursor keys for navigation, but keep them available in insert-mode prompts
+map({ 'n', 'v' }, '<Up>', [[<cmd>echo 'Use k'<CR>]])
+map({ 'n', 'v' }, '<Down>', [[<cmd>echo 'Use j'<CR>]])
+map({ 'n', 'v' }, '<Left>', [[<cmd>echo 'Use h'<CR>]])
+map({ 'n', 'v' }, '<Right>', [[<cmd>echo 'Use l'<CR>]])
