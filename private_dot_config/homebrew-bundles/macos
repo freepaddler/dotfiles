@@ -8,10 +8,12 @@ cask "cheatsheet"           # show keyboard shortcuts per app
 cask "chatgpt"
 cask "clipy"                # clipboard mmanager
 cask "drawio"
+cask "dropbox"
 cask "enpass"               # password manager
 cask "firefox"
 cask "fluor"                # fn keys by app
 #cask "handbrake-app"        # media converter
+cask "happ"                 # v2ray vpn client
 cask "hush"                 # Safari cookie/trace block
 cask "iina"                 # video player
 cask "itsycal"              # bar calendar
@@ -49,7 +51,6 @@ cask "whatsapp"
 cask "whisky"               # wine wrapper
 cask "xquartz"              # X-Windows system
 cask "yandex"               # yandex browser
-cask "zerotier-one"         # cloud vpn
 cask "zoom"
 
 # mac app store
@@ -85,7 +86,6 @@ mas "PiPifier", id: 1160374471      # Safari picture-in-picture
 #mas "Telegram", id: 747648890
 mas "Telephone", id: 406825478      # sip phone
 #mas "Tomito", id: 1526042938        # tomato timer
-mas "v2RayTun", id: 6476628951      # v2ray vpn client
 #mas "WhatsApp", id: 310633997
 mas "WireGuard", id: 1451685025     # vpn
 

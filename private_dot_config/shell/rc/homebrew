@@ -25,7 +25,7 @@ brew-diff() {
     files=$(find "$bundles_dir" -maxdepth 1 -type f ! -name '*.md' -print)
 
     comm -3 \
-        <(brew bundle dump --all --file=- | normalize) \
+        <(brew bundle dump --file=- | normalize) \
         <( [ -n "$files" ] && grep -hE '^[^#[:space:]]' $files 2>/dev/null | normalize ) \
     | sed -E $'s/^([^\t]+)/+ \\1/; s/^\t(.*)/- \\1/'
 }

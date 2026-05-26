@@ -7,16 +7,19 @@ brew "iperf3"
 brew "just"         # make alternative
 brew "mas"
 brew "mingw-w64"    # win c-go 
+brew "mtr"          # good traceroute
 brew "node"
 brew "ollama", restart_service: :changed # llm launcher
 brew "pandoc"
 brew "protobuf"
+brew "resticprofile"    # backup utility
 brew "s5cmd"        # s3 cli
 #brew "shellcheck"
 #brew "sipp"         # sip payload gen
 #brew "sngrep"       # sip flow vizualizer
 brew "sqlite"
 brew "trivy"        # cve, sbom
+brew "wireguard-tools"
 
 # ai
 tap "anomalyco/tap"
@@ -26,6 +29,8 @@ tap "hashicorp/tap"
 brew "hashicorp/tap/terraform"
 cask "hashicorp/tap/hashicorp-vagrant"
 cask "vagrant-vmware-utility"
+brew "hashicorp/tap/hcp"
+brew "hashicorp/tap/packer"
 
 #cask "android-platform-tools"
 cask "codex"
@@ -36,8 +41,8 @@ cask "goland"
 cask "masscode"
 cask "mongodb-compass"
 cask "mqttx"
+cask "restic-browser"
 cask "utm"
-cask "vmware-fusion"
 cask "wireshark-app"
 cask "xca"
 cask "yandex-cloud-cli"
@@ -49,6 +54,9 @@ go "go.uber.org/mock/mockgen"
 go "golang.org/x/pkgsite/cmd/pkgsite"
 go "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
 go "google.golang.org/protobuf/cmd/protoc-gen-go"
+
+npm "node-acp"
+npm "typescript"
 
 #vscode "albert.tabout"
 #vscode "alefragnani.project-manager"
