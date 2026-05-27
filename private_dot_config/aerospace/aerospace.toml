@@ -94,7 +94,7 @@ run = [ 'layout floating' ,'move-node-to-workspace 0' ]
     alt-m = 'exec-and-forget open -a "Mail.app"'
     alt-equal = 'exec-and-forget open -a "Calculator.app"'
     alt-tab = 'focus-back-and-forth'
-    alt-shift-tab = 'workspace-back-and-forth'
+    alt-ctrl-tab = 'workspace-back-and-forth'
 
 
 # i3 wraps focus by default
