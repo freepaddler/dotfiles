@@ -87,11 +87,17 @@ run = 'layout tiling'
 run = [ 'layout floating' ,'move-node-to-workspace 0' ]
 
 [mode.main.binding]
-    alt-b = 'exec-and-forget open -na "Chromium" --args --new-window'
+    alt-c = 'exec-and-forget open -a "Chromium"'
     alt-t = 'exec-and-forget open -a "Telegram"'
     alt-y = 'exec-and-forget open -a "Yandex.Telemost.app"'
+    alt-b = 'exec-and-forget open -a "BBEdit.app"'
+    alt-m = 'exec-and-forget open -a "Mail.app"'
+    alt-equal = 'exec-and-forget open -a "Calculator.app"'
+    alt-tab = 'focus-back-and-forth'
+    alt-shift-tab = 'workspace-back-and-forth'
 
-    # i3 wraps focus by default
+
+# i3 wraps focus by default
     alt-j =         'focus --boundaries-action wrap-around-the-workspace left'
     alt-k =         'focus --boundaries-action wrap-around-the-workspace down'
     alt-l =         'focus --boundaries-action wrap-around-the-workspace up'
