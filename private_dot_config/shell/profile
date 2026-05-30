@@ -4,22 +4,22 @@
 #_ENV_DEBUG=1
 _env_debug "profile"
 
-export BLOCKSIZE="K"  # used by BSD/macOS tools
+export BLOCKSIZE="K" # used by BSD/macOS tools
 export INPUTRC="$_ENV_CONFIG_DIR/inputrc"
 export PAGER="less"
 export LESS="-F -iR -P?f%f .?m(%i/%m) .?ltLn %lt-%lb?L/%L. .?dbPg %db?s/%D. .?e(END) ?x\:n -> %x.:?Pb[%Pb\%]..%t"
 export LSCOLORS="exfxcxdxbxahahabagacad"
 export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=30;47:cd=34;47:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 
-if locale -a 2>/dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
-  export LANG=ru_RU.UTF-8
-  export LC_CTYPE=ru_RU.UTF-8
-  export LC_COLLATE=ru_RU.UTF-8
+export LANG=en_US.UTF-8
+if locale -a 2> /dev/null | grep -qiE '^ru_RU\.UTF-?8$'; then
+    export LC_CTYPE=ru_RU.UTF-8
+    export LC_COLLATE=ru_RU.UTF-8
 fi
-export LC_MESSAGES=POSIX
-export LC_NUMERIC=POSIX
-export LC_TIME=POSIX
-export LC_ALL=
+export LC_MESSAGES=C
+export LC_NUMERIC=C
+export LC_TIME=C
+unset LC_ALL
 
 export CDPATH=.:~
 
@@ -32,7 +32,7 @@ _env_path_append "$HOME/go/bin"
 _env_path_prepend "$XDG_DATA_HOME/nvim/mason/bin"
 _env_path_prepend "$HOME/.local/bin"
 
-unalias vi vim nvim 2>/dev/null || :
+unalias vi vim nvim 2> /dev/null || :
 if _env_cmd nvim; then
     EDITOR="nvim"
 elif _env_cmd vim; then
@@ -50,7 +50,6 @@ case "$-" in
 
         # useful if root shell is BASH
         export SUDO_PS1="\n\$([ \$(id -u) -eq 0 ] && printf \"\[\033[1;31m\]\" || printf \"\[\033[1;32m\]\")\u\$([ -n \"\$SSH_CONNECTION\" ] && printf \"\[\033[0m\033[1;37m\]@\[\033[0m\033[0;33m\]\h\") \[\033[0;36m\]\w\[\033[0m\]\n\$([ \$(id -u) -eq 0 ] && printf \"\[\033[1;31m\]"#"\[\033[0m\]\" || printf \"\[\033[1;32m\]$\[\033[0m\]\") "
-
 
         case "$_ENV_SHELL" in
             bash)
