@@ -120,6 +120,11 @@ vim.cmd([[
   cmap WQ! WForceQuit
 ]])
 
+-- single W = w
+vim.cmd([[
+  cnoreabbrev <expr> W getcmdtype() == ':' && getcmdline() ==# 'W' ? 'w' : 'W'
+]])
+
 -- misc
 map('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Replace word under cursor' })
 map('n', '<leader>X', '<cmd>!chmod +x %<CR>', { desc = 'Make file executable', silent = true })
