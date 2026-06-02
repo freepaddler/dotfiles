@@ -1,16 +1,31 @@
 # vim: ft=bash
 _env_cmd bat || return 0
 
-mkdir -p "$(bat --config-dir)"
-cat >| "$(bat --config-file)" << EOF
-#--theme="Nord"
---theme="Catppuccin Macchiato"
---map-syntax "$XDG_CONFIG_HOME/shell/**:sh"
-EOF
+_bat_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/bat"
+_bat_config_file="${BAT_CONFIG_PATH:-$_bat_config_dir/config}"
+_bat_config_content="#--theme=\"Nord\"
+--theme=\"Catppuccin Macchiato\"
+--map-syntax \"$XDG_CONFIG_HOME/shell/**:sh\""
+
+if [ "$(cat "$_bat_config_file" 2>/dev/null)" != "$_bat_config_content" ]; then
+    mkdir -p "$_bat_config_dir" 2>/dev/null &&
+        { printf '%s\n' "$_bat_config_content" >| "$_bat_config_file"; } 2>/dev/null
+fi
+unset _bat_config_dir _bat_config_file _bat_config_content
 
 alias less='bat -p'
 man() {
     batman "$@"
 }
 
-_env_shell bash && . <(bat --completion bash)
+_env_shell bash && {
+    _bat_lazy() {
+        unset -f _bat_lazy
+        complete -r bat
+        . <(bat --completion bash)
+        if declare -F _bat >/dev/null; then
+            _bat
+        fi
+    }
+    complete -F _bat_lazy bat
+}

@@ -3,9 +3,9 @@ _env_cmd go || return
 
 go_path="$HOME/go"
 mkdir -p "$go_path"
-go env -w GOPATH="$HOME/go"
+export GOPATH="$go_path"
 
-_env_path_append "$(go env GOPATH)/bin"
+_env_path_append "$GOPATH/bin"
 
 if _env_shell bash; then
     if type gocomplete &> /dev/null; then
@@ -36,14 +36,32 @@ go-install() {
 }
 
 _env_cmd gup && {
-    _env_shell bash && . <(command gup completion bash)
-    _env_shell zsh  && . <(command gup completion zsh)
+    _env_shell bash && {
+        _gup_lazy() {
+            unset -f _gup_lazy
+            complete -r gup
+            . <(command gup completion bash)
+            if declare -F __start_gup >/dev/null; then
+                __start_gup
+            fi
+        }
+        complete -o default -F _gup_lazy gup
+    }
+
+    _env_shell zsh && {
+        _gup_lazy() {
+            unfunction _gup_lazy
+            . <(command gup completion zsh)
+            zle .complete-word
+        }
+        compdef _gup_lazy gup
+    }
 
     gup() {
         case $1 in
             check|update)
                 gobin=$(go env GOBIN)
-                [ -n "$gobin" ] || gobin="$(go env GOPATH)/bin"
+                [ -n "$gobin" ] || gobin="${GOPATH:-$(go env GOPATH)}/bin"
 
                 tmpdir=$(mktemp -d)
 

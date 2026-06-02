@@ -1,19 +1,71 @@
 # vim: ft=bash
 _env_cmd chezmoi || return
-[ -d "$(chezmoi source-path)" ] || return
+
+_cz_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/shell"
+_cz_cache_ttl="${_ENV_CHEZMOI_CHECK_TTL:-900}"
+_cz_now="$(date +%s)"
+_cz_source_cache_file="$_cz_cache_dir/chezmoi-source-path"
+_cz_source_cache_ts=0
+
+if [ -r "$_cz_source_cache_file" ]; then
+    {
+        IFS= read -r _cz_source_cache_ts
+        IFS= read -r _cz_source_path
+    } < "$_cz_source_cache_file"
+fi
+case "$_cz_source_cache_ts" in
+    ''|*[!0-9]*) _cz_source_cache_ts=0 ;;
+esac
+
+if [ $((_cz_now - _cz_source_cache_ts)) -ge "$_cz_cache_ttl" ] || [ -z "$_cz_source_path" ]; then
+    _cz_source_path="$(chezmoi source-path 2>/dev/null)" || {
+        unset _cz_cache_dir _cz_cache_ttl _cz_now _cz_source_cache_file _cz_source_cache_ts _cz_source_path
+        return
+    }
+    mkdir -p "$_cz_cache_dir" 2>/dev/null &&
+        { printf '%s\n%s\n' "$_cz_now" "$_cz_source_path" >| "$_cz_source_cache_file"; } 2>/dev/null
+fi
+
+[ -d "$_cz_source_path" ] || {
+    unset _cz_cache_dir _cz_cache_ttl _cz_now _cz_source_cache_file _cz_source_cache_ts _cz_source_path
+    return
+}
 
 # echo chezmoi state
-if [ -z "$TMUX" ]; then
+_cz_cache_file="$_cz_cache_dir/chezmoi-state"
+_cz_cache_ts=0
+
+if [ -r "$_cz_cache_file" ]; then
+    IFS= read -r _cz_cache_ts < "$_cz_cache_file"
+fi
+case "$_cz_cache_ts" in
+    ''|*[!0-9]*) _cz_cache_ts=0 ;;
+esac
+
+if [ $((_cz_now - _cz_cache_ts)) -lt "$_cz_cache_ttl" ]; then
+    {
+        IFS= read -r _cz_cache_ts
+        IFS= read -r _cz_state
+    } < "$_cz_cache_file"
+else
     _verify=$(chezmoi verify --exclude=scripts >/dev/null 2>&1 || echo "drift (inspect with 'cz state') ")
     _uncommitted=$(chezmoi git status -- --porcelain 2>/dev/null | grep -q . && echo "uncommitted " || :)
     _unpushed=$(chezmoi git log -- --branches --not --remotes --oneline 2>/dev/null | grep -q . && echo "unpushed" || :)
-
-    [ -n "${_verify}${_uncommitted}${_unpushed}" ] && \
-      printf "\033[33mchezmoi: %s%s%s\033[0m\n" "$_verify" "$_uncommitted" "$_unpushed"
+    _cz_state="${_verify}${_uncommitted}${_unpushed}"
+    mkdir -p "$_cz_cache_dir" 2>/dev/null &&
+        { printf '%s\n%s\n' "$_cz_now" "$_cz_state" >| "$_cz_cache_file"; } 2>/dev/null
     unset _verify _uncommitted _unpushed
 fi
 
+[ -n "$_cz_state" ] && printf "\033[33mchezmoi: %s\033[0m\n" "$_cz_state"
+unset _cz_cache_file _cz_cache_ts _cz_state
+unset _cz_cache_dir _cz_cache_ttl _cz_now _cz_source_cache_file _cz_source_cache_ts _cz_source_path
+
 unset -f czup 2>/dev/null
+
+_cz_state_cache_clear() {
+    rm -f "${XDG_CACHE_HOME:-$HOME/.cache}/shell/chezmoi-state" 2>/dev/null
+}
 
 cz() {
     case "${1-}" in
@@ -21,9 +73,11 @@ cz() {
             chezmoi status --exclude=scripts; chezmoi git -- status -s
             ;;
         up)
+            _cz_state_cache_clear
             chezmoi update && resrc
             ;;
         ap)
+            _cz_state_cache_clear
             chezmoi apply && resrc
             ;;
         ssh)
@@ -32,6 +86,7 @@ cz() {
             ;;
         edit)
             shift 1
+            _cz_state_cache_clear
             chezmoi edit --apply "$@"
             ;;
         diff)
@@ -39,6 +94,7 @@ cz() {
             chezmoi diff --exclude=scripts "$@"
             ;;
         save)
+            _cz_state_cache_clear
             printf 'Saving chezmoi changes to git...\n\n'
             if chezmoi git -- diff --cached --quiet 2>/dev/null; then
                 printf 'No staged changes to commit.\n'
@@ -66,6 +122,7 @@ cz() {
             ;;
         add)
             shift 1
+            _cz_state_cache_clear
             if [ "$#" -lt 1 ]; then
                 chezmoi re-add --interactive && chezmoi git -- add -u .
             else
@@ -110,7 +167,15 @@ _env_shell zsh && {
 }
 
 _env_shell bash && {
-    . <(chezmoi completion bash --)
+    _chezmoi_lazy() {
+        unset -f _chezmoi_lazy
+        complete -r chezmoi
+        . <(chezmoi completion bash --)
+        if declare -F __start_chezmoi >/dev/null; then
+            __start_chezmoi
+        fi
+    }
+    complete -o default -F _chezmoi_lazy chezmoi
 
     _cz_completion() {
         local words="state up ap save ssh"

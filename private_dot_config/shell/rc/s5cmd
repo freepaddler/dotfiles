@@ -1,6 +1,23 @@
 # vim: ft=zsh
 _env_cmd s5cmd || return 0
 
-_env_shell bash && . <(SHELL=/bash s5cmd --install-completion)
-_env_shell zsh  && . <(SHELL=/zsh  s5cmd --install-completion)
+_env_shell bash && {
+    _s5cmd_lazy() {
+        unset -f _s5cmd_lazy
+        complete -r s5cmd
+        . <(SHELL=/bash s5cmd --install-completion)
+        if declare -F _s5cmd_cli_bash_autocomplete >/dev/null; then
+            _s5cmd_cli_bash_autocomplete
+        fi
+    }
+    complete -o nospace -F _s5cmd_lazy s5cmd
+}
 
+_env_shell zsh && {
+    _s5cmd_lazy() {
+        unfunction _s5cmd_lazy
+        . <(SHELL=/zsh s5cmd --install-completion)
+        zle .complete-word
+    }
+    compdef _s5cmd_lazy s5cmd
+}

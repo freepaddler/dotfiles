@@ -1,5 +1,23 @@
 # vim: ft=bash
 _env_cmd resticprofile || return 0
 
-_env_shell bash && eval "$(resticprofile generate --bash-completion)"
-_env_shell zsh  && eval "$(resticprofile generate --zsh-completion)"
+_env_shell bash && {
+    _resticprofile_lazy() {
+        unset -f _resticprofile_lazy
+        complete -r resticprofile
+        eval "$(resticprofile generate --bash-completion)"
+        if declare -F _resticprofile >/dev/null; then
+            _resticprofile
+        fi
+    }
+    complete -F _resticprofile_lazy resticprofile
+}
+
+_env_shell zsh && {
+    _resticprofile_lazy() {
+        unfunction _resticprofile_lazy
+        eval "$(resticprofile generate --zsh-completion)"
+        zle .complete-word
+    }
+    compdef _resticprofile_lazy resticprofile
+}
