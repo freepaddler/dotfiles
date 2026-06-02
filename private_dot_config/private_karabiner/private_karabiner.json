@@ -1,10 +1,254 @@
 {
+    "machine_specific": { "krbn-781006eb-0884-483c-b4d9-4df650da9b1d": { "external_editor_path": "/Applications/BBEdit.app" } },
     "profiles": [
         {
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Use ABC while holding Left Option on Russian layout",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "input_sources": [{ "input_source_id": "com.apple.keylayout.Russian" }],
+                                        "type": "input_source_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "select_input_source": { "input_source_id": "com.apple.keylayout.ABC" } },
+                                    { "key_code": "left_option" }
+                                ],
+                                "to_after_key_up": [{ "select_input_source": { "input_source_id": "com.apple.keylayout.Russian" } }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Double tap left Command for ABC and right Command for Russian",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "left_command_pressed",
+                                        "type": "variable_if",
+                                        "value": true
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "select_input_source": { "input_source_id": "^com\\.apple\\.keylayout\\.ABC$" } },
+                                    {
+                                        "set_variable": {
+                                            "name": "left_command_pressed",
+                                            "value": false
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 250,
+                                    "basic.to_if_held_down_threshold_milliseconds": 250
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "left_command_pressed",
+                                            "value": true
+                                        }
+                                    },
+                                    {
+                                        "key_code": "left_command",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "left_command_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "left_command_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "right_command_pressed",
+                                        "type": "variable_if",
+                                        "value": true
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "select_input_source": { "language": "^ru$" } },
+                                    {
+                                        "set_variable": {
+                                            "name": "right_command_pressed",
+                                            "value": false
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 250,
+                                    "basic.to_if_held_down_threshold_milliseconds": 250
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "right_command_pressed",
+                                            "value": true
+                                        }
+                                    },
+                                    {
+                                        "key_code": "right_command",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "right_command_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "right_command_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Double tap Right Option to toggle Caps Lock",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "right_option_pressed",
+                                        "type": "variable_if",
+                                        "value": true
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "hold_down_milliseconds": 200,
+                                        "key_code": "caps_lock"
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "right_option_pressed",
+                                            "value": false
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 250,
+                                    "basic.to_if_held_down_threshold_milliseconds": 250
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "right_option_pressed",
+                                            "value": true
+                                        }
+                                    },
+                                    {
+                                        "key_code": "right_option",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "right_option_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "right_option_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Caps Lock to Esc and Ctrl",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "right_control" }],
+                                "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Press Left Shift ⇧ and Right Shift ⇧ together to toggle Caps Lock",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -43,27 +287,15 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock to Esc and Ctrl",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "right_control" }],
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Use ABC while holding Left Option on Russian layout",
+                        "description": "Double tap either Option to switch input source to ABC",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
-                                        "input_sources": [{ "input_source_id": "com.apple.keylayout.Russian" }],
-                                        "type": "input_source_if"
+                                        "name": "left_option_pressed",
+                                        "type": "variable_if",
+                                        "value": true
                                     }
                                 ],
                                 "from": {
@@ -71,10 +303,119 @@
                                     "modifiers": { "optional": ["any"] }
                                 },
                                 "to": [
-                                    { "select_input_source": { "input_source_id": "com.apple.keylayout.ABC" } },
-                                    { "key_code": "left_option" }
+                                    { "select_input_source": { "input_source_id": "^com\\.apple\\.keylayout\\.ABC$" } },
+                                    {
+                                        "set_variable": {
+                                            "name": "left_option_pressed",
+                                            "value": false
+                                        }
+                                    }
                                 ],
-                                "to_after_key_up": [{ "select_input_source": { "input_source_id": "com.apple.keylayout.Russian" } }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "left_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 250,
+                                    "basic.to_if_held_down_threshold_milliseconds": 250
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "left_option_pressed",
+                                            "value": true
+                                        }
+                                    },
+                                    {
+                                        "key_code": "left_option",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "left_option_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "left_option_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ]
+                                },
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "right_option_pressed",
+                                        "type": "variable_if",
+                                        "value": true
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    { "select_input_source": { "input_source_id": "^com\\.apple\\.keylayout\\.ABC$" } },
+                                    {
+                                        "set_variable": {
+                                            "name": "right_option_pressed",
+                                            "value": false
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 250,
+                                    "basic.to_if_held_down_threshold_milliseconds": 250
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "right_option_pressed",
+                                            "value": true
+                                        }
+                                    },
+                                    {
+                                        "key_code": "right_option",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "right_option_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "right_option_pressed",
+                                                "value": false
+                                            }
+                                        }
+                                    ]
+                                },
                                 "type": "basic"
                             }
                         ]
