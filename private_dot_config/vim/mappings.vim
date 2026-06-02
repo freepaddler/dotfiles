@@ -75,6 +75,10 @@ if has('eval')
 
     " explorer
     nnoremap <leader>e :Explore<CR>
+    cnoreabbrev <expr> vx getcmdtype() == ':' && getcmdline() ==# 'vx' ? 'Vexplore' : 'vx'
+    cnoreabbrev <expr> hx getcmdtype() == ':' && getcmdline() ==# 'hx' ? 'Hexplore' : 'hx'
+    cnoreabbrev <expr> vs getcmdtype() == ':' && getcmdline() ==# 'vs' ? 'vsplit' : 'vs'
+    cnoreabbrev <expr> hs getcmdtype() == ':' && getcmdline() ==# 'hs' ? 'split' : 'hs'
 
     " yank also copy to terminal clipboard
     " the + and * registers will not be distinct from the unnamed register. In

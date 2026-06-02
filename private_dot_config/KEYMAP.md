@@ -20,6 +20,7 @@ insert    vi/nvim insert mode
 visual    vi/nvim visual mode
 prefix    tmux prefix binding
 root      tmux root binding, no prefix
+cmd       command-line mode
 ```
 
 Use it with grep/sort:
@@ -32,6 +33,17 @@ sort KEYMAP.md
 
 Terminal workspace `2` switches AeroSpace to `term` mode. Other workspaces use
 `main` mode.
+
+## Karabiner
+
+Config: `karabiner/karabiner.json`
+
+```text
+Caps                 karabiner hold  right_control
+Caps                 karabiner alone Esc
+Left-Shift+Right-Shift karabiner all toggle Caps Lock
+Left-Option          karabiner hold  use ABC while held on Russian layout, restore Russian on release
+```
 
 ## AeroSpace
 
@@ -221,6 +233,10 @@ C-f                  nvim normal        tmux-sessionizer popup, inside tmux
 <leader>e            nvim normal        explorer
 <leader>s            nvim normal        substitute word under cursor
 <leader>X            nvim normal        chmod +x current file
+vx                   nvim cmd           Vexplore
+hx                   nvim cmd           Hexplore
+vs                   nvim cmd           vsplit
+hs                   nvim cmd           split
 
 <leader>ff           nvim normal        telescope find files
 <leader>fp           nvim normal        telescope find git files

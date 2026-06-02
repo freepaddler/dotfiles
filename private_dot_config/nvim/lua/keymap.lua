@@ -4,6 +4,13 @@ local map = vim.keymap.set
 
 map('n', '<leader>e', vim.cmd.Ex, { desc = 'Explorer' })
 
+vim.cmd([[
+  cnoreabbrev <expr> vx getcmdtype() == ':' && getcmdline() ==# 'vx' ? 'Vexplore' : 'vx'
+  cnoreabbrev <expr> hx getcmdtype() == ':' && getcmdline() ==# 'hx' ? 'Hexplore' : 'hx'
+  cnoreabbrev <expr> vs getcmdtype() == ':' && getcmdline() ==# 'vs' ? 'vsplit' : 'vs'
+  cnoreabbrev <expr> hs getcmdtype() == ':' && getcmdline() ==# 'hs' ? 'split' : 'hs'
+]])
+
 -- yank/delete/change
 map({ 'n', 'v' }, '<leader>y', [["+y]], { desc = 'Yank to clipboard' })
 map('n', '<leader>Y', [["+Y]], { desc = 'Yank until EOF to clibpoard' })

@@ -29,6 +29,16 @@ local function relModTime()
     end
 end
 
+
+local function inactiveText()
+    local n = math.floor((vim.fn.winwidth(0) - 50) / 2)
+    if n < 5 then
+        return ''
+    end
+    return string.rep('-', n) .. '%='
+    --return string.rep('-', n)
+end
+
 require('lualine').setup({
     options = {
         theme = 'auto',
@@ -41,12 +51,23 @@ require('lualine').setup({
         lualine_a = { 'mode' },
         lualine_b = { { 'branch', icons_enabled = true } },
         lualine_c = {
-            { 'filename', path = 3, shorting_target = vim.o.columns - 60 },
+            { 'filename', path = 3, shorting_target = (vim.fn.winwidth(0)) - 50 },
             relModTime,
         },
         lualine_x = { 'diagnostics', 'fileformat', 'encoding', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' },
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+            { 'filename', path = 3, shorting_target = (vim.fn.winwidth(0)) - 50 },
+            relModTime
+        },
+        lualine_x = { inactiveText, 'location' },
+        lualine_y = {},
+        lualine_z = {}
     },
     tabline = {
         lualine_a = {
