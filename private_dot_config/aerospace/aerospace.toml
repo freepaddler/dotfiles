@@ -9,6 +9,11 @@ default-root-container-orientation = 'auto'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = false
 persistent-workspaces = ["~"]
+exec-on-workspace-change = [
+    '/bin/bash',
+    '-c',
+    'if [ "$AEROSPACE_FOCUSED_WORKSPACE" = "2" ]; then aerospace mode terminal; else aerospace mode main; fi',
+]
 
 # force window layouts
 after-startup-command = [
@@ -76,34 +81,34 @@ run = [ 'layout floating' ,'move-node-to-workspace ~' ]
 
 [mode.main.binding]
 # applications 
-alt-equal = 'exec-and-forget open -a "Calculator.app"'
-alt-b = 'exec-and-forget open -a "BBEdit"'
-alt-c = 'exec-and-forget open -a "Codex"'
-alt-g = 'exec-and-forget open -a "ChatGPT"'
-alt-m = 'exec-and-forget open -a "Mail'
-alt-t = 'exec-and-forget open -a "Telegram"'
-alt-u = 'exec-and-forget open -a "Chromium"'
-alt-w = 'exec-and-forget open -a "WhatsApp"'
-alt-y = 'exec-and-forget open -a "Yandex.Telemost.app"'
+alt-shift-equal = 'exec-and-forget open -a "Calculator.app"'
+alt-shift-b = 'exec-and-forget open -a "BBEdit"'
+alt-shift-c = 'exec-and-forget open -a "Codex"'
+alt-shift-g = 'exec-and-forget open -a "ChatGPT"'
+alt-shift-m = 'exec-and-forget open -a "Mail'
+alt-shift-t = 'exec-and-forget open -a "Telegram"'
+alt-shift-u = 'exec-and-forget open -a "Chromium"'
+alt-shift-w = 'exec-and-forget open -a "WhatsApp"'
+alt-shift-y = 'exec-and-forget open -a "Yandex.Telemost.app"'
 
 # layout
-alt-comma = 'layout accordion horizontal vertical'
-alt-period  = 'layout tiles horizontal vertical'
-alt-slash  = 'layout floating tiling'
-alt-backslash = 'flatten-workspace-tree'
+alt-shift-comma = 'layout accordion horizontal vertical'
+alt-shift-period  = 'layout tiles horizontal vertical'
+alt-shift-slash  = 'layout floating tiling'
+alt-shift-backslash = 'flatten-workspace-tree'
 
-alt-z = 'fullscreen'
-alt-q = 'exec-and-forget osascript ~/.local/bin/scripts/aerospace-hide.scpt'
-alt-a = 'exec-and-forget osascript ~/.local/bin/scripts/aerospace-reveal-all.scpt'
+alt-shift-z = 'fullscreen'
+alt-q = 'exec-and-forget osascript ~/.config/aerospace/aerospace-hide.applescript'
+alt-a = 'exec-and-forget osascript ~/.config/aerospace/aerospace-reveal-all.applescript'
 
-alt-shift-minus = 'resize smart -50'
-alt-shift-equal = 'resize smart +50'
+alt-ctrl-minus = 'resize smart -50'
+alt-ctrl-equal = 'resize smart +50'
 
 # navigation
 alt-tab = 'focus-back-and-forth'
 alt-ctrl-tab = 'workspace-back-and-forth'
-alt-n = 'focus --boundaries-action wrap-around-the-workspace dfs-next'
-alt-p = 'focus --boundaries-action wrap-around-the-workspace dfs-prev'
+alt-leftSquareBracket = 'focus --boundaries-action wrap-around-the-workspace dfs-prev'
+alt-rightSquareBracket = 'focus --boundaries-action wrap-around-the-workspace dfs-next'
 
 alt-h = 'focus left'
 alt-j = 'focus down'
@@ -150,3 +155,73 @@ alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
 alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
 alt-shift-backtick = 'move-node-to-workspace --focus-follows-window ~'
 
+[mode.terminal.binding]
+# applications
+alt-shift-equal = 'exec-and-forget open -a "Calculator.app"'
+alt-shift-b = 'exec-and-forget open -a "BBEdit"'
+alt-shift-c = 'exec-and-forget open -a "Codex"'
+alt-shift-g = 'exec-and-forget open -a "ChatGPT"'
+alt-shift-m = 'exec-and-forget open -a "Mail'
+alt-shift-t = 'exec-and-forget open -a "Telegram"'
+alt-shift-u = 'exec-and-forget open -a "Chromium"'
+alt-shift-w = 'exec-and-forget open -a "WhatsApp"'
+alt-shift-y = 'exec-and-forget open -a "Yandex.Telemost.app"'
+
+# layout
+alt-shift-comma = 'layout accordion horizontal vertical'
+alt-shift-period  = 'layout tiles horizontal vertical'
+alt-shift-slash  = 'layout floating tiling'
+alt-shift-backslash = 'flatten-workspace-tree'
+
+alt-shift-z = 'fullscreen'
+alt-q = 'exec-and-forget osascript ~/.config/aerospace/aerospace-hide.applescript'
+alt-a = 'exec-and-forget osascript ~/.config/aerospace/aerospace-reveal-all.applescript'
+
+alt-ctrl-minus = 'resize smart -50'
+alt-ctrl-equal = 'resize smart +50'
+
+# navigation
+alt-tab = 'focus-back-and-forth'
+alt-ctrl-tab = 'workspace-back-and-forth'
+alt-leftSquareBracket = 'focus --boundaries-action wrap-around-the-workspace dfs-prev'
+alt-rightSquareBracket = 'focus --boundaries-action wrap-around-the-workspace dfs-next'
+
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+alt-ctrl-h = 'join-with left'
+alt-ctrl-j = 'join-with down'
+alt-ctrl-k = 'join-with up'
+alt-ctrl-l = 'join-with right'
+
+alt-ctrl-shift-h = 'move-workspace-to-monitor --wrap-around left'
+alt-ctrl-shift-j = 'move-workspace-to-monitor --wrap-around down'
+alt-ctrl-shift-k = 'move-workspace-to-monitor --wrap-around up'
+alt-ctrl-shift-l = 'move-workspace-to-monitor --wrap-around right'
+
+# workspaces
+alt-0 = 'workspace 0'
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-backtick = 'workspace ~'
+
+alt-shift-0 = 'move-node-to-workspace --focus-follows-window 0'
+alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+alt-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+alt-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+alt-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+alt-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+alt-shift-backtick = 'move-node-to-workspace --focus-follows-window ~'

@@ -27,11 +27,34 @@ map('i', 'jk', '<Esc>')
 map({ 'n', 'v' }, 'j', 'gj')
 map({ 'n', 'v' }, 'k', 'gk')
 
--- Ctrl-hjkl to move between windows
-map('n', '<C-h>', '<C-w>h', { desc = 'Navigate window left' })
-map('n', '<C-j>', '<C-w>j', { desc = 'Navigate window down' })
-map('n', '<C-k>', '<C-w>k', { desc = 'Navigate window up' })
-map('n', '<C-l>', '<C-w>l', { desc = 'Navigate window right' })
+-- Ctrl/Alt-hjkl navigates nvim windows, falling through to tmux panes at the edge.
+local function navigate_window_or_tmux(vim_direction, tmux_direction)
+    local before = vim.api.nvim_get_current_win()
+    vim.cmd('wincmd ' .. vim_direction)
+
+    if before == vim.api.nvim_get_current_win() and vim.env.TMUX then
+        vim.system({ 'tmux', 'select-pane', '-' .. tmux_direction }, { detach = true })
+    end
+end
+
+local function leave_insert_then_navigate(vim_direction, tmux_direction)
+    vim.cmd('stopinsert')
+    navigate_window_or_tmux(vim_direction, tmux_direction)
+end
+
+map('n', '<C-h>', function() navigate_window_or_tmux('h', 'L') end, { desc = 'Navigate left' })
+map('n', '<C-j>', function() navigate_window_or_tmux('j', 'D') end, { desc = 'Navigate down' })
+map('n', '<C-k>', function() navigate_window_or_tmux('k', 'U') end, { desc = 'Navigate up' })
+map('n', '<C-l>', function() navigate_window_or_tmux('l', 'R') end, { desc = 'Navigate right' })
+
+map({ 'n', 'x' }, '<M-h>', function() navigate_window_or_tmux('h', 'L') end, { desc = 'Navigate left' })
+map({ 'n', 'x' }, '<M-j>', function() navigate_window_or_tmux('j', 'D') end, { desc = 'Navigate down' })
+map({ 'n', 'x' }, '<M-k>', function() navigate_window_or_tmux('k', 'U') end, { desc = 'Navigate up' })
+map({ 'n', 'x' }, '<M-l>', function() navigate_window_or_tmux('l', 'R') end, { desc = 'Navigate right' })
+map('i', '<M-h>', function() leave_insert_then_navigate('h', 'L') end, { desc = 'Navigate left' })
+map('i', '<M-j>', function() leave_insert_then_navigate('j', 'D') end, { desc = 'Navigate down' })
+map('i', '<M-k>', function() leave_insert_then_navigate('k', 'U') end, { desc = 'Navigate up' })
+map('i', '<M-l>', function() leave_insert_then_navigate('l', 'R') end, { desc = 'Navigate right' })
 
 -- scroll/search screen with centeringj
 map('n', '<C-d>', '<C-d>zz')
