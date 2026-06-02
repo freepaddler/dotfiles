@@ -1,28 +1,30 @@
-# Reference: https://github.com/i3/i3/blob/nehhjt/etc/config
-
+config-version = 2
 start-at-login = true
 
-# i3 doesn't have "normalizations" feature that why we disable them here.
-# But the feature is very helpful.
-# Normalizations eliminate all sorts of weird tree configurations that don't make sense.
-# Give normalizations a chance and enable them back.
-enable-normalization-flatten-containers = false
-enable-normalization-opposite-orientation-for-nested-containers = false
-
-# Mouse follows focus when focused monitor changes
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+accordion-padding = 20
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+persistent-workspaces = ["~"]
 
 # force window layouts
 after-startup-command = [
-    'workspace 0', 'layout floating',
+    'workspace ~', 'layout floating',
     'workspace 1', 'layout h_accordion',
     'workspace 3', 'layout h_accordion',
     'workspace 4', 'layout v_accordion',
 ]
 
 [workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'main'
 4 = 'secondary'
 0 = 'main'
+tilda = 'main'
 
 # Safari to 1
 [[on-window-detected]]
@@ -40,11 +42,7 @@ run = 'move-node-to-workspace 2'
 if.app-id = 'com.jetbrains.goland'
 run = [ 'move-node-to-workspace 3' ]
 
-[[on-window-detected]]
-if.window-title-regex-substring = '(W.o.T|WOT)'
-run = 'move-node-to-workspace 6'
-
-# ChatGPT/Codex always 4
+# ChatGPT Codex always 4
 [[on-window-detected]]
 if.app-name-regex-substring = 'ChatGPT'
 run = 'move-node-to-workspace 4'
@@ -52,124 +50,103 @@ run = 'move-node-to-workspace 4'
 if.app-name-regex-substring = 'Codex'
 run = 'move-node-to-workspace 4'
 
-# finder
+# WOT always 6
+[[on-window-detected]]
+if.window-title-regex-substring = '(W.o.T|WOT)'
+run = 'move-node-to-workspace 6'
+
+# Finder always 9
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
 run = 'move-node-to-workspace 9'
-
-# Everyhere available floating
-[[on-window-detected]]
-if.app-id = 'com.apple.ActivityMonitor'
-if.during-aerospace-startup = false
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.calculator'
-if.during-aerospace-startup = false
-run = 'layout floating'
 
 # auth, fingerprint
 [[on-window-detected]]
 if.app-id = 'com.apple.LocalAuthentication.UIAgent'
 run = 'layout floating'
 
-# chromium
+# always-floating current window (close with alt-q)
 [[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
-if.workspace = '0'
-run = 'layout floating'
-[[on-window-detected]]
-if.app-id = 'org.chromium.Chromium'
-run = 'layout tiling'
-
-# ms office
-[[on-window-detected]]
-if.app-name-regex-substring = 'Microsoft'
+if.app-name-regex-substring = '(Telegram|Yandex Telemost|BBEdit|System Settings|Calculator|Chromium|Microsoft|WhatsApp|Activity Monitor)'
 run = 'layout floating'
 
-# move other windows on startup to workspace 0
+# move other windows  to workspace 0
 [[on-window-detected]]
-run = [ 'layout floating' ,'move-node-to-workspace 0' ]
+run = [ 'layout floating' ,'move-node-to-workspace ~' ]
 
 [mode.main.binding]
-    alt-c = 'exec-and-forget open -a "Chromium"'
-    alt-t = 'exec-and-forget open -a "Telegram"'
-    alt-y = 'exec-and-forget open -a "Yandex.Telemost.app"'
-    alt-b = 'exec-and-forget open -a "BBEdit.app"'
-    alt-m = 'exec-and-forget open -a "Mail.app"'
-    alt-equal = 'exec-and-forget open -a "Calculator.app"'
-    alt-tab = 'focus-back-and-forth'
-    alt-ctrl-tab = 'workspace-back-and-forth'
+# applications 
+alt-equal = 'exec-and-forget open -a "Calculator.app"'
+alt-b = 'exec-and-forget open -a "BBEdit"'
+alt-c = 'exec-and-forget open -a "Codex"'
+alt-g = 'exec-and-forget open -a "ChatGPT"'
+alt-m = 'exec-and-forget open -a "Mail'
+alt-t = 'exec-and-forget open -a "Telegram"'
+alt-u = 'exec-and-forget open -a "Chromium"'
+alt-w = 'exec-and-forget open -a "WhatsApp"'
+alt-y = 'exec-and-forget open -a "Yandex.Telemost.app"'
 
+# layout
+alt-comma = 'layout accordion horizontal vertical'
+alt-period  = 'layout tiles horizontal vertical'
+alt-slash  = 'layout floating tiling'
+alt-backslash = 'flatten-workspace-tree'
 
-# i3 wraps focus by default
-    alt-j =         'focus --boundaries-action wrap-around-the-workspace left'
-    alt-k =         'focus --boundaries-action wrap-around-the-workspace down'
-    alt-l =         'focus --boundaries-action wrap-around-the-workspace up'
-    alt-semicolon = 'focus --boundaries-action wrap-around-the-workspace right'
+alt-z = 'fullscreen'
+alt-q = 'exec-and-forget osascript ~/.local/bin/scripts/aerospace-hide.scpt'
+alt-a = 'exec-and-forget osascript ~/.local/bin/scripts/aerospace-reveal-all.scpt'
 
-    alt-shift-j = 'move left'
-    alt-shift-k = 'move down'
-    alt-shift-l = 'move up'
-    alt-shift-semicolon = 'move right'
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
 
-    # Consider using 'join-with' command as a 'split' replacement if you want to enable
-    # normalizations
-    alt-h = 'split horizontal'
-    alt-v = 'split vertical'
-    #alt-h = 'join-with horizontal'
-    #alt-v = 'join-with vertical'
+# navigation
+alt-tab = 'focus-back-and-forth'
+alt-ctrl-tab = 'workspace-back-and-forth'
+alt-n = 'focus --boundaries-action wrap-around-the-workspace dfs-next'
+alt-p = 'focus --boundaries-action wrap-around-the-workspace dfs-prev'
 
-    alt-f = 'fullscreen'
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
 
-    alt-s = 'layout v_accordion' # 'layout stacking' in i3
-    alt-w = 'layout h_accordion' # 'layout tabbed' in i3
-    alt-e = 'layout tiles horizontal vertical' # 'layout toggle split' in i3
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
 
-    alt-shift-space = 'layout floating tiling' # 'floating toggle' in i3
+alt-ctrl-h = 'join-with left'
+alt-ctrl-j = 'join-with down'
+alt-ctrl-k = 'join-with up'
+alt-ctrl-l = 'join-with right'
 
-    # Not supported, because this command is redundant in AeroSpace mental model.
-    # See: https://nikitabobko.github.io/AeroSpace/guide#floating-windows
-    #alt-space = 'focus toggle_tiling_floating'
+alt-ctrl-shift-h = 'move-workspace-to-monitor --wrap-around left'
+alt-ctrl-shift-j = 'move-workspace-to-monitor --wrap-around down'
+alt-ctrl-shift-k = 'move-workspace-to-monitor --wrap-around up'
+alt-ctrl-shift-l = 'move-workspace-to-monitor --wrap-around right'
 
-    # `focus parent`/`focus child` are not yet supported, and it's not clear whether they
-    # should be supported at all https://github.com/nikitabobko/AeroSpace/issues/5
-    # alt-a = 'focus parent'
+# workspaces
+alt-0 = 'workspace 0'
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-backtick = 'workspace ~'
 
-    alt-0 = 'workspace 0'
-    alt-1 = 'workspace 1'
-    alt-2 = 'workspace 2'
-    alt-3 = 'workspace 3'
-    alt-4 = 'workspace 4'
-    alt-5 = 'workspace 5'
-    alt-6 = 'workspace 6'
-    alt-7 = 'workspace 7'
-    alt-8 = 'workspace 8'
-    alt-9 = 'workspace 9'
+alt-shift-0 = 'move-node-to-workspace --focus-follows-window 0'
+alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+alt-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+alt-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+alt-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+alt-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+alt-shift-backtick = 'move-node-to-workspace --focus-follows-window ~'
 
-    alt-shift-0 = 'move-node-to-workspace --focus-follows-window 0'
-    alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
-    alt-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
-    alt-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
-    alt-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
-    alt-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
-    alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
-    alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
-    alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
-    alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
-
-    alt-shift-c = 'reload-config'
-
-    alt-r = 'mode resize'
-
-[mode.resize.binding]
-    h = 'resize width -50'
-    j = 'resize height +50'
-    k = 'resize height -50'
-    l = 'resize width +50'
-    alt-shift-h = 'move-workspace-to-monitor --wrap-around left'
-    alt-shift-j = 'move-workspace-to-monitor --wrap-around down'
-    alt-shift-k = 'move-workspace-to-monitor --wrap-around up'
-    alt-shift-l = 'move-workspace-to-monitor --wrap-around right'
-    enter = 'mode main'
-    esc = 'mode main'
