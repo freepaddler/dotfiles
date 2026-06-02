@@ -54,6 +54,7 @@ testdata/
 .config/homebrew-bundles
 .local/bin/pfmanage.sh
 .local/bin/fix-shared-network-ip.command
+.local/bin/scripts/aerospace*
 .docker/
 Library/
 iCloud
