@@ -29,14 +29,16 @@ local function relModTime()
     end
 end
 
+local filenamt_shorting_target = 60
+local inactive_location_legth = 8
+local inactive_padding = 0
 
 local function inactiveText()
-    local n = math.floor((vim.fn.winwidth(0) - 50) / 2)
+    local n = vim.fn.winwidth(0) - filenamt_shorting_target - inactive_location_legth - inactive_padding
     if n < 5 then
         return ''
     end
     return string.rep('-', n) .. '%='
-    --return string.rep('-', n)
 end
 
 require('lualine').setup({
@@ -51,7 +53,7 @@ require('lualine').setup({
         lualine_a = { 'mode' },
         lualine_b = { { 'branch', icons_enabled = true } },
         lualine_c = {
-            { 'filename', path = 3, shorting_target = (vim.fn.winwidth(0)) - 50 },
+            { 'filename', path = 3, shorting_target = filenamt_shorting_target },
             relModTime,
         },
         lualine_x = { 'diagnostics', 'fileformat', 'encoding', 'filetype' },
@@ -62,7 +64,7 @@ require('lualine').setup({
         lualine_a = {},
         lualine_b = {},
         lualine_c = {
-            { 'filename', path = 3, shorting_target = (vim.fn.winwidth(0)) - 50 },
+            { 'filename', path = 3, shorting_target = filenamt_shorting_target },
             relModTime
         },
         lualine_x = { inactiveText, 'location' },

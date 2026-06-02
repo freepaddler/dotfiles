@@ -19,7 +19,7 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
-alias -="cd -" 2>/dev/null || alias -- -="cd -"
+alias -="cd -" 2> /dev/null || alias -- -="cd -"
 
 alias cdc="cd ~/.config"
 alias cdd="cd ~/Documents"
@@ -36,7 +36,7 @@ alias ll="ls -lhF"
 alias lla="ls -alhF"
 alias lll="ls -alhFi"
 _env_os freebsd && alias llll="ls -alhFio"
-_env_os darwin  && alias llll="ls -alhFiOe@"
+_env_os darwin && alias llll="ls -alhFiOe@"
 
 # copy, move, delete
 alias rm="rm -iv"
@@ -67,7 +67,7 @@ elif _env_os freebsd; then
     alias p="ps -auxww"
 elif _env_os darwin; then
     alias p="ps auxww"
-elif [ "$(readlink -f "$(command -v ps)" 2>/dev/null | xargs basename)" = "busybox" ]; then
+elif [ "$(readlink -f "$(command -v ps)" 2> /dev/null | xargs basename)" = "busybox" ]; then
     alias p="ps -o user,pid,ppid,vsz,rss,tty,stat,time,args"
 fi
 
