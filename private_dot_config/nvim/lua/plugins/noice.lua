@@ -30,9 +30,9 @@ require('noice').setup({
         lsp_doc_border = false,       -- add a border to hover docs and signature help
     },
     cmdline = {
-        format = {
-            cmdline = { pattern = '^:', icon = ':', lang = 'vim' },
-        },
+        --format = {
+        --    cmdline = { pattern = '^:', icon = ':', lang = 'vim' },
+        --},
     },
     popupmenu = {
         enabled = false,
@@ -40,10 +40,10 @@ require('noice').setup({
     },
     views = {
         cmdline_popup = {
-            relative = 'win',
+            relative = 'cursor',
             position = {
-                row = -3,
-                col = 0.5,
+                row = 3,
+                col = 3,
             },
             size = {
                 width = 0.8,
