@@ -107,7 +107,7 @@ map('n', '<leader><TAB>8', '8gt', { desc = 'Goto tab 8' })
 map('n', '<leader><TAB>9', '9gt', { desc = 'Goto tab 9' })
 
 -- tmux-sessionizer
-map('n', '<C-f>', function()
+map('n', '<M-f>', function()
     if vim.env.TMUX == nil then
         return
     end
