@@ -123,6 +123,20 @@ local plugins = {
             require('plugins.lualine')
         end,
     },
+    -- command line
+    {
+        'folke/noice.nvim',
+        enabled = true,
+        event = 'VeryLazy',
+        dependencies = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            'MunifTanjim/nui.nvim',
+            'rcarriga/nvim-notify',
+        },
+        config = function()
+            require('plugins.noice')
+        end,
+    }
 }
 
 local options = {
