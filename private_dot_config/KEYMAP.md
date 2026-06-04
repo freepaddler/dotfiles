@@ -89,10 +89,10 @@ Alt-Shift-`          aerospace all  move window to workspace ~
 
 Alt-Ctrl--           aerospace all  resize smaller
 Alt-Ctrl-=           aerospace all  resize larger
-Alt-Ctrl-h           aerospace all  join with left
-Alt-Ctrl-j           aerospace all  join with down
-Alt-Ctrl-k           aerospace all  join with up
-Alt-Ctrl-l           aerospace all  join with right
+Alt-Ctrl-h           aerospace main join with left
+Alt-Ctrl-j           aerospace main join with down
+Alt-Ctrl-k           aerospace main join with up
+Alt-Ctrl-l           aerospace main join with right
 
 Alt-Ctrl-Shift-h     aerospace all  move workspace to monitor left
 Alt-Ctrl-Shift-j     aerospace all  move workspace to monitor down
@@ -164,8 +164,34 @@ the edge.
 
 Config: `nvim/lua/keymap.lua`
 
+Leader group plan:
+
+```text
+<leader><Tab>        tabs
+<leader>b            buffers
+<leader>c            code / LSP
+<leader>d            debugger
+<leader>e            explorer
+<leader>f            find
+<leader>g            git
+<leader>q            quit / sessions
+<leader>s            search
+<leader>t            tests
+<leader>u            UI toggles
+<leader>v            registers / void
+<leader>w            windows
+<leader>x            diagnostics / quickfix / location lists
+```
+
+`c`, `d`, `q`, `t`, `u`, `w`, and `x` are reserved for future IDE mappings.
+Global clipboard mappings under `<leader>y/Y/p/P` intentionally remain available
+in addition to the `<leader>v` group.
+
 ```text
 <leader>             nvim all           Space
+<localleader>        nvim all           \
+<leader>-            nvim normal        split window horizontally
+<leader>\            nvim normal        split window vertically
 
 C-h                  nvim normal        window left, or tmux pane at edge
 C-j                  nvim normal        window down, or tmux pane at edge
@@ -181,6 +207,7 @@ Alt-k                nvim insert/replace leave insert, then window up or tmux pa
 Alt-l                nvim insert/replace leave insert, then window right or tmux pane at edge
 
 C-c                  nvim insert        escape
+C-s                  nvim normal        save file
 jj                   nvim insert        escape
 jk                   nvim insert        escape
 
@@ -189,40 +216,59 @@ jk                   nvim insert        escape
 <leader>p            nvim normal        paste after from clipboard
 <leader>P            nvim normal        paste before from clipboard
 <leader>p            nvim visual        replace without yanking
-<leader>d            nvim normal/visual delete without yanking
-<leader>D            nvim normal        delete to EOL without yanking
-<leader>c            nvim normal/visual change without yanking
-<leader>C            nvim normal        change to EOL without yanking
+<leader>vd           nvim normal/visual delete without yanking
+<leader>vD           nvim normal        delete to EOL without yanking
+<leader>vc           nvim normal/visual change without yanking
+<leader>vC           nvim normal        change to EOL without yanking
+<leader>vy           nvim normal/visual yank to clipboard
+<leader>vY           nvim normal        yank to clipboard until EOF
+<leader>vp           nvim normal/visual paste after from clipboard
+<leader>vP           nvim normal        paste before from clipboard
+<leader>vr           nvim normal        telescope registers
 
 <leader>bn           nvim normal        next buffer
 <leader>bp           nvim normal        previous buffer
 <leader>bl           nvim normal        last buffer
+<leader>bd           nvim normal        delete current buffer
+<leader>bD           nvim normal        delete all buffers except current
+[b                    nvim normal        previous buffer
+]b                    nvim normal        next buffer
 
 <leader><Tab>c       nvim normal        new tab
-<leader><Tab>e       nvim normal        new tab with explorer
+<leader><Tab>d       nvim normal        delete current tab
+<leader><Tab>D       nvim normal        delete all tabs except current
+<leader><Tab>e       nvim normal        new tab with explorer at current file directory
+<leader><Tab>E       nvim normal        new tab with explorer at working directory
 <leader><Tab>gf      nvim normal        open file under cursor in new tab
 <leader><Tab>n       nvim normal        next tab
 <leader><Tab>p       nvim normal        previous tab
 <leader><Tab><Tab>   nvim normal        last tab
 <leader><Tab>1..9    nvim normal        go to tab 1..9
+[t                    nvim normal        previous tab
+]t                    nvim normal        next tab
 
-]p                   nvim normal        quickfix next
-[p                   nvim normal        quickfix previous
-<leader>[p           nvim normal        quickfix open
-<leader>]p           nvim normal        quickfix close
+]q                   nvim normal        next Trouble or quickfix item
+[q                   nvim normal        previous Trouble or quickfix item
 ]l                   nvim normal        location next
 [l                   nvim normal        location previous
-<leader>[l           nvim normal        location open
-<leader>]l           nvim normal        location close
 ]d                   nvim normal        diagnostic next
 [d                   nvim normal        diagnostic previous
-<leader>[d           nvim normal        diagnostics to location list, open
+
+<leader>xx           nvim normal        toggle workspace diagnostics in Trouble
+<leader>xX           nvim normal        toggle buffer diagnostics in Trouble
+<leader>xL           nvim normal        toggle location list in Trouble
+<leader>xQ           nvim normal        toggle quickfix list in Trouble
+<leader>cs           nvim normal        toggle symbols in Trouble
+<leader>cS           nvim normal        toggle LSP references and definitions in Trouble
 
 C-d                  nvim normal        scroll down and center
 C-u                  nvim normal        scroll up and center
 n                    nvim normal        next search and center
 N                    nvim normal        previous search and center
-<leader>n            nvim normal        clear search highlight
+<leader>uh           nvim normal        toggle search highlight
+<leader>ud           nvim normal        toggle diagnostics
+<leader>ul           nvim normal        toggle line numbers
+<leader>uL           nvim normal        toggle relative line numbers
 j                    nvim normal/visual visual line down
 k                    nvim normal/visual visual line up
 J                    nvim normal        join line, keep cursor
@@ -230,45 +276,59 @@ J                    nvim visual        move selection down
 K                    nvim visual        move selection up
 
 C-f                  nvim normal        tmux-sessionizer popup, inside tmux
-<leader>e            nvim normal        explorer
-<leader>s            nvim normal        substitute word under cursor
-<leader>X            nvim normal        chmod +x current file
-vx                   nvim cmd           Vexplore
-hx                   nvim cmd           Hexplore
-vs                   nvim cmd           vsplit
-hs                   nvim cmd           split
-
+<leader>ee           nvim normal        explorer at current file directory
+<leader>eE           nvim normal        explorer at working directory
+<leader>sr           nvim normal/visual search and replace current file type
+<leader>sR           nvim normal/visual search and replace all files
+<leader>ss           nvim normal        substitute word under cursor
+<leader>cX           nvim normal        chmod +x current file
 <leader>ff           nvim normal        telescope find files
 <leader>fp           nvim normal        telescope find git files
 <leader>fg           nvim normal        telescope live grep
+<leader>sg           nvim normal        telescope live grep
 <leader>fm           nvim normal        telescope keymaps
 <leader>fh           nvim normal        telescope help tags
 <leader>fb           nvim normal        telescope buffers
+<leader>fr           nvim normal        telescope recent files
 C-\                  nvim telescope     open selection in vertical split
 C--                  nvim telescope     open selection in horizontal split
 
-<leader>tf           nvim normal        neo-tree filesystem reveal left
-<leader>tb           nvim normal        neo-tree buffers reveal float
+<leader>et           nvim normal        toggle neo-tree filesystem reveal left
+<leader>ef           nvim normal        reveal current file in neo-tree left
+<leader>eb           nvim normal        neo-tree buffers reveal float
 <leader>gs           nvim normal        fugitive Git
-<leader>u            nvim normal        undotree toggle
-<leader>F            nvim normal        format with conform
-<leader>L            nvim normal        lint current buffer
+<leader>su           nvim normal        undotree toggle
+<leader>cf           nvim normal        format with conform
+<leader>cl           nvim normal        lint current buffer
+<leader>cp           nvim markdown      toggle Markdown preview
 K                    nvim lsp           hover
 gd                   nvim lsp           go to definition
 gD                   nvim lsp           go to declaration
 
-C-s                  nvim insert        complete snippets only
-C-k                  nvim cmp           scroll docs up
-C-j                  nvim cmp           scroll docs down
-C-u                  nvim cmp           scroll docs up, large step
-C-d                  nvim cmp           scroll docs down, large step
-C-Space              nvim cmp           complete
-C-@                  nvim cmp           complete
-C-e                  nvim cmp           abort completion
-C-y                  nvim cmp           confirm completion, replace
-CR                   nvim cmp           confirm completion, insert
-Tab                  nvim cmp           next completion item or snippet jump
-S-Tab                nvim cmp           previous completion item or snippet jump
+C-s                  nvim blink         complete snippets only
+C-k                  nvim blink         scroll docs up
+C-j                  nvim blink         scroll docs down
+C-u                  nvim blink         scroll docs up, large step
+C-d                  nvim blink         scroll docs down, large step
+C-Space              nvim blink         complete or toggle docs
+C-@                  nvim blink         complete or toggle docs
+C-e                  nvim blink         hide completion
+C-y                  nvim blink         confirm completion
+CR                   nvim blink         confirm completion
+Tab                  nvim blink         next completion item or snippet jump
+S-Tab                nvim blink         previous completion item or snippet jump
+Tab                  nvim markdown      next table cell
+S-Tab                nvim markdown      previous table cell
+Ctrl-Alt-H           nvim markdown      move table column left
+Ctrl-Alt-L           nvim markdown      move table column right
+Ctrl-Alt-J           nvim markdown      move table row down
+Ctrl-Alt-K           nvim markdown      move table row up
+Ctrl-Alt-I           nvim markdown      insert table column left
+Ctrl-Alt-A           nvim markdown      insert table column right
+Ctrl-Alt-U           nvim markdown      insert table row above
+Ctrl-Alt-D           nvim markdown      insert table row below
+Ctrl-Alt-N           nvim markdown      insert table
+Ctrl-Alt-X           nvim markdown      delete table column
 ```
 
 ## IdeaVim

@@ -1,13 +1,11 @@
 local map = vim.keymap.set
+local languages = require('languages')
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+local capabilities = require('blink.cmp').get_lsp_capabilities()
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require('mason-lspconfig').setup({
-    ensure_installed = {
-        'lua_ls', 'bashls',
-        'dockerls', 'docker_compose_language_service',
-    },
+    ensure_installed = languages.mason.lsp,
     automatic_enable = {
         exclude = {
             'docker_language_server',
@@ -16,89 +14,41 @@ require('mason-lspconfig').setup({
 })
 
 ---- lsp
-vim.lsp.config('lua_ls', {
-    capabilities = capabilities,
-    settings = {
-        Lua = {
-            diagnostics = { globals = { 'vim' } },
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-            format = {
-                enable = true,
-                defaultConfig = {
-                    indent_style = 'space',
-                    indent_size = '4',
-                    quote_style = 'single',
-                },
-            },
-        },
-    },
-})
-
-vim.lsp.config('bashls', {
-    capabilities = capabilities,
-})
-
-vim.lsp.config('dockerls', {
-    capabilities = capabilities,
-})
-
-vim.lsp.config('docker_language_server', {
-    capabilities = capabilities,
-})
-
-vim.lsp.config('docker_compose_language_service', {
-    capabilities = capabilities,
-})
+for server, server_config in pairs(languages.lsp) do
+    vim.lsp.config(server, vim.tbl_deep_extend('force', {
+        capabilities = capabilities,
+    }, server_config))
+end
 
 ---- format
 local conform = require('conform')
 conform.setup({
-    formatters = {
-        shfmt = {
-            append_args = { '-i', '4', '-ci', '-sr' },
-        },
-    },
+    formatters = languages.formatters,
     format_on_save = {
         timeout_ms = 500,
         lsp_format = 'fallback',
     },
-    formatters_by_ft = {
-        json = { 'prettier' },
-        jsonc = { 'prettier' },
-        -- yaml = { 'prettier' },
-        markdown = { 'prettier' },
-        html = { 'prettier' },
-        css = { 'prettier' },
-
-        javascript = { 'prettier' },
-        javascriptreact = { 'prettier' },
-        vue = { 'prettier' },
-
-        sh = { 'shfmt' },
-        bash = { 'shfmt' },
-    },
+    formatters_by_ft = languages.formatters_by_ft,
 })
 
-map('n', '<leader>F', function()
+map('n', '<leader>cf', function()
     conform.format({ lsp_fallback = true, async = false })
-end, { desc = 'Format with conform (LSP fallback)' })
+end, { desc = 'Format buffer' })
 
 ---- lint
 local lint = require('lint')
-lint.linters_by_ft = {
-    dockerfile = { 'hadolint' },
-}
+lint.linters_by_ft = languages.linters_by_ft
 
-map('n', '<leader>L', lint.try_lint, { desc = 'lint.try_lint' })
+map('n', '<leader>cl', lint.try_lint, { desc = 'Lint buffer' })
 
 ---- code actions
+local none_ls_sources = {}
+for _, source_factory in ipairs(languages.none_ls) do
+    table.insert(none_ls_sources, source_factory())
+end
+
 require('null-ls').setup({
-    sources = {
-        require('none-ls-shellcheck.code_actions').with({
-            filetypes = { 'sh', 'bash' },
-        }),
-    },
+    sources = none_ls_sources,
 })
 
 -- keymaps
@@ -110,15 +60,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
             opts.silent = opts.silent ~= false
             vim.keymap.set(mode, lhs, rhs, opts)
         end
-        --bufmap('n', '<leader>F', vim.lsp.buf.format, { desc = 'vim.lsp.buf.format' })
+        --bufmap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'vim.lsp.buf.format' })
         bufmap('n', 'K', function()
             vim.lsp.buf.hover({
                 max_height = vim.g.ui_docs_max_height,
                 max_width = vim.g.ui_docs_max_width,
             })
-        end, { desc = 'vim.lsp.buf.hover' })
-        bufmap('n', 'gd', vim.lsp.buf.definition, { desc = 'vim.lsp.buf.definition' })
-        bufmap('n', 'gD', vim.lsp.buf.declaration, { desc = 'vim.lsp.buf.declaration' })
+        end, { desc = 'Hover documentation' })
+        bufmap('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
+        bufmap('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
     end,
 })
 

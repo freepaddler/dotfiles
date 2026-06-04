@@ -1,3 +1,5 @@
+local languages = require('languages')
+
 require('mason').setup({
     ui = {
         icons = {
@@ -6,4 +8,8 @@ require('mason').setup({
             package_uninstalled = '✗'
         }
     },
+})
+
+require('mason-tool-installer').setup({
+    ensure_installed = languages.mason.tools,
 })

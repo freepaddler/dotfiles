@@ -3,6 +3,9 @@ local plugins = {
         'williamboman/mason.nvim',
         lazy = false,
         priority = 1000,
+        dependencies = {
+            'WhoIsSethDaniel/mason-tool-installer.nvim',
+        },
         config = function()
             require('plugins.mason')
         end,
@@ -34,6 +37,56 @@ local plugins = {
         end,
     },
     {
+        'MagicDuck/grug-far.nvim',
+        cmd = { 'GrugFar', 'GrugFarWithin' },
+        config = function()
+            require('plugins.grug-far')
+        end,
+    },
+    {
+        'iamcco/markdown-preview.nvim',
+        ft = { 'markdown' },
+        cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+        build = function()
+            require('lazy').load({ plugins = { 'markdown-preview.nvim' } })
+            vim.fn['mkdp#util#install']()
+        end,
+        keys = {
+            {
+                '<leader>cp',
+                '<cmd>MarkdownPreviewToggle<CR>',
+                ft = 'markdown',
+                desc = 'Markdown preview',
+            },
+        },
+        config = function()
+            require('plugins.markdown-preview')
+        end,
+    },
+    {
+        'SCJangra/table-nvim',
+        ft = { 'markdown' },
+        config = function()
+            require('plugins.table')
+        end,
+    },
+    {
+        'folke/snacks.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require('plugins.snacks')
+        end,
+    },
+    {
+        'folke/trouble.nvim',
+        cmd = { 'Trouble' },
+        event = 'VeryLazy',
+        config = function()
+            require('plugins.trouble')
+        end,
+    },
+    {
         'tpope/vim-fugitive',
         config = function()
             require('plugins.fugitive')
@@ -61,6 +114,7 @@ local plugins = {
     -- completions
     {
         'hrsh7th/nvim-cmp',
+        enabled = false,
         dependencies = {
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
@@ -73,7 +127,17 @@ local plugins = {
             'rafamadriz/friendly-snippets',
         },
         config = function()
-            require('plugins.completions')
+            require('plugins.cmp')
+        end,
+    },
+    {
+        'saghen/blink.cmp',
+        version = '1.*',
+        dependencies = {
+            'rafamadriz/friendly-snippets',
+        },
+        config = function()
+            require('plugins.blink')
         end,
     },
     -- lsp
@@ -81,6 +145,7 @@ local plugins = {
         'neovim/nvim-lspconfig',
         dependencies = {
             'williamboman/mason-lspconfig.nvim',
+            'saghen/blink.cmp',
             -- formatter
             'stevearc/conform.nvim',
             -- linter
@@ -121,6 +186,14 @@ local plugins = {
         lazy = false,
         config = function()
             require('plugins.lualine')
+        end,
+    },
+    -- keymap hints
+    {
+        'folke/which-key.nvim',
+        event = 'VeryLazy',
+        config = function()
+            require('plugins.which-key')
         end,
     },
     -- command line
