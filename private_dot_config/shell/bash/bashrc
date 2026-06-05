@@ -81,6 +81,7 @@ _env_source "$_ENV_CONFIG_DIR/rc"/*
 hoff() { set +o history; }
 hon() { set -o history; }
 
+#bind -x '"\C-f":tmux-sessionizer'
 
 ## this SHOULD be at the end
 # alias completion

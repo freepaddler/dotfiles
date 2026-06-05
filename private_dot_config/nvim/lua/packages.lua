@@ -22,6 +22,27 @@ local plugins = {
         end,
     },
     {
+        'andre-kotake/nvim-chezmoi',
+        main = 'nvim-chezmoi',
+        event = 'VeryLazy',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope.nvim',
+        },
+        keys = {
+            {
+                '<leader>fz',
+                '<cmd>ChezmoiManaged<CR>',
+                desc = 'Find chezmoi managed files',
+            },
+        },
+        opts = {
+            edit = {
+                apply_on_save = 'never',
+            },
+        },
+    },
+    {
         'nvim-treesitter/nvim-treesitter',
         branch = 'main',
         lazy = false,

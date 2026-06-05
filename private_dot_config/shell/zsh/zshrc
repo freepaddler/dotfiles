@@ -75,8 +75,7 @@ tmux_sessionizer_widget() {
 }
 zle -N tmux_sessionizer_widget
 
-# bind it (pick your key)
-bindkey '^F' tmux_sessionizer_widget
+#bindkey '^F' tmux_sessionizer_widget
 
 ### history
 alias h='history -i -100'

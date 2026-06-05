@@ -43,6 +43,7 @@ Caps                 karabiner hold  right_control
 Caps                 karabiner alone Esc
 Left-Shift+Right-Shift karabiner all toggle Caps Lock
 Left-Option          karabiner hold  use ABC while held on Russian layout, restore Russian on release
+§                    karabiner all   switch to ABC and type section
 ```
 
 ## AeroSpace
@@ -109,7 +110,6 @@ Config: `tmux/tmux.conf`
 ```text
 C-q                  tmux root   tmux prefix
 §                    tmux root   secondary prefix
-C-f                  tmux root   tmux-sessionizer popup
 Alt-h                tmux root   pane left, or send to nvim/vim
 Alt-j                tmux root   pane down, or send to nvim/vim
 Alt-k                tmux root   pane up, or send to nvim/vim
@@ -275,7 +275,6 @@ J                    nvim normal        join line, keep cursor
 J                    nvim visual        move selection down
 K                    nvim visual        move selection up
 
-C-f                  nvim normal        tmux-sessionizer popup, inside tmux
 <leader>ee           nvim normal        explorer at current file directory
 <leader>eE           nvim normal        explorer at working directory
 <leader>sr           nvim normal/visual search and replace current file type
@@ -290,6 +289,7 @@ C-f                  nvim normal        tmux-sessionizer popup, inside tmux
 <leader>fh           nvim normal        telescope help tags
 <leader>fb           nvim normal        telescope buffers
 <leader>fr           nvim normal        telescope recent files
+<leader>fz           nvim normal        telescope chezmoi managed files
 C-\                  nvim telescope     open selection in vertical split
 C--                  nvim telescope     open selection in horizontal split
 
@@ -388,7 +388,6 @@ C-n                  zsh emacs  history search forward
 C-p                  zsh emacs  history search backward
 C-x-C-e              zsh emacs  edit command line in editor
 C-g                  zsh emacs  fzf completion trigger
-C-f                  zsh emacs  tmux-sessionizer widget
 M-.                  zsh viins  insert last word
 
 Home                 zsh all    beginning of line

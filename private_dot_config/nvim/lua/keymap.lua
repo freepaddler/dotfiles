@@ -195,8 +195,8 @@ map('n', '[d', function()
     vim.cmd('normal! zz')
 end, { desc = 'Previous diagnostic' })
 
--- Tmux-sessionizer
---map('n', '<M-f>', function()
+-- Tmux-sessionizer is intentionally only bound to tmux prefix + f.
+--map('n', '<C-f>', function()
 --    if vim.env.TMUX == nil then
 --        return
 --    end
