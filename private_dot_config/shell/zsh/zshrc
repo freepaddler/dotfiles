@@ -22,30 +22,29 @@ setopt correct
 setopt no_clobber
 setopt append_create
 
-
 ## key bindings
 bindkey -e
 # delete
-bindkey          '^[[3~' delete-char
+bindkey '^[[3~' delete-char
 # home, end
-bindkey          '^[[1~' beginning-of-line
-bindkey          '^[[4~' end-of-line
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
 # pgup, pgdown
-bindkey          '^[[5~' history-search-backward
-bindkey          '^[[6~' history-search-forward
+bindkey '^[[5~' history-search-backward
+bindkey '^[[6~' history-search-forward
 # ctrl-left, ctrl-right
-bindkey          '^[[1;5C' forward-word
-bindkey          '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
 # FreeBSD console ctrl-left, ctrl-right
-bindkey          '^[[5C' forward-word
-bindkey          '^[[5D' backward-word
+bindkey '^[[5C' forward-word
+bindkey '^[[5D' backward-word
 # shift-left, shift-right
-bindkey          '^[[1;2D' backward-word
-bindkey          '^[[1;2C' forward-word
+bindkey '^[[1;2D' backward-word
+bindkey '^[[1;2C' forward-word
 
 # common
-bindkey          '^n' history-beginning-search-forward
-bindkey          '^p' history-beginning-search-backward
+bindkey '^n' history-beginning-search-forward
+bindkey '^p' history-beginning-search-backward
 # vi-mode
 bindkey -M viins '^n' history-beginning-search-forward
 bindkey -M viins '^p' history-beginning-search-backward
@@ -56,7 +55,6 @@ bindkey '^X^E' edit-command-line
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
-
 # use Ctrl-f to trigger fzf completion
 ZVM_INIT_MODE=sourcing
 fzf_tab() { zle -U "$FZF_COMPLETION_TRIGGER"$'\t'; }
@@ -66,16 +64,17 @@ bindkey -M emacs '^G' fzf_tab
 
 # tmux-sessionizer
 tmux_sessionizer_widget() {
-  if [[ -n "$TMUX" ]]; then
-    BUFFER='tmux display-popup -E tmux-sessionizer'
-  else
-    BUFFER='tmux-sessionizer'
-  fi
-  zle accept-line
+    if [[ -n "$TMUX" ]]; then
+        BUFFER='tmux display-popup -E tmux-sessionizer'
+    else
+        BUFFER='tmux-sessionizer'
+    fi
+    zle accept-line
 }
 zle -N tmux_sessionizer_widget
 
 #bindkey '^F' tmux_sessionizer_widget
+bindkey '§' tmux_sessionizer_widget
 
 ### history
 alias h='history -i -100'
@@ -101,7 +100,6 @@ setopt hist_find_no_dups
 # show command from history instead running !!
 setopt hist_verify
 
-
 ## prompt
 PROMPT='%B%F{green}%n%b'
 if [[ -n "$SSH_CONNECTION" ]]; then
@@ -110,10 +108,8 @@ fi
 PROMPT+=$' %F{cyan}%~ \n%F{green}❯%f '
 PS2='%F{8}↳%f '
 
-
 ## init plugin manager
-_env_source "$_ENV_ZSH_DIR/zinit.zsh" 
-
+_env_source "$_ENV_ZSH_DIR/zinit.zsh"
 
 ## completions
 # apply LS_COLORS
@@ -130,10 +126,10 @@ zstyle ':completion:*:descriptions' format '%F{8}↳ %d %f'
 typeset -gU fpath
 # prepend existing dirs
 fpath=(
-  ${_ENV_ZSH_DIR}/completions(N-/)
-  ${HOMEBREW_PREFIX:+${HOMEBREW_PREFIX}/share/zsh/site-functions(N-/)}
-  ${HOMEBREW_PREFIX:+${HOMEBREW_PREFIX}/share/zsh-completions(N-/)}
-  $fpath
+    ${_ENV_ZSH_DIR}/completions(N-/)
+    ${HOMEBREW_PREFIX:+${HOMEBREW_PREFIX}/share/zsh/site-functions(N-/)}
+    ${HOMEBREW_PREFIX:+${HOMEBREW_PREFIX}/share/zsh-completions(N-/)}
+    $fpath
 )
 
 # add zsh-completions
@@ -146,13 +142,12 @@ autoload -Uz run-help
 alias help="run-help"
 compinit -u
 # block later re-init
-compinit() { return 0 }
+compinit() { return 0; }
 # bash completions
 autoload -Uz bashcompinit
 bashcompinit -u
 # block later re-init
-bashcompinit() { return 0 }
-
+bashcompinit() { return 0; }
 
 ## common
 _env_source "$_ENV_CONFIG_DIR/functions"
@@ -160,9 +155,7 @@ _env_source "$_ENV_CONFIG_DIR/aliases"
 _env_source "$_ENV_CONFIG_DIR/${_ENV_OS}_rc"
 _env_source "$_ENV_CONFIG_DIR/rc"/*(.N)
 
-
 ## functions
-
 
 ## other plugins
 # pure prompt
