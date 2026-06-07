@@ -72,7 +72,7 @@ run = 'layout floating'
 
 # always-floating current window (close with alt-q)
 [[on-window-detected]]
-if.app-name-regex-substring = '(Telegram|Yandex Telemost|BBEdit|System Settings|Calculator|Chromium|Microsoft|WhatsApp|Activity Monitor)'
+if.app-name-regex-substring = '(Telegram|Yandex Telemost|BBEdit|System Settings|Calculator|Chromium|Microsoft|WhatsApp|Activity Monitor|MacZip)'
 run = 'layout floating'
 
 # move other windows  to workspace 0
@@ -83,9 +83,8 @@ run = [ 'layout floating' ,'move-node-to-workspace ~' ]
 # applications 
 alt-shift-equal = 'exec-and-forget open -a "Calculator.app"'
 alt-shift-b = 'exec-and-forget open -a "BBEdit"'
-alt-shift-c = 'exec-and-forget open -a "Codex"'
 alt-shift-g = 'exec-and-forget open -a "ChatGPT"'
-alt-shift-m = 'exec-and-forget open -a "Mail.app"'
+alt-shift-m = 'exec-and-forget open -a "Mail"'
 alt-shift-t = 'exec-and-forget open -a "Telegram"'
 alt-shift-u = 'exec-and-forget open -a "Chromium"'
 alt-shift-w = 'exec-and-forget open -a "WhatsApp"'
@@ -159,9 +158,8 @@ alt-shift-backtick = 'move-node-to-workspace --focus-follows-window ~'
 # applications
 alt-shift-equal = 'exec-and-forget open -a "Calculator.app"'
 alt-shift-b = 'exec-and-forget open -a "BBEdit"'
-alt-shift-c = 'exec-and-forget open -a "Codex"'
 alt-shift-g = 'exec-and-forget open -a "ChatGPT"'
-alt-shift-m = 'exec-and-forget open -a "Mail'
+alt-shift-m = 'exec-and-forget open -a "Mail"'
 alt-shift-t = 'exec-and-forget open -a "Telegram"'
 alt-shift-u = 'exec-and-forget open -a "Chromium"'
 alt-shift-w = 'exec-and-forget open -a "WhatsApp"'

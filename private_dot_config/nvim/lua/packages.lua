@@ -38,7 +38,7 @@ local plugins = {
         },
         opts = {
             edit = {
-                apply_on_save = 'never',
+                apply_on_save = 'confirm',
             },
         },
     },
