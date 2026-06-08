@@ -1,43 +1,90 @@
 [user]
     name = {{ .name }}
     email = {{ .email }}
+
 [core]
-    editor = vim
     autocrlf = input
+    excludesfile = ~/.config/git/ignore
+
+[init]
+    defaultBranch = main
+
 [credential]
     {{- if eq .chezmoi.os "darwin" }}
     helper = osxkeychain
     {{- end }}
+
 [diff]
-    tool = vimdiff
+    tool = {{ if lookPath "nvim" }}nvimdiff{{ else }}vimdiff{{ end }}
+    algorithm = histogram
     colorMoved = zebra
+    colorMovedWS = allow-indentation-change
+    mnemonicPrefix = true
+    renames = copies
+
 [merge]
-    tool = vimdiff
+    tool = {{ if lookPath "nvim" }}nvimdiff{{ else }}vimdiff{{ end }}
+    conflictStyle = zdiff3
+
 [difftool]
     prompt = false
-[alias]
-    aliases = "!git --no-pager config --get-regexp ^alias\\."
-    branches = "!git --no-pager branch -vv"
-    #branch-cleanup = "!git branch --merged | grep -v main | xargs git branch -d"
-    fetchall = "!git fetch --all --tags --prune"
-    logs = "!git log --decorate --oneline --graph --date-order --pretty='format:%C(auto)%h %d %s [%an]'"
-    info = remote show origin
-    tags = "!git --no-pager tag -l --sort=-creatordate --format='%(refname:short)  %(creatordate:short)  %(subject)'"
-    unstage = restore --staged
-    stat = status -uno
+
+[rerere]
+    enabled = true
+
 [fetch]
     prune = true
-    tags = true
+
 [pull]
     rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = simple
+
+[status]
+    branch = true
+
+[alias]
+    aliases = "!git --no-pager config --get-regexp ^alias\\."
+
+    fetchall = fetch --all --tags --prune
+    fetchforce = fetch --all --tags --prune --force
+
+    plm = pull --merge
+    plf = pull --ff-only
+
+    info = remote show origin
+    br = "!git --no-pager branch -vv"
+    tags = "!git --no-pager tag -l --sort=-creatordate --format='%(refname:short)  %(creatordate:short)  %(subject)'"
+
+    lg = log --decorate --oneline --graph --date-order --pretty='format:%C(auto)%h %d %s [%an]'
+    last = log -1 --stat
+    graph = log --decorate --oneline --graph --date-order --all
+    diverge = log --oneline --left-right --cherry-pick
+    filelog = log --follow --oneline --
+    filechanges = log --follow -p --
+
+    staged = diff --cached
+    unstage = restore --staged
+    unstaged = diff
+
+    st = status --short --branch
+    stu = status -uno
+
+    dt = difftool
+    mt = mergetool
+
+    root = rev-parse --show-toplevel
+
 [http]
     postBuffer = 524288000
+
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+
 [includeIf "gitdir:/Users/chu/dev/altuera/"]
     path = /Users/chu/dev/altuera/.gitconfig
-#[remote "origin"]
-#    fetch = +refs/tags/*:refs/tags/*
