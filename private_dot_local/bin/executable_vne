@@ -1,0 +1,534 @@
+#!/usr/bin/env bash
+# VNE is Not Env: environment profile storage with bash/zsh shell init.
+
+set -u
+
+vne_config_dir() {
+    printf '%s\n' "${VNE_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/vne}"
+}
+
+vne_profiles_dir() {
+    printf '%s/profiles.d\n' "$(vne_config_dir)"
+}
+
+vne_ensure_dirs() {
+    mkdir -p "$(vne_profiles_dir)"
+}
+
+vne_profile_validate() {
+    local profile="$1"
+
+    case "$profile" in
+        ""|/*|.|..|*/|../*|*/../*|*/..|*$'\n'*)
+            printf 'Invalid profile name: %s\n' "$profile" >&2
+            return 1
+            ;;
+    esac
+}
+
+vne_key_validate() {
+    local key="$1"
+
+    case "$key" in
+        ""|[0-9]*|*[!A-Za-z0-9_]*)
+            printf 'Invalid variable name: %s\n' "$key" >&2
+            return 1
+            ;;
+    esac
+}
+
+vne_profile_file() {
+    local profile="$1"
+    printf '%s/%s\n' "$(vne_profiles_dir)" "$profile"
+}
+
+vne_profile_exists() {
+    local profile="$1"
+    vne_profile_validate "$profile" || return 1
+    [ -f "$(vne_profile_file "$profile")" ]
+}
+
+vne_profile_list() {
+    local profiles_dir
+
+    profiles_dir="$(vne_profiles_dir)"
+    [ -d "$profiles_dir" ] || return 0
+
+    (
+        cd "$profiles_dir" || exit 1
+        find . -type f -print 2> /dev/null |
+            sed 's#^\./##' |
+            sort
+    )
+}
+
+vne_profile_show() {
+    local profile="$1"
+    local profile_file
+
+    vne_profile_validate "$profile" || return 1
+    profile_file="$(vne_profile_file "$profile")"
+    [ -f "$profile_file" ] || {
+        printf 'Profile %s does not exist.\n' "$profile" >&2
+        return 1
+    }
+
+    awk 'NF { print }' "$profile_file" 2> /dev/null
+}
+
+vne_var_add() {
+    local profile="$1"
+    local key="$2"
+    local val="$3"
+    local profile_file profile_dir tmp exists
+
+    vne_profile_validate "$profile" || return 1
+    vne_key_validate "$key" || return 1
+    vne_ensure_dirs
+
+    exists=1
+    vne_profile_exists "$profile" || exists=0
+
+    profile_file="$(vne_profile_file "$profile")"
+    profile_dir="${profile_file%/*}"
+    mkdir -p "$profile_dir"
+    [ -f "$profile_file" ] || touch "$profile_file"
+
+    tmp="${profile_file}.tmp.$$"
+    awk -v KEY="$key" -v VAL="$val" '
+        BEGIN { printed=0 }
+        $1 ~ "^"KEY"=" { print KEY"="VAL; printed=1; next }
+        { print }
+        END {
+            if (!printed) {
+                print KEY"="VAL
+            }
+        }
+    ' "$profile_file" >| "$tmp" &&
+        command mv -f "$tmp" "$profile_file"
+
+    if [ "$exists" -eq 0 ]; then
+        printf 'Profile %s created.\n' "$profile"
+    fi
+}
+
+vne_var_del() {
+    local profile="$1"
+    local key="$2"
+    local profile_file tmp
+
+    vne_profile_validate "$profile" || return 1
+    vne_key_validate "$key" || return 1
+
+    profile_file="$(vne_profile_file "$profile")"
+    [ -f "$profile_file" ] || {
+        printf 'Profile %s does not exist.\n' "$profile" >&2
+        return 1
+    }
+
+    tmp="${profile_file}.tmp.$$"
+    awk -v KEY="$key" '
+        $1 ~ "^"KEY"=" { next }
+        { print }
+    ' "$profile_file" >| "$tmp" &&
+        command mv -f "$tmp" "$profile_file"
+}
+
+vne_profile_remove() {
+    local profile="$1"
+    local profile_file
+
+    vne_profile_validate "$profile" || return 1
+    profile_file="$(vne_profile_file "$profile")"
+    [ -f "$profile_file" ] || {
+        printf 'Profile %s does not exist.\n' "$profile" >&2
+        return 1
+    }
+
+    command rm -f "$profile_file"
+    printf 'Profile %s removed.\n' "$profile"
+}
+
+vne_help() {
+    cat <<'EOF'
+
+vne - manage environment variable profiles for bash/zsh
+
+Setup:
+  eval "$(vne init bash)"       # bash
+  eval "$(vne init zsh)"        # zsh
+
+Commands:
+  init bash|zsh                 # print shell integration
+  profile list-active           # active profiles
+  profile list                  # list defined profiles
+  profile activate PROFILE      # export vars in PROFILE
+  profile deactivate PROFILE    # unset vars in PROFILE
+  profile remove PROFILE        # delete the entire profile
+  profile show|get PROFILE      # show vars in PROFILE
+  var add PROFILE KEY VALUE     # add/update KEY in PROFILE
+  var del PROFILE KEY           # remove KEY from PROFILE
+  help                          # display this message
+EOF
+}
+
+vne_print_shell_core() {
+    cat <<'EOF'
+_vne_profile_is_active() {
+    local profile="$1"
+    local p
+
+    [ -n "${VNE_PROFILES:-}" ] || return 1
+    while IFS= read -r p; do
+        [ "$p" = "$profile" ] && return 0
+    done <<__VNE_ACTIVE__
+$VNE_PROFILES
+__VNE_ACTIVE__
+    return 1
+}
+
+_vne_profile_activate() {
+    local profile="$1"
+    local line key val
+
+    [ -n "$profile" ] || {
+        command vne help
+        return 2
+    }
+
+    command vne profile show "$profile" > /dev/null || return 1
+
+    while IFS= read -r line; do
+        [ -n "$line" ] || continue
+        case "$line" in \#*) continue ;; esac
+        key="${line%%=*}"
+        val="${line#*=}"
+        export "$key=$val"
+    done <<__VNE_PROFILE__
+$(command vne profile show "$profile")
+__VNE_PROFILE__
+
+    if _vne_profile_is_active "$profile"; then
+        printf 'Profile %s already active.\n' "$profile"
+        return 0
+    fi
+
+    if [ -n "${VNE_PROFILES:-}" ]; then
+        VNE_PROFILES="${VNE_PROFILES}
+$profile"
+    else
+        VNE_PROFILES="$profile"
+    fi
+    export VNE_PROFILES
+    printf 'Profile %s activated.\n' "$profile"
+}
+
+_vne_profile_deactivate() {
+    local profile="$1"
+    local line key new p
+
+    [ -n "$profile" ] || {
+        command vne help
+        return 2
+    }
+
+    _vne_profile_is_active "$profile" || return 0
+
+    while IFS= read -r line; do
+        [ -n "$line" ] || continue
+        case "$line" in \#*) continue ;; esac
+        key="${line%%=*}"
+        unset "$key"
+    done <<__VNE_PROFILE__
+$(command vne profile show "$profile")
+__VNE_PROFILE__
+
+    new=""
+    while IFS= read -r p; do
+        [ "$p" = "$profile" ] && continue
+        if [ -n "$new" ]; then
+            new="${new}
+$p"
+        else
+            new="$p"
+        fi
+    done <<__VNE_ACTIVE__
+$VNE_PROFILES
+__VNE_ACTIVE__
+
+    VNE_PROFILES="$new"
+    export VNE_PROFILES
+    printf 'Profile %s deactivated.\n' "$profile"
+}
+
+_vne_profile_list_active() {
+    local p
+
+    if [ -z "${VNE_PROFILES:-}" ]; then
+        printf 'no active profiles\n'
+        return 0
+    fi
+
+    printf 'active profiles:\n'
+    while IFS= read -r p; do
+        printf '  %s\n' "$p"
+    done <<__VNE_ACTIVE__
+$VNE_PROFILES
+__VNE_ACTIVE__
+}
+
+vne() {
+    local cmd="${1:-}"
+    local subcmd="${2:-}"
+    local rc
+
+    case "$cmd:$subcmd" in
+        profile:activate)
+            shift 2
+            [ "$#" -eq 1 ] || {
+                command vne help
+                return 2
+            }
+            _vne_profile_activate "$1"
+            ;;
+        profile:deactivate)
+            shift 2
+            [ "$#" -eq 1 ] || {
+                command vne help
+                return 2
+            }
+            _vne_profile_deactivate "$1"
+            ;;
+        profile:list-active)
+            shift 2
+            [ "$#" -eq 0 ] || {
+                command vne help
+                return 2
+            }
+            _vne_profile_list_active
+            ;;
+        profile:remove)
+            shift 2
+            [ "$#" -eq 1 ] || {
+                command vne help
+                return 2
+            }
+            _vne_profile_deactivate "$1"
+            command vne profile remove "$1"
+            ;;
+        *)
+            command vne "$@"
+            ;;
+    esac
+    rc=$?
+    return "$rc"
+}
+EOF
+}
+
+vne_print_bash_init() {
+    vne_print_shell_core
+    cat <<'EOF'
+
+_vne_bash() {
+    local cur cmd subcmd active alldefs
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    cmd="${COMP_WORDS[1]}"
+
+    if [[ $COMP_CWORD -eq 1 ]]; then
+        COMPREPLY=($(compgen -W "init var profile help" -- "$cur"))
+        return 0
+    fi
+
+    case "$cmd" in
+        init)
+            if [[ $COMP_CWORD -eq 2 ]]; then
+                COMPREPLY=($(compgen -W "bash zsh" -- "$cur"))
+            fi
+            ;;
+        var)
+            if [[ $COMP_CWORD -eq 2 ]]; then
+                COMPREPLY=($(compgen -W "add del" -- "$cur"))
+            elif [[ $COMP_CWORD -eq 3 ]]; then
+                alldefs="$(command vne profile list)"
+                COMPREPLY=($(compgen -W "$alldefs" -- "$cur"))
+            fi
+            ;;
+        profile)
+            if [[ $COMP_CWORD -eq 2 ]]; then
+                COMPREPLY=($(compgen -W "list list-active activate deactivate remove get show" -- "$cur"))
+            elif [[ $COMP_CWORD -eq 3 ]]; then
+                subcmd="${COMP_WORDS[2]}"
+                case "$subcmd" in
+                    activate | remove | get | show)
+                        alldefs="$(command vne profile list)"
+                        COMPREPLY=($(compgen -W "$alldefs" -- "$cur"))
+                        ;;
+                    deactivate)
+                        active="${VNE_PROFILES:-}"
+                        COMPREPLY=($(compgen -W "$active" -- "$cur"))
+                        ;;
+                esac
+            fi
+            ;;
+    esac
+}
+
+complete -F _vne_bash vne
+EOF
+}
+
+vne_print_zsh_init() {
+    vne_print_shell_core
+    cat <<'EOF'
+
+_vne_zsh() {
+    local cmd subcmd
+    local -a profiles active
+
+    profiles=("${(@f)$(command vne profile list)}")
+    active=("${(@f)VNE_PROFILES}")
+
+    if [[ $CURRENT -eq 2 ]]; then
+        compadd init var profile help
+        return
+    fi
+
+    cmd="${words[2]}"
+    case "$cmd" in
+        init)
+            if [[ $CURRENT -eq 3 ]]; then
+                compadd bash zsh
+            fi
+            ;;
+        var)
+            if [[ $CURRENT -eq 3 ]]; then
+                compadd add del
+            elif [[ $CURRENT -eq 4 ]]; then
+                compadd -a profiles
+            fi
+            ;;
+        profile)
+            if [[ $CURRENT -eq 3 ]]; then
+                compadd list list-active activate deactivate remove get show
+            elif [[ $CURRENT -eq 4 ]]; then
+                subcmd="${words[3]}"
+                case "$subcmd" in
+                    activate | remove | get | show) compadd -a profiles ;;
+                    deactivate) compadd -a active ;;
+                esac
+            fi
+            ;;
+    esac
+}
+
+if whence -w compdef > /dev/null 2>&1; then
+    compdef _vne_zsh vne
+fi
+EOF
+}
+
+vne_init() {
+    case "${1:-}" in
+        bash) vne_print_bash_init ;;
+        zsh)  vne_print_zsh_init ;;
+        *)
+            printf 'Usage: vne init bash|zsh\n' >&2
+            return 2
+            ;;
+    esac
+}
+
+vne_main() {
+    local cmd="${1:-}"
+    local subcmd
+
+    case "$cmd" in
+        "")
+            vne_help
+            ;;
+        init)
+            shift
+            vne_init "$@"
+            ;;
+        var)
+            subcmd="${2:-}"
+            case "$subcmd" in
+                add)
+                    [ "$#" -eq 5 ] || {
+                        vne_help
+                        return 2
+                    }
+                    vne_var_add "$3" "$4" "$5"
+                    ;;
+                del)
+                    [ "$#" -eq 4 ] || {
+                        vne_help
+                        return 2
+                    }
+                    vne_var_del "$3" "$4"
+                    ;;
+                *)
+                    vne_help
+                    return 2
+                    ;;
+            esac
+            ;;
+        profile)
+            subcmd="${2:-}"
+            case "$subcmd" in
+                list)
+                    [ "$#" -eq 2 ] || {
+                        vne_help
+                        return 2
+                    }
+                    vne_profile_list
+                    ;;
+                list-active)
+                    [ "$#" -eq 2 ] || {
+                        vne_help
+                        return 2
+                    }
+                    printf 'profile list-active requires shell init: eval "$(vne init bash|zsh)"\n' >&2
+                    return 1
+                    ;;
+                activate | deactivate)
+                    printf 'profile %s requires shell init: eval "$(vne init bash|zsh)"\n' "$subcmd" >&2
+                    return 1
+                    ;;
+                remove)
+                    [ "$#" -eq 3 ] || {
+                        vne_help
+                        return 2
+                    }
+                    vne_profile_remove "$3"
+                    ;;
+                get | show)
+                    [ "$#" -eq 3 ] || {
+                        vne_help
+                        return 2
+                    }
+                    vne_profile_show "$3"
+                    ;;
+                exists)
+                    [ "$#" -eq 3 ] || return 2
+                    vne_profile_exists "$3"
+                    ;;
+                *)
+                    vne_help
+                    return 2
+                    ;;
+            esac
+            ;;
+        help | --help | -h)
+            vne_help
+            ;;
+        *)
+            vne_help
+            return 2
+            ;;
+    esac
+}
+
+vne_main "$@"
