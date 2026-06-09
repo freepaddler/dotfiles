@@ -30,16 +30,6 @@ local function relModTime()
 end
 
 local filenamt_shorting_target = 60
-local inactive_location_legth = 8
-local inactive_padding = 0
-
-local function inactiveText()
-    local n = vim.fn.winwidth(0) - filenamt_shorting_target - inactive_location_legth - inactive_padding
-    if n < 5 then
-        return ''
-    end
-    return string.rep('-', n) .. '%='
-end
 
 require('lualine').setup({
     options = {
@@ -67,7 +57,7 @@ require('lualine').setup({
             { 'filename', path = 3, shorting_target = filenamt_shorting_target },
             relModTime
         },
-        lualine_x = { inactiveText, 'location' },
+        lualine_x = { 'location' },
         lualine_y = {},
         lualine_z = {}
     },
