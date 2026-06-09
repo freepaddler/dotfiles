@@ -1,6 +1,7 @@
 vim.keymap.set('n', '<leader>et', ':Neotree toggle filesystem reveal left<CR>', { desc = 'Toggle file tree' })
 vim.keymap.set('n', '<leader>ef', ':Neotree filesystem reveal left<CR>', { desc = 'Reveal current file' })
 vim.keymap.set('n', '<leader>eb', ':Neotree buffers reveal float<CR>', { desc = 'Open buffer tree' })
+vim.keymap.set('n', '<leader>eg', ':Neotree git_status reveal left<CR>', { desc = 'Open Git status tree' })
 
 require('neo-tree').setup({
     filesystem = {

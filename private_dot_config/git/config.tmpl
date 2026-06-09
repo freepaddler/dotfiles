@@ -58,7 +58,7 @@
     br = "!git --no-pager branch -vv"
     tags = "!git --no-pager tag -l --sort=-creatordate --format='%(refname:short)  %(creatordate:short)  %(subject)'"
 
-    lg = log --decorate --oneline --graph --date-order --pretty='format:%C(auto)%h %d %s [%an]'
+    lg = log --decorate --graph --date-order --date=short --pretty='format:%C(auto)%h %C(cyan)%ad%Creset %d %s %C(dim white)[%an]%Creset'
     last = log -1 --stat
     graph = log --decorate --oneline --graph --date-order --all
     diverge = log --oneline --left-right --cherry-pick

@@ -282,7 +282,6 @@ K                    nvim visual        move selection up
 <leader>ss           nvim normal        substitute word under cursor
 <leader>cX           nvim normal        chmod +x current file
 <leader>ff           nvim normal        telescope find files
-<leader>fp           nvim normal        telescope find git files
 <leader>fg           nvim normal        telescope live grep
 <leader>sg           nvim normal        telescope live grep
 <leader>fm           nvim normal        telescope keymaps
@@ -292,10 +291,20 @@ K                    nvim visual        move selection up
 <leader>fz           nvim normal        telescope chezmoi managed files
 C-\                  nvim telescope     open selection in vertical split
 C--                  nvim telescope     open selection in horizontal split
+C-Tab                nvim telescope     open selection in new tab
+
+<leader>ggf          nvim normal        telescope git files
+<leader>ggs          nvim normal        telescope git status files
+<leader>ggl          nvim normal        telescope git log
+<leader>ggF          nvim normal        telescope current file git log
+<leader>ggL          nvim normal/visual telescope current line/range git log
+<leader>ggb          nvim normal        telescope git branches
+<leader>ggS          nvim normal        telescope git stash
 
 <leader>et           nvim normal        toggle neo-tree filesystem reveal left
 <leader>ef           nvim normal        reveal current file in neo-tree left
 <leader>eb           nvim normal        neo-tree buffers reveal float
+<leader>eg           nvim normal        neo-tree git status reveal left
 <leader>gs           nvim normal        fugitive Git
 <leader>su           nvim normal        undotree toggle
 <leader>cf           nvim normal        format with conform
