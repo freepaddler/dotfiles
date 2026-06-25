@@ -9,6 +9,8 @@ require('which-key').setup({
         { '<leader>f', group = 'find' },
         { '<leader>g', group = 'git' },
         { '<leader>gg', group = 'git pickers' },
+        { '<leader>gm', group = 'git merge' },
+        { '<leader>gr', group = 'git rebase' },
         { '<leader>q', group = 'quit / sessions' },
         { '<leader>s', group = 'search' },
         { '<leader>t', group = 'tests' },

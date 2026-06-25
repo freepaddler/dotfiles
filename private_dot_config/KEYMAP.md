@@ -301,11 +301,22 @@ C-Tab                nvim telescope     open selection in new tab
 <leader>ggb          nvim normal        telescope git branches
 <leader>ggS          nvim normal        telescope git stash
 
-<leader>et           nvim normal        toggle neo-tree filesystem reveal left
+<leader>gs           nvim normal        fugitive Git
+<leader>gf           nvim normal        fugitive fetch --prune
+<leader>gF           nvim normal        fugitive fetch --all --prune --tags
+<leader>gp           nvim normal        fugitive pull --ff-only
+<leader>gu           nvim normal        fugitive pull --rebase --autostash
+<leader>gP           nvim normal        fugitive push
+<leader>gB           nvim normal        fugitive blame
+<leader>gd           nvim normal        fugitive vertical 3-way diff
+<leader>gmt          nvim normal        fugitive mergetool
+<leader>gma          nvim normal        fugitive merge abort
+<leader>grc          nvim normal        fugitive rebase continue
+<leader>gra          nvim normal        fugitive rebase abort
+<leader>et           nvim normal        toggle neo-tree filesystem at project root
 <leader>ef           nvim normal        reveal current file in neo-tree left
 <leader>eb           nvim normal        neo-tree buffers reveal float
 <leader>eg           nvim normal        neo-tree git status reveal left
-<leader>gs           nvim normal        fugitive Git
 <leader>su           nvim normal        undotree toggle
 <leader>cf           nvim normal        format with conform
 <leader>cl           nvim normal        lint current buffer

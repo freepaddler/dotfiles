@@ -5,6 +5,9 @@ require('catppuccin').setup({
         return {
             StatusLine = { fg = colors.text, bg = colors.mantle },
             StatusLineNC = { fg = colors.overlay0, bg = colors.mantle },
+            TabLine = { fg = colors.overlay0, bg = colors.mantle },
+            TabLineFill = { bg = colors.mantle },
+            TabLineSel = { fg = colors.text, bg = colors.surface0 },
             WinSeparator = { fg = colors.surface2 },
             VertSplit = { fg = colors.surface2 },
         }
