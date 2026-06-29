@@ -32,9 +32,4 @@ return {
     linters_by_ft = {
         markdown = { 'markdownlint-cli2' },
     },
-    none_ls = {
-        function()
-            return require('null-ls').builtins.diagnostics.markdownlint_cli2
-        end,
-    },
 }

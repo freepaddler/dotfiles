@@ -8,4 +8,7 @@
 
 - https://github.com/mathiasbynens/dotfiles/blob/main/.macos settings for MacOS
 
-asdasfsdfs
+```bash
+#!/bin/sh
+ln -ls
+```

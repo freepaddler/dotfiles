@@ -11,7 +11,7 @@ echo ":bolt:"
 echo "---"
 
 ip_world=$(curl -s https://api.ipify.org)
-ip_ru=$(curl -s curl -s https://2ip.ru)
+ip_ru=$(curl -s https://2ip.ru)
 
 echo "🌎 $ip_world"
 echo "🇷🇺 $ip_ru"
