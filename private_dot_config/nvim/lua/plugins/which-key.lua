@@ -11,7 +11,7 @@ require('which-key').setup({
         { '<leader>gg', group = 'git pickers' },
         { '<leader>gm', group = 'git merge' },
         { '<leader>gr', group = 'git rebase' },
-        { '<leader>q', group = 'quit / sessions' },
+        { '<leader>r', group = 'run' },
         { '<leader>s', group = 'search' },
         { '<leader>t', group = 'tests' },
         { '<leader>u', group = 'UI toggles' },

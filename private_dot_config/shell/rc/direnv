@@ -1,0 +1,5 @@
+# vim: ft=sh
+_env_cmd direnv || return 0
+
+_env_shell bash && eval "$(direnv hook bash)"
+_env_shell zsh && eval "$(direnv hook zsh)"

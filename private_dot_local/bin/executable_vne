@@ -76,6 +76,48 @@ vne_profile_show() {
     awk 'NF { print }' "$profile_file" 2> /dev/null
 }
 
+vne_shell_quote() {
+    local value="$1"
+    local prefix
+
+    printf "'"
+    while [ -n "$value" ]; do
+        case "$value" in
+            *"'"*)
+                prefix="${value%%\'*}"
+                printf '%s' "$prefix"
+                printf '%s' "'\\''"
+                value="${value#*\'}"
+                ;;
+            *)
+                printf '%s' "$value"
+                break
+                ;;
+        esac
+    done
+    printf "'"
+}
+
+vne_profile_export() {
+    local profile="$1"
+    local line key val
+
+    vne_profile_show "$profile" > /dev/null || return 1
+
+    while IFS= read -r line; do
+        [ -n "$line" ] || continue
+        case "$line" in \#*) continue ;; esac
+        key="${line%%=*}"
+        val="${line#*=}"
+        vne_key_validate "$key" || return 1
+        printf 'export %s=' "$key"
+        vne_shell_quote "$val"
+        printf '\n'
+    done <<__VNE_PROFILE__
+$(vne_profile_show "$profile")
+__VNE_PROFILE__
+}
+
 vne_var_add() {
     local profile="$1"
     local key="$2"
@@ -164,6 +206,7 @@ Commands:
   profile list                  # list defined profiles
   profile activate PROFILE      # export vars in PROFILE
   profile deactivate PROFILE    # unset vars in PROFILE
+  profile export PROFILE        # print shell exports for PROFILE
   profile remove PROFILE        # delete the entire profile
   profile show|get PROFILE      # show vars in PROFILE
   var add PROFILE KEY VALUE     # add/update KEY in PROFILE
@@ -357,11 +400,11 @@ _vne_bash() {
             ;;
         profile)
             if [[ $COMP_CWORD -eq 2 ]]; then
-                COMPREPLY=($(compgen -W "list list-active activate deactivate remove get show" -- "$cur"))
+                COMPREPLY=($(compgen -W "list list-active activate deactivate export remove get show" -- "$cur"))
             elif [[ $COMP_CWORD -eq 3 ]]; then
                 subcmd="${COMP_WORDS[2]}"
                 case "$subcmd" in
-                    activate | remove | get | show)
+                    activate | export | remove | get | show)
                         alldefs="$(command vne profile list)"
                         COMPREPLY=($(compgen -W "$alldefs" -- "$cur"))
                         ;;
@@ -411,11 +454,11 @@ _vne_zsh() {
             ;;
         profile)
             if [[ $CURRENT -eq 3 ]]; then
-                compadd list list-active activate deactivate remove get show
+                compadd list list-active activate deactivate export remove get show
             elif [[ $CURRENT -eq 4 ]]; then
                 subcmd="${words[3]}"
                 case "$subcmd" in
-                    activate | remove | get | show) compadd -a profiles ;;
+                    activate | export | remove | get | show) compadd -a profiles ;;
                     deactivate) compadd -a active ;;
                 esac
             fi
@@ -510,6 +553,13 @@ vne_main() {
                         return 2
                     }
                     vne_profile_show "$3"
+                    ;;
+                export)
+                    [ "$#" -eq 3 ] || {
+                        vne_help
+                        return 2
+                    }
+                    vne_profile_export "$3"
                     ;;
                 exists)
                     [ "$#" -eq 3 ] || return 2

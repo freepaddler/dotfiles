@@ -114,6 +114,27 @@ local plugins = {
         end,
     },
     {
+        'kristijanhusak/vim-dadbod-ui',
+        dependencies = {
+            { 'tpope/vim-dadbod', lazy = true },
+            {
+                'kristijanhusak/vim-dadbod-completion',
+                ft = { 'sql', 'mysql', 'plsql' },
+                lazy = true,
+            },
+        },
+        cmd = {
+            'DB',
+            'DBUI',
+            'DBUIToggle',
+            'DBUIAddConnection',
+            'DBUIFindBuffer',
+        },
+        init = function()
+            require('plugins.dadbod')
+        end,
+    },
+    {
         'csexton/trailertrash.vim',
         config = function()
             -- enable/disable highlighting on startup

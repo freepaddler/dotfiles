@@ -31,6 +31,60 @@ end
 
 local filenamt_shorting_target = 60
 
+local function dbNameFromPath(path)
+    if path == nil or path == '' then
+        return nil
+    end
+
+    local name = path:match('/([^/?#]+)$')
+    if name == nil or name == '' then
+        return nil
+    end
+
+    return vim.fn['db#url#decode'](name)
+end
+
+local function dbConnection()
+    if vim.b.db_name ~= nil and vim.b.db_name ~= '' then
+        return 'DB ' .. vim.b.db_name
+    end
+
+    local db = vim.b.db_url or vim.b.db or vim.g.db
+    if db == nil or type(db) ~= 'string' then
+        return ''
+    end
+
+    local ok, parsed = pcall(vim.fn['db#url#parse'], db)
+    if not ok or type(parsed) ~= 'table' then
+        return ''
+    end
+
+    local database = dbNameFromPath(parsed.path)
+    local host = parsed.host
+    if host == nil or host == '' then
+        return database ~= nil and ('DB ' .. database) or ''
+    end
+
+    if not host:find(':', 1, true) then
+        host = host:match('^[^.]+') or host
+    end
+
+    local label = host
+    if parsed.user ~= nil and parsed.user ~= '' then
+        label = parsed.user .. '@' .. label
+    end
+
+    if parsed.port ~= nil and parsed.port ~= '' then
+        label = label .. ':' .. parsed.port
+    end
+
+    if database ~= nil then
+        label = label .. '/' .. database
+    end
+
+    return 'DB ' .. label
+end
+
 require('lualine').setup({
     options = {
         theme = 'auto',
@@ -46,7 +100,7 @@ require('lualine').setup({
             { 'filename', path = 3, shorting_target = filenamt_shorting_target },
             relModTime,
         },
-        lualine_x = { 'diagnostics', 'fileformat', 'encoding', 'filetype' },
+        lualine_x = { dbConnection, 'diagnostics', 'fileformat', 'encoding', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' },
     },

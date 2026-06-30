@@ -174,7 +174,7 @@ Leader group plan:
 <leader>e            explorer
 <leader>f            find
 <leader>g            git
-<leader>q            quit / sessions
+<leader>r            run
 <leader>s            search
 <leader>t            tests
 <leader>u            UI toggles
@@ -183,7 +183,7 @@ Leader group plan:
 <leader>x            diagnostics / quickfix / location lists
 ```
 
-`c`, `d`, `q`, `t`, `u`, `w`, and `x` are reserved for future IDE mappings.
+`c`, `d`, `t`, `u`, `w`, and `x` are reserved for future IDE mappings.
 Global clipboard mappings under `<leader>y/Y/p/P` intentionally remain available
 in addition to the `<leader>v` group.
 
@@ -225,6 +225,13 @@ jk                   nvim insert        escape
 <leader>vp           nvim normal/visual paste after from clipboard
 <leader>vP           nvim normal        paste before from clipboard
 <leader>vr           nvim normal        telescope registers
+
+<leader>ed           nvim normal        toggle dadbod UI
+<leader>fd           nvim normal        find dadbod connection
+<leader>fq           nvim normal        find SQL query/template copy
+<leader>rq           nvim visual        run selected SQL with dadbod
+<leader>ra           nvim sql normal    run SQL buffer with dadbod
+<leader>rr           nvim sql normal    run SQL query with dadbod
 
 <leader>bn           nvim normal        next buffer
 <leader>bp           nvim normal        previous buffer
