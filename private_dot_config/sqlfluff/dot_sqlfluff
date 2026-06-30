@@ -1,6 +1,6 @@
 [sqlfluff]
 dialect = ansi
-warnings = LT01
+warnings = LT01,RF04
 
 [sqlfluff:rules:capitalisation.keywords]
 capitalisation_policy = upper
