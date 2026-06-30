@@ -32,6 +32,10 @@ _env_path_append "$HOME/go/bin"
 _env_path_prepend "$XDG_DATA_HOME/nvim/mason/bin"
 _env_path_prepend "$HOME/.local/bin"
 
+if [ -n "$TMUX" ] && _env_cmd tmux; then
+    tmux set-environment PATH "$PATH" 2> /dev/null || :
+fi
+
 unalias vi vim nvim 2> /dev/null || :
 if _env_cmd nvim; then
     EDITOR="nvim"

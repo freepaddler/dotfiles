@@ -2,6 +2,8 @@ vim.g.db_ui_use_nerd_fonts = 1
 vim.g.db_ui_show_database_icon = 1
 vim.g.db_ui_use_nvim_notify = 1
 vim.g.db_ui_execute_on_save = 0
+vim.g.db_ui_disable_info_notifications = 1
+vim.g.db_ui_save_location = vim.fn.stdpath('data') .. '/db_ui'
 vim.g.db_ui_tmp_query_location = vim.fn.stdpath('run') .. '/db_ui_queries'
 
 local function run_all()
@@ -197,12 +199,14 @@ local function open_template_copy()
 
                 return {
                     value = absolute,
+                    filename = absolute,
                     path = absolute,
                     display = vim.fn.fnamemodify(absolute, ':~:.'),
                     ordinal = absolute,
                 }
             end,
         }),
+        previewer = conf.file_previewer({}),
         sorter = conf.file_sorter({}),
         attach_mappings = function(prompt_bufnr)
             actions.select_default:replace(function()
