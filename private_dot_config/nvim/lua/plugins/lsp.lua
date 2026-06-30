@@ -22,17 +22,22 @@ end
 
 ---- format
 local conform = require('conform')
+local format_timeout_ms = 5000
 conform.setup({
     formatters = languages.formatters,
+    default_format_opts = {
+        timeout_ms = format_timeout_ms,
+        lsp_format = 'fallback',
+    },
     format_on_save = {
-        timeout_ms = 500,
+        timeout_ms = format_timeout_ms,
         lsp_format = 'fallback',
     },
     formatters_by_ft = languages.formatters_by_ft,
 })
 
 map('n', '<leader>cf', function()
-    conform.format({ lsp_fallback = true, async = false })
+    conform.format({ async = false })
 end, { desc = 'Format buffer' })
 
 ---- lint
