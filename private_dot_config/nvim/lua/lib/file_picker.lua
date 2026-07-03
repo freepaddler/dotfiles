@@ -1,13 +1,15 @@
 local M = {}
 
+local function normalize_path(path)
+    return vim.fs.normalize(vim.fn.fnamemodify(vim.fn.expand(path), ':p'))
+end
+
 local function normalize_roots(roots)
     local result = {}
     local seen = {}
 
     for _, root in ipairs(roots or {}) do
-        root = vim.fn.expand(root)
-        root = vim.fn.fnamemodify(root, ':p')
-        root = vim.fs.normalize(root)
+        root = normalize_path(root)
 
         if vim.fn.isdirectory(root) == 1 and not seen[root] then
             table.insert(result, root)
@@ -114,7 +116,7 @@ function M.files(opts)
         prompt_title = opts.title or 'Files',
         finder = finders.new_oneshot_job(command, {
             entry_maker = function(path)
-                local absolute = vim.fn.fnamemodify(path, ':p')
+                local absolute = normalize_path(path)
 
                 return {
                     value = absolute,
@@ -152,34 +154,15 @@ function M.files(opts)
             if opts.attach_mappings ~= nil then
                 return opts.attach_mappings(prompt_bufnr, map, {
                     roots = roots,
-                    selected_path = selected_path,
+                    selected_path = function(selection)
+                        return selected_path(selection or action_state.get_selected_entry())
+                    end,
                 })
             end
 
             return true
         end,
     }):find()
-end
-
-function M.grep(opts)
-    opts = opts or {}
-
-    local roots = normalize_roots(opts.roots)
-    if vim.tbl_isempty(roots) then
-        vim.notify((opts.empty_roots_message or 'No grep roots found'), vim.log.levels.WARN)
-        return
-    end
-
-    local glob_pattern = file_globs(opts)
-    if vim.tbl_isempty(glob_pattern) then
-        glob_pattern = nil
-    end
-
-    require('telescope.builtin').live_grep(vim.tbl_extend('force', opts.picker_opts or {}, {
-        prompt_title = opts.title or 'Grep',
-        search_dirs = roots,
-        glob_pattern = glob_pattern,
-    }))
 end
 
 return M

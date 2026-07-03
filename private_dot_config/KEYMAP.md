@@ -286,7 +286,9 @@ K                    nvim visual        move selection up
 <leader>ss           nvim normal        substitute word under cursor
 <leader>cX           nvim normal        chmod +x current file
 <leader>ff           nvim normal        telescope find files
+<leader>fn           nvim normal        find notes and scratches
 <leader>fg           nvim normal        telescope live grep
+<leader>sn           nvim normal        search notes and scratches
 <leader>sg           nvim normal        telescope live grep
 <leader>fm           nvim normal        telescope keymaps
 <leader>fh           nvim normal        telescope help tags
@@ -295,7 +297,22 @@ K                    nvim visual        move selection up
 <leader>fz           nvim normal        telescope chezmoi managed files
 C-v                  nvim telescope     open selection in vertical split
 C-h                  nvim telescope     open selection in horizontal split
-C-Tab                nvim telescope     open selection in new tab
+C-b                  nvim telescope     open selection in current buffer
+C-t                  nvim telescope     open selection in new tab
+Enter                nvim notes picker  open selected in popup
+C-a                  nvim notes picker  create note in popup
+C-s                  nvim notes picker  create scratch in popup
+C-l                  nvim notes picker  open selected in popup
+C-x                  nvim notes picker  delete selected
+C-l                  nvim normal        toggle last note popup
+q                    nvim notes popup   save and close popup
+C-l                  nvim notes popup   save and close popup
+C-b                  nvim notes popup   promote popup to current buffer
+C-v                  nvim notes popup   promote popup to vertical split
+C-h                  nvim notes popup   promote popup to horizontal split
+C-t                  nvim notes popup   promote popup to new tab
+C-a                  nvim notes popup   create note in popup
+C-s                  nvim notes popup   create scratch in popup
 
 <leader>ggf          nvim normal        telescope git files
 <leader>ggs          nvim normal        telescope git status files
@@ -353,6 +370,96 @@ Ctrl-Alt-U           nvim markdown      insert table row above
 Ctrl-Alt-D           nvim markdown      insert table row below
 Ctrl-Alt-N           nvim markdown      insert table
 Ctrl-Alt-X           nvim markdown      delete table column
+```
+
+## Vim
+
+Config: `vim/mappings.vim`
+
+Server-oriented Vim mirrors non-plugin nvim mappings where practical.
+
+```text
+<leader>             vim all           Space
+<localleader>        vim all           \
+<leader>-            vim normal        split window horizontally
+<leader>\            vim normal        split window vertically
+
+Alt-h                vim normal/visual window left, or tmux pane at edge
+Alt-j                vim normal/visual window down, or tmux pane at edge
+Alt-k                vim normal/visual window up, or tmux pane at edge
+Alt-l                vim normal/visual window right, or tmux pane at edge
+Alt-h                vim insert        leave insert, then window left or tmux pane at edge
+Alt-j                vim insert        leave insert, then window down or tmux pane at edge
+Alt-k                vim insert        leave insert, then window up or tmux pane at edge
+Alt-l                vim insert        leave insert, then window right or tmux pane at edge
+C-h                  vim normal        window left
+C-j                  vim normal        window down
+C-k                  vim normal        window up
+C-l                  vim normal        window right
+
+C-c                  vim insert        escape
+C-s                  vim normal        save file
+jj                   vim insert        escape
+jk                   vim insert        escape
+
+<leader>y            vim normal/visual yank to clipboard
+<leader>Y            vim normal        yank to clipboard until EOF
+<leader>p            vim normal        paste after from clipboard
+<leader>P            vim normal        paste before from clipboard
+<leader>p            vim visual        replace without yanking
+<leader>vd           vim normal/visual delete without yanking
+<leader>vD           vim normal        delete to EOL without yanking
+<leader>vc           vim normal/visual change without yanking
+<leader>vC           vim normal        change to EOL without yanking
+<leader>vy           vim normal/visual yank to clipboard
+<leader>vY           vim normal        yank to clipboard until EOF
+<leader>vp           vim normal/visual paste after from clipboard
+<leader>vP           vim normal        paste before from clipboard
+
+<leader>bn           vim normal        next buffer
+<leader>bp           vim normal        previous buffer
+<leader>bl           vim normal        last buffer
+<leader>bd           vim normal        delete current buffer
+<leader>bD           vim normal        delete all buffers except current
+[b                    vim normal        previous buffer
+]b                    vim normal        next buffer
+
+<leader><Tab>c       vim normal        new tab
+<leader><Tab>d       vim normal        delete current tab
+<leader><Tab>D       vim normal        delete all tabs except current
+<leader><Tab>e       vim normal        new tab with explorer at current file directory
+<leader><Tab>E       vim normal        new tab with explorer at working directory
+<leader><Tab>gf      vim normal        open file under cursor in new tab
+<leader><Tab>n       vim normal        next tab
+<leader><Tab>p       vim normal        previous tab
+<leader><Tab><Tab>   vim normal        last tab
+<leader><Tab>1..9    vim normal        go to tab 1..9
+[t                    vim normal        previous tab
+]t                    vim normal        next tab
+
+]q                   vim normal        quickfix next
+[q                   vim normal        quickfix previous
+]l                   vim normal        location next
+[l                   vim normal        location previous
+
+C-d                  vim normal        scroll down and center
+C-u                  vim normal        scroll up and center
+n                    vim normal        next search and center
+N                    vim normal        previous search and center
+<leader>uh           vim normal        toggle search highlight
+<leader>ul           vim normal        toggle line numbers
+<leader>uL           vim normal        toggle relative line numbers
+<leader>um           vim normal        toggle mouse
+j                    vim normal/visual visual line down
+k                    vim normal/visual visual line up
+J                    vim normal        join line, keep cursor
+J                    vim visual        move selection down
+K                    vim visual        move selection up
+
+<leader>ee           vim normal        explorer at current file directory
+<leader>eE           vim normal        explorer at working directory
+<leader>ss           vim normal        substitute word under cursor
+<leader>cX           vim normal        chmod +x current file
 ```
 
 ## IdeaVim

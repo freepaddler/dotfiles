@@ -19,6 +19,7 @@ local plugins = {
         },
         config = function()
             require('plugins.telescope')
+            require('plugins.notes')
         end,
     },
     {
