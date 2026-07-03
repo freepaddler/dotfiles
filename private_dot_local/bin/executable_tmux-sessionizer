@@ -93,6 +93,21 @@ expand_tilde_path() {
     fi
 }
 
+shell_quote() {
+    printf '%q' "$1"
+}
+
+project_command() {
+    local dir="$1"
+    local cmd="$2"
+
+    if command -v direnv &>/dev/null; then
+        printf 'direnv exec %s %s' "$(shell_quote "$dir")" "$cmd"
+    else
+        printf '%s' "$cmd"
+    fi
+}
+
 session_idx=""
 session_cmd=""
 user_selected=""
@@ -299,6 +314,8 @@ handle_session_cmd() {
         exit 1
     fi
 
+    selected="${user_selected:-$(pwd -P)}"
+    selected="$(expand_tilde_path "$selected")"
     current_session=$(tmux display-message -p '#S')
 
     if [[ -n "$split_type" ]]; then
@@ -313,15 +330,17 @@ handle_window_session_cmd() {
     local current_session="$1"
     start_index=$((69 + $session_idx))
     target="$current_session:$start_index"
+    local command
+    command="$(project_command "$selected" "$session_cmd")"
 
     log "target: $target command $session_cmd has-session=$(tmux has-session -t="$target" 2> /dev/null)"
     if tmux has-session -t="$target" 2> /dev/null; then
         switch_to "$target"
     else
-        log "executing session command: tmux neww -dt $target $session_cmd"
-        tmux neww -dt $target "$session_cmd"
+        log "executing session command: tmux neww -dt $target -c $selected $command"
+        tmux neww -dt "$target" -c "$selected" "$command"
         hydrate "$target" "$selected"
-        tmux select-window -t $target
+        tmux select-window -t "$target"
     fi
 }
 
@@ -349,8 +368,11 @@ handle_split_session_cmd() {
             split_flag="-v"  # vertical layout (horizontal split)
         fi
 
-        log "creating new split: tmux split-window $split_flag -c $(pwd) $session_cmd"
-        local new_pane_id=$(tmux split-window $split_flag -c "$(pwd)" -P -F "#{pane_id}" "$session_cmd")
+        local command
+        command="$(project_command "$selected" "$session_cmd")"
+
+        log "creating new split: tmux split-window $split_flag -c $selected $command"
+        local new_pane_id=$(tmux split-window $split_flag -c "$selected" -P -F "#{pane_id}" "$command")
 
         if [[ -n "$new_pane_id" ]]; then
             set_pane_id "$session_idx" "$split_type" "$new_pane_id"
