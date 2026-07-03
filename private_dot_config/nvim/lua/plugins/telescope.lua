@@ -24,17 +24,15 @@ require('telescope').setup({
         prompt_prefix = '🔍 ',
         mappings = {
             i = {
-                ['<C-\\>'] = actions.select_vertical,  -- instead of <C-v>
-                ['<C-->'] = actions.select_horizontal, -- instead of <C-y>
+                ['<C-v>'] = actions.select_vertical,
+                ['<C-h>'] = actions.select_horizontal,
                 ['<C-Tab>'] = actions.select_tab,
-                ['<C-v>'] = false,                     -- disable original
                 ['<C-y>'] = false,
             },
             n = {
-                ['<C-\\>'] = actions.select_vertical,
-                ['<C-->'] = actions.select_horizontal,
+                ['<C-v>'] = actions.select_vertical,
+                ['<C-h>'] = actions.select_horizontal,
                 ['<C-Tab>'] = actions.select_tab,
-                ['<C-v>'] = false,
                 ['<C-y>'] = false,
             },
         },

@@ -16,7 +16,7 @@ local function current_file_dir()
     return path ~= '' and path or vim.fn.getcwd()
 end
 
--- Ctrl/Alt-hjkl navigates nvim windows, falling through to tmux panes at the edge.
+-- Alt-hjkl navigates nvim windows, falling through to tmux panes at the edge.
 local function navigate_window_or_tmux(vim_direction, tmux_direction)
     local before = vim.api.nvim_get_current_win()
     vim.cmd('wincmd ' .. vim_direction)
@@ -59,11 +59,6 @@ map({ 'n', 'v' }, '<Left>', [[<cmd>echo 'Use h'<CR>]])
 map({ 'n', 'v' }, '<Right>', [[<cmd>echo 'Use l'<CR>]])
 
 -- Window and tmux pane navigation
-map('n', '<C-h>', function() navigate_window_or_tmux('h', 'L') end, { desc = 'Navigate left' })
-map('n', '<C-j>', function() navigate_window_or_tmux('j', 'D') end, { desc = 'Navigate down' })
-map('n', '<C-k>', function() navigate_window_or_tmux('k', 'U') end, { desc = 'Navigate up' })
-map('n', '<C-l>', function() navigate_window_or_tmux('l', 'R') end, { desc = 'Navigate right' })
-
 map({ 'n', 'x' }, '<M-h>', function() navigate_window_or_tmux('h', 'L') end, { desc = 'Navigate left' })
 map({ 'n', 'x' }, '<M-j>', function() navigate_window_or_tmux('j', 'D') end, { desc = 'Navigate down' })
 map({ 'n', 'x' }, '<M-k>', function() navigate_window_or_tmux('k', 'U') end, { desc = 'Navigate up' })
@@ -178,6 +173,15 @@ end, { desc = 'Toggle line numbers' })
 map('n', '<leader>uL', function()
     vim.opt.relativenumber = not vim.opt.relativenumber:get()
 end, { desc = 'Toggle relative line numbers' })
+map('n', '<leader>um', function()
+    if vim.o.mouse == '' then
+        vim.o.mouse = 'a'
+        vim.notify('Mouse enabled', vim.log.levels.INFO)
+    else
+        vim.o.mouse = ''
+        vim.notify('Mouse disabled', vim.log.levels.INFO)
+    end
+end, { desc = 'Toggle mouse' })
 
 -- Code
 map('n', '<leader>cX', '<cmd>!chmod +x %<CR>', { desc = 'Make file executable', silent = true })

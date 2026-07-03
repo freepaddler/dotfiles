@@ -193,10 +193,6 @@ in addition to the `<leader>v` group.
 <leader>-            nvim normal        split window horizontally
 <leader>\            nvim normal        split window vertically
 
-C-h                  nvim normal        window left, or tmux pane at edge
-C-j                  nvim normal        window down, or tmux pane at edge
-C-k                  nvim normal        window up, or tmux pane at edge
-C-l                  nvim normal        window right, or tmux pane at edge
 Alt-h                nvim normal/visual window left, or tmux pane at edge
 Alt-j                nvim normal/visual window down, or tmux pane at edge
 Alt-k                nvim normal/visual window up, or tmux pane at edge
@@ -276,6 +272,7 @@ N                    nvim normal        previous search and center
 <leader>ud           nvim normal        toggle diagnostics
 <leader>ul           nvim normal        toggle line numbers
 <leader>uL           nvim normal        toggle relative line numbers
+<leader>um           nvim normal        toggle mouse
 j                    nvim normal/visual visual line down
 k                    nvim normal/visual visual line up
 J                    nvim normal        join line, keep cursor
@@ -296,8 +293,8 @@ K                    nvim visual        move selection up
 <leader>fb           nvim normal        telescope buffers
 <leader>fr           nvim normal        telescope recent files
 <leader>fz           nvim normal        telescope chezmoi managed files
-C-\                  nvim telescope     open selection in vertical split
-C--                  nvim telescope     open selection in horizontal split
+C-v                  nvim telescope     open selection in vertical split
+C-h                  nvim telescope     open selection in horizontal split
 C-Tab                nvim telescope     open selection in new tab
 
 <leader>ggf          nvim normal        telescope git files

@@ -99,38 +99,6 @@ local function get_buffer_connection()
     }
 end
 
-local function sql_template_find_command()
-    local globs = { '*.sql', '*.psql', '*.pgsql', '*.mysql', '*.plsql' }
-
-    if vim.fn.executable('rg') == 1 then
-        local command = { 'rg', '--files', '--color', 'never' }
-        for _, glob in ipairs(globs) do
-            vim.list_extend(command, { '--glob', glob })
-        end
-        return command
-    end
-
-    if vim.fn.executable('fd') == 1 then
-        return { 'fd', '--type', 'f', '--extension', 'sql', '--extension', 'psql', '--extension', 'pgsql', '--extension', 'mysql', '--extension', 'plsql', '--color', 'never' }
-    end
-
-    return nil
-end
-
-local function project_root()
-    local git_root = vim.fs.root(0, '.git')
-    if git_root ~= nil then
-        return git_root
-    end
-
-    git_root = vim.fs.root(vim.fn.getcwd(), '.git')
-    if git_root ~= nil then
-        return git_root
-    end
-
-    return vim.fn.getcwd()
-end
-
 local function open_template_copy_file(source)
     local connection = get_buffer_connection()
     if connection == nil or connection.key_name == nil then
@@ -163,74 +131,15 @@ local function open_template_copy_file(source)
 end
 
 local function open_template_copy()
-    local roots = {}
-    local seen = {}
-    for _, root in ipairs({ project_root(), vim.fn.expand('~/dev/sql') }) do
-        root = vim.fs.normalize(root)
-        if vim.fn.isdirectory(root) == 1 and not seen[root] then
-            table.insert(roots, root)
-            seen[root] = true
-        end
-    end
-
-    if vim.tbl_isempty(roots) then
-        vim.notify('No SQL query search roots found', vim.log.levels.WARN)
-        return
-    end
-
-    local command = sql_template_find_command()
-    if command == nil then
-        vim.notify('SQL query picker needs rg or fd', vim.log.levels.ERROR)
-        return
-    end
-    vim.list_extend(command, roots)
-
-    local pickers = require('telescope.pickers')
-    local finders = require('telescope.finders')
-    local conf = require('telescope.config').values
-    local actions = require('telescope.actions')
-    local action_state = require('telescope.actions.state')
-
-    pickers.new({}, {
-        prompt_title = 'SQL queries',
-        finder = finders.new_oneshot_job(command, {
-            entry_maker = function(path)
-                local absolute = vim.fn.fnamemodify(path, ':p')
-
-                return {
-                    value = absolute,
-                    filename = absolute,
-                    path = absolute,
-                    display = vim.fn.fnamemodify(absolute, ':~:.'),
-                    ordinal = absolute,
-                }
-            end,
-        }),
-        previewer = conf.file_previewer({}),
-        sorter = conf.file_sorter({}),
-        attach_mappings = function(prompt_bufnr)
-            actions.select_default:replace(function()
-                local selection = action_state.get_selected_entry()
-                actions.close(prompt_bufnr)
-
-                if selection == nil then
-                    return
-                end
-
-                local path = selection.path or selection.filename or selection.value or selection[1]
-                if path == nil then
-                    return
-                end
-
-                local ok, err = pcall(open_template_copy_file, path)
-                if not ok then
-                    vim.notify('Failed to open SQL template copy: ' .. err, vim.log.levels.ERROR)
-                end
-            end)
-
-            return true
-        end,
-    }):find()
+    require('lib.file_picker').files({
+        title = 'SQL queries',
+        roots = { vim.fn.getcwd(), '~/dev/sql' },
+        extensions = { 'sql', 'psql', 'pgsql', 'mysql', 'plsql' },
+        empty_roots_message = 'No SQL query search roots found',
+        missing_tool_message = 'SQL query picker needs rg or fd',
+        error_prefix = 'Failed to open SQL template copy: ',
+        on_select = open_template_copy_file,
+    })
 end
 
 local function choose_connection()
