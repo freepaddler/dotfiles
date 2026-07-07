@@ -100,11 +100,14 @@ shell_quote() {
 project_command() {
     local dir="$1"
     local cmd="$2"
+    local quoted_dir
+
+    quoted_dir="$(shell_quote "$dir")"
 
     if command -v direnv &>/dev/null; then
-        printf 'direnv exec %s %s' "$(shell_quote "$dir")" "$cmd"
+        printf 'cd %s && direnv exec %s %s' "$quoted_dir" "$quoted_dir" "$cmd"
     else
-        printf '%s' "$cmd"
+        printf 'cd %s && %s' "$quoted_dir" "$cmd"
     fi
 }
 
