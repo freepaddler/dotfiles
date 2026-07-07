@@ -17,7 +17,7 @@ exec-on-workspace-change = [
 
 # force window layouts
 after-startup-command = [
-    'workspace ~', 'layout floating',
+    'workspace "~"', 'layout floating',
     'workspace 1', 'layout h_accordion',
     'workspace 3', 'layout h_accordion',
     'workspace 4', 'layout v_accordion',
@@ -77,7 +77,8 @@ run = 'layout floating'
 
 # move other windows  to workspace 0
 [[on-window-detected]]
-run = [ 'layout floating' ,'move-node-to-workspace ~' ]
+if = 'true'
+run = [ 'layout floating' ,'move-node-to-workspace "~"' ]
 
 [mode.main.binding]
 # applications 
@@ -140,7 +141,7 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-alt-backtick = 'workspace ~'
+alt-backtick = 'workspace "~"'
 
 alt-shift-0 = 'move-node-to-workspace --focus-follows-window 0'
 alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
@@ -152,7 +153,7 @@ alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
 alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
 alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
 alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
-alt-shift-backtick = 'move-node-to-workspace --focus-follows-window ~'
+alt-shift-backtick = 'move-node-to-workspace --focus-follows-window "~"'
 
 [mode.terminal.binding]
 # applications
@@ -205,7 +206,7 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-alt-backtick = 'workspace ~'
+alt-backtick = 'workspace "~"'
 
 alt-shift-0 = 'move-node-to-workspace --focus-follows-window 0'
 alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
@@ -217,4 +218,4 @@ alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
 alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
 alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
 alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
-alt-shift-backtick = 'move-node-to-workspace --focus-follows-window ~'
+alt-shift-backtick = 'move-node-to-workspace --focus-follows-window "~"'
