@@ -1,0 +1,9 @@
+# vim: ft=sh
+
+# Use the systemd user OpenSSH agent socket when the session did not provide
+# another agent, e.g. from a desktop keyring.
+if [ -z "${SSH_AUTH_SOCK:-}" ] &&
+   [ -n "${XDG_RUNTIME_DIR:-}" ] &&
+   [ -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi

@@ -12,6 +12,8 @@
 [credential]
     {{- if eq .chezmoi.os "darwin" }}
     helper = osxkeychain
+    {{- else }}
+    helper = store
     {{- end }}
 
 [diff]
@@ -85,6 +87,9 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
+
+ [url "git@github.com:"]
+    insteadOf = https://github.com/
 
 [includeIf "gitdir:/Users/chu/dev/altuera/"]
     path = /Users/chu/dev/altuera/.gitconfig
