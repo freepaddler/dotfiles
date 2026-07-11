@@ -11,14 +11,15 @@
 {{-     $name = promptString "name" $name -}}
 {{-   end -}}
 
-{{- if $private -}}
+umask = {{ if eq .chezmoi.os "darwin" }}0o22{{ else }}0o02{{ end }}
+
+{{ if $private -}}
 encryption = "age"
 [age]
   identity = "~/.config/chezmoi/chezmoi.age"
   recipient = "age1myfxv62zvx85n04v755glrxyz5gckjxn0w9shd5m70s03wtcd43qf0mqcl"
 {{- end }}
 
-umask = 0o22
 
 [edit]
   watch = true

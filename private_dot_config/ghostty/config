@@ -1,8 +1,10 @@
 term = "xterm-256color"
 
-font-family= "MesloLGS NF"
+font-family = "MesloLGS Nerd Font"
+#font-family = "MesloLGS NF"
 #font-family = "Menlo"
 #adjust-cell-height = 2
+font-family = "JetBrainsMono Nerd Font"
 font-family = "Hack Nerd Font Mono"
 font-size = 11.0
 font-thicken = true
@@ -14,7 +16,7 @@ window-width = 136
 window-inherit-working-directory = true
 
 background-opacity = 0.90
-unfocused-split-opacity = 0.80
+unfocused-split-opacity = 0.70
 #split-divider-color = 777777
 
 clipboard-trim-trailing-spaces = true
@@ -30,7 +32,8 @@ quick-terminal-size = 50%,60%
 
 # theme
 #theme = nord.conf
-theme = Catppuccin Macchiato
+#theme = Catppuccin Macchiato
+theme = Catppuccin Mocha
 #background = #090909
 
 # cursor options

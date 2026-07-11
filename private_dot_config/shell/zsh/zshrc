@@ -79,7 +79,8 @@ bindkey '§' tmux_sessionizer_widget
 ### history
 alias h='history -i -100'
 ## file
-HISTSIZE=1000
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
 SAVEHIST=10000
 setopt extended_history
 setopt append_history
