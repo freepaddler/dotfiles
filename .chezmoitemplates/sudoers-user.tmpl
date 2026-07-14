@@ -1,0 +1,10 @@
+Defaults:{{ .chezmoi.username }} env_keep += "LANG LANGUAGE LC_* CHARSET _XKB_CHARSET TZ"
+Defaults:{{ .chezmoi.username }} env_keep += "EDITOR VISUAL PAGER TERM SUDO_PS1"
+Defaults:{{ .chezmoi.username }} env_keep += "COLORFGBG COLORTERM LINES COLUMNS"
+Defaults:{{ .chezmoi.username }} env_keep += "SSH_CONNECTION"
+Defaults:{{ .chezmoi.username }} env_keep += "DISPLAY XAUTHORITY"
+Defaults:{{ .chezmoi.username }} env_keep += "WAYLAND_DISPLAY XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS"
+Defaults:{{ .chezmoi.username }} env_keep += "XDG_SESSION_TYPE XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP"
+Defaults:{{ .chezmoi.username }} env_keep += "NIRI_SOCKET"
+
+{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD: ALL

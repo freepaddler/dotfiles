@@ -5,10 +5,14 @@
 
 {{- $email := (get . "email") | default "chu@vchu.net " -}}
 {{- $name  := (get . "name")  | default "Victor Chu" -}}
+{{- $syncSudoers := false -}}
 
 {{-   if stdinIsATTY -}}
 {{-     $email = promptString "email" $email -}}
 {{-     $name = promptString "name" $name -}}
+{{-     if $private -}}
+{{-     $syncSudoers = promptBool "sync sudoers configuration" false -}}
+{{-     end -}}
 {{-   end -}}
 
 umask = {{ if eq .chezmoi.os "darwin" }}0o22{{ else }}0o02{{ end }}
@@ -38,4 +42,4 @@ args = ["-convert", "xml1", "-o", "-", "-"]
   private = {{ $private }}
   email = "{{ $email }}"
   name = "{{ $name }}"
-
+  sync_sudoers = {{ $syncSudoers }}

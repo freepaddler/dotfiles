@@ -1,0 +1,28 @@
+{{- $syncSudoers := (get . "sync_sudoers") | default false -}}
+{{- if and .private $syncSudoers -}}
+#!/bin/sh
+set -eu
+
+command -v sudo >/dev/null 2>&1 || exit 0
+
+username={{ .chezmoi.username | quote }}
+destination="/etc/sudoers.d/user_${username}"
+tmpfile="$(mktemp "${TMPDIR:-/tmp}/sudoers.XXXXXX")"
+trap 'rm -f "$tmpfile"' EXIT HUP INT TERM
+
+cat >"$tmpfile" <<'EOF'
+{{ template "sudoers-user.tmpl" . -}}
+EOF
+
+if command -v visudo >/dev/null 2>&1; then
+    visudo -cf "$tmpfile"
+elif [ -x /usr/sbin/visudo ]; then
+    /usr/sbin/visudo -cf "$tmpfile"
+else
+    printf 'visudo is required to validate %s; skipping installation\n' "$destination" >&2
+    exit 0
+fi
+
+sudo install -d -o root -m 0755 /etc/sudoers.d
+sudo install -o root -m 0440 "$tmpfile" "$destination"
+{{- end -}}
