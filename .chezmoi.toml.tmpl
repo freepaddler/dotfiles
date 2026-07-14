@@ -13,7 +13,7 @@
 
 umask = {{ if eq .chezmoi.os "darwin" }}0o22{{ else }}0o02{{ end }}
 
-{{sif $private -}}
+{{if $private -}}
 encryption = "age"
 [age]
   identity = "~/.config/chezmoi/chezmoi.age"
