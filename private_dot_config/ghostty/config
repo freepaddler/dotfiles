@@ -27,6 +27,8 @@ macos-icon = glass
 #keybind = global:cmd+grave_accent=toggle_quick_terminal
 #keybind = global:cmd+§=toggle_quick_terminal
 keybind = global:cmd+option+space=toggle_quick_terminal
+keybind = cmd+c=copy_to_clipboard:mixed
+keybind = cmd+v=paste_from_clipboard
 quick-terminal-position = right
 quick-terminal-size = 50%,60%
 

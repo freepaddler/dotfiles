@@ -6,6 +6,8 @@ show_symlink = true
 wrap = "yes"
 tab_size = 2
 image_delay = 100
+max_width = 1280
+max_height= 720
 
 [tasks]
 image_bound = [0,0]
