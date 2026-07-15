@@ -1,0 +1,72 @@
+-brew
+# Arch imac 
+
+## system 
+base
+linux
+linux-firmware
+btrfs-progs
+refind
+intel-ucode
+keyd
+terminus-font
+networkmanager
+paru
+
+## video driver
+mesa
+mesa-utils
+vulkan-nouveau
+lib32-mesa
+lib32-vulkan-nouveau
+
+## wifi driver
+linux-headers
+dkms
+broadcom-wl-dkms
+
+## bluetooth
+bluez
+bluez-utils
+
+## audio
+pipewire-pulse
+
+## airpods
+libappindicator
+librepods
+
+# niri+dms
+greetd
+greetd-dms-greeter-bin
+dms-shell-niri
+matugen
+niri
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+xwayland-satellite
+seatd
+swayidle
+
+# decorations
+## fonts
+noto-fonts
+noto-fonts-emoji
+noto-fonts-extra
+ttf-dejavu
+ttf-geist-variable
+ttf-jetbrains-mono-nerd
+ttf-roboto-flex
+## icons
+papirus-folders-catppuccin-git
+papirus-icon-theme
+## cursors
+catppuccin-cursors-macchiato
+catppuccin-cursors-mocha
+## qt 
+qt6ct-kde
+qt6-multimedia-ffmpeg
+breeze
+## gtk
+adw-gtk-theme
+

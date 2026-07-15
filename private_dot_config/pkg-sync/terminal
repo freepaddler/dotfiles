@@ -13,14 +13,17 @@ brew-services brew=tap:homebrew/services pacman=-
 
 # base
 age
-git brew=-
 bash
 bash-completion brew=bash-completion@2
-zsh brew=-
 chezmoi apt=-
+git brew=-
+man-db brew=-
+man-pages brew=-
 neovim
+sudo brew=-
 tmux
-
+zsh brew=-
+zsh-completions brew=-
 
 # Terminal and desktop integration
 #alacritty brew=cask:alacritty

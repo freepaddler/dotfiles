@@ -1,7 +1,25 @@
 # desktop applications
 
 # Applications
+chatgpt brew=cask:chatgpt pacman=chatgpt-desktop-bin 
+dropbox brew=cask:dropbox
+enpass brew=cask:enpass pacman=enpass-bin # password manager
 firefox brew=cask:firefox
+happ brew=cask:happ # V2Ray VPN client
+
+# Arch desktop
+-brew
+chromium
+chromium-extension-web-store
+gthumb # image viewer/catalog
+ksnip # image annotation tool
+nemo # file browser
+nemo-dropbox
+nemo-fileroller
+nemo-image-converter
+nemo-preview
+nm-connection-editor # gui network management
++brew
 
 -pacman
 drawio-desktop brew=cask:drawio # diagram editor
@@ -24,12 +42,8 @@ aerospace brew=cask:nikitabobko/tap/aerospace # tiled window manager
 appcleaner brew=cask:appcleaner # prune applications on delete
 bbedit brew=cask:bbedit # universal text editor
 cheatsheet brew=cask:cheatsheet # show keyboard shortcuts per application
-chatgpt brew=cask:chatgpt 
 clipy brew=cask:clipy # clipboard manager
-dropbox brew=cask:dropbox 
-enpass brew=cask:enpass # password manager
 fluor brew=cask:fluor # function keys by application
-happ brew=cask:happ # V2Ray VPN client
 hush brew=cask:hush # Safari cookie and tracking blocker
 iina brew=cask:iina # video player
 itsycal brew=cask:itsycal # menu bar calendar
