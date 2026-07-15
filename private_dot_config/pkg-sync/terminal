@@ -1,0 +1,62 @@
+# Terminal environment
+#
+# The first field is the canonical package name. Prefer the Arch/pacman name.
+# Backend overrides are only needed when the name or package kind differs.
+# A dash means that the package does not apply to that backend.
+
+# Homebrew taps
+-pacman
+brew-cask-upgrade brew=tap:buo/cask-upgrade pacman=-
+brew-bundle brew=tap:homebrew/bundle pacman=-
+brew-services brew=tap:homebrew/services pacman=-
++pacman
+
+# base
+age
+git brew=-
+bash
+bash-completion brew=bash-completion@2
+zsh brew=-
+chezmoi apt=-
+neovim
+tmux
+
+
+# Terminal and desktop integration
+#alacritty brew=cask:alacritty
+ghostty brew=cask:ghostty
+# mac-only
+-pacman
+karabiner-elements brew=cask:karabiner-elements
+macfuse brew=cask:macfuse # required for sshfs
++pacman
+
+# File managers
+#superfile
+yazi
+
+# Utilities
+bat # cat/less with syntax highlighting
+bat-extras
+convmv # filename encoding conversion
+curl
+fd # find alternative
+ffmpeg
+fzf # fuzzy search
+gdu # disk usage
+glow # Markdown viewer
+sed brew=gnu-sed
+htop
+inetutils # telnet and other network utilities
+jq
+mp3unicode
+poppler # PDF preview tools
+ripgrep
+7zip brew=sevenzip # 7zip is obsolete in Homebrew; use sevenzip
+sipcalc # IP calculator
+tree
+
+# Fonts
+#ttf-hack-nerd brew=cask:font-hack-nerd-font
+ttf-meslo-nerd brew=cask:font-meslo-lg-nerd-font
+ttf-nerd-fonts-symbols brew=cask:font-symbols-only-nerd-font pacman=- # required by yazi

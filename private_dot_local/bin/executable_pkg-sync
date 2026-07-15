@@ -1,0 +1,380 @@
+#!/bin/sh
+
+set -eu
+
+PKG_SYNC_DIR=${XDG_CONFIG_HOME:-"$HOME/.config"}/pkg-sync
+
+usage() {
+    printf 'usage: pkg-sync list|install|diff [file ...]\n' >&2
+    exit 2
+}
+
+die() {
+    printf 'pkg-sync: %s\n' "$*" >&2
+    exit 1
+}
+
+select_manager() {
+    kernel=$(uname -s)
+
+    case $kernel in
+        Darwin)
+            command -v brew >/dev/null 2>&1 ||
+                die 'Homebrew is not installed; install Homebrew first'
+            manager=brew
+            ;;
+        Linux)
+            if command -v paru >/dev/null 2>&1; then
+                installer=paru
+            elif command -v yay >/dev/null 2>&1; then
+                installer=yay
+            elif command -v pacman >/dev/null 2>&1; then
+                installer=pacman
+            else
+                die 'no Arch package manager found; install paru, yay, or pacman first'
+            fi
+            manager=pacman
+            ;;
+        *)
+            die "unsupported operating system: $kernel"
+            ;;
+    esac
+}
+
+list_sources() {
+    if [ "$#" -gt 0 ]; then
+        for name do
+            file=$PKG_SYNC_DIR/$name
+            if [ -f "$file" ] && [ -r "$file" ]; then
+                cat "$file"
+                printf '\n@file-end\n'
+            fi
+        done
+    elif [ -d "$PKG_SYNC_DIR" ]; then
+        for file in "$PKG_SYNC_DIR"/*; do
+            if [ -f "$file" ] && [ -r "$file" ]; then
+                cat "$file"
+                printf '\n@file-end\n'
+            fi
+        done
+    fi
+}
+
+brew_list() {
+    list_sources "$@" | awk '
+        {
+            sub(/[[:space:]]*#.*/, "")
+            if ($0 ~ /^[[:space:]]*$/) {
+                next
+            }
+
+            if ($1 == "@file-end") {
+                skip = 0
+                next
+            }
+
+            if ($1 == "-brew") {
+                skip = 1
+                next
+            }
+            if ($1 == "+brew") {
+                skip = 0
+                next
+            }
+            if ($1 ~ /^[+-](brew|pacman)$/) {
+                next
+            }
+            if (skip) {
+                next
+            }
+
+            package = $1
+            brew = package
+
+            for (i = 2; i <= NF; i++) {
+                if ($i ~ /^brew=/) {
+                    brew = substr($i, 6)
+                }
+            }
+
+            if (brew == "-") {
+                next
+            } else if (brew ~ /^tap:/) {
+                line = sprintf("tap \"%s\"", substr(brew, 5))
+                group = "tap"
+            } else if (brew ~ /^cask:/) {
+                line = sprintf("cask \"%s\"", substr(brew, 6))
+                group = "cask"
+            } else if (brew ~ /^go:/) {
+                line = sprintf("go \"%s\"", substr(brew, 4))
+                group = "go"
+            } else if (brew ~ /^npm:/) {
+                line = sprintf("npm \"%s\"", substr(brew, 5))
+                group = "npm"
+            } else if (brew ~ /^mas:/) {
+                line = sprintf("mas \"%s\", id: %s", package, substr(brew, 5))
+                group = "mas"
+            } else {
+                line = sprintf("brew \"%s\"", brew)
+                group = "brew"
+            }
+
+            if (seen[line]++) {
+                next
+            }
+
+            if (group == "tap") {
+                taps = taps line "\n"
+            } else if (group == "cask") {
+                casks = casks line "\n"
+            } else if (group == "go") {
+                go_packages = go_packages line "\n"
+            } else if (group == "npm") {
+                npm_packages = npm_packages line "\n"
+            } else if (group == "mas") {
+                mas_apps = mas_apps line "\n"
+            } else {
+                packages = packages line "\n"
+            }
+        }
+
+        END {
+            printf "%s%s%s%s%s%s", taps, packages, casks, mas_apps, go_packages, npm_packages
+        }
+    '
+}
+
+pacman_list() {
+    list_sources "$@" | awk '
+        {
+            sub(/[[:space:]]*#.*/, "")
+            if ($0 ~ /^[[:space:]]*$/) {
+                next
+            }
+
+            if ($1 == "@file-end") {
+                skip = 0
+                next
+            }
+
+            if ($1 == "-pacman") {
+                skip = 1
+                next
+            }
+            if ($1 == "+pacman") {
+                skip = 0
+                next
+            }
+            if ($1 ~ /^[+-](brew|pacman)$/) {
+                next
+            }
+            if (skip) {
+                next
+            }
+
+            package = $1
+            pacman = package
+
+            for (i = 2; i <= NF; i++) {
+                if ($i ~ /^pacman=/) {
+                    pacman = substr($i, 8)
+                }
+            }
+
+            if (pacman != "-" && !seen[pacman]++) {
+                print pacman
+            }
+        }
+    '
+}
+
+pacman_install() {
+    case $installer in
+        paru|yay)
+            pacman_list "$@" | "$installer" -S --needed -
+            ;;
+        pacman)
+            if [ "$(id -u)" -eq 0 ]; then
+                pacman_list "$@" | pacman -S --needed -
+            elif command -v sudo >/dev/null 2>&1; then
+                pacman_list "$@" | sudo pacman -S --needed -
+            else
+                die 'pacman installation requires root privileges or sudo'
+            fi
+            ;;
+    esac
+}
+
+pacman_list_installed() {
+    pacman -Qq
+}
+
+pacman_list_requested() {
+    pacman -Qqe
+}
+
+brew_install() {
+    brew_list "$@" | brew bundle install --file=- --no-upgrade
+}
+
+brew_bundle_dump() {
+    brew bundle dump \
+        --file=- \
+        --formula \
+        --cask \
+        --tap \
+        --go \
+        --npm \
+        --mas \
+        --no-vscode \
+        --no-describe \
+        --no-restart
+}
+
+brew_normalize() {
+    awk -F '"' '
+        /^mas "/ {
+            if (match($0, /id: [0-9]+/)) {
+                print "mas " substr($0, RSTART, RLENGTH)
+            }
+            next
+        }
+
+        /^(tap|brew|cask|go|npm) "/ {
+            print $1 "\"" $2 "\""
+        }
+    '
+}
+
+brew_list_installed() {
+    brew_bundle_dump | brew_normalize
+}
+
+brew_filter_requested() {
+    awk -F '"' '
+        BEGIN {
+            while (("brew leaves -r" | getline package) > 0) {
+                requested[package] = 1
+            }
+            close("brew leaves -r")
+        }
+
+        /^brew "/ {
+            package = $2
+            sub(/^.*\//, "", package)
+            if (requested[package]) {
+                print
+            }
+            next
+        }
+
+        { print }
+    '
+}
+
+brew_list_requested() {
+    brew_list_installed | brew_filter_requested
+}
+
+list_diff() {
+    LC_ALL=C comm -23 "$1" "$2" | awk '{ print "- " $0 }'
+    LC_ALL=C comm -13 "$1" "$3" | awk '{ print "+ " $0 }'
+}
+
+brew_format_diff() {
+    awk -v wanted_file="$1" -v installed_file="$2" '
+        BEGIN {
+            while ((getline line < wanted_file) > 0) {
+                if (line ~ /^mas "/ && match(line, /id: [0-9]+/)) {
+                    id = substr(line, RSTART + 4, RLENGTH - 4)
+                    wanted_mas[id] = line
+                }
+            }
+            close(wanted_file)
+
+            while ((getline line < installed_file) > 0) {
+                if (line ~ /^mas "/ && match(line, /id: [0-9]+/)) {
+                    id = substr(line, RSTART + 4, RLENGTH - 4)
+                    installed_mas[id] = line
+                }
+            }
+            close(installed_file)
+        }
+
+        /^[-+] mas id: [0-9]+$/ {
+            sign = substr($0, 1, 1)
+            id = $0
+            sub(/^[-+] mas id: /, "", id)
+
+            if (sign == "-" && id in wanted_mas) {
+                print sign " " wanted_mas[id]
+                next
+            }
+            if (sign == "+" && id in installed_mas) {
+                print sign " " installed_mas[id]
+                next
+            }
+        }
+
+        { print }
+    '
+}
+
+brew_diff() {
+    tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/pkg-sync.XXXXXX") ||
+        die 'cannot create temporary directory'
+    trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
+
+    brew_list "$@" > "$tmp_dir/wanted-display"
+    brew_normalize < "$tmp_dir/wanted-display" | LC_ALL=C sort -u > "$tmp_dir/wanted"
+    brew_bundle_dump > "$tmp_dir/installed-display"
+    brew_normalize < "$tmp_dir/installed-display" | LC_ALL=C sort -u > "$tmp_dir/installed"
+    brew_filter_requested < "$tmp_dir/installed" | LC_ALL=C sort -u > "$tmp_dir/requested"
+    list_diff \
+        "$tmp_dir/wanted" \
+        "$tmp_dir/installed" \
+        "$tmp_dir/requested" |
+        brew_format_diff \
+            "$tmp_dir/wanted-display" \
+            "$tmp_dir/installed-display"
+
+    rm -rf "$tmp_dir"
+    trap - EXIT HUP INT TERM
+}
+
+pacman_diff() {
+    tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/pkg-sync.XXXXXX") ||
+        die 'cannot create temporary directory'
+    trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
+
+    pacman_list "$@" | LC_ALL=C sort -u > "$tmp_dir/wanted"
+    pacman_list_installed | LC_ALL=C sort -u > "$tmp_dir/installed"
+    pacman_list_requested | LC_ALL=C sort -u > "$tmp_dir/requested"
+    list_diff \
+        "$tmp_dir/wanted" \
+        "$tmp_dir/installed" \
+        "$tmp_dir/requested"
+
+    rm -rf "$tmp_dir"
+    trap - EXIT HUP INT TERM
+}
+
+[ "$#" -ge 1 ] || usage
+
+command=$1
+shift
+case $command in
+    list|install|diff) ;;
+    *) usage ;;
+esac
+
+select_manager
+
+case "$manager:$command" in
+    brew:list) brew_list "$@" ;;
+    brew:install) brew_install "$@" ;;
+    brew:diff) brew_diff "$@" ;;
+    pacman:list) pacman_list "$@" ;;
+    pacman:install) pacman_install "$@" ;;
+    pacman:diff) pacman_diff "$@" ;;
+esac

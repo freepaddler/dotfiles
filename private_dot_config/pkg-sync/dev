@@ -1,0 +1,99 @@
+# Development tools and utilities
+
+ansible pacman=-
+direnv
+go pacman=-
+hugo pacman=-
+imagemagick
+iperf3
+lazygit
+libpq pacman=- # postgresql driver
+just pacman=- # make alternative
+mingw-w64-gcc brew=mingw-w64 pacman=- # Windows cross-compiler for Go
+mtr # enhanced traceroute
+nodejs brew=node
+ollama pacman=- # LLM launcher
+pandoc
+protobuf pacman=-
+resticprofile # backup utility
+s5cmd # S3 CLI
+#shellcheck
+#sipp # SIP payload generator
+#sngrep # SIP flow visualizer
+sqlite
+swaks pacman=- # test smtp/postfix
+trivy pacman=- # CVE and SBOM scanner
+wireguard-tools
+
+-pacman
+
+# AI
+anomalyco-tap brew=tap:anomalyco/tap 
+#opencode brew=anomalyco/tap/opencode 
+
+# HashiCorp
+hashicorp-tap brew=tap:hashicorp/tap 
+terraform brew=hashicorp/tap/terraform 
+vagrant brew=cask:hashicorp/tap/hashicorp-vagrant 
+vagrant-vmware-utility brew=cask:vagrant-vmware-utility 
+hcp brew=hashicorp/tap/hcp 
+packer brew=hashicorp/tap/packer 
+
+# Applications
+#android-platform-tools brew=cask:android-platform-tools
+codex brew=cask:codex 
+codex-app brew=cask:codex-app 
+dbeaver brew=cask:dbeaver-community 
+docker-desktop brew=cask:docker-desktop 
+goland brew=cask:goland 
+masscode brew=cask:masscode 
+mongodb-compass brew=cask:mongodb-compass 
+mqttx brew=cask:mqttx 
+restic-browser brew=cask:restic-browser 
+utm brew=cask:utm 
+wireshark-qt brew=cask:wireshark-app 
+xca brew=cask:xca 
+yandex-cloud-cli brew=cask:yandex-cloud-cli 
+
+# Go tools
+gup brew=go:github.com/nao1215/gup 
+gocomplete brew=go:github.com/posener/complete/v2/gocomplete 
+swag brew=go:github.com/swaggo/swag/cmd/swag 
+mockgen brew=go:go.uber.org/mock/mockgen 
+pkgsite brew=go:golang.org/x/pkgsite/cmd/pkgsite 
+protoc-gen-go-grpc brew=go:google.golang.org/grpc/cmd/protoc-gen-go-grpc 
+protoc-gen-go brew=go:google.golang.org/protobuf/cmd/protoc-gen-go 
+
+# npm tools
+node-acp brew=npm:node-acp 
+typescript brew=npm:typescript 
+
+#vscode "albert.tabout
+#vscode "alefragnani.project-manager"
+#vscode "donjayamanne.githistory"
+#vscode "formulahendry.code-runner"
+#vscode "golang.go"
+#vscode "gruntfuggly.todo-tree"
+#vscode "humao.rest-client"
+#vscode "jebbs.plantuml"
+#vscode "jtavin.ldif"
+#vscode "mhutchie.git-graph"
+#vscode "moshfeu.compare-folders"
+#vscode "ms-azuretools.vscode-containers"
+#vscode "ms-azuretools.vscode-docker"
+#vscode "ms-python.debugpy"
+#vscode "ms-python.isort"
+#vscode "ms-python.python"
+#vscode "ms-python.vscode-pylance"
+#vscode "ms-vscode-remote.remote-ssh"
+#vscode "ms-vscode-remote.remote-ssh-edit"
+#vscode "ms-vscode.remote-explorer"
+#vscode "ms-vsliveshare.vsliveshare"
+#vscode "pkief.material-icon-theme"
+#vscode "redhat.vscode-yaml"
+#vscode "rogalmic.bash-debug"
+#vscode "samuelcolvin.jinjahtml"
+#vscode "scala-lang.scala"
+#vscode "shd101wyy.markdown-preview-enhanced"
+#vscode "wyattferguson.jinja2-snippet-kit"
+#vscode "zhuangtongfa.material-theme"

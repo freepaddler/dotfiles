@@ -1,0 +1,97 @@
+# desktop applications
+
+# Applications
+firefox brew=cask:firefox
+
+-pacman
+drawio-desktop brew=cask:drawio # diagram editor
+#handbrake brew=cask:handbrake-app # media converter
+#mark-text brew=cask:mark-text # heavy, unsupported, poor anchor support
+#obsidian brew=cask:obsidian 
+#ocenaudio brew=cask:ocenaudio 
+sigil brew=cask:sigil # EPUB editor
+thunderbird brew=cask:thunderbird 
+transmission-gtk brew=cask:transmission # BitTorrent client
+telegram-desktop brew=cask:telegram 
+#typora brew=cask:typora 
+ungoogled-chromium brew=cask:ungoogled-chromium 
+#universal-media-server brew=cask:universal-media-server 
+vlc brew=cask:vlc # needed for HLS and media testing
+
+# Mac Apps
+aerospace-tap brew=tap:nikitabobko/tap 
+aerospace brew=cask:nikitabobko/tap/aerospace # tiled window manager
+appcleaner brew=cask:appcleaner # prune applications on delete
+bbedit brew=cask:bbedit # universal text editor
+cheatsheet brew=cask:cheatsheet # show keyboard shortcuts per application
+chatgpt brew=cask:chatgpt 
+clipy brew=cask:clipy # clipboard manager
+dropbox brew=cask:dropbox 
+enpass brew=cask:enpass # password manager
+fluor brew=cask:fluor # function keys by application
+happ brew=cask:happ # V2Ray VPN client
+hush brew=cask:hush # Safari cookie and tracking blocker
+iina brew=cask:iina # video player
+itsycal brew=cask:itsycal # menu bar calendar
+#launchpad-manager brew=cask:launchpad-manager # obsolete since Tahoe 26
+mac-mouse-fix brew=cask:mac-mouse-fix # mouse tuning
+maczip brew=cask:maczip # archive utility with preview
+#markedit brew=cask:markedit # Markdown editor
+#microsoft-auto-update brew=cask:microsoft-auto-update 
+microsoft-excel brew=cask:microsoft-excel 
+microsoft-powerpoint brew=cask:microsoft-powerpoint 
+microsoft-remote-desktop brew=cask:microsoft-remote-desktop 
+microsoft-teams brew=cask:microsoft-teams 
+microsoft-word brew=cask:microsoft-word 
+#mediahuman-audio-converter brew=cask:mediahuman-audio-converter 
+#outline-manager brew=cask:outline-manager # Shadowsocks VPN manager
+#paintbrush brew=cask:paintbrush # simple painting application
+qlmarkdown brew=cask:qlmarkdown # Quick Look Markdown preview without Mermaid
+#quicklook-video brew=cask:quicklook-video # video information and preview
+#quicklook-json brew=cask:quicklook-json # superseded by syntax-highlight
+swiftbar brew=cask:swiftbar # show script results in bar
+syntax-highlight brew=cask:syntax-highlight # universal Quick Look syntax highlighting
+ukelele brew=cask:ukelele # keyboard layout editor
+wechat brew=cask:wechat 
+whatsapp brew=cask:whatsapp 
+whisky brew=cask:whisky # Wine wrapper
+xquartz brew=cask:xquartz # X Window System for macOS
+yandex-browser brew=cask:yandex 
+zoom brew=cask:zoom 
+
+# Mac AppStore support
+mas 
+
+# Mac AppStore apps
+adguard-for-safari brew=mas:1440147259 # AdGuard for Safari
+apple-configurator brew=mas:1037126344 # Apple Configurator
+audiobookbinder brew=mas:413969927 # AudioBookBinder
+#bandwidth-plus brew=mas:490461369 # Bandwidth+
+#bbedit-mas brew=mas:404009241 # BBEdit
+dnsecure brew=mas:1533413232 # DNSecure
+#enpass-mas brew=mas:732710998 # Enpass
+gemini brew=mas:463541543 # duplicate finder
+#hush-mas brew=mas:1544743900 # Hush
+imovie brew=mas:408981434 # iMovie
+iringtone-pro brew=mas:622007267 # iRingtone Pro
+json-peep brew=mas:1458969831 # JSON Peep
+#keynote brew=mas:409183694 # Keynote
+#launchie brew=mas:6752657468 # Launchie
+#microsoft-excel-mas brew=mas:462058435 # Microsoft Excel
+#microsoft-powerpoint-mas brew=mas:462062816 # Microsoft PowerPoint
+#microsoft-remote-desktop-mas brew=mas:1295203466 # Microsoft Remote Desktop
+#microsoft-word-mas brew=mas:462054704 # Microsoft Word
+money-flow brew=mas:900890647 # Money Flow
+monit brew=mas:1014850245 # Monit
+#mutekey brew=mas:1509590766 # MuteKey
+Numbers brew=mas:361304891 # Numbers
+#one-markdown brew=mas:1507139439 # poor anchor support
+onedrive brew=mas:823766827 # OneDrive
+#outline brew=mas:1356178125 # Outline
+#pages brew=mas:409201541 # Pages
+pipifier brew=mas:1160374471 # PiPifier
+#telegram-mas brew=mas:747648890 # Telegram
+telephone brew=mas:406825478 # SIP phone
+#tomito brew=mas:1529590766 # tomato timer
+#whatsapp-mas brew=mas:310633997 # WhatsApp
+wireguard brew=mas:1451685025 # WireGuard
