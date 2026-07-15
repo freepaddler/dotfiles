@@ -189,15 +189,24 @@ pacman_list() {
 }
 
 pacman_install() {
+    packages=$(pacman_list "$@")
+    [ -n "$packages" ] || return 0
+
+    set -f
+    # Package names cannot contain shell whitespace; splitting here preserves
+    # the terminal on stdin for interactive paru/yay/pacman prompts.
+    set -- $packages
+    set +f
+
     case $installer in
         paru|yay)
-            pacman_list "$@" | "$installer" -S --needed -
+            "$installer" -S --needed "$@"
             ;;
         pacman)
             if [ "$(id -u)" -eq 0 ]; then
-                pacman_list "$@" | pacman -S --needed -
+                pacman -S --needed "$@"
             elif command -v sudo >/dev/null 2>&1; then
-                pacman_list "$@" | sudo pacman -S --needed -
+                sudo pacman -S --needed "$@"
             else
                 die 'pacman installation requires root privileges or sudo'
             fi
