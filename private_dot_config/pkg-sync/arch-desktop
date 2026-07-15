@@ -3,15 +3,16 @@
 
 ## system 
 base
-linux
-linux-firmware
+base-devel
 btrfs-progs
-refind
 intel-ucode
 keyd
-terminus-font
+linux
+linux-firmware
 networkmanager
 paru
+refind
+terminus-font
 
 ## video driver
 mesa
@@ -35,6 +36,7 @@ pipewire-pulse
 ## airpods
 libappindicator
 librepods
+python-gpgme # necessary on first run
 
 # niri+dms
 greetd
