@@ -1,11 +1,8 @@
 term = "xterm-256color"
 
 font-family = "MesloLGS Nerd Font"
-#font-family = "MesloLGS NF"
 #font-family = "Menlo"
 #adjust-cell-height = 2
-font-family = "JetBrainsMono Nerd Font"
-font-family = "Hack Nerd Font Mono"
 font-size = 11.0
 font-thicken = true
 
