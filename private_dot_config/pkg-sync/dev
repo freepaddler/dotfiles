@@ -13,7 +13,7 @@ mingw-w64-gcc brew=mingw-w64 pacman=- # Windows cross-compiler for Go
 mtr # enhanced traceroute
 nodejs brew=node
 ollama pacman=- # LLM launcher
-pandoc pacman=-
+pandoc pacman=pandoc-bin
 protobuf pacman=-
 resticprofile pacman=resticprofile-bin # backup utility
 s5cmd pacman=s5cmd-bin # S3 CLI
