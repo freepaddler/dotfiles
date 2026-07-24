@@ -30,9 +30,11 @@ quick-terminal-position = right
 quick-terminal-size = 50%,60%
 
 # theme
-#theme = nord.conf
-#theme = Catppuccin Macchiato
-theme = Catppuccin Mocha
+{{- if stat (joinPath .chezmoi.homeDir ".config/ghostty/themes/dankcolors") }}
+theme = dankcolors
+{{- else }}
+theme = Catppuccin Macchiato
+{{- end }}
 #background = #090909
 
 # cursor options
@@ -41,4 +43,3 @@ cursor-style-blink = false
 shell-integration-features = no-cursor
 # selection
 selection-foreground = cell-foreground
-
