@@ -10,7 +10,7 @@ keyd
 linux
 linux-firmware
 networkmanager
-paru
+yay-bin
 refind
 terminus-font
 
@@ -52,13 +52,10 @@ swayidle
 
 # decorations
 ## fonts
-noto-fonts
+adobe-source-han-sans-otc-fonts
 noto-fonts-emoji
-noto-fonts-extra
 ttf-dejavu
 ttf-geist-variable
-ttf-jetbrains-mono-nerd
-ttf-roboto-flex
 ## icons
 papirus-folders-catppuccin-git
 papirus-icon-theme

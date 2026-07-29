@@ -1,5 +1,6 @@
 # Development tools and utilities
 
+asdf brew=- pacman=asdf-vm # dev tools management
 ansible pacman=-
 direnv
 go pacman=-

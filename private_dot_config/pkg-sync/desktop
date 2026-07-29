@@ -5,12 +5,20 @@ chatgpt brew=cask:chatgpt pacman=chatgpt-desktop-bin
 dropbox brew=cask:dropbox
 enpass brew=cask:enpass pacman=enpass-bin # password manager
 firefox brew=cask:firefox
-happ brew=cask:happ # V2Ray VPN client
+happ brew=cask:happ pacman=happ-desktop-bin # V2Ray VPN client
+telegram-desktop brew=cask:telegram pacman=telegram-desktop-bin
+whatsapp brew=cask:whatsapp pacman=zapzap-bin
 
 # Arch desktop
 -brew
+celluloid # media player (mpv frontend)
 chromium
 chromium-extension-web-store
+evolution # mail, contacts, calendar
+gnome-keyring
+gst-libav
+gst-plugins-bad
+gst-plugins-ugly
 gthumb # image viewer/catalog
 ksnip # image annotation tool
 nemo # file browser
@@ -19,6 +27,10 @@ nemo-fileroller
 nemo-image-converter
 nemo-preview
 nm-connection-editor # gui network management
+rclone # connect cloud storage
+seahorse # gnome-keyring gui
+wayvnc
+
 +brew
 
 -pacman
@@ -30,7 +42,6 @@ drawio-desktop brew=cask:drawio # diagram editor
 sigil brew=cask:sigil # EPUB editor
 thunderbird brew=cask:thunderbird 
 transmission-gtk brew=cask:transmission # BitTorrent client
-telegram-desktop brew=cask:telegram 
 #typora brew=cask:typora 
 ungoogled-chromium brew=cask:ungoogled-chromium 
 #universal-media-server brew=cask:universal-media-server 
@@ -67,7 +78,6 @@ swiftbar brew=cask:swiftbar # show script results in bar
 syntax-highlight brew=cask:syntax-highlight # universal Quick Look syntax highlighting
 ukelele brew=cask:ukelele # keyboard layout editor
 wechat brew=cask:wechat 
-whatsapp brew=cask:whatsapp 
 whisky brew=cask:whisky # Wine wrapper
 xquartz brew=cask:xquartz # X Window System for macOS
 yandex-browser brew=cask:yandex 

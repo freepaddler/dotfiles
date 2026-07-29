@@ -39,25 +39,29 @@ macfuse brew=cask:macfuse # required for sshfs
 yazi
 
 # Utilities
+7zip brew=sevenzip # 7zip is obsolete in Homebrew; use sevenzip
 bat # cat/less with syntax highlighting
 bat-extras
 convmv # filename encoding conversion
 curl
 fd # find alternative
 ffmpeg
+fio brew=- # io meter
 fzf # fuzzy search
 gdu # disk usage
 glow # Markdown viewer
-sed brew=gnu-sed
 htop
 inetutils # telnet and other network utilities
 jq
+ldns brew=- # dns utils
 mp3unicode
 poppler # PDF preview tools
 ripgrep
-7zip brew=sevenzip # 7zip is obsolete in Homebrew; use sevenzip
+sed brew=gnu-sed
+smartmontools brew=-
 sipcalc # IP calculator
 tree
+whois brew=-
 
 # Fonts
 #ttf-hack-nerd brew=cask:font-hack-nerd-font

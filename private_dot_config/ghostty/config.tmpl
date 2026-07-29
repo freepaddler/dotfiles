@@ -30,10 +30,10 @@ quick-terminal-position = right
 quick-terminal-size = 50%,60%
 
 # theme
-{{- if stat (joinPath .chezmoi.homeDir ".config/ghostty/themes/dankcolors") }}
-theme = dankcolors
-{{- else }}
+{{- if eq .chezmoi.os "darwin" }}
 theme = Catppuccin Macchiato
+{{- else }}
+theme = Catppuccin Mocha
 {{- end }}
 #background = #090909
 
