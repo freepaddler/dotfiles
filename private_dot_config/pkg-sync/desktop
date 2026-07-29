@@ -27,6 +27,7 @@ nemo-fileroller
 nemo-image-converter
 nemo-preview
 nm-connection-editor # gui network management
+onlyoffice-bin
 rclone # connect cloud storage
 seahorse # gnome-keyring gui
 wayvnc
