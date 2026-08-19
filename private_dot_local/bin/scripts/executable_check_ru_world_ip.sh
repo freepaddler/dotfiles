@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ip_world=$(curl -s https://api.ipify.org)
-ip_ru=$(curl -s https://2ip.ru)
+ip_ru=$(curl -s https://2ip.io)
 
 case $1 in
     bar)

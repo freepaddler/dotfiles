@@ -36,6 +36,11 @@ tilda = 'main'
 if.app-id = 'com.apple.Safari'
 run = 'move-node-to-workspace 1'
 
+# Firefix to 1
+[[on-window-detected]]
+if.app-id = 'org.mozilla.firefox'
+run = 'move-node-to-workspace 1'
+
 # Ghostty always 2
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
