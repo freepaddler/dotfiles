@@ -9,7 +9,7 @@ alias v="$EDITOR"
 
 alias root="su -m root"
 alias sudo="sudo "
-alias sudos"sudo -E bash"
+alias sudos="sudo -E bash"
 alias doas="doas "
 alias hosts="v /etc/hosts"
 
