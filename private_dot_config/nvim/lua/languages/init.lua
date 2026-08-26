@@ -2,6 +2,7 @@ local module_names = {
     'languages.lua',
     'languages.shell',
     'languages.docker',
+    'languages.terraform',
     'languages.sql',
     'languages.markdown',
     'languages.prettier',

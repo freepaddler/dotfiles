@@ -18,14 +18,14 @@ yc-token() {
 }
 yc-env() {
     yc-token || exit 1
-    YC_CLOUD_ID="$(yc config get cloud-id 2>/dev/null | tr -d '\r')"
+    YC_CLOUD_ID="$(yc config get cloud-id 2> /dev/null | tr -d '\r')"
     [ -n "$YC_CLOUD_ID" ] && export YC_CLOUD_ID
-    YC_FOLDER_ID="$(yc config get folder-id 2>/dev/null | tr -d '\r')"
+    YC_FOLDER_ID="$(yc config get folder-id 2> /dev/null | tr -d '\r')"
     [ -n "$YC_FOLDER_ID" ] && export YC_FOLDER_ID
 }
 
 yc-update() {
-    if [ -f "$XDG_CONFIG_HOME/yandex-cloud/Dockerfile" ] && command -v docker >/dev/null 2>&1; then
+    if [ -f "$XDG_CONFIG_HOME/yandex-cloud/Dockerfile" ] && command -v docker > /dev/null 2>&1; then
         docker build --no-cache -t yc --file "$XDG_CONFIG_HOME/yandex-cloud/Dockerfile" "$XDG_CONFIG_HOME/yandex-cloud"
     else
         yc components update
@@ -37,7 +37,7 @@ _env_shell bash && {
         unset -f _yc_lazy
         complete -r yc
         source <(yc completion bash)
-        if declare -F __start_yc >/dev/null; then
+        if declare -F __start_yc > /dev/null; then
             __start_yc
         fi
     }
@@ -51,4 +51,12 @@ _env_shell zsh && {
         zle .complete-word
     }
     compdef _yc_lazy yc
+}
+
+yc() {
+    if [[ -n "${YC_CLI_PROFILE:-}" ]]; then
+        command yc --profile "$YC_CLI_PROFILE" "$@"
+    else
+        command yc "$@"
+    fi
 }

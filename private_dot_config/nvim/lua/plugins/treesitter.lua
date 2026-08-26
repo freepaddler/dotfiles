@@ -11,6 +11,7 @@ local parsers = {
     'markdown',
     'markdown_inline',
     'query',
+    'terraform',
     'vim',
     'vimdoc',
 }
@@ -24,6 +25,8 @@ local ft_to_lang = {
     lua = 'lua',
     markdown = 'markdown',
     sh = 'bash',
+    terraform = 'terraform',
+    ['terraform-vars'] = 'terraform',
     vim = 'vim',
     vimdoc = 'vimdoc',
 }
