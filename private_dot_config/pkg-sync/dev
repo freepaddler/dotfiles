@@ -1,6 +1,6 @@
 # Development tools and utilities
 
-asdf brew=- pacman=asdf-vm # dev tools management
+asdf brew=asdf pacman=asdf-vm # dev tools management
 ansible pacman=-
 direnv
 go pacman=-
@@ -15,7 +15,7 @@ mtr # enhanced traceroute
 nodejs brew=node
 npm brew=-
 
-ollama pacman=- # LLM launcher
+#ollama pacman=- # LLM launcher
 pandoc pacman=pandoc-bin
 protobuf pacman=-
 resticprofile pacman=resticprofile-bin # backup utility
@@ -31,7 +31,7 @@ wireguard-tools
 -pacman
 
 # AI
-anomalyco-tap brew=tap:anomalyco/tap 
+#anomalyco-tap brew=tap:anomalyco/tap 
 #opencode brew=anomalyco/tap/opencode 
 
 # HashiCorp
