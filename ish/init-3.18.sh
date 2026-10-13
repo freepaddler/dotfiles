@@ -1,42 +1,49 @@
 #!/bin/sh
+ALPINE_VERSION=3.18
+UID=501
+USERNAME=chu
+GECOS="Victor Chu"
 
 rm -rf /ish
 truncate -s 0 /etc/apk/repositories
-echo "https://dl-cdn.alpinelinux.org/alpine/v3.18/main" >> /etc/apk/repositories
-echo "https://dl-cdn.alpinelinux.org/alpine/v3.18/community" >> /etc/apk/repositories
+{
+    echo "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/main"
+    echo "https://dl-cdn.alpinelinux.org/alpine/v${ALPINE_VERSION}/community"
+} >> /etc/apk/repositories
+for v in 3.19 3.20 3.21 3.22 3.23 3.24; do
+    {
+        echo "@v${v}-main https://dl-cdn.alpinelinux.org/alpine/v${v}/main"
+        echo "@v${v}-comm https://dl-cdn.alpinelinux.org/alpine/v${v}/community"
+    } >> /etc/apk/repositories
+done
 
 apk update
 apk upgrade
 apk fix
 
 apk add --update-cache --latest \
-musl-locales musl-locales-lang tzdata docs mandoc-apropos less \
-bash bash-completion vim git age tmux openssh-client-default curl \
-doas-sudo-shim
+    ca-certificates musl-locales musl-locales-lang tzdata \
+    docs mandoc-apropos less \
+    bash bash-completion \
+    doas-sudo-shim \
+    vim git tmux@v3.23-main chezmoi@v3.19-comm \
+    openssh-client-default \
+    iproute2 tcpdump drill inetutils-telnet curl \
+    tree
 
 echo "permit nopass :wheel" >| /etc/doas.d/doas.conf
 
-addgroup -g 501 chu
-adduser -D -u 501 -G chu -g "Victor Chu" -s /bin/bash chu
-adduser chu root
-adduser chu wheel
+echo "export GOMAXPROCS=1" >| /etc/profile.d/gomaxprocs.sh
 
-homedir=$(getent passwd chu | cut -d: -f6)
-mkdir -p "$homedir"/.config/chezmoi "$homedir"/.local/bin
-cp -f /iCloud/Documents/Secrets/chezmoi.age "$homedir"/.config/chezmoi/
-cat <<'EOF' >| "$homedir"/.local/bin/ish-update.sh
-#!/bin/sh
-WORKDIR="$HOME/dotfiles"
-rm -rf "$WORKDIR"
-git clone --depth 1 https://github.com/freepaddler/dotfiles "$WORKDIR"
-"$WORKDIR"/ish/ish-update.sh && rm -rf "$WORKDIR"
-EOF
-chown -R chu:chu "$homedir" && chmod +x "$homedir"/.local/bin/ish-update.sh
-
-doas -u chu "$homedir"/.local/bin/ish-update.sh
+addgroup -g $UID $USERNAME
+adduser -D -u $UID -G $USERNAME -g "$GECOS" -s /bin/bash $USERNAME
+adduser $USERNAME root
+adduser $USERNAME wheel
 
 echo
 echo "done"
 echo "goto iOS settings -> iSH. turn on Recovery mode"
-echo "relaunch iSH, set Launch cmd to '/bin/login -f chu'"
+echo "relaunch iSH, set Launch cmd to '/bin/login -f $USERNAME'"
+echo "turn off Recovery mode"
+echo "you're done"
 echo
