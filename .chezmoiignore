@@ -1,6 +1,6 @@
 ### minimal installation
 {{- if .minimal }}
-{{- $files := .minimal_files -}}
+{{- $files := concat .minimal_files .minimal_scripts -}}
 {{- if .secrets -}}
 {{-   $files = concat $files .minimal_secrets -}}
 {{- end }}
