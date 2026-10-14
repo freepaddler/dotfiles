@@ -8,7 +8,7 @@
    sh /iCloud/iSH/init-3.18.sh
    ```
 3. Open iOS Settings → iSH and enable Recovery Mode.
-4. Relaunch iSH and set Launch cmd to `/bin/login -f chu`.
+4. Relaunch iSH and set Launch cmd to `/bin/login -f <username>`.
 5. Disable Recovery Mode.
 
 ## Saved filesystems
@@ -23,7 +23,7 @@ Import through iSH Settings → Filesystems → Import, then select
   no initial setup required.
 
 As of **2026-10-13**, Alpine **3.18** is the latest personally verified working
-release. In my Alpine 3.19 tests, `/bin/login -f username` did not work for
+release. In my Alpine 3.19 tests, `/bin/login -f <username>` did not work for
 logging in as a regular user.
 
 ## Mount iOS folders

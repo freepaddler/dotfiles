@@ -12,8 +12,8 @@ truncate -s 0 /etc/apk/repositories
 } >> /etc/apk/repositories
 for v in 3.19 3.20 3.21 3.22 3.23 3.24; do
     {
-        echo "@v${v}-main https://dl-cdn.alpinelinux.org/alpine/v${v}/main"
-        echo "@v${v}-comm https://dl-cdn.alpinelinux.org/alpine/v${v}/community"
+        echo "@v${v} https://dl-cdn.alpinelinux.org/alpine/v${v}/main"
+        echo "@v${v} https://dl-cdn.alpinelinux.org/alpine/v${v}/community"
     } >> /etc/apk/repositories
 done
 
@@ -26,13 +26,15 @@ apk add --update-cache --latest \
     docs mandoc-apropos less \
     bash bash-completion \
     doas-sudo-shim \
-    vim git tmux@v3.23-main chezmoi@v3.19-comm \
+    vim git tmux@v3.23 chezmoi@v3.19 \
     openssh-client-default \
     iproute2 tcpdump drill inetutils-telnet curl \
     tree
 
+# keep simple
 echo "permit nopass :wheel" >| /etc/doas.d/doas.conf
 
+# required for chezmoi
 echo "export GOMAXPROCS=1" >| /etc/profile.d/gomaxprocs.sh
 
 addgroup -g $UID $USERNAME

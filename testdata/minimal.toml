@@ -1,4 +1,5 @@
 [data]
-private = false
+minimal = true
+secrets = false
 email = "public@email.com"
 name = "Victor Chu"

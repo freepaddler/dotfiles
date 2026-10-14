@@ -10,7 +10,7 @@ fi
 remote=$1
 
 LIST='
-{{- range $pf := .public_files }}
+{{- range $pf := .minimal_files }}
 {{$pf}}
 {{- end }}
 '

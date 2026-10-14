@@ -1,8 +1,11 @@
-### for public hosts/servers
-# list of files in .chezmoidata/.public_files
-{{- if not .private }}
+### minimal installation
+{{- if .minimal }}
+{{- $files := .minimal_files -}}
+{{- if .secrets -}}
+{{-   $files = concat $files .minimal_secrets -}}
+{{- end }}
 **
-{{- range $pf := .public_files }}
+{{- range $pf := $files }}
   {{- $path := $pf -}}
   {{- if regexMatch "/\\*\\*$" $pf }}
     {{- $path = regexReplaceAll "/\\*\\*$" $pf "/" -}}
@@ -20,8 +23,17 @@
   {{- end }}
 !{{$pf}}
 {{- end }}
-# no encrypted files (double-check)
-**/*.age
+{{- end }}
+
+# Secret availability is independent of the installation scope.
+{{- if not .secrets }}
+{{- range $source := glob (joinPath .chezmoi.sourceDir "**/*.age") }}
+{{- $path := trimPrefix (print $.chezmoi.sourceDir "/") $source -}}
+{{- $path = regexReplaceAll "(^|/)(encrypted_|private_|executable_)+" $path "${1}" -}}
+{{- $path = regexReplaceAll "(^|/)dot_" $path "${1}." -}}
+{{- $path = trimSuffix ".tmpl" (trimSuffix ".age" $path) }}
+{{$path}}
+{{- end }}
 {{- end }}
 
 # for all

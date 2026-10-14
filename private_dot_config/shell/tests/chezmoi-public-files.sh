@@ -54,8 +54,8 @@ mkdir -p \
   "$SSH_COPY_HOME" \
   "$SSH_STUB_DIR"
 
-cat > "$FIXTURE_SRC/.chezmoidata/public-config.yml" <<'EOF'
-public_files:
+cat > "$FIXTURE_SRC/.chezmoidata/minimal-config.yml" <<'EOF'
+minimal_files:
   - ".profile"
   - ".ssh/"
   - ".ssh/authorized_keys"
@@ -69,9 +69,9 @@ public_files:
 EOF
 
 cat > "$FIXTURE_SRC/.chezmoiignore" <<'EOF'
-{{- if not .private }}
+{{- if .minimal }}
 **
-{{- range $pf := .public_files }}
+{{- range $pf := .minimal_files }}
   {{- $path := $pf -}}
   {{- if regexMatch "/\\*\\*$" $pf }}
     {{- $path = regexReplaceAll "/\\*\\*$" $pf "/" -}}
@@ -105,7 +105,7 @@ fi
 remote=$1
 
 LIST='
-{{- range $pf := .public_files }}
+{{- range $pf := .minimal_files }}
 {{$pf}}
 {{- end }}
 '
@@ -167,7 +167,7 @@ printf 'auth\n' > "$FIXTURE_HOME/.ssh/authorized_keys"
 printf 'sshcfg\n' > "$FIXTURE_HOME/.ssh/config"
 
 cat > "$OVERRIDE_JSON" <<'EOF'
-{"private":false}
+{"minimal":true,"secrets":false}
 EOF
 
 : > "$TEST_CONFIG"

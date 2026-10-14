@@ -1,23 +1,29 @@
-{{- $private := false  -}}
+{{- $secrets := false  -}}
 {{- if or (stat (joinPath .chezmoi.homeDir ".config/chezmoi/chezmoi.age")) (stat (joinPath .chezmoi.homeDir "chezmoi.age")) -}}
-{{-   $private = true  -}}
+{{-   $secrets = true  -}}
 {{- end -}}
 
 {{- $email := (get . "email") | default "chu@vchu.net " -}}
 {{- $name  := (get . "name")  | default "Victor Chu" -}}
+{{- $minimal := true -}}
+{{- if hasKey . "minimal" -}}
+{{-   $minimal = .minimal -}}
+{{- end -}}
 {{- $syncSudoers := false -}}
+{{- if hasKey . "sync_sudoers" -}}
+{{-   $syncSudoers = .sync_sudoers -}}
+{{- end -}}
 
 {{-   if stdinIsATTY -}}
+{{-     $minimal = promptBool "minimal install" $minimal -}}
 {{-     $email = promptString "email" $email -}}
 {{-     $name = promptString "name" $name -}}
-{{-     if $private -}}
-{{-     $syncSudoers = promptBool "sync sudoers configuration" false -}}
-{{-     end -}}
+{{-     $syncSudoers = promptBool "sync sudoers configuration" $syncSudoers -}}
 {{-   end -}}
 
 umask = {{ if eq .chezmoi.os "darwin" }}0o22{{ else }}0o02{{ end }}
 
-{{if $private -}}
+{{if $secrets -}}
 encryption = "age"
 [age]
   identity = "~/.config/chezmoi/chezmoi.age"
@@ -39,7 +45,8 @@ args = ["-convert", "xml1", "-o", "-", "-"]
   autopush = false
 
 [data]
-  private = {{ $private }}
+  minimal = {{ $minimal }}
+  secrets = {{ $secrets }}
   email = "{{ $email }}"
   name = "{{ $name }}"
   sync_sudoers = {{ $syncSudoers }}

@@ -1,4 +1,4 @@
-public_files:
+minimal_files:
   - ".profile"
   - ".bash_profile"
   - ".bashrc"
@@ -28,5 +28,7 @@ public_files:
   - ".config/shell/rc/resticprofile"
 # local/bin
   - ".local/bin/"
-  - ".local/bin/fix-env-packages"
   - ".local/bin/tm"
+
+minimal_secrets:
+  - ".ssh/config"
