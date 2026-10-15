@@ -17,6 +17,7 @@ minimal_files:
   - ".config/tmux/themes/nord2.conf"
   - ".config/htop/**"
   - ".config/vim/**"
+  - ".config/aria2/**"
   # shell
   - ".config/shell/"
   - ".config/shell/*"
