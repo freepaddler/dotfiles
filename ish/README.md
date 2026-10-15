@@ -2,14 +2,31 @@
 
 ## Initial setup
 
-1. Mount iCloud Drive at `/iCloud` (see below).
-2. Run the init script as root:
+1. Mount iCloud Drive at `/iCloud` (see below), or import `default-3.14.tar.gz`,
+   where it is already mounted.
+2. Run the bootstrap as root. It prepares the user and installs only what is
+   needed to run chezmoi:
    ```sh
-   sh /iCloud/iSH/init-3.18.sh
+   sh /iCloud/iSH/bootstrap-alpine-v3.18.sh
    ```
 3. Open iOS Settings → iSH and enable Recovery Mode.
 4. Relaunch iSH and set Launch cmd to `/bin/login -f <username>`.
-5. Disable Recovery Mode.
+5. Disable Recovery Mode and reopen iSH as the user.
+6. Copy `chezmoi.age` to your home directory and SSH files to `~/.ssh/`.
+
+## Configuration management
+
+Initialize and apply the configuration:
+
+```sh
+chezmoi init --apply
+```
+
+Update it later with:
+
+```sh
+chezmoi update
+```
 
 ## Saved filesystems
 
@@ -17,10 +34,9 @@ Import through iSH Settings → Filesystems → Import, then select
 **Boot From This Filesystem** and reopen iSH.
 
 - `default-3.14.tar.gz` (in this directory): stock Alpine 3.14 with iCloud
-  Drive already mounted at `/iCloud`. A starting point for experiments;
-  run `/iCloud/iSH/init-3.18.sh` to set it up.
-- Alpine 3.18 image (in iCloud Drive, `iSH` folder): ready to use;
-  no initial setup required.
+  Drive already mounted at `/iCloud`. A starting point for setup and experiments.
+- `alpine-3.18.tar.gz` (in iCloud Drive, `iSH` folder): the configured,
+  ready-to-use image after completing initial setup.
 
 As of **2026-10-13**, Alpine **3.18** is the latest personally verified working
 release. In my Alpine 3.19 tests, `/bin/login -f <username>` did not work for

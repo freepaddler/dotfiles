@@ -32,6 +32,7 @@ minimal_files:
 
 minimal_secrets:
   - ".ssh/config"
+  - ".ssh/mastersocket"
 
 minimal_scripts:
   - ".chezmoiscripts/move-age-key.sh"
