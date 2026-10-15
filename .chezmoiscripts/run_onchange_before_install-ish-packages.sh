@@ -42,6 +42,7 @@ set -- "$@" iproute2 tcpdump drill inetutils-telnet
 # shell
 set -- "$@" bash bash-completion
 set -- "$@" vim tmux@v3.23 git chezmoi@v3.19
-set -- "$@" less curl tree
+set -- "$@" less tree
+set -- "$@" curl aria2
 
 apk add --latest "$@"

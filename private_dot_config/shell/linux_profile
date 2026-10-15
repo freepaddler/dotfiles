@@ -3,21 +3,22 @@
 # Use the systemd user OpenSSH agent socket when the session did not provide
 # another agent, e.g. from a desktop keyring.
 if [ -z "${SSH_AUTH_SOCK:-}" ] &&
-   [ -n "${XDG_RUNTIME_DIR:-}" ] &&
-   [ -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]; then
+    [ -n "${XDG_RUNTIME_DIR:-}" ] &&
+    [ -S "$XDG_RUNTIME_DIR/ssh-agent.socket" ]; then
     export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 fi
 
 # Share one agent between iSH login shells using a fixed socket.
 case "$(uname -r)" in
     *-ish)
-        if command -v ssh-agent >/dev/null 2>&1 &&
-           command -v ssh-add >/dev/null 2>&1; then
+        export GOMAXPROCS=1
+        if command -v ssh-agent > /dev/null 2>&1 &&
+            command -v ssh-add > /dev/null 2>&1; then
             export SSH_AUTH_SOCK="$XDG_CACHE_HOME/ssh-agent.socket"
-            ssh-add -l >/dev/null 2>&1
+            ssh-add -l > /dev/null 2>&1
             if [ "$?" -eq 2 ]; then
                 rm -f "$SSH_AUTH_SOCK"
-                eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" >/dev/null
+                eval "$(ssh-agent -s -a "$SSH_AUTH_SOCK")" > /dev/null
             fi
         fi
         ;;
