@@ -7,17 +7,17 @@ minimal_files:
   - ".exrc"
   - ".vimrc"
   - ".screenrc"
-# ssh
+  # ssh
   - ".ssh/"
   - ".ssh/authorized_keys"
-# config
+  # config
   - ".config/"
   - ".config/tmux/*"
   - ".config/tmux/themes/"
   - ".config/tmux/themes/nord2.conf"
   - ".config/htop/**"
   - ".config/vim/**"
-# shell
+  # shell
   - ".config/shell/"
   - ".config/shell/*"
   - ".config/shell/bash/**"
@@ -26,7 +26,7 @@ minimal_files:
   - ".config/shell/rc/ai"
   - ".config/shell/rc/docker"
   - ".config/shell/rc/resticprofile"
-# local/bin
+  # local/bin
   - ".local/bin/"
   - ".local/bin/tm"
 
@@ -36,3 +36,4 @@ minimal_secrets:
 minimal_scripts:
   - ".chezmoiscripts/move-age-key.sh"
   - ".chezmoiscripts/install-user-sudoers.sh"
+  - ".chezmoiscripts/install-ish-packages.sh"
