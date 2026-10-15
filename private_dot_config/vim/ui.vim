@@ -67,9 +67,6 @@ endif
 if has('mouse')
     set ttymouse=sgr
     set mouse=
-    if has('eval')
-        let g:mouse_enabled = 0
-    endif
 endif
 
 " reload

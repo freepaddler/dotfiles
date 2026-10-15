@@ -250,8 +250,8 @@ jk                   nvim insert        escape
 [t                    nvim normal        previous tab
 ]t                    nvim normal        next tab
 
-]q                   nvim normal        next Trouble or quickfix item
-[q                   nvim normal        previous Trouble or quickfix item
+]q                   nvim normal        next Trouble or quickfix item and center
+[q                   nvim normal        previous Trouble or quickfix item and center
 ]l                   nvim normal        location next
 [l                   nvim normal        location previous
 ]d                   nvim normal        diagnostic next
@@ -281,6 +281,8 @@ K                    nvim visual        move selection up
 
 <leader>ee           nvim normal        explorer at current file directory
 <leader>eE           nvim normal        explorer at working directory
+<leader>es           nvim normal        explorer at current file directory in vertical split
+<leader>eS           nvim normal        explorer at current file directory in horizontal split
 <leader>sr           nvim normal/visual search and replace current file type
 <leader>sR           nvim normal/visual search and replace all files
 <leader>ss           nvim normal        substitute word under cursor
@@ -335,9 +337,9 @@ C-s                  nvim notes popup   create scratch in popup
 <leader>grc          nvim normal        fugitive rebase continue
 <leader>gra          nvim normal        fugitive rebase abort
 <leader>et           nvim normal        toggle neo-tree filesystem at project root
-<leader>ef           nvim normal        reveal current file in neo-tree left
+<leader>ef           nvim normal        toggle neo-tree filesystem left
 <leader>eb           nvim normal        neo-tree buffers reveal float
-<leader>eg           nvim normal        neo-tree git status reveal left
+<leader>eg           nvim normal        toggle neo-tree git status left
 <leader>su           nvim normal        undotree toggle
 <leader>cf           nvim normal        format with conform
 <leader>cl           nvim normal        lint current buffer
@@ -458,6 +460,8 @@ K                    vim visual        move selection up
 
 <leader>ee           vim normal        explorer at current file directory
 <leader>eE           vim normal        explorer at working directory
+<leader>es           vim normal        explorer at current file directory in vertical split
+<leader>eS           vim normal        explorer at current file directory in horizontal split
 <leader>ss           vim normal        substitute word under cursor
 <leader>cX           vim normal        chmod +x current file
 ```

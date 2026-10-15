@@ -81,12 +81,10 @@ function! ToggleMouse()
         echo "Mouse support is not available."
         return
     endif
-    if g:mouse_enabled
-        let g:mouse_enabled = 0
+    if &mouse !=# ''
         set mouse=
         echo "Mouse disabled"
     else
-        let g:mouse_enabled = 1
         set mouse=a
         echo "Mouse enabled"
     endif

@@ -148,6 +148,8 @@ if has('eval')
     " Explorer
     nnoremap <silent> <leader>ee :call <SID>Explore(<SID>CurrentFileDir(), 0)<CR>
     nnoremap <silent> <leader>eE :call <SID>Explore(getcwd(), 0)<CR>
+    nnoremap <silent> <leader>es :vsplit<CR>:call <SID>Explore(<SID>CurrentFileDir(), 0)<CR>
+    nnoremap <silent> <leader>eS :split<CR>:call <SID>Explore(<SID>CurrentFileDir(), 0)<CR>
     cnoreabbrev <expr> vx getcmdtype() == ':' && getcmdline() ==# 'vx' ? 'Vexplore' : 'vx'
     cnoreabbrev <expr> hx getcmdtype() == ':' && getcmdline() ==# 'hx' ? 'Hexplore' : 'hx'
     cnoreabbrev <expr> vs getcmdtype() == ':' && getcmdline() ==# 'vs' ? 'vsplit' : 'vs'

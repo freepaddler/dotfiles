@@ -22,8 +22,10 @@ vim.keymap.set('n', '[q', function()
         local ok, err = pcall(vim.cmd.cprev)
         if not ok then
             vim.notify(err, vim.log.levels.ERROR)
+            return
         end
     end
+    vim.cmd('normal! zz')
 end, { desc = 'Previous Trouble / quickfix item' })
 
 vim.keymap.set('n', ']q', function()
@@ -33,6 +35,8 @@ vim.keymap.set('n', ']q', function()
         local ok, err = pcall(vim.cmd.cnext)
         if not ok then
             vim.notify(err, vim.log.levels.ERROR)
+            return
         end
     end
+    vim.cmd('normal! zz')
 end, { desc = 'Next Trouble / quickfix item' })
