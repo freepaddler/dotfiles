@@ -1,6 +1,9 @@
 # Keymap
 
-Human-readable key index for active configs.
+Human-readable key index for active configs and the shared Window Manager scheme.
+
+Window Manager and Desktop shortcuts use tables; existing application sections
+keep the text index format below.
 
 Format:
 
@@ -33,6 +36,252 @@ sort KEYMAP.md
 
 Terminal workspace `2` switches AeroSpace to `term` mode. Other workspaces use
 `main` mode.
+
+## Window Manager
+
+Общая схема управления окнами на основе Niri. База — `niri/dms/binds.kdl`;
+это ориентир для переноса на macOS, а не утверждение, что все сочетания уже
+реализованы. Цифры 1–9 теперь описывают единый ряд workspace;
+соответствующую правку Niri пользователь вносит отдельно. Команды реализации остаются
+в конфигах соответствующих оконных менеджеров.
+
+- **Mod в Niri — Super; для macOS выбран Cmd+Alt.** Alt-H/J/K/L на Mac
+  остаются для сквозной навигации tmux+nvim.
+- **H/L — колонки по горизонтали; J/K — окна внутри колонки.**
+- **Shift — перемещение вместо фокуса; Ctrl с H/J/K/L — монитор.**
+- `Mod+{1–9}` — переключение между workspace 1–9; без отдельной группы 1–3.
+- Стрелки, Home и End — альтернативы, их сохраняем в описании.
+- Если сочетание Niri содержит дополнительный Alt, физический вариант для Mac
+  выберем отдельно: Alt уже входит в Cmd+Alt. Исключения и неподдерживаемые
+  действия будем отмечать при проверке каждого менеджера.
+
+### Навигация: окна и колонки
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+H` <br><sub>Также: `Mod+Left`</sub> | Фокус на колонку слева |
+| `Mod+L` <br><sub>Также: `Mod+Right`</sub> | Фокус на колонку справа |
+| `Mod+J` <br><sub>Также: `Mod+Down`</sub> | Фокус на окно ниже |
+| `Mod+K` <br><sub>Также: `Mod+Up`</sub> | Фокус на окно выше |
+| `Mod+,` <br><sub>Также: `Mod+Home`</sub> | Первая колонка |
+| `Mod+.` <br><sub>Также: `Mod+End`</sub> | Последняя колонка |
+
+### Перемещение внутри workspace
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+Shift+H` <br><sub>Также: `Mod+Shift+Left`</sub> | Переместить колонку влево |
+| `Mod+Shift+L` <br><sub>Также: `Mod+Shift+Right`</sub> | Переместить колонку вправо |
+| `Mod+Shift+J` <br><sub>Также: `Mod+Shift+Down`</sub> | Переместить окно вниз |
+| `Mod+Shift+K` <br><sub>Также: `Mod+Shift+Up`</sub> | Переместить окно вверх |
+| `Mod+Shift+,` <br><sub>Также: `Mod+Shift+Home`</sub> | Переместить колонку в начало |
+| `Mod+Shift+.` <br><sub>Также: `Mod+Shift+End`</sub> | Переместить колонку в конец |
+| `Mod+[` | Присоединить/извлечь окно влево |
+| `Mod+]` | Присоединить/извлечь окно вправо |
+
+### Workspace: фокус и перенос
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+{1–9}` | Переключиться на workspace 1–9 |
+| `Mod+P` | Предыдущий workspace по порядку |
+| `Mod+N` | Следующий workspace по порядку |
+| `Mod+Ctrl+Tab` | Вернуться на ранее активный workspace (back-and-forth) |
+| `Mod+Ctrl+{1–9}` | Перенести **окно** в workspace 1–9 |
+| `Mod+Shift+{1–9}` | Перенести **колонку** в workspace 1–9 |
+
+Окно переносится отдельно, без предварительного извлечения из колонки. Явный параметр фокуса при переносе не добавляем.
+
+### Мониторы
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+Ctrl+H` <br><sub>Также: `Mod+Ctrl+Left`</sub> | Фокус на монитор слева |
+| `Mod+Ctrl+L` <br><sub>Также: `Mod+Ctrl+Right`</sub> | Фокус на монитор справа |
+| `Mod+Ctrl+J` | Фокус на монитор снизу |
+| `Mod+Ctrl+K` | Фокус на монитор сверху |
+| `Mod+Ctrl+Shift+H` <br><sub>Также: `Mod+Ctrl+Shift+Left`</sub> | Перенести колонку на левый монитор |
+| `Mod+Ctrl+Shift+L` <br><sub>Также: `Mod+Ctrl+Shift+Right`</sub> | Перенести колонку на правый монитор |
+| `Mod+Ctrl+Shift+J` <br><sub>Также: `Mod+Ctrl+Shift+Down`</sub> | Перенести колонку на нижний монитор |
+| `Mod+Ctrl+Shift+K` <br><sub>Также: `Mod+Ctrl+Shift+Up`</sub> | Перенести колонку на верхний монитор |
+| `Mod+Ctrl+,` | Перенести текущий workspace целиком на монитор слева |
+| `Mod+Ctrl+.` | Перенести текущий workspace целиком на монитор справа |
+
+Перенос workspace выполняется через **Ctrl без Shift**. Ctrl+Shift+H/J/K/L по-прежнему переносит колонку. Вертикальный перенос workspace не назначен.
+
+### Размеры, центрирование и fullscreen
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+R` | Циклически переключить пресет ширины колонки |
+| `Mod+Shift+R` | Циклически переключить пресет высоты окна |
+| `Mod+=` | Увеличить ширину колонки на 10% |
+| `Mod+-` | Уменьшить ширину колонки на 10% |
+| `Mod+Shift+=` | Увеличить высоту окна на 10% |
+| `Mod+Shift+-` | Уменьшить высоту окна на 10% |
+| `Mod+Ctrl+R` | Сбросить заданную высоту окна |
+| `Mod+F` | Максимизировать ширину колонки |
+| `Mod+Ctrl+F` | Заполнить доступную ширину колонки |
+| `Mod+Shift+F` | Полноэкранный режим текущего окна |
+| `Mod+;` | Центрировать колонку |
+| `Mod+Shift+;` | Центрировать видимые колонки |
+
+Fullscreen Niri — режим композитора; он не тождественен native fullscreen macOS с отдельным Space. Максимальная и доступная ширина — разные действия.
+
+### Режимы окон: floating и tabbing
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+W` | Переключить фокус между tiling и floating |
+| `Mod+Shift+W` | Переключить текущее окно между tiling и floating |
+| `Mod+Ctrl+W` | Переключить колонку между обычным и tabbed-представлением |
+| `Mod+Q` | Закрыть текущее окно (без автоповтора) |
+
+В tabbed-колонке J/K переключает окна, Shift-J/K меняет их порядок.
+
+### Overview и переключение контекста
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+Alt+Tab` | Открыть/закрыть Overview |
+
+История workspace — `Mod+Ctrl+Tab` (см. блок workspace). `Mod+Tab` и `Mod+Shift+Tab` в исходном Niri-конфиге не назначены.
+
+### Мышь
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+WheelScrollUp` <br><sub>Также: `Mod+WheelScrollLeft`</sub> | Фокус на колонку слева |
+| `Mod+WheelScrollDown` <br><sub>Также: `Mod+WheelScrollRight`</sub> | Фокус на колонку справа |
+| `Mod+Shift+WheelScrollUp` | Фокус на окно выше |
+| `Mod+Shift+WheelScrollDown` | Фокус на окно ниже |
+| `Mod+Alt+WheelScrollUp` | Workspace выше |
+| `Mod+Alt+WheelScrollDown` | Workspace ниже |
+
+Для смены workspace колёсиком задан cooldown 150 мс. Перетаскивание кнопками мыши в `binds.kdl` не настроено и здесь не объявляется назначенным.
+
+### Справка оконного менеджера
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+Alt+Shift+/` | Показать справку по горячим клавишам оконного менеджера |
+
+### OmniWM: local implementation
+
+Config: `omniwm/settings.toml`. Mod = **Cmd+Alt**. Machine-local; not synced with chezmoi.
+Only hotkey bindings were changed. Workspace definitions, rules, mouse settings,
+layout options, animations, and appearance were preserved.
+
+```text
+Mod-H/L              omniwm niri    focus column left/right
+Mod-J/K              omniwm niri    focus window down/up
+Mod-Comma/Period     omniwm niri    focus first/last column
+Mod-Shift-H/L        omniwm niri    move whole column left/right
+Mod-Shift-J/K        omniwm niri    move window down/up within its column
+Mod-[ / Mod-]        omniwm niri    consume/expel focused window left/right via Move actions
+Mod-Shift-Comma      omniwm niri    move column to first position
+Mod-Shift-Period     omniwm niri    move column to last position
+Mod-1..9             omniwm all     switch to configured workspace 1..9
+Mod-Ctrl-1..9        omniwm all     move window to configured workspace 1..9
+Mod-Shift-1..9       omniwm niri    move whole column to configured workspace 1..9
+Mod-N/P              omniwm all     next/previous workspace
+Mod-Ctrl-Tab         omniwm all     last active workspace
+Mod-Ctrl-P/N         omniwm all     focus previous/next monitor
+Mod-Ctrl-Shift-H     omniwm all     move focused window to left monitor
+Mod-Ctrl-Shift-J     omniwm all     move focused window to lower monitor
+Mod-Ctrl-Shift-K     omniwm all     move focused window to upper monitor
+Mod-Ctrl-Shift-L     omniwm all     move focused window to right monitor
+Mod-Ctrl-Comma       omniwm all     move current workspace to left monitor
+Mod-Ctrl-Period      omniwm all     move current workspace to right monitor
+Mod-R                omniwm niri    cycle container width presets forward
+Mod-Shift-R          omniwm niri    cycle window height presets forward
+Mod-Minus/Equal      omniwm niri    decrease/increase container width by configured step
+Mod-Shift-Minus      omniwm niri    decrease window height by configured step
+Mod-Shift-Equal      omniwm niri    increase window height by configured step
+Mod-Ctrl-R           omniwm niri    reset window height
+Mod-F                omniwm niri    toggle full container width
+Mod-Shift-F          omniwm niri    expand container to available width
+Mod-Ctrl-F           omniwm all     toggle OmniWM fullscreen; not native macOS fullscreen
+Mod-Semicolon        omniwm niri    center focused column
+Mod-Shift-Semicolon  omniwm niri    center visible columns
+Mod-W                omniwm all     toggle floating/tiled focus
+Mod-Shift-W          omniwm all     toggle focused window floating
+Mod-Ctrl-W           omniwm niri    toggle column tabbed mode
+Mod-Tab              omniwm all     toggle overview; existing binding preserved
+```
+
+Differences and intentionally unassigned actions:
+
+- `Mod-[` / `Mod-]` use Move Left/Right for consume/expel; the user confirmed
+  this works for the intended workflow. Layout orientation and edge settings still apply.
+- Close Focused Window is currently unassigned; no Mod-Q binding is active.
+- Monitor focus uses previous/next order on Mod-Ctrl-P/N instead of Niri's
+  directional focus. Mod-Ctrl-Shift-H/J/K/L moves one window instead of a whole
+  column. The existing Follow Window to Monitor setting remains enabled.
+- Native fullscreen remains unassigned. OmniWM fullscreen is used on Mod-Ctrl-F.
+- No dedicated hotkey-help action was assigned; the existing Command Palette
+  binding (Mod-Ctrl-Space) was preserved.
+- Size actions use the configured resize increment (currently 10%). Primary/secondary
+  spans mean width/height in horizontal Niri orientation; changing orientation changes that mapping.
+- Workspace-to-monitor moves temporarily override routing without changing the
+  workspace's saved Home Monitor. Workspace numbers use configured workspace
+  identities, not positions on the current monitor.
+- Existing Mod-Tab overview and unrelated bindings were preserved. No arrow,
+  Home/End, mouse, launcher, or system-shortcut alternatives were added.
+
+## Desktop shortcuts
+
+### Linux / Niri: запуск приложений
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+Alt+B` | Браузер Firefox |
+| `Mod+Alt+T` | Терминал Ghostty |
+| `Mod+Shift+M` | Почта Geary |
+| `Mod+Shift+T` | Telegram |
+| `Mod+Shift+/` | Enpass Assistant |
+| `Mod+Alt+=` | Калькулятор (floating scratch) |
+
+### Linux / Niri: системные действия
+
+| Сочетание | Действие |
+|---|---|
+| `Mod+Alt+Q` | Выйти из Niri |
+| `Mod+Alt+P` | Выключить мониторы |
+| `Print` <br><sub>Также: `F19`</sub> | Скриншот (область) |
+| `Alt+Print` <br><sub>Также: `Mod+F19`</sub> | Скриншот окна |
+| `Ctrl+Print` <br><sub>Также: `Mod+Alt+F19`</sub> | Скриншот экрана |
+| `XF86Launch8` | Переключить раскладку на английскую |
+| `XF86Launch9` | Переключить раскладку на русскую |
+
+### Linux / DMS: оболочка и мультимедиа
+
+| Сочетание | Действие |
+|---|---|
+| `Alt+Space` | Spotlight Bar |
+| `Ctrl+Space` | Application Launcher |
+| `Mod+Alt+BackSpace` | Task Manager |
+| `Mod+Alt+L` | Lock Screen |
+| `Mod+Alt+N` | Notification Center |
+| `Mod+Alt+/` | Settings |
+| `Mod+Alt+W` | Window Rules |
+| `Mod+Shift+N` | Notepad |
+| `Mod+Shift+grave` | Clipboard Manager |
+| `XF86AudioLowerVolume` / `XF86AudioRaiseVolume` | Громкость −3 / +3 |
+| `XF86AudioMute` | Выключить звук |
+| `XF86AudioMicMute` | Выключить микрофон |
+| `XF86AudioPlay` / `XF86AudioPause` | Плеер: пауза/продолжить |
+| `XF86AudioPrev` / `XF86AudioNext` | Плеер: предыдущий/следующий |
+| `Ctrl+XF86AudioLowerVolume` / `Ctrl+XF86AudioRaiseVolume` | Управление громкостью плеера −3 / +3 |
+| `XF86MonBrightnessDown` / `XF86MonBrightnessUp` | Яркость −5 / +5 |
+
+Для аудио, управления громкостью плеера и яркости в Niri разрешена работа
+при заблокированном экране (`allow-when-locked=true`).
+
+### macOS
+
+Сочетания запуска приложений и системных действий будем согласовывать отдельно.
+Текущие действующие macOS-привязки сохранены в разделах Karabiner и AeroSpace.
 
 ## Karabiner
 
