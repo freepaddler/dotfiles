@@ -49,8 +49,8 @@ ungoogled-chromium brew=cask:ungoogled-chromium
 vlc brew=cask:vlc # needed for HLS and media testing
 
 # Mac Apps
-aerospace-tap brew=tap:nikitabobko/tap 
-aerospace brew=cask:nikitabobko/tap/aerospace # tiled window manager
+#aerospace-tap brew=tap:nikitabobko/tap 
+#aerospace brew=cask:nikitabobko/tap/aerospace # tiled window manager
 appcleaner brew=cask:appcleaner # prune applications on delete
 bbedit brew=cask:bbedit # universal text editor
 cheatsheet brew=cask:cheatsheet # show keyboard shortcuts per application
@@ -72,6 +72,7 @@ microsoft-remote-desktop brew=cask:microsoft-remote-desktop
 microsoft-teams brew=cask:microsoft-teams 
 microsoft-word brew=cask:microsoft-word 
 #mediahuman-audio-converter brew=cask:mediahuman-audio-converter 
+omniwm brew=cask:omniwm # niri-like window manager
 #outline-manager brew=cask:outline-manager # Shadowsocks VPN manager
 #paintbrush brew=cask:paintbrush # simple painting application
 #qlmarkdown brew=cask:qlmarkdown # Quick Look Markdown preview without Mermaid

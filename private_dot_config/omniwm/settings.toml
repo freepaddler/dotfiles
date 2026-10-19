@@ -132,7 +132,7 @@ invertScrollDirection = false
 matchFocusBorder = true
 mouseButton = 2
 mouseScrollSpeed = 1.0
-zoom = 1.0
+zoom = 0.6
 
 [overview.backdrop]
 alpha = 0.0
