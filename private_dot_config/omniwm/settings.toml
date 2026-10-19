@@ -6,7 +6,7 @@ monitorOrientationOverrides = []
 schemaVersion = 4
 
 [appearance]
-mode = "automatic"
+mode = "dark"
 tabRailAppIcons = true
 
 [borders]
@@ -329,6 +329,11 @@ axRole = "AXWindow"
 axSubrole = "AXStandardWindow"
 bundleId = "com.apple.iCal"
 id = "C1A7D44A-DE18-4A65-A90E-25F343122AAB"
+initialContainerPrimarySpan = 0.66
+
+[[appRules]]
+bundleId = "org.pqrs.Karabiner-Elements.Settings"
+id = "7A5C27A3-B8C9-456F-A571-0D7A6E53A3D6"
 initialContainerPrimarySpan = 0.66
 
 [[hotkeys]]

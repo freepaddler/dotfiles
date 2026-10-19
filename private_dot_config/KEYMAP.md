@@ -16,8 +16,6 @@ Notes:
 ```text
 all       all modes for that application
 default   application default, not explicitly configured here
-main      AeroSpace main mode
-term      AeroSpace terminal mode
 normal    vi/nvim normal mode
 insert    vi/nvim insert mode
 visual    vi/nvim visual mode
@@ -33,9 +31,6 @@ rg '^Alt' KEYMAP.md
 rg ' nvim ' KEYMAP.md
 sort KEYMAP.md
 ```
-
-Terminal workspace `2` switches AeroSpace to `term` mode. Other workspaces use
-`main` mode.
 
 ## Window Manager
 
@@ -168,13 +163,24 @@ Fullscreen Niri — режим композитора; он не тождест�
 
 ### OmniWM: local implementation
 
-Config: `omniwm/settings.toml`. Mod = **Cmd+Alt**. This workspace change is local only; not added to chezmoi.
+Config: `omniwm/settings.toml`. Mod = **Cmd+Alt**. Managed in chezmoi.
 
-Workspace keys and internal IDs: § → 1 (tilda 🏠), 1 → 2 (web 🌐), 2 → 3 (term 💻),
-3 → 4 (ai ✨), 4 → 5 (4), 5 → 6 (5), 6 → 7 (gaming 🎮), 7 → 8 (7),
-8 → 9 (8), 9 → 10 (files 📁), 0 → 11 (0 🖥️). Workspace 11 is assigned to
-secondary; all other workspaces are assigned to main. Workspace UUIDs are
-preserved for existing workspaces. § uses physical key code 10 directly in OmniWM.
+Workspace keys and internal IDs:
+
+- `§` → 1 (🏠~)
+- `1` → 2 (🌐 web)
+- `2` → 3 (💻 term)
+- `3` → 4 (✨ ai)
+- `4` → 5 (4)
+- `5` → 6 (5)
+- `6` → 7 (🎮 gaming)
+- `7` → 8 (7)
+- `8` → 9 (8)
+- `9` → 10 (9)
+- `0` → 11 (🖥️ 0)
+
+Workspace 11 is assigned to secondary; the other workspaces are assigned to main.
+§ uses physical key code 10 directly in OmniWM.
 App defaults: Firefox → 2, Ghostty → 3, Codex/ChatGPT → 4, WoT → 7.
 
 ```text
@@ -241,6 +247,18 @@ Differences and intentionally unassigned actions:
 - Existing Mod-Tab overview and unrelated bindings were preserved. No arrow,
   Home/End, mouse, launcher, or system-shortcut alternatives were added.
 
+## TODO: Niri
+
+- [ ] Попробовать схему workspace по образцу OmniWM: отдельный дом на §/тильде,
+  затем привычные кнопки 1 — web, 2 — term, 3 — ai, 6 — gaming, 0 — secondary;
+  отображаемые имена цифровых workspace согласовать с кнопками, даже если
+  внутренние номера смещены. Это идея для эксперимента, не принятое изменение Niri.
+- [ ] Разобраться с навигацией при дублировании окон приложения на разных workspace:
+  проверить переходы на предыдущий/следующий workspace, возврат на последний
+  активный workspace и поведение повторного нажатия кнопки текущего workspace
+  (возврат на предыдущий). Уточнить желаемую семантику и проверить, поможет ли
+  схема OmniWM; не считать причину проблемы установленной.
+
 ## Desktop shortcuts
 
 ### Linux / Niri: запуск приложений
@@ -292,8 +310,21 @@ Differences and intentionally unassigned actions:
 
 ### macOS
 
-Сочетания запуска приложений и системных действий будем согласовывать отдельно.
-Текущие действующие macOS-привязки сохранены в разделах Karabiner и AeroSpace.
+App Launcher Shortcuts — модификация Karabiner, сохранённая в chezmoi.
+Сочетания работают по физическим клавишам независимо от раскладки. Приложения
+открываются или активируются; браузеры всегда создают новое окно. Почта — Apple Mail.
+
+```text
+Cmd-Shift-T          karabiner all  open or activate Telegram
+Cmd-Shift-Y          karabiner all  open or activate Yandex Telemost
+Cmd-Shift-E          karabiner all  open or activate BBEdit
+Cmd-Shift-M          karabiner all  open or activate Apple Mail
+Cmd-Shift-W          karabiner all  open or activate WhatsApp
+Cmd-Shift-=          karabiner all  open or activate Calculator
+Cmd-Shift-B          karabiner all  new Firefox window via open -na Firefox --args --new-window
+Cmd-Shift-U          karabiner all  new Chromium window via open -na Chromium --args --new-window
+Cmd-Option-Backspace karabiner all  open or activate Activity Monitor
+```
 
 ## Karabiner
 
@@ -306,63 +337,6 @@ Left-Shift+Right-Shift karabiner all toggle Caps Lock
 Left-Option          karabiner hold  use ABC while held on Russian layout, restore Russian on release
 §                    karabiner all   switch to ABC and type section
 ```
-
-## AeroSpace
-
-Config: `aerospace/aerospace.toml`
-
-```text
-Alt-0..9             aerospace all  workspace 0..9
-Alt-`                aerospace all  workspace ~
-Alt-[                aerospace all  previous window, dfs order
-Alt-]                aerospace all  next window, dfs order
-Alt-Tab              aerospace all  focus back and forth
-Alt-Ctrl-Tab         aerospace all  workspace back and forth
-Alt-q                aerospace all  hide current/floating window
-Alt-a                aerospace all  reveal all windows
-Alt-h                aerospace main focus left
-Alt-j                aerospace main focus down
-Alt-k                aerospace main focus up
-Alt-l                aerospace main focus right
-
-Alt-Shift-=          aerospace all  open Calculator
-Alt-Shift-b          aerospace all  open BBEdit
-Alt-Shift-c          aerospace all  open Codex
-Alt-Shift-g          aerospace all  open ChatGPT
-Alt-Shift-m          aerospace all  open Mail
-Alt-Shift-t          aerospace all  open Telegram
-Alt-Shift-u          aerospace all  open Chromium
-Alt-Shift-w          aerospace all  open WhatsApp
-Alt-Shift-y          aerospace all  open Yandex Telemost
-
-Alt-Shift-,          aerospace all  accordion layout
-Alt-Shift-.          aerospace all  tiles layout
-Alt-Shift-/          aerospace all  toggle floating/tiling
-Alt-Shift-\          aerospace all  flatten workspace tree
-Alt-Shift-z          aerospace all  fullscreen
-
-Alt-Shift-h          aerospace all  move window left
-Alt-Shift-j          aerospace all  move window down
-Alt-Shift-k          aerospace all  move window up
-Alt-Shift-l          aerospace all  move window right
-
-Alt-Shift-0..9       aerospace all  move window to workspace 0..9
-Alt-Shift-`          aerospace all  move window to workspace ~
-
-Alt-Ctrl--           aerospace all  resize smaller
-Alt-Ctrl-=           aerospace all  resize larger
-Alt-Ctrl-h           aerospace main join with left
-Alt-Ctrl-j           aerospace main join with down
-Alt-Ctrl-k           aerospace main join with up
-Alt-Ctrl-l           aerospace main join with right
-
-Alt-Ctrl-Shift-h     aerospace all  move workspace to monitor left
-Alt-Ctrl-Shift-j     aerospace all  move workspace to monitor down
-Alt-Ctrl-Shift-k     aerospace all  move workspace to monitor up
-Alt-Ctrl-Shift-l     aerospace all  move workspace to monitor right
-```
-
-In AeroSpace `term` mode, `Alt-h/j/k/l` are left to tmux.
 
 ## tmux
 
