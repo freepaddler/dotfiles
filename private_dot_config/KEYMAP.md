@@ -168,9 +168,14 @@ Fullscreen Niri — режим композитора; он не тождест�
 
 ### OmniWM: local implementation
 
-Config: `omniwm/settings.toml`. Mod = **Cmd+Alt**. Machine-local; not synced with chezmoi.
-Only hotkey bindings were changed. Workspace definitions, rules, mouse settings,
-layout options, animations, and appearance were preserved.
+Config: `omniwm/settings.toml`. Mod = **Cmd+Alt**. This workspace change is local only; not added to chezmoi.
+
+Workspace keys and internal IDs: § → 1 (tilda 🏠), 1 → 2 (web 🌐), 2 → 3 (term 💻),
+3 → 4 (ai ✨), 4 → 5 (4), 5 → 6 (5), 6 → 7 (gaming 🎮), 7 → 8 (7),
+8 → 9 (8), 9 → 10 (files 📁), 0 → 11 (0 🖥️). Workspace 11 is assigned to
+secondary; all other workspaces are assigned to main. Workspace UUIDs are
+preserved for existing workspaces. § uses physical key code 10 directly in OmniWM.
+App defaults: Firefox → 2, Ghostty → 3, Codex/ChatGPT → 4, WoT → 7.
 
 ```text
 Mod-H/L              omniwm niri    focus column left/right
@@ -181,9 +186,15 @@ Mod-Shift-J/K        omniwm niri    move window down/up within its column
 Mod-[ / Mod-]        omniwm niri    consume/expel focused window left/right via Move actions
 Mod-Shift-Comma      omniwm niri    move column to first position
 Mod-Shift-Period     omniwm niri    move column to last position
-Mod-1..9             omniwm all     switch to configured workspace 1..9
-Mod-Ctrl-1..9        omniwm all     move window to configured workspace 1..9
-Mod-Shift-1..9       omniwm niri    move whole column to configured workspace 1..9
+Mod-§                omniwm all     switch to workspace 1 (Tilda), physical ISO key
+Mod-Ctrl-§           omniwm all     move window to workspace 1 (Tilda)
+Mod-Shift-§          omniwm niri    move whole column to workspace 1 (Tilda)
+Mod-1..9             omniwm all     switch to workspace IDs 2..10 (key + 1)
+Mod-Ctrl-1..9        omniwm all     move window to workspace IDs 2..10 (key + 1)
+Mod-Shift-1..9       omniwm niri    move whole column to workspace IDs 2..10 (key + 1)
+Mod-0                omniwm all     switch to workspace 11 (0), secondary monitor
+Mod-Ctrl-0           omniwm all     move window to workspace 11 (0)
+Mod-Shift-0          omniwm niri    move whole column to workspace 11 (0)
 Mod-N/P              omniwm all     next/previous workspace
 Mod-Ctrl-Tab         omniwm all     last active workspace
 Mod-Ctrl-P/N         omniwm all     focus previous/next monitor
@@ -208,6 +219,7 @@ Mod-W                omniwm all     toggle floating/tiled focus
 Mod-Shift-W          omniwm all     toggle focused window floating
 Mod-Ctrl-W           omniwm niri    toggle column tabbed mode
 Mod-Tab              omniwm all     toggle overview; existing binding preserved
+Mod-Shift-/          omniwm all     open Menu Anywhere; replaces Mod-M
 ```
 
 Differences and intentionally unassigned actions:
