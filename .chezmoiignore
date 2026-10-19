@@ -66,7 +66,6 @@ archive/
 .config/env/darwin_*
 .config/homebrew-bundles
 .local/bin/pfmanage.sh
-.local/bin/updates-check-macos
 .local/bin/fix-shared-network-ip.command
 .local/bin/scripts/aerospace*
 .docker/

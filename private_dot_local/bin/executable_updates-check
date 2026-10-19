@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# Report available updates and configuration differences.
+status=0
+section() { [ -z "$2" ] || printf '%s\n%s\n\n' "$1" "$2"; }
+skip() { printf 'SKIP: %s\n' "$*" >&2; }
+error() {
+    printf 'ERROR: %s\n' "$1" >&2
+    [ -z "${2:-}" ] || printf '%s\n' "$2" >&2
+    status=1
+}
+check() {
+    heading=$1
+    shift
+    if result=$("$@" 2>&1); then
+        section "$heading" "$result"
+    else
+        error "$* failed" "$result"
+    fi
+}
+
+if [ "$(uname -s)" = Darwin ]; then
+    # No terminal in Shortcuts: report a missing sudo authorization promptly.
+    if [ -t 0 ]; then
+        result=$(sudo /usr/sbin/softwareupdate --list 2>&1)
+        update_status=$?
+    else
+        result=$(sudo -n /usr/sbin/softwareupdate --list 2>&1)
+        update_status=$?
+    fi
+    if [ "$update_status" -ne 0 ] || printf '%s\n' "$result" | LC_ALL=C grep -qi 'error'; then
+        result=$(printf '%s\n' "$result" | sed '/^[[:space:]]*Software Update Tool[[:space:]]*$/d')
+        error 'macOS software update check failed' "${result:-softwareupdate exited with status $update_status}"
+    else
+        result=$(printf '%s\n' "$result" | sed -n '/^[[:space:]]*\* Label:/,$p')
+        section 'macOS / Apple updates:' "$result"
+    fi
+
+    if command -v brew >/dev/null 2>&1; then
+        export HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ANALYTICS=1
+        if result=$(brew update 2>&1); then
+            check 'Homebrew updates:' brew outdated --verbose
+        else
+            error 'brew update failed' "$result"
+        fi
+    else
+        skip 'Homebrew not installed'
+    fi
+fi
+
+if command -v pkg-sync >/dev/null 2>&1; then
+    check 'Package differences (+ installed outside lists; - missing):' pkg-sync diff
+else
+    skip 'pkg-sync not installed'
+fi
+
+if command -v chezmoi >/dev/null 2>&1; then
+    if source_dir=$(chezmoi source-path 2>&1); then
+        if [ -d "$source_dir" ]; then
+            check 'Chezmoi file differences:' chezmoi status --exclude=scripts
+            check 'Chezmoi uncommitted changes:' chezmoi git -- status --porcelain=v1
+            check 'Chezmoi unpushed commits (local remote refs):' chezmoi git -- log --branches --not --remotes --oneline
+        else
+            skip 'chezmoi source directory not found'
+        fi
+    else
+        error 'chezmoi source-path failed' "$source_dir"
+    fi
+else
+    skip 'chezmoi not installed'
+fi
+
+exit "$status"
