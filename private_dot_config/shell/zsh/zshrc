@@ -113,6 +113,8 @@ PS2='%F{8}↳%f '
 _env_source "$_ENV_ZSH_DIR/zinit.zsh"
 
 ## completions
+# renew commands list in path
+zstyle ':completion:*:commands' rehash true
 # apply LS_COLORS
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # simple menu
