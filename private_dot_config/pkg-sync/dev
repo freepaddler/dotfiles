@@ -3,14 +3,13 @@
 asdf brew=asdf pacman=asdf-vm # dev tools management
 ansible pacman=-
 direnv
-go pacman=-
-hugo pacman=-
-imagemagick
+huimagemagick
 iperf3
 lazygit
 libpq pacman=- # postgresql driver
 just pacman=- # make alternative
 mingw-w64-gcc brew=mingw-w64 pacman=- # Windows cross-compiler for Go
+mise brew=mise pacman=mise # dev tools management
 mtr # enhanced traceroute
 nodejs brew=node
 npm brew=-
@@ -57,15 +56,6 @@ utm brew=cask:utm
 wireshark-qt brew=cask:wireshark-app 
 xca brew=cask:xca 
 yandex-cloud-cli brew=cask:yandex-cloud-cli 
-
-# Go tools
-gup brew=go:github.com/nao1215/gup 
-gocomplete brew=go:github.com/posener/complete/v2/gocomplete 
-swag brew=go:github.com/swaggo/swag/cmd/swag 
-mockgen brew=go:go.uber.org/mock/mockgen 
-pkgsite brew=go:golang.org/x/pkgsite/cmd/pkgsite 
-protoc-gen-go-grpc brew=go:google.golang.org/grpc/cmd/protoc-gen-go-grpc 
-protoc-gen-go brew=go:google.golang.org/protobuf/cmd/protoc-gen-go 
 
 # npm tools
 node-acp brew=npm:node-acp 
