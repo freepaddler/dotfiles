@@ -88,8 +88,8 @@ updateChecksEnabled = true
 [gestures]
 fingerCount = 4
 invertDirection = true
-mouseMoveModifierKey = "optionCommand"
-mouseResizeModifierKey = "controlCommand"
+mouseMoveModifierKey = "off"
+mouseResizeModifierKey = "controlOptionCommandShift"
 overviewGestureEnabled = false
 overviewGestureFingerCount = 4
 scrollEnabled = true
@@ -1167,7 +1167,7 @@ layoutType = "niri"
 name = "4"
 
 [workspaces.monitorAssignment]
-type = "main"
+type = "secondary"
 
 [[workspaces]]
 displayName = "4"

@@ -232,7 +232,7 @@ brew_bundle_dump() {
         --formula \
         --cask \
         --tap \
-        --go \
+        --no-go \
         --npm \
         --mas \
         --no-vscode \

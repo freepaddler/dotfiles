@@ -1,9 +1,9 @@
 # Development tools and utilities
 
-asdf brew=asdf pacman=asdf-vm # dev tools management
+#asdf brew=asdf pacman=asdf-vm # dev tools management
 ansible pacman=-
 direnv
-huimagemagick
+imagemagick
 iperf3
 lazygit
 libpq pacman=- # postgresql driver

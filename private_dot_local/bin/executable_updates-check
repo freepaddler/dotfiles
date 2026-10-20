@@ -70,4 +70,10 @@ else
     skip 'chezmoi not installed'
 fi
 
+if command -v mise >/dev/null 2>&1; then
+    check 'Mise updates:' mise outdated --global
+else
+    skip 'mise not installed'
+fi
+
 exit "$status"
