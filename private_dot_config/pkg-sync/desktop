@@ -1,11 +1,13 @@
 # desktop applications
 
 # Applications
+calibre brew=cask:calibre pacman=calibre # book library management
 chatgpt brew=cask:chatgpt pacman=chatgpt-desktop-bin 
 dropbox brew=cask:dropbox
 enpass brew=cask:enpass pacman=enpass-bin # password manager
 firefox brew=cask:firefox
 happ brew=cask:happ pacman=happ-desktop-bin # V2Ray VPN client
+readest brew=cask:readest pacman=readest # book reader
 telegram-desktop brew=cask:telegram pacman=telegram-desktop-bin
 whatsapp brew=cask:whatsapp pacman=zapzap-bin
 
@@ -40,7 +42,7 @@ drawio-desktop brew=cask:drawio # diagram editor
 #mark-text brew=cask:mark-text # heavy, unsupported, poor anchor support
 #obsidian brew=cask:obsidian 
 #ocenaudio brew=cask:ocenaudio 
-sigil brew=cask:sigil # EPUB editor
+#sigil brew=cask:sigil # EPUB editor
 thunderbird brew=cask:thunderbird 
 transmission-gtk brew=cask:transmission # BitTorrent client
 #typora brew=cask:typora 
@@ -58,8 +60,8 @@ clipy brew=cask:clipy # clipboard manager
 fluor brew=cask:fluor # function keys by application
 hush brew=cask:hush # Safari cookie and tracking blocker
 iina brew=cask:iina # video player
-#imark-tap brew=tap:migsilva89/imark
-#imark brew=cask:migsilva89/imark/imark # markdown view/quicklook/edit
+imark-tap brew=tap:migsilva89/imark
+imark brew=cask:migsilva89/imark/imark # markdown view/quicklook/edit
 itsycal brew=cask:itsycal # menu bar calendar
 #launchpad-manager brew=cask:launchpad-manager # obsolete since Tahoe 26
 mac-mouse-fix brew=cask:mac-mouse-fix # mouse tuning
@@ -97,7 +99,7 @@ apple-configurator brew=mas:1037126344 # Apple Configurator
 audiobookbinder brew=mas:413969927 # AudioBookBinder
 #bandwidth-plus brew=mas:490461369 # Bandwidth+
 #bbedit-mas brew=mas:404009241 # BBEdit
-dnsecure brew=mas:1533413232 # DNSecure
+#dnsecure brew=mas:1533413232 # DNSecure
 #enpass-mas brew=mas:732710998 # Enpass
 gemini brew=mas:463541543 # duplicate finder
 #hush-mas brew=mas:1544743900 # Hush
