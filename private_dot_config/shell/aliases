@@ -25,6 +25,7 @@ alias -="cd -" 2> /dev/null || alias -- -="cd -"
 alias cdc="cd ~/.config"
 alias cdd="cd ~/Documents"
 alias cdl="cd ~/Downloads"
+alias cdb="cd ~/Dropbox"
 alias cde="cd ~/dev"
 alias cdw="cd ~/work"
 
