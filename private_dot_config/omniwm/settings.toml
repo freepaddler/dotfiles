@@ -25,7 +25,7 @@ opacity = 0.6
 radius = 8.0
 
 [borders.gradient]
-direction = "topLeftToBottomRight"
+direction = "topRightToBottomLeft"
 enabled = true
 
 [borders.gradient.end]
