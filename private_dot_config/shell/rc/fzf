@@ -33,7 +33,7 @@ if [ -n "$TMUX" ]; then
 fi
 
 export FZF_DEFAULT_OPTS="--min-height=10 --layout=default --info=inline \
-    --border=rounded --color=dark,hl:red,hl+:red \
+    --border=rounded --color=dark,hl:red,hl+:red,border:bright-black \
     --preview-window='wrap' --preview-label='CTRL-/ to move/hide preview' \
     --bind 'ctrl-/:change-preview-window(down|up|hidden|)' \
 "
