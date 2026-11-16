@@ -10,6 +10,24 @@
                             {
                                 "type": "basic",
                                 "from": {
+                                    "key_code": "f",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "command",
+                                            "shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/osascript -e 'tell application \"Finder\"' -e 'make new Finder window' -e 'activate' -e 'end tell'",
+                                        "repeat": false
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
                                     "key_code": "t",
                                     "modifiers": {
                                         "mandatory": [

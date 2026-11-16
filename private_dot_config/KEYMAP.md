@@ -316,6 +316,7 @@ App Launcher Shortcuts — модификация Karabiner, сохранённ�
 
 ```text
 Cmd-Shift-T          karabiner all  open or activate Telegram
+Cmd-Shift-F          karabiner all  new Finder window
 Cmd-Shift-Y          karabiner all  open or activate Yandex Telemost
 Cmd-Shift-E          karabiner all  open or activate BBEdit
 Cmd-Shift-M          karabiner all  open or activate Apple Mail
