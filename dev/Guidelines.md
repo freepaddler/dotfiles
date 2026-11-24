@@ -56,9 +56,16 @@ Add a descriptive prefix to the default filename:
 
 ### Docker Runtime
 
-Example layout: use entries where applicable.
+Use either layout for bind mounts.
 
-> When building from the project root, exclude `volumes/` from the build context using `.dockerignore`.
+- **Grouped.** Put service configuration in `config/<service>/` and service data in `volumes/<service>_<mount>/`.
+- **Flat.** Put bind mount entries at the runtime root. Name them `<service>_<mount>`, for example `service-a_config/`, `service-a_data/`, or `service-a_lib/`.
+
+Test runtimes use the grouped layout with a dedicated `volumes/` directory for bind-mounted service data. Use `config/` for configuration as needed.
+
+Exclude runtime data directories from the Docker build context using `.dockerignore` when they are inside the context.
+
+Grouped layout example:
 
 ```text
 runtime/
@@ -142,17 +149,17 @@ Within a target release, increasing `N` increases the package version. Reruns ke
 - The build run URL is optional artifact metadata (`build_url` in package JSON or `net.vchu.dev.build.url` on the image).
 - [OCI image annotations](https://github.com/opencontainers/image-spec/blob/main/annotations.md)
 
-### Forgejo Actions
+### Actions Variables
 
-| Context key          | Environment variable | Use                                                   |
-| -------------------- | -------------------- | ----------------------------------------------------- |
-| `forgejo.sha`        | `FORGEJO_SHA`        | Commit that triggered the run                         |
-| `forgejo.ref`        | `FORGEJO_REF`        | Full Git ref, such as `refs/heads/main`               |
-| `forgejo.ref_type`   | `FORGEJO_REF_TYPE`   | `branch` or `tag` for builds published by these rules |
-| `forgejo.ref_name`   | `FORGEJO_REF_NAME`   | Branch or tag name, such as `main` or `v1.5.0_2`      |
-| `forgejo.run_number` | `FORGEJO_RUN_NUMBER` | Build run number used in development package versions |
+| Context key | Environment variable | Use |
+| --- | --- | --- |
+| `github.sha` | `GITHUB_SHA` | Commit that triggered the run |
+| `github.ref` | `GITHUB_REF` | Full Git ref, such as `refs/heads/main` |
+| `github.ref_type` | `GITHUB_REF_TYPE` | `branch` or `tag` for builds published by these rules |
+| `github.ref_name` | `GITHUB_REF_NAME` | Branch or tag name, such as `main` or `v1.5.0_2` |
+| `github.run_number` | `GITHUB_RUN_NUMBER` | Build run number used in development package versions |
 
-Forgejo also exposes the compatible `github.*` context and `GITHUB_*` variables. [Forgejo Actions reference](https://forgejo.org/docs/latest/user/actions/reference/)
+Use these names in GitHub Actions and Forgejo Actions. [GitHub Actions variables](https://docs.github.com/en/actions/reference/workflows-and-actions/variables), [Forgejo Actions reference](https://forgejo.org/docs/latest/user/actions/reference/)
 
 ## Toolkit
 
